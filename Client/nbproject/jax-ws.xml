@@ -2,7 +2,7 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
-    <client name="StackExchangeService">
+    <client name="StackExchangeService_1">
       <wsdl-url>http://localhost:8080/StackExchangeService/StackExchangeService?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/StackExchangeService/StackExchangeService.wsdl</local-wsdl-file>
       <package-name>service</package-name>

@@ -10,10 +10,24 @@
 <message name="helloResponse">
 <part name="parameters" element="tns:helloResponse"/>
 </message>
+<message name="getAllQuestion">
+<part name="parameters" element="tns:getAllQuestion"/>
+</message>
+<message name="getAllQuestionResponse">
+<part name="parameters" element="tns:getAllQuestionResponse"/>
+</message>
+<message name="Exception">
+<part name="fault" element="tns:Exception"/>
+</message>
 <portType name="StackExchangeService">
 <operation name="hello">
 <input wsam:Action="http://service/StackExchangeService/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://service/StackExchangeService/helloResponse" message="tns:helloResponse"/>
+</operation>
+<operation name="getAllQuestion">
+<input wsam:Action="http://service/StackExchangeService/getAllQuestionRequest" message="tns:getAllQuestion"/>
+<output wsam:Action="http://service/StackExchangeService/getAllQuestionResponse" message="tns:getAllQuestionResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getAllQuestion/Fault/Exception"/>
 </operation>
 </portType>
 <binding name="StackExchangeServicePortBinding" type="tns:StackExchangeService">
@@ -26,6 +40,18 @@
 <output>
 <soap:body use="literal"/>
 </output>
+</operation>
+<operation name="getAllQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
 </operation>
 </binding>
 <service name="StackExchangeService">
