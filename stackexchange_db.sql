@@ -1,3 +1,5 @@
+/*PAKAI MYSQL!*/
+
 CREATE TABLE IF NOT EXISTS UAccount (
 	Email varchar(320) NOT NULL,
 	AuthorName varchar(255) NOT NULL,

@@ -1,0 +1,17 @@
+
+-----------------------------------------------------------------------------------------------
+Referensi:
+Status codes:
+https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+https://tomcat.apache.org/tomcat-5.5-doc/servletapi/javax/servlet/http/HttpServletResponse.html
+
+SQL Access:
+https://dev.mysql.com/doc/connector-j/en/connector-j-usagenotes-connect-drivermanager.html
+http://www.tutorialspoint.com/servlets/servlets-database-access.htm
+http://www.mkyong.com/jdbc/jdbc-preparestatement-example-insert-a-record/
+http://stackoverflow.com/questions/867194/java-resultset-how-to-check-if-there-are-any-results
+
+Testing:
+http://docs.pylonsproject.org/projects/pyramid-cookbook/en/latest/testing/testing_post_curl.html
+http://stackoverflow.com/questions/14978411/http-post-and-get-using-curl-in-linux
+-----------------------------------------------------------------------------------------------
