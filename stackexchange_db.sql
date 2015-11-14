@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS Answer (
 );
 
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccount TO idservices IDENTIFIED BY 'idservicespwd';
+GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccountAccessToken TO idservices;
 GRANT SELECT ON TABLE UAccount TO stackexchange IDENTIFIED BY 'stackexchangespwd';
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE Question TO stackexchange;
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE Answer TO stackexchange;
