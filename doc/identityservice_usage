@@ -32,3 +32,31 @@ response:
 
 
 -------------------------------------
+Identity_Service/Login
+GET:
+required parameters: access_token
+response:
+	404 if access token not found
+	401 UNAUTHORIZED if access token expired
+	if some required parameters aren't supplied: 400 - BAD REQUEST
+	Email on success
+	format:XMl
+	like this:
+		<?xml version="1.0"?>
+		<Email>EMAIL HERE</Email>
+
+POST
+required parameters: Email, AccountPassword
+response: 
+	if some required parameters aren't supplied: 400 - BAD REQUEST
+	if keys (Email and AccountPassword) are invalid: 401 - UNAUTHORIZED
+	on success: 201 CREATED and xml body containing access_token
+	like this:
+		<?xml version="1.0"?>
+		<access_token>ACCESS TOKEN HERE</access_token>
+	
+
+
+-------------------------------------
+
+
