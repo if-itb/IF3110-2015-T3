@@ -38,6 +38,24 @@ CREATE TABLE IF NOT EXISTS Answer (
      CONSTRAINT FOREIGN KEY (Email) REFERENCES UAccount(Email)
 );
 
+CREATE TABLE IF NOT EXISTS HasVotedQuestion(
+	UEmail varchar(320) NOT NULL,
+	qid int(11) NOT NULL,
+	voted boolean DEFAULT '0',
+	CONSTRAINT FOREIGN KEY (UEmail) REFERENCES UAccount(Email),
+    CONSTRAINT FOREIGN KEY (qid) REFERENCES Question(qid),
+);
+
+CREATE TABLE IF NOT EXISTS HasVotedAnswer(
+	UEmail varchar(320) NOT NULL,
+	qid int(11) NOT NULL,
+	aid int(11) NOT NULL,
+	voted boolean DEFAULT '0',
+	CONSTRAINT FOREIGN KEY (UEmail) REFERENCES UAccount(Email),
+    CONSTRAINT FOREIGN KEY (qid) REFERENCES Question(qid),
+	CONSTRAINT FOREIGN KEY (aid) REFERENCES Answer(aid),
+);
+
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccount TO idservices IDENTIFIED BY 'idservicespwd';
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccountAccessToken TO idservices;
 GRANT SELECT ON TABLE UAccount TO stackexchange IDENTIFIED BY 'stackexchangespwd';
