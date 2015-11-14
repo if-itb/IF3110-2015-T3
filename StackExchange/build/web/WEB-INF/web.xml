@@ -4,9 +4,17 @@
         <servlet-name>Test</servlet-name>
         <servlet-class>Answer.Test</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QTest</servlet-name>
+        <servlet-class>Question.Test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QTest</servlet-name>
+        <url-pattern>/QTest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

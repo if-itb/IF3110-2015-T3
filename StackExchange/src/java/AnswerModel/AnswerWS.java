@@ -50,11 +50,11 @@ public class AnswerWS {
             
             int i = 0;
             while (rs.next()){
-                answers.add(new Answer (rs.getInt("id"),
+                answers.add(new Answer (rs.getInt("a_id"),
                                         rs.getInt("q_id"),
                                         rs.getInt("u_id"),
-                                        rs.getString("content"),
-                                        rs.getString("timestamp")
+                                        rs.getString("a_content"),
+                                        rs.getString("a_date")
                                         )
                             );
                 ++i;

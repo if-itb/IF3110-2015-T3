@@ -17,8 +17,8 @@ public class Answer {
     private int a_id;
     @XmlElement(name = "q_id", required = true)
     private int q_id;
-   // @XmlElement(name = "u_id", required = true)
-   // private int u_id;
+    @XmlElement(name = "u_id", required = true)
+    private int u_id;
     @XmlElement(name = "a_content", required = true)
     private String a_content;
     @XmlElement(name = "a_date", required = true)
@@ -27,13 +27,13 @@ public class Answer {
     public Answer(){
         a_id = 0;
         q_id = 0;
-       // u_id = 0;
+        u_id = 0;
     }
     
     public Answer(int id, int qid, int uid, String content, String timestamp){
         this.a_id = id;
         q_id = qid;
-       // u_id = uid;
+        u_id = uid;
         this.a_content = content;
         this.a_date = timestamp;
     }

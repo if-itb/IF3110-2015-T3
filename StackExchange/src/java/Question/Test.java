@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Answer;
+package Question;
 
-import AnswerWS.AnswerWS_Service;
+import QuestionWS.QuestionWS_Service;
 import java.io.IOException;
+import java.io.PrintWriter;
 import static java.lang.System.out;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +21,8 @@ import javax.xml.ws.WebServiceRef;
  */
 public class Test extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/StackExchangeWS/AnswerWS.wsdl")
-    private AnswerWS_Service service;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/StackExchangeWS/QuestionWS.wsdl")
+    private QuestionWS_Service service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,31 +34,30 @@ public class Test extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Test at " + request.getContextPath() + "</h1>");
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet Test</title>");            
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Servlet Test at " + request.getContextPath() + "</h1>");
             
         try {
             int i = 1;
-            java.util.List<AnswerWS.Answer> result = getAnswerByQID(i);
+            java.util.List<QuestionWS.Question> result = getQuestion();
             out.println("Result : " + result);
-            for (AnswerWS.Answer answer : result){
-                out.println(answer.getAContent());
+            for (QuestionWS.Question question : result){
+                out.println(question.getQContent());
             }
         } catch (Exception e){
-            out.println("Exception: " + e);
+            out.println ("Exception : " + e);
         }
-
+        
         out.println("</body>");
         out.println("</html>");
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -98,11 +98,11 @@ public class Test extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private java.util.List<AnswerWS.Answer> getAnswerByQID(int qid) {
+    private java.util.List<QuestionWS.Question> getQuestion() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        AnswerWS.AnswerWS port = service.getAnswerWSPort();
-        return port.getAnswerByQID(qid);
+        QuestionWS.QuestionWS port = service.getQuestionWSPort();
+        return port.getQuestion();
     }
 
 }
