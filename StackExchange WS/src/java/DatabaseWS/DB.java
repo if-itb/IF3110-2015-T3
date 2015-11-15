@@ -23,7 +23,7 @@ public class DB {
             String password = "";
 
             String url = "jdbc:sqlserver://MYPC\\SQLEXPRESS;databaseName=stackexchange";
-            Connection conn = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1/stackexchange", 
+            Connection conn = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1/sta", 
                                                         userName, 
                                                         password);
             return conn;

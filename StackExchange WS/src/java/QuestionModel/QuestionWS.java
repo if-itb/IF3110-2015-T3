@@ -40,7 +40,7 @@ public class QuestionWS {
         
         try {
             Statement stmt = conn.createStatement();
-            String sql = "SELECT q_id, u_id, q_topic, q_content, q_timestamp FROM question";
+            String sql = "SELECT q_id, u_id, q_topic, q_content, q_date FROM question";
             
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             
@@ -52,7 +52,7 @@ public class QuestionWS {
                                         rs.getInt("u_id"),
                                         rs.getString("q_topic"),
                                         rs.getString("q_content"),
-                                        rs.getString("q_timestamp")
+                                        rs.getString("q_date")
                                         )
                             );
                 ++i;
