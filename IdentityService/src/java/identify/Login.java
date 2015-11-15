@@ -52,7 +52,6 @@ public class Login extends HttpServlet {
                     out.println("No user found.");
                     out.close();
                 }
-                
             }
             catch (Exception exception) {
                 response.getWriter().println("Authentication failure.");

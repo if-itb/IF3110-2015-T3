@@ -17,7 +17,7 @@ import java.sql.*;
  * @author dancinggrass
  */
 
-@XmlRootElement(name = "User")
+@XmlRootElement(name = "user")
 @XmlType(propOrder = { "id", "name", "email", "password" })
 public class User {
     public User(int id, String name, String email, String password) {
@@ -61,10 +61,6 @@ public class User {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             
             StringWriter stringWriter = new StringWriter();
-            System.out.println(this.getName());
-            System.out.println(this.getEmail());
-            System.out.println(this.getPassword());
-            marshaller.marshal(this, System.out);
             marshaller.marshal(this, stringWriter);
             return stringWriter.toString();
         }
