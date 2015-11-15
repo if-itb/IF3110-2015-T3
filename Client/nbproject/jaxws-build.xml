@@ -26,21 +26,21 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-StackExchangeService_1" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/StackExchangeService_1"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/StackExchangeService_1" destdir="${build.generated.dir}/jax-wsCache/StackExchangeService_1" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService_1/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchangeService/StackExchangeService?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService_1/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/StackExchangeService_1"/>
+    <target name="wsimport-client-StackExchangeService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/StackExchangeService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/StackExchangeService" destdir="${build.generated.dir}/jax-wsCache/StackExchangeService" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchangeService/StackExchangeService?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/StackExchangeService"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/StackExchangeService_1">
+            <fileset dir="${build.generated.dir}/jax-wsCache/StackExchangeService">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-StackExchangeService_1" depends="-init-project">
+    <target name="wsimport-client-clean-StackExchangeService" depends="-init-project">
         <delete dir="${build.generated.sources.dir}/jax-ws/service"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/StackExchangeService_1"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/StackExchangeService"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-StackExchangeService_1"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-StackExchangeService"/>
 </project>

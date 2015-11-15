@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package service;
 
 import javax.jws.WebService;
@@ -12,49 +7,268 @@ import mysql.ConnectDb;
 import model.Question;
 import java.sql.*;
 import java.util.ArrayList;
+import model.Answer;
 
-/**
- *
- * @author sorlawan
- */
+
 @WebService(serviceName = "StackExchangeService")
 public class StackExchangeService {
-
-    /**
-     * This is a sample web service operation
-     * @param txt
-     * @return 
-     */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
-    }
     
+
     @WebMethod(operationName = "getAllQuestion")
     public ArrayList<Question> getAllQuestion() throws Exception {  
-        
         ArrayList<Question> questions = new ArrayList<>();        
-        
+
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "select * from Question";
+        String sql = "select * from Question Order By qid desc";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        
+
         ResultSet rs = dbStatement.executeQuery();
         while(rs.next()){
             questions.add(new Question(
-                    rs.getInt("qid"),
-                    rs.getString("name"),
-                    rs.getString("email"),
-                    rs.getString("qtopic"),
-                    rs.getString("qcontent"),
-                    rs.getInt("votes"),
-                    rs.getInt("answer_count"),
-                    rs.getString("created_at"))
+                rs.getInt("qid"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("qtopic"),
+                rs.getString("qcontent"),
+                rs.getInt("votes"),
+                rs.getInt("answer_count"),
+                rs.getString("created_at"))
             );
         }
         return questions;
     }
+
+    @WebMethod(operationName = "createQuestion")
+    public String createQuestion(
+        @WebParam(name = "name") String name,
+        @WebParam(name = "email") String email,
+        @WebParam(name = "qtopic") String qtopic,
+        @WebParam(name = "qcontent") String qcontent
+        ) throws Exception {
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        String sql = "insert into Question(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
+        "values (null, ?,?,?,?,0,0,Now())";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setString(1, name);
+        dbStatement.setString(2, email);
+        dbStatement.setString(3, qtopic);
+        dbStatement.setString(4, qcontent);
+        int rs = dbStatement.executeUpdate();
+        
+        return "Create question Success";
+    }
+
+    @WebMethod(operationName = "deleteQuestion")
+    public String deleteQuestion(
+        @WebParam(name = "qid") int qid
+        ) throws Exception {
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        
+        String sql = "delete from Answer where qid = ?";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        int rs = dbStatement.executeUpdate();
+        
+        sql = "delete from Question where qid = ?";
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+
+        rs = dbStatement.executeUpdate();
+
+        return "Delete question Success";
+    }
+
+    @WebMethod(operationName = "editQuestion")
+    public String editQuestion(
+        @WebParam(name = "qid") int qid,
+        @WebParam(name = "name") String name,
+        @WebParam(name = "email") String email,
+        @WebParam(name = "qtopic") String qtopic,
+        @WebParam(name = "qcontent") String qcontent
+        ) throws Exception {
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        String sql = "UPDATE Question SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
+        "WHERE qid = ?;";
+
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setString(1, name);
+        dbStatement.setString(2, email);
+        dbStatement.setString(3, qtopic);
+        dbStatement.setString(4, qcontent);
+        dbStatement.setInt(5, qid);
+
+        int rs = dbStatement.executeUpdate();
+
+        return "Edit question Success";
+    }
+
+    @WebMethod(operationName = "getQuestion")
+    public Question getQuestion(
+        @WebParam(name = "qid") int qid
+        ) throws Exception {
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        String sql = "select * from Question where qid = ?";
+
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+
+        ResultSet rs = dbStatement.executeQuery();
+
+        while(rs.next()) {
+                return new Question(
+                        rs.getInt("qid"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("qtopic"),
+                        rs.getString("qcontent"),
+                        rs.getInt("votes"),
+                        rs.getInt("answer_count"),
+                        rs.getString("created_at"));
+        }       
+        return null;
+    }
+    
+    @WebMethod(operationName = "getAnswers")
+    public ArrayList<Answer> getAnswers(
+        @WebParam(name = "qid") int qid
+        ) throws Exception {
+        
+        ArrayList<Answer> answers = new ArrayList<>();
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        
+        String sql = "SELECT * FROM Answer WHERE qid = ?  ORDER BY  aid DESC";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+
+        ResultSet rs = dbStatement.executeQuery();
+        while (rs.next()) {
+            answers.add(new Answer(
+                    rs.getInt("aid"),
+                    rs.getInt("qid"),
+                    rs.getString("name"),
+                    rs.getString("email"),
+                    rs.getString("content"),
+                    rs.getInt("votes"),
+                    rs.getString("created_at"))
+            );
+        }
+        return answers;
+    }
+    
+    @WebMethod(operationName = "createAnswer")
+    public String createAnswer(
+            @WebParam(name = "qid") int qid,
+            @WebParam(name = "name") String name,
+            @WebParam(name = "email") String email,
+            @WebParam(name = "content") String content
+    ) throws Exception {
+        
+        
+        Connection conn = ConnectDb.connect();
+        Statement stmt;
+        stmt = conn.createStatement();
+        String sql = "insert into Answer(aid, qid, name, email, content, votes, created_at)"
+                + "values (null, ?, ?, ?, ?, 0, now())";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        dbStatement.setString(2, name);
+        dbStatement.setString(3, email);
+        dbStatement.setString(4, content);
+        int rs = dbStatement.executeUpdate();
+        
+        sql = "UPDATE Question SET answer_count = answer_count + 1 WHERE qid = ?";
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        rs = dbStatement.executeUpdate();
+        return "Create answer Success";
+    }
+    
+    
+    @WebMethod(operationName = "voteQuestion")
+    public int voteQuestion(
+            @WebParam(name = "qid") int qid,
+            @WebParam(name = "operation") String operation
+    ) throws Exception {
+        
+        
+        Connection conn = ConnectDb.connect();
+        Statement stmt = conn.createStatement();
+        PreparedStatement dbStatement;
+        String sql = null;
+        
+        if("up".equals(operation))
+        {
+            sql = "UPDATE Question SET votes=votes + 1 WHERE qid = ?";
+            
+        }
+        else if("down".equals(operation))
+        {
+            sql = "UPDATE Question SET votes=votes-1 WHERE qid = ?";
+        }
+        
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        int rs = dbStatement.executeUpdate();
+        
+        sql = "SELECT votes FROM Question WHERE qid = ?";
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        ResultSet res = dbStatement.executeQuery();
+        
+        while(res.next()) {
+            return res.getInt("votes");
+        }   
+        return 0;
+    }
+    
+    @WebMethod(operationName = "voteAnswer")
+    public int voteAnswer(
+            @WebParam(name = "aid") int aid,
+            @WebParam(name = "operation") String operation
+    ) throws Exception {
+
+        Connection conn = ConnectDb.connect();
+        Statement stmt = conn.createStatement();
+        PreparedStatement dbStatement;
+        String sql = null;
+
+        if ("up".equals(operation)) {
+            sql = "UPDATE Answer SET votes=votes + 1 WHERE aid = ?";
+        } else if ("down".equals(operation)) {
+            sql = "UPDATE Answer SET votes=votes - 1 WHERE aid = ?";
+        }
+        
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, aid);
+        int rs = dbStatement.executeUpdate();
+        
+        sql = "SELECT votes FROM Answer WHERE aid = ?";
+        dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, aid);
+        ResultSet res = dbStatement.executeQuery();
+        while (res.next()) {
+            return res.getInt("votes");
+        }
+        return 0;
+    }
     
 }
+
+

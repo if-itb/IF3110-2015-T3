@@ -7,7 +7,6 @@ package client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,8 +23,8 @@ import service.StackExchangeService_Service;
  *
  * @author sorlawan
  */
-@WebServlet(name = "GetListQuestions", urlPatterns = {"/Home"})
-public class GetListQuestions extends HttpServlet {
+@WebServlet(name = "EditQuestion", urlPatterns = {"/edit"})
+public class GetEditedQuestion extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
@@ -44,69 +43,36 @@ public class GetListQuestions extends HttpServlet {
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
+        Question question = getQuestion(Integer.parseInt(request.getParameter("idEdited")));
         
-        List<Question> questions = getAllQuestion();
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            out.println("<!doctype html>");
             out.println("<html lang='en'>");
             out.println("<head>");
-            out.println("    <meta charset='UTF - 8' >");
-            out.println("    <title>Stack Exchange</title>");
+            out.println("    <meta charset='UTF-8'>");
+            out.println("    <title>Ask Your Question</title>");
             out.println("    <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400,700italic,300' rel='stylesheet' type='text/css'>");
             out.println("    <link rel='stylesheet' href='style.css'>");
+            out.println("    <script type='text/javascript' src='../scripts/validate.js'></script>");
             out.println("</head>");
-            
             out.println("<body>");
             out.println("<div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>");
-            out.println("<div class='container clearfix'>");
-            out.println("<form class='searchForm clearfix' action='php/Search.php' method='POST'>");
-            out.println("        <div class='searchInput'>");
-            out.println("        <input  name='keyword' type='text' placeholder='Keyword Pencarian'/>");
-            out.println("        <p class='askHere'>Cannot find what you are looking for ? <a href='Create.html'>Ask here</a></p>");
-            out.println("        </div>");
-            out.println("        <button class='searchBtn' type='submit'>Search</button>");
+            out.println("<div class='container'>");
+            out.println("    <h2>Edit your question!</h2>");
+            out.println("    <form name='questionForm'  action='editQuestion' method='POST'>");
+            out.println("        <input type='text'  id='name' name='name' placeholder='Name' value='" + question.getName() + "'/>");
+            out.println("        <input type='text'  id='email' name='email' placeholder='Email' value='" + question.getEmail() + "'/>");
+            out.println("        <input type='text' id='qtopic' name='qtopic' placeholder='Question Topic' value='" + question.getQtopic() + "'/>");
+            out.println("        <textarea  id='qcontent' name='qcontent' placeholder='Content' >" + question.getQcontent()+ "</textarea>");
+            out.println("        <input type='hidden' name='idEdited' value='" + question.getQid() + "'/>");
+            out.println("        <input type='hidden' name='fromDetail' value='" + request.getParameter("fromDetail") + "'/>");
+//          out.println("        <input type='hidden' name='isFromDetailPage' value='<?php echo $isFromDetailPage ?>'/>");
+            out.println("        <button  id='submitBtn' class='submitBtn' >Edit</button>");
             out.println("    </form>");
-            out.println("<h4>Recently Answered Questions</h4>");
-            
-            out.println("<div class='table'>");
-            out.println("    <div class='row clearfix'>");
-            for(Question question : questions) {
-                out.println("<div class='elemValue'>");
-                out.println("    <span>" + question.getVotes() + "</span>");
-                out.println("    <span class='vote'>Votes</span>");
-                out.println("</div>");
-
-                out.println("<div class='elemAnswer'>");
-                out.println("    <span>" + question.getAnswerCount() + "</span>");
-                out.println("    <span class='ans'>Answers</span>");
-                out.println("</div>");
-
-                out.println("<div class='elemQ'>");
-                out.println("    <div class='elemQuestion'>");
-                out.println("        <a href='detail?idDetail="+question.getQid()+"'><span class='topic'>" + question.getQtopic() + "</span></a>"
-                );
-                out.println(question.getQcontent());
-                out.println("    </div>");
-
-                out.println("    <div class='elemAuthor'>");
-                out.println("        <span class='askedBy'>Asked By:</span>");
-                out.println("        <div class='author'>");
-                out.println("            <span class='name'>" + question.getName() + "</span>");
-                out.println("            <a href='edit?idEdited="+ question.getQid() +"&fromDetail=0'> <span class='edit'>Edit</span></a>");
-                out.println("            <a href='delete?idDeleted="+ question.getQid() +"'> <span class='delete'>Delete</span></a>");
-                out.println("        </div>");
-                out.println("    </div>");
-                out.println("</div>");
-            }
             out.println("</div>");
-            out.println("</div>");
-            out.println("</body>");
-            out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -121,7 +87,7 @@ public class GetListQuestions extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetListQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetEditedQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -139,7 +105,7 @@ public class GetListQuestions extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetListQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetEditedQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -153,10 +119,11 @@ public class GetListQuestions extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private List<service.Question> getAllQuestion() throws Exception_Exception {
+    private Question getQuestion(int qid) throws Exception_Exception {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.getAllQuestion();
+        return port.getQuestion(qid);
     }
+
 }
