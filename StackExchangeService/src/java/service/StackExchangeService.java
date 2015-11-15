@@ -8,6 +8,7 @@ import model.Question;
 import java.sql.*;
 import java.util.ArrayList;
 import model.Answer;
+import model.User;
 
 
 @WebService(serviceName = "StackExchangeService")
@@ -267,6 +268,24 @@ public class StackExchangeService {
         return 0;
     }
     
+    @WebMethod(operationName = "registerUser")
+    public int voteAnswer(
+            @WebParam(name = "userName") String name,
+            @WebParam(name = "userEmail") String email,
+            @WebParam(name = "userPassword") String password
+    ) throws Exception {
+        
+        /* Check that no user with same name */
+        
+        if (!User.exist(name)) {
+            User.create(name, email, password);
+        }
+        else {
+            
+        }
+        
+        return 0;
+    }
 }
 
 
