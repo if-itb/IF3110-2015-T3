@@ -21,7 +21,7 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "select * from Question Order By qid desc";
+        String sql = "select * from questions Order By qid desc";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
 
         ResultSet rs = dbStatement.executeQuery();
@@ -51,7 +51,7 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "insert into Question(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
+        String sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
         "values (null, ?,?,?,?,0,0,Now())";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setString(1, name);
@@ -72,12 +72,12 @@ public class StackExchangeService {
         Statement stmt;
         stmt = conn.createStatement();
         
-        String sql = "delete from Answer where qid = ?";
+        String sql = "delete from answers where qid = ?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
         int rs = dbStatement.executeUpdate();
         
-        sql = "delete from Question where qid = ?";
+        sql = "delete from questions where qid = ?";
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
 
@@ -98,7 +98,7 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "UPDATE Question SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
+        String sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
         "WHERE qid = ?;";
 
         PreparedStatement dbStatement = conn.prepareStatement(sql);
@@ -121,7 +121,7 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "select * from Question where qid = ?";
+        String sql = "select * from questions where qid = ?";
 
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
@@ -153,7 +153,7 @@ public class StackExchangeService {
         Statement stmt;
         stmt = conn.createStatement();
         
-        String sql = "SELECT * FROM Answer WHERE qid = ?  ORDER BY  aid DESC";
+        String sql = "SELECT * FROM answers WHERE qid = ?  ORDER BY  aid DESC";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
 
@@ -184,7 +184,7 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        String sql = "insert into Answer(aid, qid, name, email, content, votes, created_at)"
+        String sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
                 + "values (null, ?, ?, ?, ?, 0, now())";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
@@ -193,7 +193,7 @@ public class StackExchangeService {
         dbStatement.setString(4, content);
         int rs = dbStatement.executeUpdate();
         
-        sql = "UPDATE Question SET answer_count = answer_count + 1 WHERE qid = ?";
+        sql = "UPDATE questions SET answer_count = answer_count + 1 WHERE qid = ?";
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
         rs = dbStatement.executeUpdate();
@@ -214,18 +214,18 @@ public class StackExchangeService {
         String sql = null;
         
         if("up".equals(operation)) {
-            sql = "UPDATE Question SET votes=votes + 1 WHERE qid = ?";
+            sql = "UPDATE questions SET votes=votes + 1 WHERE qid = ?";
             
         }
         else if("down".equals(operation)) {
-            sql = "UPDATE Question SET votes=votes-1 WHERE qid = ?";
+            sql = "UPDATE questions SET votes=votes-1 WHERE qid = ?";
         }
         
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
         int rs = dbStatement.executeUpdate();
         
-        sql = "SELECT votes FROM Question WHERE qid = ?";
+        sql = "SELECT votes FROM questions WHERE qid = ?";
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
         ResultSet res = dbStatement.executeQuery();
@@ -248,16 +248,16 @@ public class StackExchangeService {
         String sql = null;
 
         if ("up".equals(operation)) {
-            sql = "UPDATE Answer SET votes=votes + 1 WHERE aid = ?";
+            sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
         } else if ("down".equals(operation)) {
-            sql = "UPDATE Answer SET votes=votes - 1 WHERE aid = ?";
+            sql = "UPDATE answers SET votes=votes - 1 WHERE aid = ?";
         }
         
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, aid);
         int rs = dbStatement.executeUpdate();
         
-        sql = "SELECT votes FROM Answer WHERE aid = ?";
+        sql = "SELECT votes FROM answers WHERE aid = ?";
         dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, aid);
         ResultSet res = dbStatement.executeQuery();
