@@ -41,8 +41,6 @@ public class Login extends HttpServlet {
         if (request.getMethod() == "POST") {
             String name = request.getParameter("name");
             String password = request.getParameter("password");
-            System.out.println(name);
-            System.out.println(password);
             try (PrintWriter out = response.getWriter()) {
                 response.setContentType("application/xml;charset=UTF-8");
                 User user = User.getUser(name, password);
