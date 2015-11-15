@@ -269,7 +269,7 @@ public class StackExchangeService {
     }
     
     @WebMethod(operationName = "registerUser")
-    public int voteAnswer(
+    public int registerUser(
             @WebParam(name = "userName") String name,
             @WebParam(name = "userEmail") String email,
             @WebParam(name = "userPassword") String password
