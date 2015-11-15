@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import javax.xml.bind.*;
+import model.AccessToken;
 import model.User;
 
 import mysql.*;
@@ -45,7 +46,8 @@ public class Login extends HttpServlet {
                 response.setContentType("application/xml;charset=UTF-8");
                 User user = User.getUser(name, password);
                 if (user != null) {
-                    out.println(user.toXML());
+                    AccessToken accessToken = new AccessToken(user.getName());
+                    out.println(accessToken.toXML());
                     out.close();
                 }
                 else {

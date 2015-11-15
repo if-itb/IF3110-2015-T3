@@ -18,17 +18,17 @@ import javax.xml.bind.annotation.XmlType;
  * @author dancinggrass
  */
 
-@XmlRootElement(name = "token")
+@XmlRootElement(name = "accessToken")
 @XmlType(propOrder = { "token", "expirationDate" })
-public class Token {
+public class AccessToken {
     private String token;
     private long expirationDate;
     
     public final long lifetime = 3600;
     
-    public Token() {}
+    public AccessToken() {}
     
-    public Token(String name) {
+    public AccessToken(String name) {
         long now = System.currentTimeMillis() / 1000;
         this.token = name + Long.toString(now);
         this.expirationDate = now + lifetime;
@@ -46,12 +46,11 @@ public class Token {
     
     public String toXML() {
         try {
-            JAXBContext context = JAXBContext.newInstance(Token.class);
+            JAXBContext context = JAXBContext.newInstance(AccessToken.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             
             StringWriter stringWriter = new StringWriter();
-            marshaller.marshal(this, System.out);
             marshaller.marshal(this, stringWriter);
             return stringWriter.toString();
         }
