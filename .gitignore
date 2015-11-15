@@ -6,3 +6,6 @@
 /Client/build/
 /Client/dist/
 /StackExchangeService/dist/
+/IdentityService/IdentityService/build/
+/IdentityService/IdentityService/nbproject/private/
+/IdentityService/build/
