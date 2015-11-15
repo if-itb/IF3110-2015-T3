@@ -8,22 +8,20 @@ import javax.xml.bind.annotation.*;
 public class Answer {
     
     @XmlElement(name="aid", required=true)
-    private int qid;
+    private final int qid;
     @XmlElement(name="qid", required=true)
-    private int aid;
+    private final int aid;
     @XmlElement(name="name", required=true)
-    private String name;
+    private final String name;
     @XmlElement(name="email", required=true)
-    private String email;
+    private final String email;
     @XmlElement(name = "content", required = true)
-    private String content;
+    private final String content;
     @XmlElement(name = "votes", required = true)
-    private int votes;
+    private final int votes;
     @XmlElement(name = "created_at", required = true)
-    private String created_at;
-    
-    public Answer(){}
-    
+    private final String created_at;
+        
     public Answer(int qid,int aid, String name, String email, String content, int votes, String created_at ) {
         this.aid = aid;
         this.qid = qid;

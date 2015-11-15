@@ -13,7 +13,7 @@ import model.Answer;
 @WebService(serviceName = "StackExchangeService")
 public class StackExchangeService {
     
-
+    
     @WebMethod(operationName = "getAllQuestion")
     public ArrayList<Question> getAllQuestion() throws Exception {  
         ArrayList<Question> questions = new ArrayList<>();        
@@ -213,13 +213,11 @@ public class StackExchangeService {
         PreparedStatement dbStatement;
         String sql = null;
         
-        if("up".equals(operation))
-        {
+        if("up".equals(operation)) {
             sql = "UPDATE Question SET votes=votes + 1 WHERE qid = ?";
             
         }
-        else if("down".equals(operation))
-        {
+        else if("down".equals(operation)) {
             sql = "UPDATE Question SET votes=votes-1 WHERE qid = ?";
         }
         
