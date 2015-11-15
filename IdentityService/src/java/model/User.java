@@ -32,15 +32,24 @@ public class User {
         this.password = password;        
     }
     
-    public int getID() {
+    public User() {}
+    
+    @XmlAttribute
+    public int getId() {
         return this.id;
     }
+    
+    @XmlAttribute
     public String getEmail() {
         return this.email;
     }
+    
+    @XmlAttribute
     public String getName() {
         return this.name;
     }
+    
+    @XmlAttribute
     public String getPassword() {
         return this.password;
     }
@@ -52,6 +61,10 @@ public class User {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             
             StringWriter stringWriter = new StringWriter();
+            System.out.println(this.getName());
+            System.out.println(this.getEmail());
+            System.out.println(this.getPassword());
+            marshaller.marshal(this, System.out);
             marshaller.marshal(this, stringWriter);
             return stringWriter.toString();
         }
