@@ -48,47 +48,49 @@ public class StackExchangeService {
             @WebParam(name = "qtopic") String qtopic,
             @WebParam(name = "qcontent") String qcontent,
             @WebParam(name = "token") String token,
-            @WebParam(name = "expiracyDate") Date expiracyDate
+            @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt;
+            stmt = conn.createStatement();
+            String sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
+            "values (null, ?,?,?,?,0,0,Now())";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, name);
+            dbStatement.setString(2, email);
+            dbStatement.setString(3, qtopic);
+            dbStatement.setString(4, qcontent);
+            int rs = dbStatement.executeUpdate();
 
-        Connection conn = ConnectDb.connect();
-        Statement stmt;
-        stmt = conn.createStatement();
-        String sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
-        "values (null, ?,?,?,?,0,0,Now())";
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setString(1, name);
-        dbStatement.setString(2, email);
-        dbStatement.setString(3, qtopic);
-        dbStatement.setString(4, qcontent);
-        int rs = dbStatement.executeUpdate();
-        
-        return "Create question Success";
+            return "Create question Success";
+        }
     }
 
     @WebMethod(operationName = "deleteQuestion")
     public String deleteQuestion(
             @WebParam(name = "qid") int qid,
             @WebParam(name = "token") String token,
-            @WebParam(name = "expiracyDate") Date expiracyDate    
+            @WebParam(name = "expirationDate") long expirationDate    
         ) throws Exception {
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt;
+            stmt = conn.createStatement();
 
-        Connection conn = ConnectDb.connect();
-        Statement stmt;
-        stmt = conn.createStatement();
-        
-        String sql = "delete from answers where qid = ?";
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-        int rs = dbStatement.executeUpdate();
-        
-        sql = "delete from questions where qid = ?";
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
+            String sql = "delete from answers where qid = ?";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            int rs = dbStatement.executeUpdate();
 
-        rs = dbStatement.executeUpdate();
+            sql = "delete from questions where qid = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
 
-        return "Delete question Success";
+            rs = dbStatement.executeUpdate();
+
+            return "Delete question Success";
+        }
     }
 
     @WebMethod(operationName = "editQuestion")
@@ -99,25 +101,27 @@ public class StackExchangeService {
             @WebParam(name = "qtopic") String qtopic,
             @WebParam(name = "qcontent") String qcontent,
             @WebParam(name = "token") String token,
-            @WebParam(name = "expiracyDate") Date expiracyDate
+            @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt;
+            stmt = conn.createStatement();
+            String sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
+            "WHERE qid = ?;";
 
-        Connection conn = ConnectDb.connect();
-        Statement stmt;
-        stmt = conn.createStatement();
-        String sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
-        "WHERE qid = ?;";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, name);
+            dbStatement.setString(2, email);
+            dbStatement.setString(3, qtopic);
+            dbStatement.setString(4, qcontent);
+            dbStatement.setInt(5, qid);
 
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setString(1, name);
-        dbStatement.setString(2, email);
-        dbStatement.setString(3, qtopic);
-        dbStatement.setString(4, qcontent);
-        dbStatement.setInt(5, qid);
+            int rs = dbStatement.executeUpdate();
 
-        int rs = dbStatement.executeUpdate();
-
-        return "Edit question Success";
+            return "Edit question Success";
+        }
+        
     }
 
     @WebMethod(operationName = "getQuestion")
@@ -186,27 +190,27 @@ public class StackExchangeService {
         @WebParam(name = "email") String email,
         @WebParam(name = "content") String content,
         @WebParam(name = "token") String token,
-        @WebParam(name = "expiracyDate") Date expiracyDate
+        @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
-        
-        
-        Connection conn = ConnectDb.connect();
-        Statement stmt;
-        stmt = conn.createStatement();
-        String sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
-                + "values (null, ?, ?, ?, ?, 0, now())";
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-        dbStatement.setString(2, name);
-        dbStatement.setString(3, email);
-        dbStatement.setString(4, content);
-        int rs = dbStatement.executeUpdate();
-        
-        sql = "UPDATE questions SET answer_count = answer_count + 1 WHERE qid = ?";
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-        rs = dbStatement.executeUpdate();
-        return "Create answer Success";
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt;
+            stmt = conn.createStatement();
+            String sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
+                    + "values (null, ?, ?, ?, ?, 0, now())";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            dbStatement.setString(2, name);
+            dbStatement.setString(3, email);
+            dbStatement.setString(4, content);
+            int rs = dbStatement.executeUpdate();
+
+            sql = "UPDATE questions SET answer_count = answer_count + 1 WHERE qid = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            rs = dbStatement.executeUpdate();
+            return "Create answer Success";
+        }
     }
     
     
@@ -215,35 +219,39 @@ public class StackExchangeService {
         @WebParam(name = "qid") int qid,
         @WebParam(name = "operation") String operation,
         @WebParam(name = "token") String token,
-        @WebParam(name = "expiracyDate") Date expiracyDate
+        @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
-        
-        
-        Connection conn = ConnectDb.connect();
-        Statement stmt = conn.createStatement();
-        PreparedStatement dbStatement;
-        String sql = null;
-        
-        if("up".equals(operation)) {
-            sql = "UPDATE questions SET votes=votes + 1 WHERE qid = ?";
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt = conn.createStatement();
+            PreparedStatement dbStatement;
+            String sql = null;
+
+            if("up".equals(operation)) {
+                sql = "UPDATE questions SET votes=votes + 1 WHERE qid = ?";
+
+            }
+            else if("down".equals(operation)) {
+                sql = "UPDATE questions SET votes=votes-1 WHERE qid = ?";
+            }
+
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            int rs = dbStatement.executeUpdate();
+
+            sql = "SELECT votes FROM questions WHERE qid = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            ResultSet res = dbStatement.executeQuery();
+
+            while(res.next()) {
+                return res.getInt("votes");
+            }   
+        }
+        else {
             
         }
-        else if("down".equals(operation)) {
-            sql = "UPDATE questions SET votes=votes-1 WHERE qid = ?";
-        }
         
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-        int rs = dbStatement.executeUpdate();
-        
-        sql = "SELECT votes FROM questions WHERE qid = ?";
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-        ResultSet res = dbStatement.executeQuery();
-        
-        while(res.next()) {
-            return res.getInt("votes");
-        }   
         return 0;
     }
     
@@ -252,31 +260,36 @@ public class StackExchangeService {
         @WebParam(name = "aid") int aid,
         @WebParam(name = "operation") String operation,
         @WebParam(name = "token") String token,
-        @WebParam(name = "expiracyDate") Date expiracyDate
+        @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
+        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+            Connection conn = ConnectDb.connect();
+            Statement stmt = conn.createStatement();
+            PreparedStatement dbStatement;
+            String sql = null;
 
-        Connection conn = ConnectDb.connect();
-        Statement stmt = conn.createStatement();
-        PreparedStatement dbStatement;
-        String sql = null;
+            if ("up".equals(operation)) {
+                sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
+            } else if ("down".equals(operation)) {
+                sql = "UPDATE answers SET votes=votes - 1 WHERE aid = ?";
+            }
 
-        if ("up".equals(operation)) {
-            sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
-        } else if ("down".equals(operation)) {
-            sql = "UPDATE answers SET votes=votes - 1 WHERE aid = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, aid);
+            int rs = dbStatement.executeUpdate();
+
+            sql = "SELECT votes FROM answers WHERE aid = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, aid);
+            ResultSet res = dbStatement.executeQuery();
+            while (res.next()) {
+                return res.getInt("votes");
+            }
+        }
+        else {
+            
         }
         
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, aid);
-        int rs = dbStatement.executeUpdate();
-        
-        sql = "SELECT votes FROM answers WHERE aid = ?";
-        dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, aid);
-        ResultSet res = dbStatement.executeQuery();
-        while (res.next()) {
-            return res.getInt("votes");
-        }
         return 0;
     }
     
