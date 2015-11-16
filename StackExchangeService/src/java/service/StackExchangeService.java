@@ -43,10 +43,12 @@ public class StackExchangeService {
 
     @WebMethod(operationName = "createQuestion")
     public String createQuestion(
-        @WebParam(name = "name") String name,
-        @WebParam(name = "email") String email,
-        @WebParam(name = "qtopic") String qtopic,
-        @WebParam(name = "qcontent") String qcontent
+            @WebParam(name = "name") String name,
+            @WebParam(name = "email") String email,
+            @WebParam(name = "qtopic") String qtopic,
+            @WebParam(name = "qcontent") String qcontent,
+            @WebParam(name = "token") String token,
+            @WebParam(name = "expiracyDate") Date expiracyDate
         ) throws Exception {
 
         Connection conn = ConnectDb.connect();
@@ -66,7 +68,9 @@ public class StackExchangeService {
 
     @WebMethod(operationName = "deleteQuestion")
     public String deleteQuestion(
-        @WebParam(name = "qid") int qid
+            @WebParam(name = "qid") int qid,
+            @WebParam(name = "token") String token,
+            @WebParam(name = "expiracyDate") Date expiracyDate    
         ) throws Exception {
 
         Connection conn = ConnectDb.connect();
@@ -89,11 +93,13 @@ public class StackExchangeService {
 
     @WebMethod(operationName = "editQuestion")
     public String editQuestion(
-        @WebParam(name = "qid") int qid,
-        @WebParam(name = "name") String name,
-        @WebParam(name = "email") String email,
-        @WebParam(name = "qtopic") String qtopic,
-        @WebParam(name = "qcontent") String qcontent
+            @WebParam(name = "qid") int qid,
+            @WebParam(name = "name") String name,
+            @WebParam(name = "email") String email,
+            @WebParam(name = "qtopic") String qtopic,
+            @WebParam(name = "qcontent") String qcontent,
+            @WebParam(name = "token") String token,
+            @WebParam(name = "expiracyDate") Date expiracyDate
         ) throws Exception {
 
         Connection conn = ConnectDb.connect();
@@ -116,7 +122,7 @@ public class StackExchangeService {
 
     @WebMethod(operationName = "getQuestion")
     public Question getQuestion(
-        @WebParam(name = "qid") int qid
+            @WebParam(name = "qid") int qid
         ) throws Exception {
 
         Connection conn = ConnectDb.connect();
@@ -145,7 +151,7 @@ public class StackExchangeService {
     
     @WebMethod(operationName = "getAnswers")
     public ArrayList<Answer> getAnswers(
-        @WebParam(name = "qid") int qid
+            @WebParam(name = "qid") int qid
         ) throws Exception {
         
         ArrayList<Answer> answers = new ArrayList<>();
@@ -175,10 +181,12 @@ public class StackExchangeService {
     
     @WebMethod(operationName = "createAnswer")
     public String createAnswer(
-            @WebParam(name = "qid") int qid,
-            @WebParam(name = "name") String name,
-            @WebParam(name = "email") String email,
-            @WebParam(name = "content") String content
+        @WebParam(name = "qid") int qid,
+        @WebParam(name = "name") String name,
+        @WebParam(name = "email") String email,
+        @WebParam(name = "content") String content,
+        @WebParam(name = "token") String token,
+        @WebParam(name = "expiracyDate") Date expiracyDate
     ) throws Exception {
         
         
@@ -204,8 +212,10 @@ public class StackExchangeService {
     
     @WebMethod(operationName = "voteQuestion")
     public int voteQuestion(
-            @WebParam(name = "qid") int qid,
-            @WebParam(name = "operation") String operation
+        @WebParam(name = "qid") int qid,
+        @WebParam(name = "operation") String operation,
+        @WebParam(name = "token") String token,
+        @WebParam(name = "expiracyDate") Date expiracyDate
     ) throws Exception {
         
         
@@ -239,8 +249,10 @@ public class StackExchangeService {
     
     @WebMethod(operationName = "voteAnswer")
     public int voteAnswer(
-            @WebParam(name = "aid") int aid,
-            @WebParam(name = "operation") String operation
+        @WebParam(name = "aid") int aid,
+        @WebParam(name = "operation") String operation,
+        @WebParam(name = "token") String token,
+        @WebParam(name = "expiracyDate") Date expiracyDate
     ) throws Exception {
 
         Connection conn = ConnectDb.connect();
