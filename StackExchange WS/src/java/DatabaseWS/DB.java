@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,17 +21,20 @@ public class DB {
 
     public static Connection connect(){
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             String userName = "root";
             String password = "";
-
-            String url = "jdbc:sqlserver://MYPC\\SQLEXPRESS;databaseName=stackexchange";
-            Connection conn = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1/sta", 
+            
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", 
                                                         userName, 
                                                         password);
             return conn;
             
         } catch (SQLException e){
             e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
         

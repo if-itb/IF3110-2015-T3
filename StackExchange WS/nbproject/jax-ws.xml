@@ -7,6 +7,9 @@
     <service name="QuestionWS">
       <implementation-class>QuestionModel.QuestionWS</implementation-class>
     </service>
+    <service name="UserWS">
+      <implementation-class>UserModel.UserWS</implementation-class>
+    </service>
   </services>
   <clients>
     <client name="AnswerWS">
