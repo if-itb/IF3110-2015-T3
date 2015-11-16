@@ -297,7 +297,7 @@ public class StackExchangeService {
     }
     
     @WebMethod(operationName = "registerUser")
-    public int registerUser(
+    public String registerUser(
             @WebParam(name = "userName") String name,
             @WebParam(name = "userEmail") String email,
             @WebParam(name = "userPassword") String password
@@ -307,12 +307,11 @@ public class StackExchangeService {
         
         if (!User.exist(name)) {
             User.create(name, email, password);
+            return "Success.";
         }
         else {
-            
+            return "Error.";
         }
-        
-        return 0;
     }
 }
 
