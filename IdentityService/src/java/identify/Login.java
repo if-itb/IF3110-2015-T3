@@ -47,6 +47,7 @@ public class Login extends HttpServlet {
                 User user = User.getUser(name, password);
                 if (user != null) {
                     AccessToken accessToken = new AccessToken(user.getName());
+                    out.println("<name>"+user.getName()+"</name");
                     out.println(accessToken.toXML());
                     out.close();
                 }
