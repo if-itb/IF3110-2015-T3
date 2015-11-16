@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,12 +35,27 @@ public class VoteQuestion extends HttpServlet {
         int qid = Integer.parseInt(request.getParameter("qid"));
         String operation =  request.getParameter("operation");
         
-        int newVote = voteQuestion(qid, operation);
-        
+        Cookie cookies[] = request.getCookies();
+        String token = null;
+        Long expirationDate = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName() == "expirationDate") {
+                expirationDate = Long.parseLong(cookie.getValue());
+            }
+            if (cookie.getName() == "token") {
+                token = cookie.getValue();
+            }
+        }
+        if (token != null && expirationDate != null) {
+            int newVote = voteQuestion(qid, operation, token, expirationDate);        
 
-        response.setContentType("text/xml");
-        response.setHeader("Cache-Control", "no-cache");
-        response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
+            response.setContentType("text/xml");
+            response.setHeader("Cache-Control", "no-cache");
+            response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
+        }
+        else {
+            response.sendRedirect("Home");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,11 +105,11 @@ public class VoteQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteQuestion(int qid, java.lang.String operation) throws Exception_Exception {
+    private int voteQuestion(int qid, String operation, String token, long expirationDate) throws Exception_Exception {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.voteQuestion(qid, operation);
+        return port.voteQuestion(qid, operation, token, expirationDate);
     }
 
 }

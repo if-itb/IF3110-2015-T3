@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,20 +28,37 @@ public class EditQuestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String statue = editQuestion(
-                            Integer.parseInt(request.getParameter("idEdited")),
-                            request.getParameter("name"),
-                            request.getParameter("email"),
-                            request.getParameter("qtopic"),
-                            request.getParameter("qcontent")
-                        );
-        
-        if("1".equals(request.getParameter("fromDetail"))){
-            response.sendRedirect("detail?idDetail="+ request.getParameter("idEdited"));
+        Cookie cookies[] = request.getCookies();
+        String token = null;
+        Long expirationDate = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName() == "expirationDate") {
+                expirationDate = Long.parseLong(cookie.getValue());
+            }
+            if (cookie.getName() == "token") {
+                token = cookie.getValue();
+            }
         }
-        else
-        {
+        if (token != null && expirationDate != null) {
+        
+            String status = editQuestion(
+                                Integer.parseInt(request.getParameter("idEdited")),
+                                request.getParameter("name"),
+                                request.getParameter("email"),
+                                request.getParameter("qtopic"),
+                                request.getParameter("qcontent"),
+                                token,
+                                expirationDate
+                            );
+
+            if("1".equals(request.getParameter("fromDetail"))){
+                response.sendRedirect("detail?idDetail="+ request.getParameter("idEdited"));
+            }
+            else {
+                response.sendRedirect("Home");
+            }
+        }
+        else {
             response.sendRedirect("Home");
         }
         
@@ -74,9 +92,14 @@ public class EditQuestion extends HttpServlet {
         return "Short description";
     }
 
-    private String editQuestion(int qid, java.lang.String name, java.lang.String email, java.lang.String qtopic, java.lang.String qcontent) throws Exception_Exception {
+    private String editQuestion(
+            int qid, String name, 
+            String email, String qtopic, 
+            String qcontent, String token, 
+            long expirationDate) throws Exception_Exception {
+        
         service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.editQuestion(qid, name, email, qtopic, qcontent);
+        return port.editQuestion(qid, name, email, qtopic, qcontent, token, expirationDate);
     }
 
 }

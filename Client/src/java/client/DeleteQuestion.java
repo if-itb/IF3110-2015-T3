@@ -13,6 +13,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,11 +47,23 @@ public class DeleteQuestion extends HttpServlet {
         
         String idDeleted = request.getParameter("idDeleted");
         
-        deleteQuestion(Integer.parseInt(idDeleted));
+        Cookie cookies[] = request.getCookies();
+        String token = null;
+        Long expirationDate = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName() == "expirationDate") {
+                expirationDate = Long.parseLong(cookie.getValue());
+            }
+            if (cookie.getName() == "token") {
+                token = cookie.getValue();
+            }
+        }
+        if (token != null && expirationDate != null) {
+            deleteQuestion(Integer.parseInt(idDeleted), token, expirationDate);
+        }
         
         // Redirect ke Lists
         response.sendRedirect("Home");
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -100,11 +113,11 @@ public class DeleteQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String deleteQuestion(int qid) throws Exception_Exception {
+    private String deleteQuestion(int qid, String token, long expirationDate) throws Exception_Exception {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.deleteQuestion(qid);
+        return port.deleteQuestion(qid, token, expirationDate);
     }
 
 }

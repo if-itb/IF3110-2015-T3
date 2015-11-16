@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,14 +44,29 @@ public class CreateAnswer extends HttpServlet {
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-        
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String content = request.getParameter("content");
-        int qid = Integer.parseInt(request.getParameter("qid"));
-        
-        String res = createAnswer(qid, name, email,content);
-        response.sendRedirect("detail?idDetail="+ qid);
+        Cookie cookies[] = request.getCookies();
+        String token = null;
+        Long expirationDate = null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName() == "expirationDate") {
+                expirationDate = Long.parseLong(cookie.getValue());
+            }
+            if (cookie.getName() == "token") {
+                token = cookie.getValue();
+            }
+        }
+        if (token != null && expirationDate != null) {
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
+            String content = request.getParameter("content");
+            int qid = Integer.parseInt(request.getParameter("qid"));
+
+            String res = createAnswer(qid, name, email,content, token, expirationDate);
+            response.sendRedirect("detail?idDetail="+ qid);
+        }
+        else {
+            response.sendRedirect("Home");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -100,11 +116,11 @@ public class CreateAnswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createAnswer(int qid, java.lang.String name, java.lang.String email, java.lang.String content) throws Exception_Exception {
+    private String createAnswer(int qid, String name, String email, String content, String token, long expirationDate) throws Exception_Exception {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.createAnswer(qid, name, email, content);
+        return port.createAnswer(qid, name, email, content, token, expirationDate);
     }
 
 }
