@@ -65,6 +65,7 @@ public class StackExchangeService {
 
             return "Create question Success";
         }
+        return "Error";
     }
 
     @WebMethod(operationName = "deleteQuestion")
@@ -91,6 +92,7 @@ public class StackExchangeService {
 
             return "Delete question Success";
         }
+        return "Error";
     }
 
     @WebMethod(operationName = "editQuestion")
@@ -121,7 +123,7 @@ public class StackExchangeService {
 
             return "Edit question Success";
         }
-        
+        return "Error";
     }
 
     @WebMethod(operationName = "getQuestion")
@@ -211,6 +213,7 @@ public class StackExchangeService {
             rs = dbStatement.executeUpdate();
             return "Create answer Success";
         }
+        return "Error";
     }
     
     
