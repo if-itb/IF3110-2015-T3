@@ -28,9 +28,9 @@ public class AccessToken {
     
     public AccessToken() {}
     
-    public AccessToken(String name) {
+    public AccessToken(String email) {
         long now = System.currentTimeMillis() / 1000;
-        this.token = name + Long.toString(now);
+        this.token = email + Long.toString(now);
         this.expirationDate = now + lifetime;
     }
     

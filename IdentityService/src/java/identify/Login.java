@@ -40,14 +40,14 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         
         if (request.getMethod() == "POST") {
-            String name = request.getParameter("name");
+            String email = request.getParameter("email");
             String password = request.getParameter("password");
             try (PrintWriter out = response.getWriter()) {
                 response.setContentType("application/xml;charset=UTF-8");
-                User user = User.getUser(name, password);
+                User user = User.getUser(email, password);
                 if (user != null) {
-                    AccessToken accessToken = new AccessToken(user.getName());
-                    out.println("<name>"+user.getName()+"</name");
+                    AccessToken accessToken = new AccessToken(user.getEmail());
+                    out.println("<name>"+user.getName()+"</name>");
                     out.println(accessToken.toXML());
                     out.close();
                 }

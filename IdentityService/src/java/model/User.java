@@ -72,12 +72,12 @@ public class User {
         return null;
     }
     
-    public static User getUser(String name, String password) throws Exception {
+    public static User getUser(String email, String password) throws Exception {
         Connection conn = ConnectDb.connect();
         Statement statement = conn.createStatement();
-        String query = "SELECT * FROM users WHERE name = ? AND password = ?";
+        String query = "SELECT * FROM users WHERE email = ? AND password = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setString(1, name);
+        preparedStatement.setString(1, email);
         preparedStatement.setString(2, password);
         
         ResultSet result = preparedStatement.executeQuery();
