@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <% 
 	List answer = (List) request.getAttribute("answers");
 	iterator i = answer.iterator();
