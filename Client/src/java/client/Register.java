@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.io.IOException;
@@ -19,10 +14,7 @@ import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
-/**
- *
- * @author dancinggrass
- */
+
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
 
@@ -47,8 +39,7 @@ public class Register extends HttpServlet {
 	String password = request.getParameter("password");
 	
 	String result = registerUser(username, email, password);
-	
-	System.out.println(result);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

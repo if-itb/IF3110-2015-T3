@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.io.IOException;
@@ -18,10 +13,7 @@ import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
-/**
- *
- * @author sorlawan
- */
+
 @WebServlet(name = "CreateAnswer", urlPatterns = {"/answer"})
 public class CreateAnswer extends HttpServlet {
 
@@ -42,31 +34,21 @@ public class CreateAnswer extends HttpServlet {
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-        Cookie cookies[] = request.getCookies();
-        String token = null;
-	String username = null;
-        Long expirationDate = null;
-        for (Cookie cookie : cookies) {
-            if ("expirationDate".equals(cookie.getName())) {
-                expirationDate = Long.parseLong(cookie.getValue());
-            }
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
-            }
-	    if ("username".equals(cookie.getName())) {
-                username = cookie.getValue();
-            }
-        }
-        if (token != null && expirationDate != null) {
-            String content = request.getParameter("content");
-            int qid = Integer.parseInt(request.getParameter("qid"));
+	RequestHandler rh = new RequestHandler(request);
+	
+	if(rh.isAuthenticated()){
+	    System.out.println("WKWKWK");
+	    String content = request.getParameter("content");
+	    int qid = Integer.parseInt(request.getParameter("qid"));
+	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken(), rh.getExpirationDate());
+	    response.sendRedirect("detail?idDetail=" + qid);
+	}
+	else
+	{
+	    response.sendRedirect("auth.html");
+	    
+	}
 
-            String res = createAnswer(qid, username ,content, token, expirationDate);
-            response.sendRedirect("detail?idDetail="+ qid);
-        }
-        else {
-            response.sendRedirect("Home");
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

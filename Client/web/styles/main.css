@@ -378,6 +378,58 @@ a:visited {
 }
 
 
+/**********************************
+ * @auth
+ */
+
+.text-mid {
+    text-align : center;
+}
+
+.login, .register {
+    display : block;
+    padding : 20px;
+    cursor : pointer;
+    background-color : #FF7400;
+    border : 1px solid #F57C0A;
+    margin : 15px auto;
+    width : 165px;
+    color : black;
+}
+
+.login:hover, .register:hover {
+    background-color : #FFFFEB;
+    border : 1px solid  #FF7400;
+}
+
+
+/************************************
+ *@register
+ */
+
+.registerForm {
+    width : 50%;
+    margin : 0 auto;
+}
+
+
+.registerForm>input{
+    width : 100%;
+    padding : 10px;
+    border : 1px solid #FF8027;
+    margin-bottom : 20px;
+}
+
+.registerForm>button{
+    float : right;
+    margin-right : -20px;
+}
+
+.registerForm>h2{
+    margin-right : -20px;
+    margin-bottom : 20px;
+    font-weight : bold;
+}
 
 /***********************************
  * @clearfix

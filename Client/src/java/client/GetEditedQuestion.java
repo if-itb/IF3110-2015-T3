@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,10 +13,7 @@ import service.Exception_Exception;
 import service.Question;
 import service.StackExchangeService_Service;
 
-/**
- *
- * @author sorlawan
- */
+
 @WebServlet(name = "EditQuestion", urlPatterns = {"/edit"})
 public class GetEditedQuestion extends HttpServlet {
 
@@ -45,29 +36,10 @@ public class GetEditedQuestion extends HttpServlet {
         
         Question question = getQuestion(Integer.parseInt(request.getParameter("idEdited")));
         
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!doctype html>");
-            out.println("<html lang='en'>");
-            out.println("<head>");
-            out.println("    <meta charset='UTF-8'>");
-            out.println("    <title>Ask Your Question</title>");
-            out.println("    <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400,700italic,300' rel='stylesheet' type='text/css'>");
-            out.println("    <link rel='stylesheet' href='style.css'>");
-            out.println("    <script type='text/javascript' src='../scripts/validate.js'></script>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>");
-            out.println("<div class='container'>");
-            out.println("    <h2>Edit your question!</h2>");
-            out.println("    <form name='questionForm'  action='editQuestion' method='POST'>");
-            out.println("        <input type='text' id='qtopic' name='qtopic' placeholder='Question Topic' value='" + question.getQtopic() + "'/>");
-            out.println("        <textarea  id='qcontent' name='qcontent' placeholder='Content' >" + question.getQcontent()+ "</textarea>");
-            out.println("        <input type='hidden' name='idEdited' value='" + question.getQid() + "'/>");
-            out.println("        <input type='hidden' name='fromDetail' value='" + request.getParameter("fromDetail") + "'/>");
-            out.println("        <button  id='submitBtn' class='submitBtn' >Edit</button>");
-            out.println("    </form>");
-            out.println("</div>");
-        }
+	response.setContentType("text/html");
+	request.setAttribute("question", question);
+	request.setAttribute("fromDetail", request.getParameter("fromDetail"));
+	request.getRequestDispatcher("/edit.jsp").forward(request, response);
     }
 
     /**

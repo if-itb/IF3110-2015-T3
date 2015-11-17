@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,10 +13,8 @@ import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
-/**
- *
- * @author sorlawan
- */
+
+
 @WebServlet(name = "VoteAnswer", urlPatterns = {"/VoteAnswer"})
 public class VoteAnswer extends HttpServlet {
 

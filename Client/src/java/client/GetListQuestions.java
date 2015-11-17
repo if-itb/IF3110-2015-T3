@@ -15,10 +15,8 @@ import service.Exception_Exception;
 import service.Question;
 import service.StackExchangeService_Service;
 
-/**
- *
- * @author sorlawan
- */
+
+
 @WebServlet(name = "GetListQuestions", urlPatterns = {"/Home"})
 public class GetListQuestions extends HttpServlet {
 
@@ -39,7 +37,7 @@ public class GetListQuestions extends HttpServlet {
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-        
+	
         List<Question> questions = getAllQuestion();
 	
 	response.setContentType("text/html");
