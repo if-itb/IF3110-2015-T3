@@ -7,12 +7,17 @@ package client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
+import service.Exception_Exception;
+import service.StackExchangeService_Service;
 
 /**
  *
@@ -20,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    private StackExchangeService_Service service;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,11 +39,16 @@ public class Register extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/register.html");
-        requestDispatcher.forward(request, response);
+        String username = request.getParameter("username");
+	String email = request.getParameter("email");
+	String password = request.getParameter("password");
+	
+	String result = registerUser(username, email, password);
+	
+	System.out.println(result);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -50,7 +63,11 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+	try {
+	    processRequest(request, response);
+	} catch (Exception_Exception ex) {
+	    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 
     /**
@@ -64,7 +81,11 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+	try {
+	    processRequest(request, response);
+	} catch (Exception_Exception ex) {
+	    Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
+	}
     }
 
     /**
@@ -76,5 +97,12 @@ public class Register extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String registerUser(java.lang.String userName, java.lang.String userEmail, java.lang.String userPassword) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.registerUser(userName, userEmail, userPassword);
+    }
 
 }

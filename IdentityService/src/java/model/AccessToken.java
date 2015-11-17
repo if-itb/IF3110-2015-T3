@@ -12,6 +12,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  *
@@ -19,27 +20,34 @@ import javax.xml.bind.annotation.XmlType;
  */
 
 @XmlRootElement(name = "accessToken")
-@XmlType(propOrder = { "token", "expirationDate" })
+@XmlType(propOrder = { "token","username", "expirationDate", "lifetime" })
 public class AccessToken {
     private String token;
     private long expirationDate;
+    private String username;
     
     public final long lifetime = 3600;
     
     public AccessToken() {}
     
-    public AccessToken(String email) {
+    public AccessToken(String email, String username) {
         long now = System.currentTimeMillis() / 1000;
         this.token = email;
         this.expirationDate = now + lifetime;
+	this.username = username;
     }
     
-    @XmlAttribute
+    @XmlElement
     public String getToken() {
         return this.token;
     }
     
-    @XmlAttribute
+    @XmlElement
+    public String getUsername() {
+        return this.username;
+    }
+    
+    @XmlElement
     public long getExpirationDate() {
         return this.expirationDate;
     }
@@ -55,7 +63,6 @@ public class AccessToken {
             return stringWriter.toString();
         }
         catch (JAXBException exception) {
-            exception.printStackTrace();
         }
         return null;
     }
