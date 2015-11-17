@@ -15,44 +15,50 @@ import javax.xml.bind.annotation.*;
 public class Question {
     @XmlElement(name="qid", required=true)
     private int qid;
-    @XmlElement(name="uid", required= true)
-    private int uid;
-    @XmlElement(name="content", required= true)
-    private String content;
-    @XmlElement(name="timestamp", required= true)
-    private String timestamp;
+    @XmlElement(name="uemail", required= true)
+    private String uemail;
+    @XmlElement(name="qtopic",required=true)
+    private String qtopic;
+    @XmlElement(name="qcontent", required= true)
+    private String qcontent;
+    @XmlElement(name="qvote", required = true)
+    private int qvote;
+    @XmlElement(name="qtimestamp", required= true)
+    private String qtimestamp;
 
-    public Question() {
-        this.qid = 0;
-        this.uid = 0;
-        this.content = "";
-        this.timestamp = "";
-    }
-
-    
-    public Question(int qid, int uid, String content, String timestamp) {
+    public Question(int qid, String uemail, String qtopic, String qcontent, int qvote, String qtimestamp) {
         this.qid = qid;
-        this.uid = uid;
-        this.content = content;
-        this.timestamp = timestamp;
+        this.uemail = uemail;
+        this.qtopic = qtopic;
+        this.qcontent = qcontent;
+        this.qvote = qvote;
+        this.qtimestamp = qtimestamp;
     }
 
     public int getQid() {
         return qid;
     }
 
-    public int getUid() {
-        return uid;
+    public String getUemail() {
+        return uemail;
     }
 
-    public String getContent() {
-        return content;
+    public String getQtopic() {
+        return qtopic;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getQcontent() {
+        return qcontent;
     }
 
+    public int getQvote() {
+        return qvote;
+    }
+
+    public String getQtimestamp() {
+        return qtimestamp;
+    }
+    
 }
 
 
