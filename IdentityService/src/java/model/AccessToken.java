@@ -32,7 +32,7 @@ public class AccessToken {
     
     public AccessToken(String email, String username) {
         long now = System.currentTimeMillis() / 1000;
-        this.token = email;
+        this.token =  email + Long.toString(now);
         this.expirationDate = now + lifetime;
 	this.username = username;
     }

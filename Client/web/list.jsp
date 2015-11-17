@@ -50,8 +50,8 @@ pageEncoding="UTF-8"%>
 						<span class='askedBy'>Asked By:</span>
 						<div class='author'>
 							<span class='name'><c:out value="${question.getName()}"/></span>
-							<a href='edit?idEdited="+ <c:out value="${question.getQid()}"/> +"&fromDetail=0'> <span class='edit'>Edit</span></a>
-							<a href='delete?idDeleted="+ <c:out value="${question.getQid()}"/> +"'> <span class='delete'>Delete</span></a>
+							<a href='edit?idEdited="<c:out value="${question.getQid()}"/>"&fromDetail=0'> <span class='edit'>Edit</span></a>
+							<a href='delete?idDeleted=<c:out value="${question.getQid()}"/>'> <span class='delete'>Delete</span></a>
 						</div>
 					</div>
 				</div>

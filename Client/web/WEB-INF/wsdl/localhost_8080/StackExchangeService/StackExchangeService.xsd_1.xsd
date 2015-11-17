@@ -34,10 +34,6 @@
 
 <xs:element name="getQuestionResponse" type="tns:getQuestionResponse"/>
 
-<xs:element name="registerUser" type="tns:registerUser"/>
-
-<xs:element name="registerUserResponse" type="tns:registerUserResponse"/>
-
 <xs:element name="voteAnswer" type="tns:voteAnswer"/>
 
 <xs:element name="voteAnswerResponse" type="tns:voteAnswerResponse"/>
@@ -94,8 +90,6 @@
 <xs:element name="email" type="xs:string" minOccurs="0"/>
 <xs:element name="qtopic" type="xs:string" minOccurs="0"/>
 <xs:element name="qcontent" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -111,8 +105,6 @@
 <xs:element name="email" type="xs:string" minOccurs="0"/>
 <xs:element name="qtopic" type="xs:string" minOccurs="0"/>
 <xs:element name="qcontent" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -126,8 +118,6 @@
 <xs:sequence>
 <xs:element name="aid" type="xs:int"/>
 <xs:element name="operation" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -151,27 +141,13 @@
 
 <xs:complexType name="answer">
 <xs:sequence>
-<xs:element name="qid" type="xs:int"/>
 <xs:element name="aid" type="xs:int"/>
+<xs:element name="qid" type="xs:int"/>
 <xs:element name="name" type="xs:string"/>
 <xs:element name="email" type="xs:string"/>
 <xs:element name="content" type="xs:string"/>
 <xs:element name="votes" type="xs:int"/>
 <xs:element name="created_at" type="xs:string"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="registerUser">
-<xs:sequence>
-<xs:element name="userName" type="xs:string" minOccurs="0"/>
-<xs:element name="userEmail" type="xs:string" minOccurs="0"/>
-<xs:element name="userPassword" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="registerUserResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -181,8 +157,6 @@
 <xs:element name="name" type="xs:string" minOccurs="0"/>
 <xs:element name="email" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -196,8 +170,6 @@
 <xs:sequence>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="operation" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -210,8 +182,6 @@
 <xs:complexType name="deleteQuestion">
 <xs:sequence>
 <xs:element name="qid" type="xs:int"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 
