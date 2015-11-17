@@ -1,5 +1,4 @@
 <% 
-	forEach($answers as $answer)
 	List answer = (List) request.getAttribute("answers");
 	iterator i = answer.iterator();
 	while (i.hasNext())
@@ -7,9 +6,9 @@
 %>
 	<div class='container card'>
 		<div class='votecell'>
-			<a class='voteup' answer-id= <% out.print(answer.id); %> title='This answer is useful'></a>
+			<a class='voteup' answer-id= <% out.print(answer.aid); %> title='This answer is useful'></a>
 			<span class='count'><% out.print(answer.votes); %></span>
-			<a class='votedown' answer-id= <% out.print(answer.id); %>  title='This answer is not useful'></a>
+			<a class='votedown' answer-id= <% out.print(answer.aid); %>  title='This answer is not useful'></a>
 		</div>
 		<div class='answer-detail'>
 			<div class='detail'> <% out.print(answer.content); %> </div>
