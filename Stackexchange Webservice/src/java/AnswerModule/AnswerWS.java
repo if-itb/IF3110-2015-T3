@@ -26,7 +26,7 @@ import javax.ejb.Stateless;
 public class AnswerWS {
 
     @WebMethod(operationName = "GetAllAnswer")
-    public ArrayList<Answer> GetAllAnswer(){
+    public ArrayList<Answer> GetAllAnswer(){//tambah author name 
         Database DB = new Database();
         Connection con = DB.connect();
         
@@ -62,7 +62,7 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "InsertAnswer")
-    public void InsertAnswer(@WebParam(name="A")Answer A){
+    public void InsertAnswer(@WebParam(name="A")Answer A){//aid qid content token 
         Database DB = new Database();
         Connection con = DB.connect();
         

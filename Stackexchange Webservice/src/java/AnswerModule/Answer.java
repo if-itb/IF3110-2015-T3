@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.*;
  */
 
 @XmlRootElement(name = "Answer")
-public class Answer {
+public class Answer { //tambah author name
     @XmlElement(name="aid", required=true)
     private int aid;
     @XmlElement(name="qid", required=true)

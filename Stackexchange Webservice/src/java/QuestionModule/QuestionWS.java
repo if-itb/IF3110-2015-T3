@@ -97,7 +97,7 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-    public void InsertQuestion(@WebParam(name = "Q") Question Q){
+    public void InsertQuestion(@WebParam(name = "Q") Question Q){//param token qid topic content , mail ganti token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -129,7 +129,7 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="UpdateQuestion")
-    public void UpdateQuestion(@WebParam(name="Q") Question Q){
+    public void UpdateQuestion(@WebParam(name="Q") Question Q){//id content topic token 
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -160,7 +160,7 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="DeleteQuestion")
-    public void DeleteQuestion(@WebParam(name="Q")Question Q){
+    public void DeleteQuestion(@WebParam(name="Q")Question Q){//id token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
