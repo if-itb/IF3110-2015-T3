@@ -40,84 +40,13 @@ public class DetailQuestion extends HttpServlet {
         
         Question question = getQuestion(qid);
         List<Answer> answers = getAnswers(qid);
-        
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html lang='en'>");
-            out.println("<head>");
-            out.println("    <meta charset='UTF - 8' >");
-            out.println("    <title>Stack Exchange</title>");
-            out.println("    <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400,700italic,300' rel='stylesheet' type='text/css'>");
-            out.println("    <link rel='stylesheet' href='style.css'>");
-            out.println("</head>");
+	
+	response.setContentType("text/html");
+	request.setAttribute("question", question);
+	request.setAttribute("answers", answers);
+	request.getRequestDispatcher("/detail.jsp").forward(request, response);
+	
 
-            out.println("<body>");
-            out.println("<div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>");
-            out.println("<div class='container clearfix'>");
-            out.println("<div class='containerDetail'>");
-            out.println("    <h2>" + question.getQtopic() + "</h2>");
-            out.println("    <div class='row rowQuestion clearfix'>");
-            out.println("        <div class='colVote'>");
-            out.println("            <div class='qVote arrow-up' id='" + question.getQid() + "'></div>");
-            out.println("            <span class='qVoteVal'>" + question.getVotes() + "</span>");
-            out.println("            <div class='qVote arrow-down' id='" + question.getQid() + "'></div>");
-            out.println("        </div>");
-            out.println("        <div class='elemQDetail'>");
-            out.println("            <p>" + question.getQcontent() + "</p>");
-            out.println("            <div class='elemAuthor'>");
-            out.println("                <span class='askedBy'>Asked By : </span>");
-            out.println("                <div class='author'>");
-            out.println("                    <span class='name'>" + question.getName() + " at " + question.getCreatedAt()
-            );
-            out.println("                        <a href='edit?idEdited="+ question.getQid() +"&fromDetail=1'><span class='edit' >Edit</span></a>");
-            out.println("            <a href='delete?idDeleted="+ question.getQid() +"'><span class='delete'>Delete</span></a>");
-            out.println("                    </span>");
-            out.println("                </div>");
-            out.println("            </div>");
-            out.println("        </div>");
-            out.println("    </div>");
-            
-            out.println("    <div class='answer'>");
-            out.println("        <h2>" + answers.size() + " Answer</h2>");
-            out.println("        <div class='row clearfix'>");
-            
-            for(Answer answer : answers) {
-                out.println("            <div class='colVote'>");
-                out.println("                <div class='aVote arrow-up' id='" + answer.getAid() + "'></div>");
-                out.println("                <span class='voteVal'>" + answer.getVotes() + "</span>");
-                out.println("                <div class='aVote arrow-down' id='" + answer.getAid() + "'></div>");
-                out.println("            </div>");
-                out.println("            <div class='elemQDetail'>");
-                out.println("                <div class='elemQuestion elemA'>" + answer.getContent() + "</div>");
-                out.println("                <div class='elemAuthor'>");
-                out.println("                    <span class='answeredBy'>Answered By :</span>");
-                out.println("                    <div class='author'>");
-                out.println("                        <span class='name'>" + answer.getName() + " at " + answer.getCreatedAt() + "</span>");
-                out.println("                    </div>");
-                out.println("                </div>");
-                out.println("            </div>");
-                
-            }
-            out.println("</div>");
-            out.println("</div>");
-            
-            out.println("<div class='yourAnswer'>");
-            out.println("        <h2 class='yourAnswerTitle'>Your Answer Here</h2>");
-            out.println("        <form name='questionForm' action='answer' method='POST'>");
-            out.println("            <input type='text'  name='name'  placeholder='Name'/>");
-            out.println("            <input type='text'  name='email'  placeholder='Email'/>");
-            out.println("            <textarea  name='content' id='content'  placeholder='Content'></textarea>");
-            out.println("            <button  id='submitBtn' class='submitBtn' >Answer</button>");
-            out.println("            <input type='hidden'  name='qid' value='" + question.getQid() + "'/>");
-            out.println("        </form>");
-            out.println("    </div>");
-            out.println("</div>");
-            out.println("</div>");
-            out.println("<script src='scripts/detail.js'></script>");
-            out.println("</body>");
-            out.println("</html>");
-            
-        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code."
