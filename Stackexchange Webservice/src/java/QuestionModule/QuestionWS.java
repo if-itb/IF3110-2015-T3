@@ -16,8 +16,7 @@ import java.util.ArrayList;
 
 import DatabaseModule.Database;
 import QuestionModule.Question;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -40,7 +39,7 @@ public class QuestionWS {
             String query = "SELECT * FROM QUESTIONS";
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                Questions.add(new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("TIMESTAMP") ));
+                Questions.add(new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("created_at") ));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -110,6 +109,7 @@ public class QuestionWS {
             ps.setString(3,Q.getQtopic());
             ps.setString(4,Q.getQcontent());
             ps.executeUpdate();
+            ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
@@ -139,6 +139,8 @@ public class QuestionWS {
             ps.setString(1,Q.getQtopic());
             ps.setString(2, Q.getQcontent());
             ps.setInt(3,Q.getQid());
+            ps.executeQuery();
+            ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
@@ -166,6 +168,8 @@ public class QuestionWS {
             String query = "DELETE FROM QUESTION WHERE qid = ?";
             ps = con.prepareStatement(query);
             ps.setInt(1, Q.getQid());
+            ps.executeQuery();
+            ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
