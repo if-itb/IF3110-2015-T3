@@ -41,11 +41,12 @@ public class Login extends HttpServlet {
                     out.close();
                 }
                 else {
-                    out.println("No user found.");
+		    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     out.close();
                 }
             }
             catch (Exception exception) {
+		response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                 response.getWriter().println("Authentication failure.");
                 response.getWriter().close();
             }

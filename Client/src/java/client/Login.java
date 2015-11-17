@@ -5,9 +5,11 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -50,11 +52,38 @@ public class Login extends HttpServlet {
 	Client client = ClientBuilder.newClient();
 	String url = "http://localhost:8080/IdentityService/login";
 
-	String result = client.target(url).request(MediaType.APPLICATION_XML)
-		.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-	System.out.println("Result :" + result);
-    	System.out.println("Token : "+ xmlParse(result, "token"));
+	try
+	{
+	    String result = client.target(url).request(MediaType.APPLICATION_XML)
+		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
+	    String token = xmlParse(result, "token");
+	    String username = xmlParse(result, "username");
+	    String expirationDate = xmlParse(result, "expirationDate");
+	    int lifetime =  Integer.parseInt(xmlParse(result, "lifetime")) ;
+	    System.out.println("Token : "+ xmlParse(result, "token"));
+	    
+	    response.setContentType("text/html");
+	    PrintWriter pw = response.getWriter();
 
+	    Cookie tokenCookie = new Cookie("token", token);
+	    tokenCookie.setMaxAge(lifetime); 
+	    response.addCookie(tokenCookie);
+	    
+	    Cookie usernameCookie = new Cookie("username", username);
+	    usernameCookie.setMaxAge(lifetime); 
+	    response.addCookie(usernameCookie);
+	    
+	    Cookie exDateCookie = new Cookie("expirationDate", expirationDate);
+	    exDateCookie.setMaxAge(lifetime); 
+	    response.addCookie(exDateCookie);
+
+	    pw.println("Cookies created");
+	    response.sendRedirect("Home");
+	    
+	}
+	catch (NotFoundException ex){
+	    System.out.println("User not found : " + ex);
+	}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
