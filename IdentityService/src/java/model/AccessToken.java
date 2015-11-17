@@ -30,7 +30,7 @@ public class AccessToken {
     
     public AccessToken(String email) {
         long now = System.currentTimeMillis() / 1000;
-        this.token = email + Long.toString(now);
+        this.token = email;
         this.expirationDate = now + lifetime;
     }
     
