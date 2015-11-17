@@ -19,7 +19,7 @@ public class Answer {
     @XmlElement(name="qid", required=true)
     private int qid;
     @XmlElement(name="uemail", required=true)
-    private int uemail;
+    private String uemail;
     @XmlElement(name="acontent", required=true)
     private String acontent;
     @XmlElement(name="avote",required=true)
@@ -27,7 +27,7 @@ public class Answer {
     @XmlElement(name="atimestamp", required=true)
     private String atimestamp;
 
-    public Answer(int aid, int qid, int uemail, String acontent, int avote, String atimestamp) {
+    public Answer(int aid, int qid, String uemail, String acontent, int avote, String atimestamp) {
         this.aid = aid;
         this.qid = qid;
         this.uemail = uemail;
@@ -44,7 +44,7 @@ public class Answer {
         return qid;
     }
 
-    public int getUemail() {
+    public String getUemail() {
         return uemail;
     }
 
