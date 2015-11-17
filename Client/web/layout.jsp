@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<link href='https://fonts.googleapis.com/css?family=Tangerine|Roboto' rel='stylesheet' type='text/css'>
+                <link href='layout.css' rel='stylesheet' type='text/css'>
 		<%! 
 			String title = request.getAttribute("title");
 		%>

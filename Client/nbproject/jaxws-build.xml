@@ -4,7 +4,7 @@
         *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
         *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
 
-        --><project xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:xalan="http://xml.apache.org/xslt">
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
     <!--
                 ===================
                 JAX-WS WSGEN SECTION
@@ -28,8 +28,8 @@
     </target>
     <target name="wsimport-client-StackExchangeService" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/StackExchangeService"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/StackExchangeService" destdir="${build.generated.dir}/jax-wsCache/StackExchangeService" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchangeService/StackExchangeService?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/StackExchangeService" destdir="${build.generated.dir}/jax-wsCache/StackExchangeService" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/StackExchangeService/StackExchangeService?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/StackExchangeService/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/StackExchangeService"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">

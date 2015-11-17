@@ -27,7 +27,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "CreateAnswer", urlPatterns = {"/answer"})
 public class CreateAnswer extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     /**

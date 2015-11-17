@@ -28,13 +28,14 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "DetailQuestion", urlPatterns = {"/detail"})
 public class DetailQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
+
         int qid = Integer.parseInt(request.getParameter("idDetail"));
         
         Question question = getQuestion(qid);
