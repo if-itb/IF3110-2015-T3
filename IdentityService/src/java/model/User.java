@@ -97,10 +97,21 @@ public class User {
         }
     }
     
+    public static void create(String name, String email, String password) throws Exception {
+        Connection conn = ConnectDb.connect();
+        Statement statement = conn.createStatement();
+        
+        String sql = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, email);
+        preparedStatement.setString(3, password);
+
+        int result = preparedStatement.executeUpdate();
+    }
+    
     private int id;
     private String name;
     private String email;
     private String password;
-    
-    
 }

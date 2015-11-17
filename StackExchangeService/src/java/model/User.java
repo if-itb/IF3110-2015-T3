@@ -99,7 +99,7 @@ public class User {
         return results.next();
     }
     
-    public static void create(String name, String email, String password) throws Exception {
+    public static User create(String name, String email, String password) throws Exception {
         Connection conn = ConnectDb.connect();
         Statement statement = conn.createStatement();
         
@@ -110,7 +110,10 @@ public class User {
         preparedStatement.setString(3, password);
 
         int result = preparedStatement.executeUpdate();
+        
+        return new User(name, email, password);
     }
+    
     private int id;
     private String name;
     private String email;
