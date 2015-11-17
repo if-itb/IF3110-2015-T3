@@ -14,6 +14,8 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "Answer")
 public class Answer { //tambah author name
+    @XmlElement(name="aAuthor",required = true)
+    private String aAuthor;
     @XmlElement(name="aid", required=true)
     private int aid;
     @XmlElement(name="qid", required=true)
@@ -30,7 +32,8 @@ public class Answer { //tambah author name
     public Answer() {
     }
 
-    public Answer(int aid, int qid, String uemail, String acontent, int avote, String atimestamp) {
+    public Answer(String aAuthor, int aid, int qid, String uemail, String acontent, int avote, String atimestamp) {
+        this.aAuthor = aAuthor;
         this.aid = aid;
         this.qid = qid;
         this.uemail = uemail;
@@ -39,6 +42,12 @@ public class Answer { //tambah author name
         this.atimestamp = atimestamp;
     }
 
+    
+
+    public String getaAuthor() {
+        return aAuthor;
+    }
+    
     public int getAid() {
         return aid;
     }

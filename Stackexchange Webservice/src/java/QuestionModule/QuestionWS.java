@@ -97,17 +97,16 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-    public void InsertQuestion(@WebParam(name = "Q") Question Q){//param token qid topic content , mail ganti token
+    public void InsertQuestion(@WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
-            String query = "INSERT INTO QUESTIONS VALUES (?,?,?,?)";
+            String query = "INSERT INTO QUESTIONS(Email,QuestionTopic,Content) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
-            ps.setInt(1, Q.getQid());
-            ps.setString(2, Q.getUemail());
-            ps.setString(3,Q.getQtopic());
-            ps.setString(4,Q.getQcontent());
+            ps.setInt(1, /*Email placeholder*/);
+            ps.setString(2,topic);
+            ps.setString(3,content);
             ps.executeUpdate();
             ps.close();
         }catch(SQLException ex){
@@ -129,16 +128,16 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="UpdateQuestion")
-    public void UpdateQuestion(@WebParam(name="Q") Question Q){//id content topic token 
+    public void UpdateQuestion(@WebParam(name="qid") int qid, @WebParam(name="content")String content,@WebParam(name="topic")String topic ){//id content topic token 
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
             String query = "UPDATE QUESTIONS SET QuestionTopic = ?, Content = ? where qid = ?";
             ps = con.prepareStatement(query);
-            ps.setString(1,Q.getQtopic());
-            ps.setString(2, Q.getQcontent());
-            ps.setInt(3,Q.getQid());
+            ps.setString(1, topic);
+            ps.setString(2, content);
+            ps.setInt(3, qid);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){
@@ -160,14 +159,14 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="DeleteQuestion")
-    public void DeleteQuestion(@WebParam(name="Q")Question Q){//id token
+    public void DeleteQuestion(@WebParam(name="qid")int qid){//id token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
             String query = "DELETE FROM QUESTION WHERE qid = ?";
             ps = con.prepareStatement(query);
-            ps.setInt(1, Q.getQid());
+            ps.setInt(1, qid);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){

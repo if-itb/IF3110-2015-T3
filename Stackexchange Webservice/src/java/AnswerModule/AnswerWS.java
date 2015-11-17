@@ -35,11 +35,11 @@ public class AnswerWS {
         ResultSet rs = null;
         
         try{
-            String query = "SELECT * FROM ANSWERS";
+            String query = "SELECT * FROM ANSWERS NATURALJOIN UACCOUNT";
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()){
-                Answers.add(new Answer(rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
+                Answers.add(new Answer(rs.getString("AuthorName"),rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
             }
             rs.close();
         }catch(SQLException ex){
@@ -62,18 +62,17 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "InsertAnswer")
-    public void InsertAnswer(@WebParam(name="A")Answer A){//aid qid content token 
+    public void InsertAnswer(@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
         Database DB = new Database();
         Connection con = DB.connect();
         
         PreparedStatement ps = null;
         try{
-            String query = "INSERT INTO ANSWERS VALUES (?,?,?,?)";
+            String query = "INSERT INTO ANSWERS(qid,Email,Content) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
-            ps.setInt(1, A.getAid());
-            ps.setInt(2, A.getQid());
-            ps.setString(3, A.getUemail());
-            ps.setString(4, A.getAcontent());
+            ps.setInt(1, qid);
+            ps.setInt(2, /*Email Placeholder*/);
+            ps.setString(3, content);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){
@@ -95,7 +94,7 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "UpdateAnswer")
-    public void UpdateAnswer(@WebParam(name="A")Answer A){
+    public void UpdateAnswer(@WebParam(name="content")String content, @WebParam(name="aid")int aid){
         Database DB = new Database();
         Connection con = DB.connect();
         
@@ -103,8 +102,8 @@ public class AnswerWS {
         try{
             String query ="UPDATE ANSWERS SET Content = ? WHERE aid = ?" ;
             ps = con.prepareStatement(query);
-            ps.setString(1, A.getAcontent());
-            ps.setInt(2, A.getAid());
+            ps.setString(1, content);
+            ps.setInt(2, aid);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){
@@ -126,7 +125,7 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "DeleteAnswer")
-    public void DeleteAnswer(@WebParam(name="A")Answer A){
+    public void DeleteAnswer(@WebParam(name="aid")int aid){
         Database DB = new Database();
         Connection con = DB.connect();
         
@@ -134,7 +133,7 @@ public class AnswerWS {
         try{
             String query = "DELETE FROM ANSWERS WHERE aid = ?";
             ps = con.prepareStatement(query);
-            ps.setInt(1, A.getAid());
+            ps.setInt(1, aid);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){
