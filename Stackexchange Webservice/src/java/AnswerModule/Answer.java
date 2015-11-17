@@ -27,6 +27,9 @@ public class Answer { //tambah author name
     @XmlElement(name="atimestamp", required=true)
     private String atimestamp;
 
+    public Answer() {
+    }
+
     public Answer(int aid, int qid, String uemail, String acontent, int avote, String atimestamp) {
         this.aid = aid;
         this.qid = qid;

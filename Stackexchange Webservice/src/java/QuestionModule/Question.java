@@ -26,6 +26,9 @@ public class Question {
     @XmlElement(name="qtimestamp", required= true)
     private String qtimestamp;
 
+    public Question() {
+    }
+
     public Question(int qid, String uemail, String qtopic, String qcontent, int qvote, String qtimestamp) {
         this.qid = qid;
         this.uemail = uemail;
