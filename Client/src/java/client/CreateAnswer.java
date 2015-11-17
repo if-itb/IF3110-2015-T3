@@ -44,22 +44,24 @@ public class CreateAnswer extends HttpServlet {
         
         Cookie cookies[] = request.getCookies();
         String token = null;
+	String username = null;
         Long expirationDate = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == "expirationDate") {
+            if ("expirationDate".equals(cookie.getName())) {
                 expirationDate = Long.parseLong(cookie.getValue());
             }
-            if (cookie.getName() == "token") {
+            if ("token".equals(cookie.getName())) {
                 token = cookie.getValue();
+            }
+	    if ("username".equals(cookie.getName())) {
+                username = cookie.getValue();
             }
         }
         if (token != null && expirationDate != null) {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
             String content = request.getParameter("content");
             int qid = Integer.parseInt(request.getParameter("qid"));
 
-            String res = createAnswer(qid, name, email,content, token, expirationDate);
+            String res = createAnswer(qid, username ,content, token, expirationDate);
             response.sendRedirect("detail?idDetail="+ qid);
         }
         else {
@@ -114,11 +116,13 @@ public class CreateAnswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createAnswer(int qid, String name, String email, String content, String token, long expirationDate) throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.createAnswer(qid, name, email, content, token, expirationDate);
+    private String createAnswer(int qid, java.lang.String name, java.lang.String content, java.lang.String token, long expirationDate) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.createAnswer(qid, name, content, token, expirationDate);
     }
+
+    
 
 }

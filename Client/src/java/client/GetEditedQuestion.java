@@ -64,7 +64,6 @@ public class GetEditedQuestion extends HttpServlet {
             out.println("        <textarea  id='qcontent' name='qcontent' placeholder='Content' >" + question.getQcontent()+ "</textarea>");
             out.println("        <input type='hidden' name='idEdited' value='" + question.getQid() + "'/>");
             out.println("        <input type='hidden' name='fromDetail' value='" + request.getParameter("fromDetail") + "'/>");
-//          out.println("        <input type='hidden' name='isFromDetailPage' value='<?php echo $isFromDetailPage ?>'/>");
             out.println("        <button  id='submitBtn' class='submitBtn' >Edit</button>");
             out.println("    </form>");
             out.println("</div>");

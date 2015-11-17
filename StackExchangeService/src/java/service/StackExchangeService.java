@@ -216,18 +216,31 @@ public class StackExchangeService {
     public String createAnswer(
         @WebParam(name = "qid") int qid,
         @WebParam(name = "name") String name,
-        @WebParam(name = "email") String email,
         @WebParam(name = "content") String content,
         @WebParam(name = "token") String token,
         @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
         if (System.currentTimeMillis() / 1000 <= expirationDate) {
-            Connection conn = ConnectDb.connect();
-            Statement stmt;
+	    
+	    Connection conn = ConnectDb.connect();
+	    Statement stmt;
+	    stmt = conn.createStatement();
+	    String sql = "select * from users where name = ? ";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setString(1, name);
+	    ResultSet res = dbStatement.executeQuery();
+
+	    String email = null;
+	    if (res.next()) {
+		email = res.getString("email");
+	    }
+	    
+	    
+            conn = ConnectDb.connect();
             stmt = conn.createStatement();
-            String sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
+            sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
                     + "values (null, ?, ?, ?, ?, 0, now())";
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, qid);
             dbStatement.setString(2, name);
             dbStatement.setString(3, email);

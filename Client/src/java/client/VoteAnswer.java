@@ -33,29 +33,30 @@ public class VoteAnswer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
+        
         int aid = Integer.parseInt(request.getParameter("aid"));
-        String operation = request.getParameter("operation");
-
+        String operation =  request.getParameter("operation");
+        
         Cookie cookies[] = request.getCookies();
         String token = null;
         Long expirationDate = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == "expirationDate") {
+            if ("expirationDate".equals(cookie.getName())) {
                 expirationDate = Long.parseLong(cookie.getValue());
             }
-            if (cookie.getName() == "token") {
+            if ("token".equals(cookie.getName())) {
                 token = cookie.getValue();
             }
         }
-        
         if (token != null && expirationDate != null) {
-            int newVote = voteAnswer(aid, operation, token, expirationDate);
+            int newVote = voteAnswer(aid, operation, token, expirationDate);        
             response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
+            response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
         }
         else {
-            response.sendRedirect("Home");
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	    response.sendRedirect(response.encodeRedirectURL("http://localhost:8081/Client/register.html"));
         }
 
     }

@@ -148,7 +148,6 @@ public interface StackExchangeService {
      * 
      * @param name
      * @param qid
-     * @param email
      * @param content
      * @param token
      * @param expirationDate
@@ -168,8 +167,6 @@ public interface StackExchangeService {
         int qid,
         @WebParam(name = "name", targetNamespace = "")
         String name,
-        @WebParam(name = "email", targetNamespace = "")
-        String email,
         @WebParam(name = "content", targetNamespace = "")
         String content,
         @WebParam(name = "token", targetNamespace = "")

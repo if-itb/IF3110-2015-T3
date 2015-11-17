@@ -41,9 +41,9 @@
 
                     <c:forEach items="${answers}" var="answer">
                     <div class='colVote'>
-                        <div class='aVote arrow-up' id='<c:out value="${answer.getAid()}" />'></div>
+                        <div class='aVote arrow-up' id='<c:out value="${answer.getQid()}" />'></div>
                         <span class='voteVal'><c:out value="${answer.getVotes()}" /></span>
-                        <div class='aVote arrow-down' id='<c:out value="${answer.getAid()}" />'></div>
+                        <div class='aVote arrow-down' id='<c:out value="${answer.getQid()}" />'></div>
                     </div>
                     <div class='elemQDetail'>
                         <div class='elemQuestion elemA'><c:out value="${answer.getContent()}" /></div>
@@ -61,11 +61,9 @@
         <div class='yourAnswer'>
             <h2 class='yourAnswerTitle'>Your Answer Here</h2>
             <form name='questionForm' action='answer' method='POST'>
-                <input type='text'  name='name'  placeholder='Name'/>
-                <input type='text'  name='email'  placeholder='Email'/>
                 <textarea  name='content' id='content'  placeholder='Content'></textarea>
                 <button  id='submitBtn' class='submitBtn' >Answer</button>
-                <input type='hidden'  name='qid' value=' + question.getQid() + '/>
+                <input type='hidden'  name='qid' value='<c:out value="${question.getQid()}" />'/>
             </form>
         </div>
     </div>

@@ -79,7 +79,7 @@
 		    }
 		    else
 		    {
-			window.location = "http://localhost:8081/Client/Register.html";
+			window.location = "http://localhost:8081/Client/register.html";
 		    }
                 }
             };
