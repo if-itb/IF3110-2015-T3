@@ -49,19 +49,29 @@ public class StackExchangeService {
     @WebMethod(operationName = "createQuestion")
     public String createQuestion(
             @WebParam(name = "name") String name,
-            @WebParam(name = "email") String email,
             @WebParam(name = "qtopic") String qtopic,
             @WebParam(name = "qcontent") String qcontent,
             @WebParam(name = "token") String token,
             @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
         if (System.currentTimeMillis() / 1000 <= expirationDate) {
-            Connection conn = ConnectDb.connect();
+	    Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
-            String sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
+	    String sql = "select * from users where name = ? ";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setString(1, name);
+	    ResultSet res = dbStatement.executeQuery();
+	    
+	    String email = null;
+	    if(res.next()){
+		email = res.getString("email");
+	    }
+            
+            stmt = conn.createStatement();
+            sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
             "values (null, ?,?,?,?,0,0,Now())";
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement = conn.prepareStatement(sql);
             dbStatement.setString(1, name);
             dbStatement.setString(2, email);
             dbStatement.setString(3, qtopic);
@@ -104,20 +114,32 @@ public class StackExchangeService {
     public String editQuestion(
             @WebParam(name = "qid") int qid,
             @WebParam(name = "name") String name,
-            @WebParam(name = "email") String email,
             @WebParam(name = "qtopic") String qtopic,
             @WebParam(name = "qcontent") String qcontent,
             @WebParam(name = "token") String token,
             @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
         if (System.currentTimeMillis() / 1000 <= expirationDate) {
-            Connection conn = ConnectDb.connect();
+	    
+	    Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
-            String sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
+	    String sql = "select * from users where name = ? ";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setString(1, name);
+	    ResultSet res = dbStatement.executeQuery();
+	    
+	    String email = null;
+	    if(res.next()){
+		email = res.getString("email");
+	    }
+	    
+            conn = ConnectDb.connect();
+            stmt = conn.createStatement();
+            sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
             "WHERE qid = ?;";
 
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement = conn.prepareStatement(sql);
             dbStatement.setString(1, name);
             dbStatement.setString(2, email);
             dbStatement.setString(3, qtopic);

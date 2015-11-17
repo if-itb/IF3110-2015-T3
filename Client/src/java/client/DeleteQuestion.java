@@ -6,11 +6,8 @@
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -28,7 +25,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "DeleteQuestion", urlPatterns = {"/delete"})
 public class DeleteQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     /**
@@ -51,10 +48,10 @@ public class DeleteQuestion extends HttpServlet {
         String token = null;
         Long expirationDate = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == "expirationDate") {
+            if ("expirationDate".equals(cookie.getName())) {
                 expirationDate = Long.parseLong(cookie.getValue());
             }
-            if (cookie.getName() == "token") {
+            if ("token".equals(cookie.getName())) {
                 token = cookie.getValue();
             }
         }

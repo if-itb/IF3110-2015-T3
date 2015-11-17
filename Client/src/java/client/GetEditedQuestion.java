@@ -26,7 +26,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "EditQuestion", urlPatterns = {"/edit"})
 public class GetEditedQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     /**
@@ -60,8 +60,6 @@ public class GetEditedQuestion extends HttpServlet {
             out.println("<div class='container'>");
             out.println("    <h2>Edit your question!</h2>");
             out.println("    <form name='questionForm'  action='editQuestion' method='POST'>");
-            out.println("        <input type='text'  id='name' name='name' placeholder='Name' value='" + question.getName() + "'/>");
-            out.println("        <input type='text'  id='email' name='email' placeholder='Email' value='" + question.getEmail() + "'/>");
             out.println("        <input type='text' id='qtopic' name='qtopic' placeholder='Question Topic' value='" + question.getQtopic() + "'/>");
             out.println("        <textarea  id='qcontent' name='qcontent' placeholder='Content' >" + question.getQcontent()+ "</textarea>");
             out.println("        <input type='hidden' name='idEdited' value='" + question.getQid() + "'/>");

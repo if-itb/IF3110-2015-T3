@@ -22,7 +22,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "editQuestion", urlPatterns = {"/editQuestion"})
 public class EditQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,22 +30,25 @@ public class EditQuestion extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         Cookie cookies[] = request.getCookies();
         String token = null;
+	String username = null;
         Long expirationDate = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == "expirationDate") {
+            if ("expirationDate".equals(cookie.getName())) {
                 expirationDate = Long.parseLong(cookie.getValue());
             }
-            if (cookie.getName() == "token") {
+            if ("token".equals(cookie.getName())) {
                 token = cookie.getValue();
             }
+	    if("username".equals(cookie.getName())){
+		username = cookie.getValue();
+	    }
         }
         if (token != null && expirationDate != null) {
         
             String status = editQuestion(
                                 Integer.parseInt(request.getParameter("idEdited")),
-                                request.getParameter("name"),
-                                request.getParameter("email"),
-                                request.getParameter("qtopic"),
+                                username,
+				request.getParameter("qtopic"),
                                 request.getParameter("qcontent"),
                                 token,
                                 expirationDate
@@ -92,14 +95,11 @@ public class EditQuestion extends HttpServlet {
         return "Short description";
     }
 
-    private String editQuestion(
-            int qid, String name, 
-            String email, String qtopic, 
-            String qcontent, String token, 
-            long expirationDate) throws Exception_Exception {
-        
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.editQuestion(qid, name, email, qtopic, qcontent, token, expirationDate);
+    private String editQuestion(int qid, java.lang.String name, java.lang.String qtopic, java.lang.String qcontent, java.lang.String token, long expirationDate) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.editQuestion(qid, name, qtopic, qcontent, token, expirationDate);
     }
 
 }

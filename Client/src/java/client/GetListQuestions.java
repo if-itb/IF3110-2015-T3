@@ -22,7 +22,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "GetListQuestions", urlPatterns = {"/Home"})
 public class GetListQuestions extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     /**

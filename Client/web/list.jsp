@@ -19,7 +19,7 @@ pageEncoding="UTF-8"%>
 		<form class="searchForm clearfix" method="POST">
 			<div class="searchInput">
 				<input  name="keyword" type="text" placeholder="Keyword Pencarian"/>
-				<p class="askHere">Cannot find what you are looking for ? <a ui-sref='ask'>Ask here</a></p>
+				<p class="askHere">Cannot find what you are looking for ? <a href="create.html">Ask here</a></p>
 			</div>
 			<button class="searchBtn" type="submit">Search</button>
 		</form>
@@ -50,7 +50,7 @@ pageEncoding="UTF-8"%>
 						<span class='askedBy'>Asked By:</span>
 						<div class='author'>
 							<span class='name'><c:out value="${question.getName()}"/></span>
-							<a href='edit?idEdited="<c:out value="${question.getQid()}"/>"&fromDetail=0'> <span class='edit'>Edit</span></a>
+							<a href='edit?idEdited=<c:out value="${question.getQid()}"/>&fromDetail=0'> <span class='edit'>Edit</span></a>
 							<a href='delete?idDeleted=<c:out value="${question.getQid()}"/>'> <span class='delete'>Delete</span></a>
 						</div>
 					</div>

@@ -28,7 +28,7 @@ import service.StackExchangeService_Service;
 @WebServlet(name = "CreateQuestion", urlPatterns = {"/question"})
 public class CreateQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeService/StackExchangeService.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
     /**
@@ -47,22 +47,24 @@ public class CreateQuestion extends HttpServlet {
         
         Cookie cookies[] = request.getCookies();
         String token = null;
+	String username = null;
         Long expirationDate = null;
         for (Cookie cookie : cookies) {
-            if (cookie.getName() == "expirationDate") {
+            if ("expirationDate".equals(cookie.getName())) {
                 expirationDate = Long.parseLong(cookie.getValue());
             }
-            if (cookie.getName() == "token") {
+            if ("token".equals(cookie.getName())) {
                 token = cookie.getValue();
+            }
+	    if ("username".equals(cookie.getName())) {
+                username = cookie.getValue();
             }
         }
         if (token != null && expirationDate != null) {
-            String name = request.getParameter("name");
-            String email = request.getParameter("email");
             String qtopic = request.getParameter("qtopic");
             String qcontent = request.getParameter("qcontent");
         
-            String res = createQuestion(name, email, qtopic, qcontent, token, expirationDate);
+            String res = createQuestion(username, qtopic, qcontent, token, expirationDate);
         }
         response.sendRedirect("Home");
     }
@@ -114,17 +116,11 @@ public class CreateQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createQuestion(
-            String name, 
-            String email, 
-            String qtopic, 
-            String qcontent,
-            String token,
-            long expirationDate) throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.createQuestion(name, email, qtopic, qcontent, token, expirationDate);
+    private String createQuestion(java.lang.String name, java.lang.String qtopic, java.lang.String qcontent, java.lang.String token, long expirationDate) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.createQuestion(name, qtopic, qcontent, token, expirationDate);
     }
 
 }

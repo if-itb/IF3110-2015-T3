@@ -75,7 +75,6 @@ public interface StackExchangeService {
      * @param qcontent
      * @param name
      * @param qid
-     * @param email
      * @param token
      * @param expirationDate
      * @return
@@ -94,8 +93,6 @@ public interface StackExchangeService {
         int qid,
         @WebParam(name = "name", targetNamespace = "")
         String name,
-        @WebParam(name = "email", targetNamespace = "")
-        String email,
         @WebParam(name = "qtopic", targetNamespace = "")
         String qtopic,
         @WebParam(name = "qcontent", targetNamespace = "")
@@ -268,10 +265,9 @@ public interface StackExchangeService {
 
     /**
      * 
+     * @param name
      * @param qtopic
      * @param qcontent
-     * @param name
-     * @param email
      * @param token
      * @param expirationDate
      * @return
@@ -288,8 +284,6 @@ public interface StackExchangeService {
     public String createQuestion(
         @WebParam(name = "name", targetNamespace = "")
         String name,
-        @WebParam(name = "email", targetNamespace = "")
-        String email,
         @WebParam(name = "qtopic", targetNamespace = "")
         String qtopic,
         @WebParam(name = "qcontent", targetNamespace = "")
