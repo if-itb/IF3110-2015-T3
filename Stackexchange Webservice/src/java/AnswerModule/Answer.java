@@ -18,28 +18,24 @@ public class Answer {
     private int aid;
     @XmlElement(name="qid", required=true)
     private int qid;
-    @XmlElement(name="uid", required=true)
-    private int uid;
-    @XmlElement(name="content", required=true)
-    private String content;
-    @XmlElement(name="timestamp", required=true)
-    private String timestamp;
-    public Answer(){
-        aid = 0;
-        qid = 0;
-        uid = 0;
-        content = "";
-        timestamp = "";
+    @XmlElement(name="uemail", required=true)
+    private int uemail;
+    @XmlElement(name="acontent", required=true)
+    private String acontent;
+    @XmlElement(name="avote",required=true)
+    private int avote;
+    @XmlElement(name="atimestamp", required=true)
+    private String atimestamp;
+
+    public Answer(int aid, int qid, int uemail, String acontent, int avote, String atimestamp) {
+        this.aid = aid;
+        this.qid = qid;
+        this.uemail = uemail;
+        this.acontent = acontent;
+        this.avote = avote;
+        this.atimestamp = atimestamp;
     }
-    
-    public Answer(int paramid, int paramqid, int paramuid, String paramcontent, String paramtimestamp){
-     aid = paramid;
-     qid = paramqid;
-     uid = paramuid;
-     content = paramcontent;
-     timestamp = paramtimestamp;
-    }
-    
+
     public int getAid() {
         return aid;
     }
@@ -48,17 +44,20 @@ public class Answer {
         return qid;
     }
 
-    public int getUid() {
-        return uid;
+    public int getUemail() {
+        return uemail;
     }
 
-    public String getContent() {
-        return content;
+    public String getAcontent() {
+        return acontent;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public int getAvote() {
+        return avote;
     }
-    
-    
+
+    public String getAtimestamp() {
+        return atimestamp;
+    }
+   
 }
