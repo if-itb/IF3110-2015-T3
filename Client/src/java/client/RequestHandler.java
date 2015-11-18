@@ -6,17 +6,19 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestHandler {
     
-    private String token , username;
-    private Long expirationDate ;
+    private String token = "" , username = "";
+    private Long expirationDate = Long.getLong("0") ;
+  
     private final HttpServletRequest request;
+    private final Cookie cookies[];
     
     public RequestHandler(HttpServletRequest request){
 	this.request = request;
+	this.cookies = this.request.getCookies();
     }
     
     public boolean isAuthenticated() {
-	Cookie cookies[] = this.request.getCookies();
-	for (Cookie cookie : cookies) {
+	for (Cookie cookie : this.cookies) {
 	    if ("expirationDate".equals(cookie.getName())) {
 		this.expirationDate = Long.parseLong(cookie.getValue());
 	    }
@@ -27,7 +29,8 @@ public class RequestHandler {
 		this.username = cookie.getValue();
 	    }
 	}
-	return (this.token != null && this.expirationDate != null);
+
+	return (!this.token.isEmpty() && this.expirationDate!=0.);
     }
     
     public String getToken() {
@@ -45,4 +48,5 @@ public class RequestHandler {
     public HttpServletRequest getRequest(){
 	return this.request;
     }
+    
 }

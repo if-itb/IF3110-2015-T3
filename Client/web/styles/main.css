@@ -42,8 +42,8 @@ span {
     display: block;
 }
 
-.container {
-    padding: 200px 50px 50px 50px;
+.container,#listContainer {
+    padding: 180px 50px 50px 50px;
     background-color: rgba(255, 255, 0, 0.08);
     width : 70%;
     margin : auto;
@@ -51,6 +51,10 @@ span {
 
 .containerDetail {
     padding-top: 150px;
+}
+
+#listContainer {
+    padding-top: 100px;
 }
 
 
@@ -429,6 +433,23 @@ a:visited {
     margin-right : -20px;
     margin-bottom : 20px;
     font-weight : bold;
+}
+
+
+
+/*********************************
+ *@userAuthBar
+ */
+
+.auth {
+    width : 100%;
+    text-align: right;
+    margin-bottom: 60px;
+}
+
+
+.lgn {
+    padding-right: 10px;
 }
 
 /***********************************

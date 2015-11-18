@@ -353,7 +353,7 @@ public class StackExchangeService {
             form.param("password", user.getPassword());
             
             Client client = ClientBuilder.newClient();
-            String url = "http://localhost:8082/IdentityService/login";
+            String url = "http://localhost:8080/IdentityService/login";
             
             String result = client.target(url).request(MediaType.APPLICATION_XML)
                     .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);

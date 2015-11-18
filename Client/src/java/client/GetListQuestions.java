@@ -37,10 +37,16 @@ public class GetListQuestions extends HttpServlet {
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-	
+	RequestHandler rh = new RequestHandler(request);
         List<Question> questions = getAllQuestion();
 	
+	
 	response.setContentType("text/html");
+	
+	if(rh.isAuthenticated()){
+	    request.setAttribute("username",rh.getUsername());
+	}
+	request.setAttribute("isAuthenticated", rh.isAuthenticated());
 	request.setAttribute("questions", questions);
 	request.getRequestDispatcher("/list.jsp").forward(request, response);
 	

@@ -14,8 +14,22 @@ pageEncoding="UTF-8"%>
 <body>
 	
 	<div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>
-	<div class='container clearfix'>
+	
+	
+	<div class='container clearfix' id="listContainer">
+	    <div class="auth">
 		
+		<c:choose>
+		    <c:when test="${isAuthenticated}">
+			<h2><a class="logout" href="logout">Logout</a><span class="username"><c:out value="(  ${username}  )"/></span><h2>
+		    </c:when>    
+		    <c:otherwise>
+			<h2><a class="lgn" href="login.html">Login</a><a class="rgs" href="register.html">Register</a>
+		    </c:otherwise>
+		</c:choose>
+	    </div>
+	    
+	    
 		<form class="searchForm clearfix" method="POST">
 			<div class="searchInput">
 				<input  name="keyword" type="text" placeholder="Keyword Pencarian"/>

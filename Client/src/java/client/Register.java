@@ -2,15 +2,24 @@ package client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.ws.WebServiceRef;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
@@ -29,6 +38,7 @@ public class Register extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws service.Exception_Exception
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
@@ -39,6 +49,31 @@ public class Register extends HttpServlet {
 	String password = request.getParameter("password");
 	
 	String result = registerUser(username, email, password);
+	System.out.println("result : " + result);
+	
+	String token = xmlParse(result, "token");
+	String usr = xmlParse(result, "username");
+	String expirationDate = xmlParse(result, "expirationDate");
+	int lifetime =  Integer.parseInt(xmlParse(result, "lifetime")) ;
+	System.out.println("Token : "+ xmlParse(result, "token"));
+
+	response.setContentType("text/html");
+	PrintWriter pw = response.getWriter();
+
+	Cookie tokenCookie = new Cookie("token", token);
+	tokenCookie.setMaxAge(lifetime); 
+	response.addCookie(tokenCookie);
+
+	Cookie usernameCookie = new Cookie("username", usr);
+	usernameCookie.setMaxAge(lifetime); 
+	response.addCookie(usernameCookie);
+
+	Cookie exDateCookie = new Cookie("expirationDate", expirationDate);
+	exDateCookie.setMaxAge(lifetime); 
+	response.addCookie(exDateCookie);
+
+	pw.println("Cookies created");
+	response.sendRedirect("Home");
 
     }
 
@@ -94,6 +129,24 @@ public class Register extends HttpServlet {
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
 	return port.registerUser(userName, userEmail, userPassword);
+    }
+    
+    
+    
+    private String xmlParse(String txt, String node){
+	String xml = txt ;
+	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	DocumentBuilder builder;
+	InputSource is;
+	try {
+	    builder = factory.newDocumentBuilder();
+	    is = new InputSource(new StringReader(xml));
+	    Document doc = builder.parse(is);
+	    NodeList list = doc.getElementsByTagName(node);
+	    return (list.item(0).getTextContent());
+	} catch (ParserConfigurationException | SAXException | IOException e) {
+	}
+	return null;
     }
 
 }
