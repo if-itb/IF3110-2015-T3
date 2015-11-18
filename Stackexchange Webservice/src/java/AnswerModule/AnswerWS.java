@@ -17,6 +17,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.jws.WebResult;
 
 /**
  *
@@ -49,7 +50,7 @@ public class AnswerWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(stmt!=null) con.close();
+                if(stmt!=null) stmt.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
@@ -63,39 +64,52 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "InsertAnswer")
-    public void InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
+    @WebResult(name = "Status")
+    public String InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         
         PreparedStatement ps = null;
         try{
-            String query = "INSERT INTO Answer (qid,Email,Content) VALUES (?,?,?)";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, qid);
-            ps.setString(2, IdentityService.getEmail(access_token));
-            ps.setString(3, content);
-            ps.executeUpdate();
-            ps.close();
+            String Email = IdentityService.getEmail(access_token);
+            if (Email!=null){
+                String query = "INSERT INTO Answer (qid,Email,Content) VALUES (?,?,?)";
+                ps = con.prepareStatement(query);
+                ps.setInt(1, qid);
+                ps.setString(2, Email);
+                ps.setString(3, content);
+                ps.executeUpdate();
+                ps.close();
+            }else{
+                Status = "invalid access_token";
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if (ps!=null) con.close();
+                if (ps!=null) ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if (con!=null) con.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName = "UpdateAnswer")
-    public void UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid){
+    @WebResult(name = "Status")
+    public String UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid){
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         
@@ -107,22 +121,27 @@ public class AnswerWS {
             checkps.setInt(1, aid);
             ResultSet selRes = checkps.executeQuery();
             String Email=IdentityService.getEmail(access_token); //TODO tangkap error kalau tidak ada
-            if (selRes.next()){
-                if (Email.equals(selRes.getString("Email"))){
-                    String query ="UPDATE Answer SET Content = ? WHERE aid = ?" ;
-                    ps = con.prepareStatement(query);
-                    ps.setString(1, content);
-                    ps.setInt(2, aid);
-                    ps.executeUpdate();
-                    ps.close();
+            if (Email!=null){
+                if (selRes.next()){
+                    if (Email.equals(selRes.getString("Email"))){
+                        String query ="UPDATE Answer SET Content = ? WHERE aid = ?" ;
+                        ps = con.prepareStatement(query);
+                        ps.setString(1, content);
+                        ps.setInt(2, aid);
+                        ps.executeUpdate();
+                        ps.close();
+                    }else{
+                        Status = "unauthorized";//TODO throw error unauthorized
+                    }
                 }else{
-                    //TODO throw error unauthorized
+                    Status = "aid not found";//TODO throw error
                 }
             }else{
-                //TODO throw error
+                Status = "invalid access_token";
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -130,52 +149,87 @@ public class AnswerWS {
                 if (ps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if (checkps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if (con!=null) con.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName = "DeleteAnswer")
-    public void DeleteAnswer(@WebParam(name="aid")int aid){
+    @WebResult(name = "Status")
+    public String DeleteAnswer(@WebParam(name="access_token")String access_token, @WebParam(name="aid")int aid){
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         
         PreparedStatement ps = null;
+        PreparedStatement checkps = null;
         try{
-            String query = "DELETE FROM ANSWERS WHERE aid = ?";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, aid);
-            ps.executeQuery();
-            ps.close();
+            String Email = IdentityService.getEmail(access_token);
+            if (Email!=null){
+                checkps = con.prepareStatement("SELECT Email FROM Answer WHERE aid = ?");
+                checkps.setInt(1, aid);
+                ResultSet rs = checkps.executeQuery();
+                if (rs.next()){
+                    if (Email.equals(rs.getString("Email"))){
+
+                        String query = "DELETE FROM Answer WHERE aid = ?";
+                        ps = con.prepareStatement(query);
+                        ps.setInt(1, aid);
+                        ps.executeQuery();
+                    }else{
+                        Status = "unauthorized";
+                    }
+                }else{
+                    Status = "aid not found";
+                }
+            }else{
+                Status = "invalid access_token";
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if (ps!=null) con.close();
+                if (ps!=null) ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
+            }
+            try{
+                if (checkps!=null) checkps.close();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if (con!=null) con.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName="voteAnswer")
-    public void voteAnswer(@WebParam(name="qid")int qid,@WebParam(name="aid")int aid, @WebParam(name="up")boolean up, @WebParam(name="access_token")String access_token){
+    @WebResult(name = "Status")
+    public String voteAnswer(@WebParam(name="qid")int qid,@WebParam(name="aid")int aid, @WebParam(name="up")boolean up, @WebParam(name="access_token")String access_token){
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps = null;
@@ -188,8 +242,8 @@ public class AnswerWS {
                 checkvote.setInt(2,aid);
                 checkvote.setString(3,Email);
                 ResultSet rs = checkvote.executeQuery();
-                if(rs.next()){
-                    if(rs.getBoolean("up")==false)){
+                if(rs.next()){ //TODO fix logic error here (and similarly check whether same error happens in QuestionWS
+                    if(rs.getBoolean("up")==false){
                         int plus = 0;
                         if(up==false) plus = -1; 
                         else plus = 1;
@@ -209,9 +263,12 @@ public class AnswerWS {
                     //
                 }
                 rs.close();
+            }else{
+                Status = "invalid access_token";
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -219,13 +276,16 @@ public class AnswerWS {
                 if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
 
     
