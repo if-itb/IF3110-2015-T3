@@ -35,18 +35,16 @@ public class Login extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 response.setContentType("application/xml;charset=UTF-8");
                 User user = User.getUser(email, password);
-                if (user != null) {
+                if (user !=null) {
                     AccessToken accessToken = new AccessToken(user.getEmail(), user.getName());
                     out.println(accessToken.toXML());
                     out.close();
                 }
                 else {
-		    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     out.close();
                 }
             }
             catch (Exception exception) {
-		response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
                 response.getWriter().println("Authentication failure.");
                 response.getWriter().close();
             }
@@ -59,7 +57,7 @@ public class Login extends HttpServlet {
         }    
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editld defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

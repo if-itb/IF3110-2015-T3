@@ -48,33 +48,40 @@ public class Register extends HttpServlet {
 	String email = request.getParameter("email");
 	String password = request.getParameter("password");
 	
-	String result = registerUser(username, email, password);
-	System.out.println("result : " + result);
-	
-	String token = xmlParse(result, "token");
-	String usr = xmlParse(result, "username");
-	String expirationDate = xmlParse(result, "expirationDate");
-	int lifetime =  Integer.parseInt(xmlParse(result, "lifetime")) ;
-	System.out.println("Token : "+ xmlParse(result, "token"));
+	try{
+	    String result = registerUser(username, email, password);
+	    System.out.println("result : " + result);
 
-	response.setContentType("text/html");
-	PrintWriter pw = response.getWriter();
+	    String token = xmlParse(result, "token");
+	    String usr = xmlParse(result, "username");
+	    String expirationDate = xmlParse(result, "expirationDate");
+	    int lifetime = Integer.parseInt(xmlParse(result, "lifetime"));
+	    System.out.println("Token : " + xmlParse(result, "token"));
 
-	Cookie tokenCookie = new Cookie("token", token);
-	tokenCookie.setMaxAge(lifetime); 
-	response.addCookie(tokenCookie);
+	    response.setContentType("text/html");
+	    PrintWriter pw = response.getWriter();
 
-	Cookie usernameCookie = new Cookie("username", usr);
-	usernameCookie.setMaxAge(lifetime); 
-	response.addCookie(usernameCookie);
+	    Cookie tokenCookie = new Cookie("token", token);
+	    tokenCookie.setMaxAge(lifetime);
+	    response.addCookie(tokenCookie);
 
-	Cookie exDateCookie = new Cookie("expirationDate", expirationDate);
-	exDateCookie.setMaxAge(lifetime); 
-	response.addCookie(exDateCookie);
+	    Cookie usernameCookie = new Cookie("username", usr);
+	    usernameCookie.setMaxAge(lifetime);
+	    response.addCookie(usernameCookie);
 
-	pw.println("Cookies created");
-	response.sendRedirect("Home");
+	    Cookie exDateCookie = new Cookie("expirationDate", expirationDate);
+	    exDateCookie.setMaxAge(lifetime);
+	    response.addCookie(exDateCookie);
 
+	    pw.println("Cookies created");
+	    response.sendRedirect("Home");
+	    
+	}
+	catch(Exception ex){
+	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    request.setAttribute("errorMessage", "Email Already Used !");
+	    request.getRequestDispatcher("/register.jsp").forward(request, response);
+	}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

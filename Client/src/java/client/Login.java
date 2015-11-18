@@ -79,8 +79,10 @@ public class Login extends HttpServlet {
 	    response.sendRedirect("Home");
 	    
 	}
-	catch (NotFoundException ex){
-	    System.out.println("User not found : " + ex);
+	catch(Exception ex){
+	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    request.setAttribute("errorMessage", "Invalid Email or Password !");
+	    request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}
     }
 

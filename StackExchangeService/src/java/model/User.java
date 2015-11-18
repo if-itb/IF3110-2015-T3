@@ -86,13 +86,13 @@ public class User {
         }
     }
     
-    public static boolean exist(String name) throws Exception {
+    public static boolean exist(String email) throws Exception {
         Connection conn = ConnectDb.connect();
         Statement statement = conn.createStatement();
         
-        String sql = "SELECT * FROM users WHERE name = ?";
+        String sql = "SELECT * FROM users WHERE email = ?";
         PreparedStatement prepareStatement = conn.prepareStatement(sql);
-        prepareStatement.setString(1, name);
+        prepareStatement.setString(1, email);
         
         ResultSet results = prepareStatement.executeQuery();
         

@@ -345,24 +345,23 @@ public class StackExchangeService {
         
         /* Check that no user with same name */
         
-        if (!User.exist(name)) {
-            User user = User.create(name, email, password);
-            
-            Form form = new Form();
-            form.param("email", user.getEmail());
-            form.param("password", user.getPassword());
-            
-            Client client = ClientBuilder.newClient();
-            String url = "http://localhost:8080/IdentityService/login";
-            
-            String result = client.target(url).request(MediaType.APPLICATION_XML)
-                    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-            
-            return result;
-        }
+        if (User.exist(email)) {
+	    return null;
+	}
         else {
-            return "Error";
-        }
+	    User user = User.create(name, email, password);
+	    
+	    Form form = new Form();
+	    form.param("email", user.getEmail());
+	    form.param("password", user.getPassword());
+	    
+	    Client client = ClientBuilder.newClient();
+	    String url = "http://localhost:8080/IdentityService/login";
+	    
+	    String result = client.target(url).request(MediaType.APPLICATION_XML)
+		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
+	    return result;
+	}
     }
 }
 

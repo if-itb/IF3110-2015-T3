@@ -24,7 +24,7 @@ pageEncoding="UTF-8"%>
 			<h2><a class="logout" href="logout">Logout</a><span class="username"><c:out value="(  ${username}  )"/></span><h2>
 		    </c:when>    
 		    <c:otherwise>
-			<h2><a class="lgn" href="login.html">Login</a><a class="rgs" href="register.html">Register</a>
+			<h2><a class="lgn" href="login.jsp">Login</a><a class="rgs" href="register.jsp">Register</a>
 		    </c:otherwise>
 		</c:choose>
 	    </div>

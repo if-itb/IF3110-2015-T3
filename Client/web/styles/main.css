@@ -440,6 +440,15 @@ a:visited {
 }
 
 
+/************************************
+ *@warning
+ */
+
+.err {
+    color : #ff1100;
+    font-weight: bold;
+    font-size : 20px;
+}
 
 /*********************************
  *@userAuthBar
