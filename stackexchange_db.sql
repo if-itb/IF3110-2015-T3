@@ -7,14 +7,6 @@ CREATE TABLE IF NOT EXISTS UAccount (
 	PRIMARY KEY (Email)
 );
 
-CREATE TABLE IF NOT EXISTS UAccountAccessToken (
-	Token BINARY(16) NOT NULL,
-	Email varchar(320) NOT NULL,
-	Expiration DATETIME NOT NULL,
-	PRIMARY KEY (Token),
-	CONSTRAINT FOREIGN KEY (Email) REFERENCES UAccount(Email) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS Question (
      qid int(11) NOT NULL AUTO_INCREMENT,
      Email varchar(320) NOT NULL, /*owner*/

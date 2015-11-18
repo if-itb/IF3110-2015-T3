@@ -97,7 +97,7 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-    public void InsertQuestion(@WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
+    public void InsertQuestion(@WebParam(name = "topic") String topic, @WebParam(name = "content")String content, @WebParam(name="accesstoken")access_token at){//param token qid topic content , mail ganti token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
