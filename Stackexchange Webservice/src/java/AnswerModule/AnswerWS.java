@@ -174,4 +174,59 @@ public class AnswerWS {
         }
     }
     
+    @WebMethod(operationName="voteAnswer")
+    public void voteAnswer(@WebParam(name="qid")int qid,@WebParam(name="aid")int aid, @WebParam(name="up")boolean up, @WebParam(name="access_token")String access_token){
+        Database DB = new Database();
+        Connection con = DB.connect();
+        PreparedStatement ps = null;
+        PreparedStatement checkvote = null;
+        try{
+            String Email = IdentityService.getEmail(access_token);
+            if(Email!=null){
+                checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=? AND Email = ?");
+                checkvote.setInt(1,qid);
+                checkvote.setInt(2,aid);
+                checkvote.setString(3,Email);
+                ResultSet rs = checkvote.executeQuery();
+                if(rs.next()){
+                    if(rs.getBoolean("up")==false)){
+                        int plus = 0;
+                        if(up==false) plus = -1; 
+                        else plus = 1;
+                        String query = "UPDATE Answer SET vote = (vote + ?) where qid = ? AND aid = ?";
+                        ps = con.prepareStatement(query);
+                        ps.setInt(1,plus);
+                        ps.executeUpdate();
+                        query = "UPDATE HasVotedAnswer SET up = 1 where qid = ? and aid = ?";
+                        ps = con.prepareStatement(query);
+                        ps.setInt(1,qid);
+                        ps.setInt(2,aid);
+                        ps.executeUpdate();
+                        ps.close();
+                    }
+                }
+                else{
+                    //
+                }
+                rs.close();
+            }
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }finally{
+            try{
+                if(ps!=null)    ps.close();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            try{
+                if(con!=null)    con.close();     
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    
 }
