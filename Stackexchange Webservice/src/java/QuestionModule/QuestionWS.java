@@ -15,6 +15,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import DatabaseModule.Database;
+import IdentityServiceModule.IdentityService;
 import QuestionModule.Question;
 
 
@@ -36,10 +37,10 @@ public class QuestionWS {
         ResultSet rs = null;
         try{
             stmt = con.createStatement();
-            String query = "SELECT * FROM QUESTIONS";
+            String query = "SELECT * FROM Question NATURAL JOIN UAccount";
             rs = stmt.executeQuery(query);
             while(rs.next()){
-                Questions.add(new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("created_at") ));
+                Questions.add(new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("AuthorName"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("created_at") ));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -71,11 +72,15 @@ public class QuestionWS {
         ResultSet rs = null;
         PreparedStatement ps = null;
         try {
-            String query = "SELECT * FROM QUESTIONS WHERE ?";
+            String query = "SELECT * FROM Question NATURAL JOIN UAccount WHERE qid=?";
             ps = con.prepareStatement(query);
             ps.setInt(1,qid);
             rs = ps.executeQuery();
-            q = new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("TIMESTAMP") );
+            if (rs.next())
+                q = new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("AuthorName"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("created_at") );
+            else{
+                //TODO throw error
+            }
             rs.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -97,14 +102,14 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-    public void InsertQuestion(@WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
+    public void InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
-            String query = "INSERT INTO QUESTIONS(Email,QuestionTopic,Content) VALUES (?,?,?)";
+            String query = "INSERT INTO Question(Email,QuestionTopic,Content) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
-            ps.setInt(1, /*Email placeholder*/);
+            ps.setString(1, IdentityService.getEmail(access_token));
             ps.setString(2,topic);
             ps.setString(3,content);
             ps.executeUpdate();
@@ -128,16 +133,18 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="UpdateQuestion")
-    public void UpdateQuestion(@WebParam(name="qid") int qid, @WebParam(name="content")String content,@WebParam(name="topic")String topic ){//id content topic token 
+    public void UpdateQuestion(@WebParam(name="access_token") String access_token, @WebParam(name="qid") int qid, @WebParam(name="content")String content,@WebParam(name="topic")String topic ){//id content topic token 
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
-            String query = "UPDATE QUESTIONS SET QuestionTopic = ?, Content = ? where qid = ?";
+            String Email = IdentityService.getEmail(access_token);
+            String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? AND Email=  ? ";
             ps = con.prepareStatement(query);
             ps.setString(1, topic);
             ps.setString(2, content);
             ps.setInt(3, qid);
+            ps.setString(4, Email);
             ps.executeQuery();
             ps.close();
         }catch(SQLException ex){

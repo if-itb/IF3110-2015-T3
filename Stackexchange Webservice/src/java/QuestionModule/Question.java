@@ -21,6 +21,8 @@ public class Question {
     private String qtopic;
     @XmlElement(name="qcontent", required= true)
     private String qcontent;
+    @XmlElement(name="qauthorname", required= true)
+    private String qauthorname;
     @XmlElement(name="qvote", required = true)
     private int qvote;
     @XmlElement(name="qtimestamp", required= true)
@@ -29,9 +31,10 @@ public class Question {
     public Question() {
     }
 
-    public Question(int qid, String uemail, String qtopic, String qcontent, int qvote, String qtimestamp) {
+    public Question(int qid, String uemail, String authorname, String qtopic, String qcontent, int qvote, String qtimestamp) {
         this.qid = qid;
         this.uemail = uemail;
+        this.qauthorname = authorname;
         this.qtopic = qtopic;
         this.qcontent = qcontent;
         this.qvote = qvote;

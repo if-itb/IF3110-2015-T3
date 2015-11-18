@@ -62,7 +62,7 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "InsertAnswer")
-    public void InsertAnswer(@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
+    public void InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
         Database DB = new Database();
         Connection con = DB.connect();
         
@@ -71,7 +71,7 @@ public class AnswerWS {
             String query = "INSERT INTO ANSWERS(qid,Email,Content) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
             ps.setInt(1, qid);
-            ps.setInt(2, /*Email Placeholder*/);
+            ps.setEmail(2, IdentityService.getEmail(access_token));
             ps.setString(3, content);
             ps.executeQuery();
             ps.close();

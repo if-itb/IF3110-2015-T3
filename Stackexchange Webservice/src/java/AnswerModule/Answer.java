@@ -13,15 +13,15 @@ import javax.xml.bind.annotation.*;
  */
 
 @XmlRootElement(name = "Answer")
-public class Answer { //tambah author name
-    @XmlElement(name="aAuthor",required = true)
-    private String aAuthor;
+public class Answer {
     @XmlElement(name="aid", required=true)
     private int aid;
     @XmlElement(name="qid", required=true)
     private int qid;
     @XmlElement(name="uemail", required=true)
     private String uemail;
+    @XmlElement(name="aauthorname", required= true)
+    private String aauthorname;
     @XmlElement(name="acontent", required=true)
     private String acontent;
     @XmlElement(name="avote",required=true)
@@ -32,11 +32,11 @@ public class Answer { //tambah author name
     public Answer() {
     }
 
-    public Answer(String aAuthor, int aid, int qid, String uemail, String acontent, int avote, String atimestamp) {
-        this.aAuthor = aAuthor;
+    public Answer(int aid, int qid, String uemail, String aauthorname, String acontent, int avote, String atimestamp) {
         this.aid = aid;
         this.qid = qid;
         this.uemail = uemail;
+        this.aauthorname= aauthorname;
         this.acontent = acontent;
         this.avote = avote;
         this.atimestamp = atimestamp;
@@ -44,8 +44,8 @@ public class Answer { //tambah author name
 
     
 
-    public String getaAuthor() {
-        return aAuthor;
+    public String getaauthorname() {
+        return aauthorname;
     }
     
     public int getAid() {

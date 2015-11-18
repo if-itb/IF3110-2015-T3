@@ -26,21 +26,31 @@ public class UserWS {
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps = null;
+        PreparedStatement checkps=null;
         try{
-            String query = "INSERT INTO UACCOUNT VALUE (?,?,?)";
-            ps = con.prepareStatement(query);
-            ps.setString(1, email);
-            ps.setString(2, name);
-            ps.setString(3, password);
-            ps.executeQuery();
-            ps.close();
+            //cek apakah sudah ada
+            String query = "SELECT * FROM UAccount WHERE Email=?";
+            checkps = con.prepareStatement(query);
+            checkps.setString(1, email);
+            ResultSet selRes = checkps.executeQuery();
+            if (!selRes.next()){
+            String queryins = "INSERT INTO UAccount VALUE (?,?,?)";
+                ps = con.prepareStatement(queryins);
+                ps.setString(1, email);
+                ps.setString(2, name);
+                ps.setString(3, password);
+                ps.executeUpdate();
+            }else{
+                //TODO return error
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null) con.close();
+                if (checkps!=null){checkps.close();}
+                if(ps!=null){ ps.close(); con.close();}
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
