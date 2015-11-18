@@ -37,7 +37,6 @@ public class CreateAnswer extends HttpServlet {
 	RequestHandler rh = new RequestHandler(request);
 	
 	if(rh.isAuthenticated()){
-	    System.out.println("WKWKWK");
 	    String content = request.getParameter("content");
 	    int qid = Integer.parseInt(request.getParameter("qid"));
 	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken(), rh.getExpirationDate());
@@ -45,8 +44,8 @@ public class CreateAnswer extends HttpServlet {
 	}
 	else
 	{
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	    response.sendRedirect("auth.html");
-	    
 	}
 
     }

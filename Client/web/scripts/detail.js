@@ -27,16 +27,17 @@
             http.setRequestHeader("Connection", "close");
 
             http.onreadystatechange = function () {
-                if (http.readyState === 4 && http.status === 200) {
-		    if(http.responseXML){
+                if (http.readyState === 4) {
+		    if (http.status === 200){
 			var newVote = http.responseXML.getElementsByTagName("new-vote")[0].childNodes[0].nodeValue;
 			getSibling($this,"qVoteVal").innerHTML = newVote;
 		    }
 		    else
 		    {
-			window.location = "http://localhost:8081/Client/register.html";
+			window.location.href = "auth.html";
 		    }
                 }
+		
             };
             http.send(params);
         };
@@ -77,11 +78,11 @@
 			var newVote = http.responseXML.getElementsByTagName("new-vote")[0].childNodes[0].nodeValue;
 			getSibling($this,"voteVal").innerHTML = newVote;
 		    }
-		    else
-		    {
-			window.location = "http://localhost:8081/Client/register.html";
-		    }
                 }
+		else
+		{
+		    window.location.href = "auth.html";
+		}
             };
             http.send(params);
         };

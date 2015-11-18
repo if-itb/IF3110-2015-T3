@@ -41,7 +41,6 @@ public class CreateQuestion extends HttpServlet {
 	boolean authenticated = rh.isAuthenticated();
 	
 	if(authenticated){
-	    System.out.println(rh.isAuthenticated());
 	    String qtopic = request.getParameter("qtopic");
 	    String qcontent = request.getParameter("qcontent");
 	    String res = createQuestion(rh.getUsername(), qtopic, qcontent, rh.getToken(), rh.getExpirationDate());
@@ -49,7 +48,7 @@ public class CreateQuestion extends HttpServlet {
 	}
 	else
 	{
-	    System.out.println(rh.isAuthenticated());
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	    response.sendRedirect("auth.html");
         }
 	

@@ -29,26 +29,16 @@ public class VoteAnswer extends HttpServlet {
         int aid = Integer.parseInt(request.getParameter("aid"));
         String operation =  request.getParameter("operation");
         
-        Cookie cookies[] = request.getCookies();
-        String token = null;
-        Long expirationDate = null;
-        for (Cookie cookie : cookies) {
-            if ("expirationDate".equals(cookie.getName())) {
-                expirationDate = Long.parseLong(cookie.getValue());
-            }
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
-            }
-        }
-        if (token != null && expirationDate != null) {
-            int newVote = voteAnswer(aid, operation, token, expirationDate);        
+	RequestHandler rh = new RequestHandler(request);
+	
+        if(rh.isAuthenticated()) {
+            int newVote = voteAnswer(aid, operation, rh.getToken(), rh.getExpirationDate());        
             response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-cache");
             response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
         }
         else {
 	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	    response.sendRedirect(response.encodeRedirectURL("http://localhost:8081/Client/register.html"));
         }
 
     }
