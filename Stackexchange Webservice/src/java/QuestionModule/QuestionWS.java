@@ -107,13 +107,19 @@ public class QuestionWS {
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
-            String query = "INSERT INTO Question(Email,QuestionTopic,Content) VALUES (?,?,?)";
-            ps = con.prepareStatement(query);
-            ps.setString(1, IdentityService.getEmail(access_token));
-            ps.setString(2,topic);
-            ps.setString(3,content);
-            ps.executeUpdate();
-            ps.close();
+            String Email = IdentityService.getEmail(access_token);
+            if (Email!=null){
+                String query = "INSERT INTO Question(Email,QuestionTopic,Content) VALUES (?,?,?)";
+                ps = con.prepareStatement(query);
+                ps.setString(1, IdentityService.getEmail(access_token));
+                ps.setString(2,topic);
+                ps.setString(3,content);
+                ps.executeUpdate();
+                ps.close();
+                
+            }else{
+                //TODO kirimkan error bahwa login gagal
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
@@ -137,28 +143,50 @@ public class QuestionWS {
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
+        PreparedStatement checkps=null;
         try{
             String Email = IdentityService.getEmail(access_token);
-            String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? AND Email=  ? ";
-            ps = con.prepareStatement(query);
-            ps.setString(1, topic);
-            ps.setString(2, content);
-            ps.setInt(3, qid);
-            ps.setString(4, Email);
-            ps.executeQuery();
-            ps.close();
+            if (Email!=null){
+                checkps = con.prepareStatement("SELECT Email FROM Question WHERE qid=?");
+                checkps.setInt(1, qid);
+                ResultSet rs = checkps.executeQuery();
+                checkps.close();
+                if (rs.next()){
+                    if (Email.equals(rs.getString("Email"))){
+                        String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? AND Email=  ? ";
+                        ps = con.prepareStatement(query);
+                        ps.setString(1, topic);
+                        ps.setString(2, content);
+                        ps.setInt(3, qid);
+                        ps.setString(4, Email);
+                        ps.executeUpdate();
+                        ps.close();
+                    }else{
+                        //TODO kirimkan error unauthorized
+                    }
+                }else{
+                    //TODO Kirimkan error qid tidak ditemukan;
+                }
+            }else{
+                //TODO kirimkan error bahwa login gagal
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null)    con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
             try{
-                if(ps!=null)    con.close();     
+                if(checkps!=null) checkps.close();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            try{
+                if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
@@ -166,28 +194,52 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName="DeleteQuestion")
-    public void DeleteQuestion(@WebParam(name="qid")int qid){//id token
+    public void DeleteQuestion(@WebParam(name="access_token") String access_token, 
+            @WebParam(name="qid")int qid){//id token
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
+        PreparedStatement checkps=null;
         try{
-            String query = "DELETE FROM QUESTION WHERE qid = ?";
-            ps = con.prepareStatement(query);
-            ps.setInt(1, qid);
-            ps.executeQuery();
-            ps.close();
+            String Email = IdentityService.getEmail(access_token);
+            if (Email!=null){
+                checkps = con.prepareStatement("SELECT Email FROM Question WHERE qid=?");
+                checkps.setInt(1, qid);
+                ResultSet rs = checkps.executeQuery();
+                checkps.close();
+                if (rs.next()){
+                    if (Email.equals(rs.getString("Email"))){
+                        String query = "DELETE FROM Question WHERE qid=? ";
+                        ps = con.prepareStatement(query);
+                        ps.setInt(1, qid);
+                        ps.executeUpdate();
+                        ps.close();
+                    }else{
+                        //TODO kirimkan error unauthorized
+                    }
+                }else{
+                    //TODO Kirimkan error qid tidak ditemukan;
+                }
+            }else{
+                //TODO kirimkan error bahwa login gagal
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null) con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
             try{
-                if(con!=null) con.close();
+                if(checkps!=null) checkps.close();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            try{
+                if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
             }

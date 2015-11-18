@@ -40,15 +40,23 @@ public class IdentityService {
             (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
-
-        InputStream xmlstream = connection.getInputStream();
-        StringBuilder inputStringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(xmlstream, "UTF-8"));
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(xmlstream);
-        Element rootElement = document.getDocumentElement();
-        System.out.println("test " + rootElement.getTagName() + " = " + rootElement.getTextContent());
-        return rootElement.getTextContent();
+        
+        switch(connection.getResponseCode()){
+            case HttpURLConnection.HTTP_OK:
+                InputStream xmlstream = connection.getInputStream();
+                StringBuilder inputStringBuilder = new StringBuilder();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(xmlstream, "UTF-8"));
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document document = builder.parse(xmlstream);
+                Element rootElement = document.getDocumentElement();
+                System.out.println("test " + rootElement.getTagName() + " = " + rootElement.getTextContent());
+                return rootElement.getTextContent();
+            case HttpURLConnection.HTTP_NOT_FOUND:
+                return null;
+            case HttpURLConnection.HTTP_UNAUTHORIZED:
+                return null;
+        }
+        return null;
     }
 }
