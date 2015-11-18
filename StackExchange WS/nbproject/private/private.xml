@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/AnswerModel/AnswerWS.java</file>
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/QuestionModel/QuestionWS.java</file>
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/QuestionModel/Question.java</file>
@@ -13,6 +14,16 @@
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/UserModel/UserLogin.java</file>
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/QuestionModel/insQuestion.java</file>
             <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/AnswerModel/Answer.java</file>
+=======
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/nbproject/jaxws-build.xml</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/QuestionModel/Question.java</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/UserModel/UserWS.java</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/UserModel/User.java</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/nbproject/build-impl.xml</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/DatabaseWS/DB.java</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/AnswerModel/Answer.java</file>
+            <file>file:/D:/Levanji's%20Data/Education/College/Semester%205/WebBase/Tugas%202/StackExchange%20WS/src/java/AnswerModel/AnswerWS.java</file>
+>>>>>>> origin/master
         </group>
     </open-files>
 </project-private>

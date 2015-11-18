@@ -42,6 +42,7 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/QuestionWS"/>
         <delete dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
     </target>
+<<<<<<< HEAD
     <target name="wsimport-client-AnswerWS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
         <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AnswerWS" destdir="${build.generated.dir}/jax-wsCache/AnswerWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8080/StackExchangeWS/AnswerWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchangeWS/AnswerWS?wsdl" xnocompile="true" xendorsed="true" package="AnswerWS">
@@ -59,4 +60,7 @@
         <delete dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
     </target>
     <target name="wsimport-client-generate" depends="wsimport-client-QuestionWS, wsimport-client-AnswerWS"/>
+=======
+    <target name="wsimport-client-generate" depends="wsimport-client-QuestionWS"/>
+>>>>>>> origin/master
 </project>
