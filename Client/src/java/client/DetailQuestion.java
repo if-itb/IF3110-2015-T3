@@ -33,9 +33,15 @@ public class DetailQuestion extends HttpServlet {
         Question question = getQuestion(qid);
         List<Answer> answers = getAnswers(qid);
 	
+	RequestHandler rh = new RequestHandler(request);
+	
 	response.setContentType("text/html");
 	request.setAttribute("question", question);
 	request.setAttribute("answers", answers);
+	if(rh.isAuthenticated()){
+	    request.setAttribute("username",rh.getUsername());
+	}
+	request.setAttribute("isAuthenticated", rh.isAuthenticated());
 	request.getRequestDispatcher("/detail.jsp").forward(request, response);
 	
 

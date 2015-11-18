@@ -32,7 +32,7 @@
 			var newVote = http.responseXML.getElementsByTagName("new-vote")[0].childNodes[0].nodeValue;
 			getSibling($this,"qVoteVal").innerHTML = newVote;
 		    }
-		    else
+		    else if(http.status === 401)
 		    {
 			window.location.href = "auth.html";
 		    }
@@ -79,7 +79,7 @@
 			getSibling($this,"voteVal").innerHTML = newVote;
 		    }
                 }
-		else
+		else if(http.status === 401)
 		{
 		    window.location.href = "auth.html";
 		}

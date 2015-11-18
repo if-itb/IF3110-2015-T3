@@ -64,8 +64,13 @@ pageEncoding="UTF-8"%>
 						<span class='askedBy'>Asked By:</span>
 						<div class='author'>
 							<span class='name'><c:out value="${question.getName()}"/></span>
-							<a href='edit?idEdited=<c:out value="${question.getQid()}"/>&fromDetail=0'> <span class='edit'>Edit</span></a>
-							<a href='delete?idDeleted=<c:out value="${question.getQid()}"/>'> <span class='delete'>Delete</span></a>
+							<c:set var="name" scope="page" value="${question.getName()}"/>
+							<c:set var="username" scope="page" value="${username}"/>
+							<c:if test="${ name == username}">
+							    <a href='edit?idEdited=<c:out value="${question.getQid()}"/>&fromDetail=0'> <span class='edit'>Edit</span></a>
+							    <a href='delete?idDeleted=<c:out value="${question.getQid()}"/>'> <span class='delete'>Delete</span></a>
+							</c:if>
+							
 						</div>
 					</div>
 				</div>
