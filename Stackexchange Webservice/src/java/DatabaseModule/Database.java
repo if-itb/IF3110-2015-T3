@@ -18,8 +18,8 @@ public class Database {
         String url = "jdbc:mysql://localhost/";
         String db = "stackexchange_db";
         String driver = "com.mysql.jdbc.Driver";
-        String user = "root";
-        String pass = "default";
+        String user = "stackexchange";
+        String pass = "stackexchangespwd";
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url + db, user, pass);

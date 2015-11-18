@@ -7,6 +7,10 @@ CREATE TABLE IF NOT EXISTS UAccount (
 	PRIMARY KEY (Email)
 );
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d7566619c7693d6fb9fb9a115a9cee1566f6fac0
 CREATE TABLE IF NOT EXISTS Question (
      qid int(11) NOT NULL AUTO_INCREMENT,
      Email varchar(320) NOT NULL, /*owner*/
@@ -31,25 +35,27 @@ CREATE TABLE IF NOT EXISTS Answer (
 );
 
 CREATE TABLE IF NOT EXISTS HasVotedQuestion(
-	UEmail varchar(320) NOT NULL,
+	Email varchar(320) NOT NULL,
 	qid int(11) NOT NULL,
-	voted boolean DEFAULT '0',
-	CONSTRAINT FOREIGN KEY (UEmail) REFERENCES UAccount(Email),
+	up boolean DEFAULT '0',
+	CONSTRAINT FOREIGN KEY (Email) REFERENCES UAccount(Email),
     CONSTRAINT FOREIGN KEY (qid) REFERENCES Question(qid)
 );
 
 CREATE TABLE IF NOT EXISTS HasVotedAnswer(
-	UEmail varchar(320) NOT NULL,
+	Email varchar(320) NOT NULL,
 	qid int(11) NOT NULL,
 	aid int(11) NOT NULL,
-	voted boolean DEFAULT '0',
-	CONSTRAINT FOREIGN KEY (UEmail) REFERENCES UAccount(Email),
+	up boolean DEFAULT '0',
+	CONSTRAINT FOREIGN KEY (Email) REFERENCES UAccount(Email),
     CONSTRAINT FOREIGN KEY (qid) REFERENCES Question(qid),
 	CONSTRAINT FOREIGN KEY (aid) REFERENCES Answer(aid)
 );
 
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccount TO idservices IDENTIFIED BY 'idservicespwd';
-GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE UAccountAccessToken TO idservices;
-GRANT SELECT ON TABLE UAccount TO stackexchange IDENTIFIED BY 'stackexchangespwd';
+GRANT SELECT, INSERT ON TABLE UAccount TO stackexchange IDENTIFIED BY 'stackexchangespwd';
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE Question TO stackexchange;
 GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE Answer TO stackexchange;
+GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE HasVotedQuestion TO stackexchange;
+GRANT SELECT, INSERT, DELETE, UPDATE ON TABLE HasVotedAnswer TO stackexchange;
+

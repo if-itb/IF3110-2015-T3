@@ -8,6 +8,7 @@ package AnswerModule;
 import DatabaseModule.Database;
 
 import AnswerModule.Answer;
+import IdentityServiceModule.IdentityService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -35,11 +36,11 @@ public class AnswerWS {
         ResultSet rs = null;
         
         try{
-            String query = "SELECT * FROM ANSWERS NATURALJOIN UACCOUNT";
+            String query = "SELECT * FROM Answer NATURALJOIN UAccount";
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()){
-                Answers.add(new Answer(rs.getString("AuthorName"),rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
+                Answers.add(new Answer(rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("AuthorName"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
             }
             rs.close();
         }catch(SQLException ex){
@@ -62,18 +63,18 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "InsertAnswer")
-    public void InsertAnswer(@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
+    public void InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
         Database DB = new Database();
         Connection con = DB.connect();
         
         PreparedStatement ps = null;
         try{
-            String query = "INSERT INTO ANSWERS(qid,Email,Content) VALUES (?,?,?)";
+            String query = "INSERT INTO Answer (qid,Email,Content) VALUES (?,?,?)";
             ps = con.prepareStatement(query);
             ps.setInt(1, qid);
-            ps.setInt(2, /*Email Placeholder*/);
+            ps.setString(2, IdentityService.getEmail(access_token));
             ps.setString(3, content);
-            ps.executeQuery();
+            ps.executeUpdate();
             ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -94,25 +95,44 @@ public class AnswerWS {
     }
     
     @WebMethod(operationName = "UpdateAnswer")
-    public void UpdateAnswer(@WebParam(name="content")String content, @WebParam(name="aid")int aid){
+    public void UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid){
         Database DB = new Database();
         Connection con = DB.connect();
         
-        PreparedStatement ps = null;
+        PreparedStatement ps = null;PreparedStatement checkps=null;
         try{
-            String query ="UPDATE ANSWERS SET Content = ? WHERE aid = ?" ;
-            ps = con.prepareStatement(query);
-            ps.setString(1, content);
-            ps.setInt(2, aid);
-            ps.executeQuery();
-            ps.close();
+            //cek apakah email sama
+            String checkquery = "SELECT Email FROM Answer WHERE aid = ?";
+            checkps = con.prepareStatement(checkquery);
+            checkps.setInt(1, aid);
+            ResultSet selRes = checkps.executeQuery();
+            String Email=IdentityService.getEmail(access_token); //TODO tangkap error kalau tidak ada
+            if (selRes.next()){
+                if (Email.equals(selRes.getString("Email"))){
+                    String query ="UPDATE Answer SET Content = ? WHERE aid = ?" ;
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, content);
+                    ps.setInt(2, aid);
+                    ps.executeUpdate();
+                    ps.close();
+                }else{
+                    //TODO throw error unauthorized
+                }
+            }else{
+                //TODO throw error
+            }
         }catch(SQLException ex){
             ex.printStackTrace();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
             try{
-                if (ps!=null) con.close();
+                if (ps!=null) checkps.close();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            try{
+                if (checkps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
