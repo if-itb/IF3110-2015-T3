@@ -88,7 +88,7 @@ public class QuestionWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null)    con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
@@ -126,7 +126,7 @@ public class QuestionWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null)    con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex ){
                 ex.printStackTrace();
             }
