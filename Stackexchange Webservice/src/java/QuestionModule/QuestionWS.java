@@ -102,11 +102,7 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-<<<<<<< HEAD
-    public void InsertQuestion(@WebParam(name = "topic") String topic, @WebParam(name = "content")String content, @WebParam(name="accesstoken")access_token at){//param token qid topic content , mail ganti token
-=======
     public void InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
->>>>>>> d7566619c7693d6fb9fb9a115a9cee1566f6fac0
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
