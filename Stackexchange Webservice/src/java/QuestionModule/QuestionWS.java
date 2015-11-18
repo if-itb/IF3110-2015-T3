@@ -145,7 +145,7 @@ public class QuestionWS {
             ps.setString(2, content);
             ps.setInt(3, qid);
             ps.setString(4, Email);
-            ps.executeQuery();
+            ps.executeUpdate();
             ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -171,10 +171,10 @@ public class QuestionWS {
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
-            String query = "DELETE FROM QUESTION WHERE qid = ?";
+            String query = "DELETE FROM Question WHERE qid = ?";
             ps = con.prepareStatement(query);
             ps.setInt(1, qid);
-            ps.executeQuery();
+            ps.executeUpdate();
             ps.close();
         }catch(SQLException ex){
             ex.printStackTrace();
