@@ -80,6 +80,8 @@ public class QuestionWS {
                 q = new Question(rs.getInt("qid"), rs.getString("Email"),rs.getString("AuthorName"),rs.getString("QuestionTopic"), rs.getString("Content"),rs.getInt("vote"), rs.getString("created_at") );
             else{
                 //TODO throw error
+                //sementara tidak perlu dulu
+                //return list kosong saja
             }
             rs.close();
         } catch (SQLException ex) {
@@ -88,7 +90,7 @@ public class QuestionWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null)    con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
@@ -102,7 +104,9 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "InsertQuestion")
-    public void InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
+    @WebResult(name = "Status")
+    public String InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -118,7 +122,7 @@ public class QuestionWS {
                 ps.close();
                 
             }else{
-                //TODO kirimkan error bahwa login gagal
+                Status = "invalid access_token";//TODO kirimkan error bahwa login gagal
             }
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -126,9 +130,10 @@ public class QuestionWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(ps!=null)    con.close();
+                if(ps!=null)    ps.close();
             }catch(SQLException ex ){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();
@@ -136,10 +141,13 @@ public class QuestionWS {
                 ex.printStackTrace();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName="UpdateQuestion")
-    public void UpdateQuestion(@WebParam(name="access_token") String access_token, @WebParam(name="qid") int qid, @WebParam(name="content")String content,@WebParam(name="topic")String topic ){//id content topic token 
+    @WebResult(name = "Status")
+    public String UpdateQuestion(@WebParam(name="access_token") String access_token, @WebParam(name="qid") int qid, @WebParam(name="content")String content,@WebParam(name="topic")String topic ){//id content topic token 
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -162,16 +170,19 @@ public class QuestionWS {
                         ps.executeUpdate();
                         ps.close();
                     }else{
-                        //TODO kirimkan error unauthorized
+                        Status = "unauthorized";//TODO kirimkan error unauthorized
                     }
                 }else{
+                    Status = "qid not found";
                     //TODO Kirimkan error qid tidak ditemukan;
                 }
             }else{
+                Status = "invalid access_token";
                 //TODO kirimkan error bahwa login gagal
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -179,23 +190,29 @@ public class QuestionWS {
                 if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(checkps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName="DeleteQuestion")
-    public void DeleteQuestion(@WebParam(name="access_token") String access_token, 
+    @WebResult(name = "Status")
+    public String DeleteQuestion(@WebParam(name="access_token") String access_token, 
             @WebParam(name="qid")int qid){//id token
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -215,16 +232,17 @@ public class QuestionWS {
                         ps.executeUpdate();
                         ps.close();
                     }else{
-                        //TODO kirimkan error unauthorized
+                        Status = "unauthorized";//TODO kirimkan error unauthorized
                     }
                 }else{
-                    //TODO Kirimkan error qid tidak ditemukan;
+                    Status = "qid not found";//TODO Kirimkan error qid tidak ditemukan;
                 }
             }else{
-                //TODO kirimkan error bahwa login gagal
+                Status = "invalid access_token";//TODO kirimkan error bahwa login gagal
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -232,22 +250,28 @@ public class QuestionWS {
                 if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(checkps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
     
     @WebMethod(operationName="voteQuestion")
-    public void voteQuestion(@WebParam(name="qid")int qid, @WebParam(name="up")boolean up, @WebParam(name="")String access_token ){
+    @WebResult(name = "Status")
+    public String voteQuestion(@WebParam(name="qid")int qid, @WebParam(name="up")boolean up, @WebParam(name="")String access_token ){
+        String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps=null;
@@ -278,10 +302,11 @@ public class QuestionWS {
                 }
                 rs2.close();                    
             }else{
-                //TODO Kirimkan error qid tidak ditemukan;
+                Status = "invalid access_token";//TODO Kirimkan error invalid access token
             }
         }catch(SQLException ex){
             ex.printStackTrace();
+            Status = "SQLException: " + ex.getMessage();
         }catch(Exception ex){
             ex.printStackTrace();
         }finally{
@@ -289,17 +314,21 @@ public class QuestionWS {
                 if(ps!=null)    ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(checkps!=null) checkps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();     
             }catch(SQLException ex){
                 ex.printStackTrace();
+                Status = "SQLException: " + ex.getMessage();
             }
         }
+        return Status;
     }
 }
