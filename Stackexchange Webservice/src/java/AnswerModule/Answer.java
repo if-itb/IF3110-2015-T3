@@ -36,15 +36,13 @@ public class Answer {
         this.aid = aid;
         this.qid = qid;
         this.uemail = uemail;
-        this.aauthorname= aauthorname;
+        this.aauthorname = aauthorname;
         this.acontent = acontent;
         this.avote = avote;
         this.atimestamp = atimestamp;
     }
 
-    
-
-    public String getaauthorname() {
+    public String getAauthorname() {
         return aauthorname;
     }
     

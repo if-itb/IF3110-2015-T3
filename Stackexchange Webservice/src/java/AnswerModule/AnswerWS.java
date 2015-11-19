@@ -27,18 +27,19 @@ import javax.ejb.Stateless;
 public class AnswerWS {
 
     @WebMethod(operationName = "GetAllAnswer")
-    public ArrayList<Answer> GetAllAnswer(){//tambah author name 
+    public ArrayList<Answer> GetAllAnswer(@WebParam (name="qid")int qid){//tambah author name 
         Database DB = new Database();
         Connection con = DB.connect();
         
         ArrayList<Answer> Answers = new ArrayList<>();
-        Statement stmt = null;
+        PreparedStatement st = null;
         ResultSet rs = null;
         
         try{
-            String query = "SELECT * FROM Answer NATURALJOIN UAccount";
-            stmt = con.createStatement();
-            rs = stmt.executeQuery(query);
+            String query = "SELECT * FROM Answer NATURALJOIN UAccount WHERE qid = ?";
+            st = con.prepareStatement(query);
+            st.setInt(1, qid);
+            rs = st.executeQuery();
             while (rs.next()){
                 Answers.add(new Answer(rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("AuthorName"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
             }
@@ -49,7 +50,7 @@ public class AnswerWS {
             ex.printStackTrace();
         }finally{
             try{
-                if(stmt!=null) con.close();
+                if(st!=null) con.close();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
@@ -189,7 +190,7 @@ public class AnswerWS {
                 checkvote.setString(3,Email);
                 ResultSet rs = checkvote.executeQuery();
                 if(rs.next()){
-                    if(rs.getBoolean("up")==false)){
+                    if(rs.getBoolean("up")==false){
                         int plus = 0;
                         if(up==false) plus = -1; 
                         else plus = 1;
