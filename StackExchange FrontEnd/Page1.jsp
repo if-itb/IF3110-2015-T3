@@ -6,7 +6,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="wbd.css">
 		<title>
-			Page 1 - TuBes WBD
+			Page 1 - TuCil WBD
 		</title>
 	</head>
 
