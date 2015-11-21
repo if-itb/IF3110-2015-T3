@@ -161,12 +161,11 @@ public class QuestionWS {
                 checkps.close();
                 if (rs.next()){
                     if (Email.equals(rs.getString("Email"))){
-                        String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? AND Email=  ? ";
+                        String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? ";
                         ps = con.prepareStatement(query);
                         ps.setString(1, topic);
                         ps.setString(2, content);
                         ps.setInt(3, qid);
-                        ps.setString(4, Email);
                         ps.executeUpdate();
                         ps.close();
                     }else{
@@ -281,9 +280,8 @@ public class QuestionWS {
         try{
             String Email = IdentityService.getEmail(access_token);
             if (Email!=null){
-                checkvote = con.prepareStatement("SELECT up from HasVotedQuestion WHERE qid = ? AND Email = ?");
+                checkvote = con.prepareStatement("SELECT up from HasVotedQuestion WHERE qid = ? ");
                 checkvote.setInt(1,qid);
-                checkvote.setString(2,Email);
                 ResultSet rs2 = checkvote.executeQuery();
                 if(rs2.next()){
                     if(rs2.getBoolean("up")==false){

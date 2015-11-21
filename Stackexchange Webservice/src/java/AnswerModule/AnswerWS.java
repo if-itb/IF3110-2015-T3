@@ -109,7 +109,7 @@ public class AnswerWS {
     
     @WebMethod(operationName = "UpdateAnswer")
     @WebResult(name = "Status")
-    public String UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid){
+    public String UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid, @WebParam(name ="qid") int qid){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
@@ -117,18 +117,20 @@ public class AnswerWS {
         PreparedStatement ps = null;PreparedStatement checkps=null;
         try{
             //cek apakah email sama
-            String checkquery = "SELECT Email FROM Answer WHERE aid = ?";
+            String checkquery = "SELECT Email FROM Answer WHERE aid = ? AND qid = ?";
             checkps = con.prepareStatement(checkquery);
             checkps.setInt(1, aid);
+            checkps.setInt(2, qid);
             ResultSet selRes = checkps.executeQuery();
             String Email=IdentityService.getEmail(access_token); //TODO tangkap error kalau tidak ada
             if (Email!=null){
                 if (selRes.next()){
                     if (Email.equals(selRes.getString("Email"))){
-                        String query ="UPDATE Answer SET Content = ? WHERE aid = ?" ;
+                        String query ="UPDATE Answer SET Content = ? WHERE aid = ? AND qid = ?" ;
                         ps = con.prepareStatement(query);
                         ps.setString(1, content);
                         ps.setInt(2, aid);
+                        ps.setInt(3, qid);
                         ps.executeUpdate();
                         ps.close();
                     }else{
@@ -170,7 +172,7 @@ public class AnswerWS {
     
     @WebMethod(operationName = "DeleteAnswer")
     @WebResult(name = "Status")
-    public String DeleteAnswer(@WebParam(name="access_token")String access_token, @WebParam(name="aid")int aid){
+    public String DeleteAnswer(@WebParam(name="access_token")String access_token, @WebParam(name="aid")int aid,@WebParam(name="qid") int qid){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
@@ -180,15 +182,17 @@ public class AnswerWS {
         try{
             String Email = IdentityService.getEmail(access_token);
             if (Email!=null){
-                checkps = con.prepareStatement("SELECT Email FROM Answer WHERE aid = ?");
+                checkps = con.prepareStatement("SELECT Email FROM Answer WHERE aid = ? AND qid = ?");
                 checkps.setInt(1, aid);
+                checkps.setInt(2, qid);
                 ResultSet rs = checkps.executeQuery();
                 if (rs.next()){
                     if (Email.equals(rs.getString("Email"))){
 
-                        String query = "DELETE FROM Answer WHERE aid = ?";
+                        String query = "DELETE FROM Answer WHERE aid = ? AND qid =?";
                         ps = con.prepareStatement(query);
                         ps.setInt(1, aid);
+                        ps.setInt(2, qid);
                         ps.executeQuery();
                     }else{
                         Status = "unauthorized";
@@ -238,7 +242,7 @@ public class AnswerWS {
         try{
             String Email = IdentityService.getEmail(access_token);
             if(Email!=null){
-                checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=? AND Email = ?");
+                checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=?");
                 checkvote.setInt(1,qid);
                 checkvote.setInt(2,aid);
                 checkvote.setString(3,Email);
