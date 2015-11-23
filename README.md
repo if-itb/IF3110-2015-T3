@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://onedrive.live.com/redir?resid=a53f9b6ad12f57f4!436&authkey=!AE17BWq9ur5xtDA&ithint=file%2cdocx
 
 ### Arsitektur Umum Server
 
