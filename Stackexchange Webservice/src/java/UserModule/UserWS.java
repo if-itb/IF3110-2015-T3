@@ -7,6 +7,7 @@ package UserModule;
 
 import javax.jws.WebService;
 import javax.jws.WebMethod;
+import javax.jws.WebResult;
 import javax.jws.WebParam;
 import DatabaseModule.Database;
 import java.sql.*;
@@ -22,7 +23,9 @@ public class UserWS {
      * This is a sample web service operation
      */
     @WebMethod(operationName = "InsertUser")
-    public void InsertUser(@WebParam(name = "email") String email,@WebParam(name="name") String name, @WebParam(name ="password") String password) {
+    @WebResult(name = "Status")
+    public String InsertUser(@WebParam(name = "email") String email,@WebParam(name="name") String name, @WebParam(name ="password") String password) {
+        String status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps = null;
@@ -41,7 +44,7 @@ public class UserWS {
                 ps.setString(3, password);
                 ps.executeUpdate();
             }else{
-                //TODO return error
+                status = "Email already used";
             }
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -60,6 +63,7 @@ public class UserWS {
                 ex.printStackTrace();
             }
         }
+    return status;
     }
     
 }
