@@ -46,7 +46,7 @@ public class testrestservlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    String access_token = "";
+    static String access_token = "";
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -63,65 +63,34 @@ public class testrestservlet extends HttpServlet {
         //processRequest(request, response);
         final PrintWriter out = response.getWriter();
          ArrayList<String> user = new ArrayList<String>();
-         Timestamp ts = null;
-        out.println("GET method (retrieving data) was invoked!");
         String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
         try {
-            String temp_token = "2c57b801-105e-4c11-a983-5811bf08d00b";
+            String temp_token = access_token;
             Class.forName("com.mysql.jdbc.Driver");
             String userName = "root";
             String password = "";
             Connection conn = DriverManager.getConnection(MyURL,userName,password);
             String query = "SELECT t_time FROM token WHERE t_token = ?";
-            out.println("GET method (retrieving data) was invoked 1!");
+
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, "2c57b801-105e-4c11-a983-5811bf08d00b");
-            out.println("GET method (retrieving data) was invoked 2!");
+            preparedStmt.setString(1, temp_token);
+        
             ResultSet result = preparedStmt.executeQuery();
-            out.println("GET method (retrieving data) was invoked 3!");
-           // out.println("RESULT = "+result);
-            Date date = result.getTimestamp("t_time");
-            String dateString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-            out.println("TIMESTAMP = "+dateString);
-            //out.println("TIMESTAMP = "+ts);
-            //result.getDate("t_time");
-            //out.println(result.getDate("t_time").toString());
-           //user.add(result.getTimestamp("t_time").toString());
-            out.println("GET method (retrieving data) was invoked 4!");
-            out.println("Waktu Token "+temp_token);
-            out.println("GET method (retrieving data) was invoked 5!");
-            out.println("= "+user.toString());
-            out.println("GET method (retrieving data) was invoked 6!");
-            /*
-            if (result.first() == false){
-                String login = "http://localhost:8082/WBD_IS/login.jsp";
-                request.setAttribute("access_token", access_token);
-                //request.getRequestDispatcher(login).forward(request, response);
-                out.println("Username / Password tidak match");
-                access_token = "";
-                response.sendRedirect(login);
+   
+                result.first();
+                java.util.Date lifetime = result.getTimestamp("t_time");
+                java.util.Date now = new java.util.Date();
+                out.println("Token:"+temp_token);
+                out.println("lifetime:" +lifetime );
+                out.println("now:" + now);
+                int comp = lifetime.compareTo(now);
+                out.println("Comparison:"+comp);
+            if(comp == -1){
+            out.println("Expired");
             }
-            else {
-                   
-                   user.add(result.getString("name"));
-                   user.add(result.getString("email"));
-                   user.add(result.getString("password"));
-                   access_token= UUID.randomUUID().toString();
-                    out.println("Berhasil Login = "+user.toString());
-                    out.println("Token = "+access_token);
-                    HttpSession session = request.getSession();
-                    out.println("MASUK SINI 1");
-                    query = "INSERT INTO token (u_email,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE)";
-                    preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setString(1,request.getParameter("username"));
-                    preparedStmt.setString(2,access_token);
-                    out.println("MASUK SINI 1");
-                    out.println("Waktu Pembuatan Sesi : "+session.getCreationTime());
-                    
-               
+            else{
+            out.println("Valid");
             }
-            */
-            
             //execute prepared statement
             preparedStmt.executeUpdate();
             conn.close();
@@ -180,7 +149,7 @@ public class testrestservlet extends HttpServlet {
                     out.println("Token = "+access_token);
                     HttpSession session = request.getSession();
                     out.println("MASUK SINI 1");
-                    query = "INSERT INTO token (u_email,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE)";
+                    query = "REPLACE into token (u_email,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE) ";
                     preparedStmt = conn.prepareStatement(query);
                     preparedStmt.setString(1,request.getParameter("username"));
                     preparedStmt.setString(2,access_token);
