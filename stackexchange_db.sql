@@ -7,10 +7,6 @@ CREATE TABLE IF NOT EXISTS UAccount (
 	PRIMARY KEY (Email)
 );
 
-<<<<<<< HEAD
-=======
-
->>>>>>> d7566619c7693d6fb9fb9a115a9cee1566f6fac0
 CREATE TABLE IF NOT EXISTS Question (
      qid int(11) NOT NULL AUTO_INCREMENT,
      Email varchar(320) NOT NULL, /*owner*/
