@@ -16,10 +16,19 @@
         <servlet-name>qTest</servlet-name>
         <servlet-class>Question.qTest</servlet-class>
     </servlet>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
     <servlet>
         <servlet-name>aTest</servlet-name>
         <servlet-class>Answer.aTest</servlet-class>
     </servlet>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -36,10 +45,19 @@
         <servlet-name>qTest</servlet-name>
         <url-pattern>/qTest</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
     <servlet-mapping>
         <servlet-name>aTest</servlet-name>
         <url-pattern>/aTest</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
     <session-config>
         <session-timeout>
             30

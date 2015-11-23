@@ -87,7 +87,11 @@ public class QuestionWS {
         // cek token (kasih IS)
         
         int Valid;
+<<<<<<< HEAD
         String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
+=======
+       /* String url = "localhost:8082/?access_token=" + token;
+>>>>>>> origin/master
         URL obj = new URL(url);
         
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -111,7 +115,11 @@ public class QuestionWS {
                 
         System.out.println(response.toString());
         
+<<<<<<< HEAD
         if (response.toString() == token){
+=======
+        if (response.toString() == token){*/
+>>>>>>> origin/master
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
@@ -129,10 +137,17 @@ public class QuestionWS {
                 Valid = 0;
             }
             
+<<<<<<< HEAD
         }
         else {
             Valid = 0;
         }
+=======
+       /* }
+        else {
+            Valid = 0;
+        }*/
+>>>>>>> origin/master
         return Valid;
        
     }

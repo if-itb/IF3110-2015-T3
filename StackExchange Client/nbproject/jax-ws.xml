@@ -38,6 +38,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/master
     <client name="AnswerWS">
       <wsdl-url>http://localhost:8080/StackExchangeWS/AnswerWS?wsdl</wsdl-url>
       <local-wsdl-file>localhost_8080/StackExchangeWS/AnswerWS.wsdl</local-wsdl-file>
@@ -74,5 +78,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> origin/master
+>>>>>>> origin/master
   </clients>
 </jax-ws>
