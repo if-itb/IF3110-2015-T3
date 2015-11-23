@@ -9,6 +9,10 @@
     <message name="getQuestionResponse"/>
     <message name="insertQuestion"/>
     <message name="insertQuestionResponse"/>
+    <message name="updateQuestion"/>
+    <message name="updateQuestionResponse"/>
+    <message name="deleteQuesetion"/>
+    <message name="deleteQuesetionResponse"/>
     <portType name="QuestionWS">
         <operation name="getQuestion">
             <input message="tns:getQuestion"/>
@@ -18,6 +22,14 @@
             <input message="tns:insertQuestion"/>
             <output message="tns:insertQuestionResponse"/>
         </operation>
+        <operation name="updateQuestion">
+            <input message="tns:updateQuestion"/>
+            <output message="tns:updateQuestionResponse"/>
+        </operation>
+        <operation name="deleteQuesetion">
+            <input message="tns:deleteQuesetion"/>
+            <output message="tns:deleteQuesetionResponse"/>
+        </operation>
     </portType>
     <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
         <wsp:PolicyReference URI="#QuestionWSPortBindingPolicy"/>
@@ -26,6 +38,14 @@
             <output/>
         </operation>
         <operation name="insertQuestion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="updateQuestion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="deleteQuesetion">
             <input/>
             <output/>
         </operation>

@@ -87,11 +87,7 @@ public class QuestionWS {
         // cek token (kasih IS)
         
         int Valid;
-<<<<<<< HEAD
         String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
-=======
-       /* String url = "localhost:8082/?access_token=" + token;
->>>>>>> origin/master
         URL obj = new URL(url);
         
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -115,11 +111,7 @@ public class QuestionWS {
                 
         System.out.println(response.toString());
         
-<<<<<<< HEAD
         if (response.toString() == token){
-=======
-        if (response.toString() == token){*/
->>>>>>> origin/master
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
@@ -137,17 +129,132 @@ public class QuestionWS {
                 Valid = 0;
             }
             
-<<<<<<< HEAD
         }
         else {
             Valid = 0;
         }
-=======
-       /* }
+        return Valid;
+       
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "updateQuestion")
+    @WebResult(name = "updQuestion")
+    public int updateQuestion(@WebParam(name = "access_token") String token, 
+                              @WebParam(name = "topic") String topic, 
+                              @WebParam(name = "content") String content) 
+            throws Exception {
+        // cek token (kasih IS)
+        
+        int Valid;
+        String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
+        URL obj = new URL(url);
+        
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        String USER_AGENT = "Mozilla/5.0";
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'Get' request to " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        
+        while ((inputLine = in.readLine()) != null){
+            response.append(inputLine);
+            
+        }
+        in.close();
+                
+        System.out.println(response.toString());
+        
+        if (response.toString() == token){
+            try {
+                Statement stmt = conn.createStatement();
+                String sql;
+                sql = "UPDATE question SET (q_topic = '?', q_content = '?')";
+
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setString(1, topic);
+                dbStatement.setString(2, content);
+
+                ResultSet rs = dbStatement.executeQuery();
+                rs.close();
+                stmt.close();
+                Valid = 1;
+            } catch (SQLException e){
+                Valid = 0;
+            }
+            
+        }
         else {
             Valid = 0;
-        }*/
->>>>>>> origin/master
+        }
+        return Valid;
+       
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "deleteQuesetion")
+    @WebResult(name = "delQuestion")
+    public int deleteQuestion(@WebParam(name = "access_token") String token, 
+                              @WebParam(name = "qid") int q_id)
+            throws Exception {
+        // cek token (kasih IS)
+        
+        int Valid;
+        String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
+        URL obj = new URL(url);
+        
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+        String USER_AGENT = "Mozilla/5.0";
+        con.setRequestProperty("User-Agent", USER_AGENT);
+        
+        int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'Get' request to " + url);
+        System.out.println("Response Code : " + responseCode);
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+        
+        while ((inputLine = in.readLine()) != null){
+            response.append(inputLine);
+            
+        }
+        in.close();
+                
+        System.out.println(response.toString());
+        
+        if (response.toString() == token){
+            try {
+                Statement stmt = conn.createStatement();
+                String sql;
+                sql = "DELETE FROM question WHERE (q_id = ?)";
+
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+
+                ResultSet rs = dbStatement.executeQuery();
+                rs.close();
+                stmt.close();
+                Valid = 1;
+            } catch (SQLException e){
+                Valid = 0;
+            }
+            
+        }
+        else {
+            Valid = 0;
+        }
         return Valid;
        
     }
