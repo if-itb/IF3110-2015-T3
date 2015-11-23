@@ -242,30 +242,36 @@ public class AnswerWS {
         try{
             String Email = IdentityService.getEmail(access_token);
             if(Email!=null){
-                checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=?");
+                checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=? AND Email=?");
                 checkvote.setInt(1,qid);
                 checkvote.setInt(2,aid);
                 checkvote.setString(3,Email);
                 ResultSet rs = checkvote.executeQuery();
-                if(rs.next()){ //TODO fix logic error here (and similarly check whether same error happens in QuestionWS
-                    if(rs.getBoolean("up")==false){
-                        int plus = 0;
-                        if(up==false) plus = -1; 
-                        else plus = 1;
-                        String query = "UPDATE Answer SET vote = (vote + ?) where qid = ? AND aid = ?";
-                        ps = con.prepareStatement(query);
-                        ps.setInt(1,plus);
-                        ps.executeUpdate();
-                        query = "UPDATE HasVotedAnswer SET up = 1 where qid = ? and aid = ?";
-                        ps = con.prepareStatement(query);
-                        ps.setInt(1,qid);
-                        ps.setInt(2,aid);
-                        ps.executeUpdate();
-                        ps.close();
-                    }
+                if(!rs.next()){ 
+                    int plus = 0;
+                    if(up==false) plus = -1; 
+                    else plus = 1;
+                    String query = "UPDATE Answer SET vote = (vote + ?) where qid = ? AND aid = ?";
+                    ps = con.prepareStatement(query);
+                    ps.setInt(1,plus);
+                    ps.setInt(2,qid);
+                    ps.setInt(3, aid);
+                    ps.executeUpdate();
+                    query = "INSERT INTO HasVotedAnswer (Email, qid, aid, up) VALUES (? , ? , ? , ?)";
+                    ps = con.prepareStatement(query);
+                    ps.setString(1, Email);
+                    ps.setInt(2,qid);
+                    ps.setInt(3,aid);
+                    ps.setBoolean(4, up);
+                    ps.executeUpdate();
+                    ps.close();
                 }
                 else{
-                    //
+                    if (rs.getBoolean("up")){
+                        Status = "already upvoted";
+                    }else{
+                        Status = "already downvoted";
+                    }
                 }
                 rs.close();
             }else{

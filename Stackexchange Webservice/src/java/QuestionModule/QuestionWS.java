@@ -269,7 +269,7 @@ public class QuestionWS {
     
     @WebMethod(operationName="voteQuestion")
     @WebResult(name = "Status")
-    public String voteQuestion(@WebParam(name="qid")int qid, @WebParam(name="up")boolean up, @WebParam(name="")String access_token ){
+    public String voteQuestion(@WebParam(name="qid")int qid, @WebParam(name="up")boolean up, @WebParam(name="access_token")String access_token ){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
@@ -280,22 +280,30 @@ public class QuestionWS {
         try{
             String Email = IdentityService.getEmail(access_token);
             if (Email!=null){
-                checkvote = con.prepareStatement("SELECT up from HasVotedQuestion WHERE qid = ? ");
+                checkvote = con.prepareStatement("SELECT up from HasVotedQuestion WHERE qid = ? AND Email = ?");
                 checkvote.setInt(1,qid);
+                checkvote.setString(2,Email);
                 ResultSet rs2 = checkvote.executeQuery();
-                if(rs2.next()){
-                    if(rs2.getBoolean("up")==false){
+                if(!rs2.next()){
                         if(up==false) plus = -1;
                         else plus=1;
-                        String query = "UPDATE Question SET vote = (vote+?), where qid = ?";
+                        String query = "UPDATE Question SET vote = (vote+?) where qid = ?";
                         ps = con.prepareStatement(query);
                         ps.setInt(1, plus);
+                        ps.setInt(2, qid);
                         ps.executeUpdate();
-                        query = "UPDATE HasVotedQuestionn SET up = 1 where qid = ?";
+                        query = "INSERT INTO HasVotedQuestion (Email, qid, up) VALUES ( ? , ? , ? )";
                         ps = con.prepareStatement(query);
-                        ps.setInt(1, qid);
+                        ps.setString(1, Email);
+                        ps.setInt(2, qid);
+                        ps.setBoolean(3, up);
                         ps.executeUpdate();
                         ps.close();
+                }else{
+                    if(rs2.getBoolean("up")){
+                        Status = "already upvoted";
+                    }else{
+                        Status = "already downvoted";
                     }
                 }
                 rs2.close();                    
