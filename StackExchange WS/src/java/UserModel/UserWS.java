@@ -6,10 +6,13 @@
 package UserModel;
 
 import DatabaseWS.DB;
+<<<<<<< HEAD
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+=======
+>>>>>>> origin/master
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,6 +64,7 @@ public class UserWS {
         }
 
         return user;
+<<<<<<< HEAD
     }
 
     /**
@@ -191,5 +195,7 @@ public class UserWS {
         }
         return Valid;
        
+=======
+>>>>>>> origin/master
     }
 }
