@@ -133,6 +133,7 @@ public class Login extends HttpServlet {
                     PrintWriter writer=response.getWriter();
                     writer.println("<?xml version=\"1.0\"?>");
                     writer.println("<access_token>"+this_UUID+"</access_token>");
+                    writer.println("<lifetime>"+defaultlifetime+"</lifetime>");
                     response.setStatus(HttpServletResponse.SC_CREATED);
                 }else{
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
