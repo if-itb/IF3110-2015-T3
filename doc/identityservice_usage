@@ -50,10 +50,11 @@ required parameters: Email, AccountPassword
 response: 
 	if some required parameters aren't supplied: 400 - BAD REQUEST
 	if keys (Email and AccountPassword) are invalid: 401 - UNAUTHORIZED
-	on success: 201 CREATED and xml body containing access_token
+	on success: 201 CREATED and xml body containing access_token and lifetime in seconds
 	like this:
 		<?xml version="1.0"?>
 		<access_token>ACCESS TOKEN HERE</access_token>
+		<lifetime>LIFETIME HERE</lifetime>
 	
 
 
