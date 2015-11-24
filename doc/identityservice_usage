@@ -53,8 +53,10 @@ response:
 	on success: 201 CREATED and xml body containing access_token and lifetime in seconds
 	like this:
 		<?xml version="1.0"?>
+		<response>
 		<access_token>ACCESS TOKEN HERE</access_token>
 		<lifetime>LIFETIME HERE</lifetime>
+		</response>
 	
 
 
