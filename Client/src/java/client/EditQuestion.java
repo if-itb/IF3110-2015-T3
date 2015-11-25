@@ -23,38 +23,28 @@ public class EditQuestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
-        Cookie cookies[] = request.getCookies();
-        String token = null;
-	String username = null;
-        Long expirationDate = null;
-        for (Cookie cookie : cookies) {
-            if ("expirationDate".equals(cookie.getName())) {
-                expirationDate = Long.parseLong(cookie.getValue());
-            }
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
-            }
-	    if("username".equals(cookie.getName())){
-		username = cookie.getValue();
-	    }
-        }
-        if (token != null && expirationDate != null) {
-        
-            String status = editQuestion(
+	RequestHandler rh = new RequestHandler(request);
+        if (rh.isHasToken()) {
+	    System.out.println("Call Edit");
+            String res = editQuestion(
                                 Integer.parseInt(request.getParameter("idEdited")),
-                                username,
+                                rh.getUsername(),
 				request.getParameter("qtopic"),
                                 request.getParameter("qcontent"),
-                                token,
-                                expirationDate
+                                rh.getToken(),
+                                rh.getExpirationDate()
                             );
-
-            if("1".equals(request.getParameter("fromDetail"))){
-                response.sendRedirect("detail?idDetail="+ request.getParameter("idEdited"));
-            }
-            else {
-                response.sendRedirect("Home");
-            }
+	    if (!res.trim().equals("success")) {
+		System.out.println("Fail Edit");
+		response.sendRedirect("InvalidateCookie");
+	    }
+	    else{
+		if ("1".equals(request.getParameter("fromDetail"))) {
+		    response.sendRedirect("detail?idDetail=" + request.getParameter("idEdited"));
+		} else {
+		    response.sendRedirect("Home");
+		}
+	    }
         }
         else {
             response.sendRedirect("Home");

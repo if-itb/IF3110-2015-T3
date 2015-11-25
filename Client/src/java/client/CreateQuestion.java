@@ -38,17 +38,25 @@ public class CreateQuestion extends HttpServlet {
 	
 	RequestHandler rh = new RequestHandler(request);
 	
-	boolean authenticated = rh.isHasToken();
+	boolean hasToken = rh.isHasToken();
 	
-	if(authenticated){
+	if(hasToken){
 	    String qtopic = request.getParameter("qtopic");
 	    String qcontent = request.getParameter("qcontent");
 	    String res = createQuestion(rh.getUsername(), qtopic, qcontent, rh.getToken(), rh.getExpirationDate());
-	    response.sendRedirect("Home");
+	    
+	    if("success".equals(res)){
+		response.sendRedirect("Home");
+	    }
+	    else if("invalid".equals(res)){
+		response.sendRedirect("auth.html");
+	    }
+	    else {
+		response.sendRedirect("auth.html");
+	    }
 	}
 	else
 	{
-	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	    response.sendRedirect("auth.html");
         }
 	

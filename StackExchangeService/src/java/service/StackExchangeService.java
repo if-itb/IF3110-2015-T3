@@ -54,7 +54,9 @@ public class StackExchangeService {
             @WebParam(name = "token") String token,
             @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+	
+	String tokenStatus = isValidToken(token).trim();
+	if ("valid".equals(tokenStatus)) {
 	    Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
@@ -77,22 +79,26 @@ public class StackExchangeService {
             dbStatement.setString(3, qtopic);
             dbStatement.setString(4, qcontent);
             int rs = dbStatement.executeUpdate();
-
-            return "Create question Success";
+            return "success";
         }
-        return "Error";
+	else if ("invalid".equals(tokenStatus)) {
+	    System.out.println("INVALID TOKEN");
+	    return "invalid_token";
+	} else {
+	    System.out.println("EXPIRED_TOKEN");
+	    return "invalid_token";
+	}
     }
 
     @WebMethod(operationName = "deleteQuestion")
     public String deleteQuestion(
             @WebParam(name = "qid") int qid,
-            @WebParam(name = "token") String token,
-            @WebParam(name = "expirationDate") long expirationDate    
+            @WebParam(name = "token") String token
         ) throws Exception {
 	
-	String valid = isValidToken(token).trim();
-        if ("valid".equals(valid)) {
-	    System.out.println("VALID TOKEN");
+	String tokenStatus = isValidToken(token).trim();
+        if ("valid".equals(tokenStatus)) {
+	    System.out.println("VALID_TOKEN");
             Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
@@ -109,11 +115,14 @@ public class StackExchangeService {
             rs = dbStatement.executeUpdate();
             return "success";
         }
-	else if("invalid".equals(valid)) {
+	else if("invalid".equals(tokenStatus)) {
 	    System.out.println("INVALID TOKEN");
 	    return "invalid_token";
 	}
-        return "Error";
+	else {
+	    System.out.println("EXPIRED_TOKEN");
+	    return "invalid_token";
+	}
     }
 
     @WebMethod(operationName = "editQuestion")
@@ -125,8 +134,10 @@ public class StackExchangeService {
             @WebParam(name = "token") String token,
             @WebParam(name = "expirationDate") long expirationDate
         ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
-	    
+        
+	String tokenStatus = isValidToken(token).trim();
+        if ("valid".equals(tokenStatus)) {
+
 	    Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
@@ -154,38 +165,49 @@ public class StackExchangeService {
 
             int rs = dbStatement.executeUpdate();
 
-            return "Edit question Success";
+	    return "success";
         }
-        return "Error";
+	else if ("invalid".equals(tokenStatus)) {
+	    System.out.println("INVALID TOKEN");
+	    return "invalid_token";
+	} else {
+	    System.out.println("EXPIRED_TOKEN");
+	    return "invalid_token";
+	}
     }
 
     @WebMethod(operationName = "getQuestion")
     public Question getQuestion(
+	    @WebParam(name = "token") String token,
             @WebParam(name = "qid") int qid
         ) throws Exception {
+	
+	String tokenStatus = isValidToken(token).trim();
+	if ("valid".equals(tokenStatus)) {
+	    Connection conn = ConnectDb.connect();
+	    Statement stmt;
+	    stmt = conn.createStatement();
+	    String sql = "select * from questions where qid = ?";
 
-        Connection conn = ConnectDb.connect();
-        Statement stmt;
-        stmt = conn.createStatement();
-        String sql = "select * from questions where qid = ?";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setInt(1, qid);
 
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, qid);
-
-        ResultSet rs = dbStatement.executeQuery();
-
-        while(rs.next()) {
-                return new Question(
-                        rs.getInt("qid"),
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("qtopic"),
-                        rs.getString("qcontent"),
-                        rs.getInt("votes"),
-                        rs.getInt("answer_count"),
-                        rs.getString("created_at"));
-        }       
-        return null;
+	    ResultSet rs = dbStatement.executeQuery();
+	    while (rs.next()) {
+		return new Question(
+			rs.getInt("qid"),
+			rs.getString("name"),
+			rs.getString("email"),
+			rs.getString("qtopic"),
+			rs.getString("qcontent"),
+			rs.getInt("votes"),
+			rs.getInt("answer_count"),
+			rs.getString("created_at"));
+	    }
+	}
+	
+	return null;
+	
     }
     
     @WebMethod(operationName = "getAnswers")
@@ -377,7 +399,6 @@ public class StackExchangeService {
 
 	String valid = client.target(url).request(MediaType.TEXT_PLAIN)
 		.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-	System.out.println("VALID -->" + valid);
 	return valid;
     }
 }

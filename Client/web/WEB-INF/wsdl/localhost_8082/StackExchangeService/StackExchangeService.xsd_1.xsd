@@ -48,6 +48,7 @@
 
 <xs:complexType name="getQuestion">
 <xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
 <xs:element name="qid" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
@@ -208,7 +209,6 @@
 <xs:sequence>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 

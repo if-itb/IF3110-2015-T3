@@ -75,7 +75,7 @@ public class Auth extends HttpServlet {
 			dbStatement.setString(1, token);
 
 			dbStatement.executeUpdate();
-			out.println("Expired");
+			out.println("expired");
 		    }
 		}
 		else {

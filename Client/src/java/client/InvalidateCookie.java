@@ -6,7 +6,6 @@
 package client;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -35,14 +34,13 @@ public class InvalidateCookie extends HttpServlet {
 	response.setContentType("text/html;charset=UTF-8");
 	for (Cookie cookie : request.getCookies()) {
 	    Cookie old = cookie;
-	    if ("expirationDate".equals(cookie.getName()) || "token".equals(cookie.getName()) || "username".equals(cookie.getName())) {
+	    if ("expirationDate".trim().equals(cookie.getName()) || "token".trim().equals(cookie.getName()) || "username".trim().equals(cookie.getName())) {
 		cookie.setValue(null);
 		cookie.setMaxAge(0);
 		response.addCookie(old);
-		response.sendRedirect("auth.html");
-		return;
 	    }
 	}
+	response.sendRedirect("auth.html");
 	
     }
 

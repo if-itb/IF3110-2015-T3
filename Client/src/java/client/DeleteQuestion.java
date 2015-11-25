@@ -38,26 +38,10 @@ public class DeleteQuestion extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
 	
-//        Cookie cookies[] = request.getCookies();
-//        String token = null;
-//        long expirationDate = 0;
-//	boolean ada = false;
-//        
-//	for (Cookie cookie : cookies) {
-//            if ("expirationDate".equals(cookie.getName())) {
-//                expirationDate = Long.parseLong(cookie.getValue());
-//            }
-//            if ("token".equals(cookie.getName())) {
-//                token = cookie.getValue();
-//		ada = true;
-//		break;
-//            }
-//        }
 	boolean hasToken = rh.isHasToken();
         if (hasToken) {
-	    System.out.println("Client : Call Delete");
 	    System.out.println(rh.getToken()+ " : " +rh.getExpirationDate());
-            String res = deleteQuestion(Integer.parseInt(idDeleted), rh.getToken(), rh.getExpirationDate());
+            String res = deleteQuestion(Integer.parseInt(idDeleted), rh.getToken());
 	    if(!res.trim().equals("success")){
 		response.sendRedirect("InvalidateCookie");
 	    }
@@ -115,11 +99,12 @@ public class DeleteQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String deleteQuestion(int qid, String token, long expirationDate) throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.deleteQuestion(qid, token, expirationDate);
+    private String deleteQuestion(int qid, java.lang.String token) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.deleteQuestion(qid, token);
     }
+
 
 }

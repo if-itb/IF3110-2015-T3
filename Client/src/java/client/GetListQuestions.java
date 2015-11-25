@@ -45,8 +45,8 @@ public class GetListQuestions extends HttpServlet {
 	
 	if(rh.isHasToken()){
 	    request.setAttribute("username",rh.getUsername());
+	    request.setAttribute("isAuthenticated", rh.isHasToken());
 	}
-	request.setAttribute("isAuthenticated", rh.isHasToken());
 	request.setAttribute("questions", questions);
 	request.getRequestDispatcher("/list.jsp").forward(request, response);
 	
