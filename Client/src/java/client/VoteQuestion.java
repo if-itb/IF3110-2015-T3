@@ -42,7 +42,6 @@ public class VoteQuestion extends HttpServlet {
 		response.getWriter().write("<invalid>true</invalid>");
 	    }
 	    else if(newVote==1234) {
-//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.getWriter().write("<cantVote>true</cantVote>");
 	    }
 	    else {

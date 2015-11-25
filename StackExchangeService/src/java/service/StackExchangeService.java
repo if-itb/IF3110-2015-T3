@@ -398,33 +398,65 @@ public class StackExchangeService {
     public int voteAnswer(
         @WebParam(name = "aid") int aid,
         @WebParam(name = "operation") String operation,
-        @WebParam(name = "token") String token
+        @WebParam(name = "token") String token,
+	@WebParam(name = "id") int id
     ) throws Exception {
         String tokenStatus = isValidToken(token).trim();
-        if ("valid".equals(tokenStatus)) { 
+        if ("valid".equals(tokenStatus)) {
             Connection conn = ConnectDb.connect();
             Statement stmt = conn.createStatement();
             PreparedStatement dbStatement;
-            String sql=null;
-            if("up".equals(operation)) {
-                sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
-            }
-            else if("down".equals(operation)) {
-                sql = "UPDATE answers SET votes=votes-1 WHERE aid = ?";
-            }
-
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, aid);
-	    int rs = dbStatement.executeUpdate();
+            String sql = null, sql2=null;
 	    
-            sql = "SELECT votes FROM answers WHERE aid = ?";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, aid);
-            ResultSet res = dbStatement.executeQuery();
+	    boolean canVote = false;
+	    sql = "SELECT * from user_vote_answer where id = ? and aid = ? and value = ?";
+	    dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setInt(1, id);
+	    dbStatement.setInt(2, aid);
+	    if("up".equals(operation)){
+		dbStatement.setInt(3, 1);
+	    } else {
+		dbStatement.setInt(3, -1);
+	    }
+	    
+	    ResultSet r = dbStatement.executeQuery();
+	    if(r.next()) {
+		canVote = false;
+	    } else {
+		canVote = true;
+	    }
+	    
+	    if(canVote){
+		if ("up".equals(operation)) {
+		    sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
+		    sql2 = "INSERT INTO user_vote_answer (id,aid,value) values(?,?,1)";
+		} else if ("down".equals(operation)) {
+		    sql = "UPDATE answers SET votes=votes-1 WHERE aid = ?";
+		    sql2 = "INSERT INTO user_vote_answer (id,aid,value) values(?,?,-1)";
+		}
 
-            while(res.next()) {
-                return res.getInt("votes");
-            }   
+		dbStatement = conn.prepareStatement(sql);
+		dbStatement.setInt(1, aid);
+		int rs = dbStatement.executeUpdate();
+
+		dbStatement = conn.prepareStatement(sql2);
+		dbStatement.setInt(1, id);
+		dbStatement.setInt(2, aid);
+		rs = dbStatement.executeUpdate();
+
+		sql = "SELECT votes FROM answers WHERE aid = ?";
+		dbStatement = conn.prepareStatement(sql);
+		dbStatement.setInt(1, aid);
+		ResultSet res = dbStatement.executeQuery();
+
+		while (res.next()) {
+		    return res.getInt("votes");
+		}
+	    }
+	    else {
+		return 1234;
+	    }
+            
         }
 	else if ("expired".equals(tokenStatus)) {
             return -9999;
