@@ -273,10 +273,10 @@ public class StackExchangeService {
         @WebParam(name = "qid") int qid,
         @WebParam(name = "name") String name,
         @WebParam(name = "content") String content,
-        @WebParam(name = "token") String token,
-        @WebParam(name = "expirationDate") long expirationDate
+        @WebParam(name = "token") String token
     ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+        String tokenStatus = isValidToken(token).trim();
+	if ("valid".equals(tokenStatus)) {
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt;
 	    stmt = conn.createStatement();
@@ -289,6 +289,8 @@ public class StackExchangeService {
 	    if (res.next()) {
 		email = res.getString("email");
 	    }
+	    
+	 
 	    
 	    
             conn = ConnectDb.connect();
@@ -306,9 +308,15 @@ public class StackExchangeService {
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, qid);
             rs = dbStatement.executeUpdate();
-            return "Create answer Success";
+            return "success";
         }
-        return "Error";
+	else if ("invalid".equals(tokenStatus)) {
+	    System.out.println("INVALID TOKEN");
+	    return "invalid";
+	} else {
+	    System.out.println("EXPIRED_TOKEN");
+	    return "expired";
+	}
     }
     
     
@@ -316,8 +324,7 @@ public class StackExchangeService {
     public int voteQuestion(
         @WebParam(name = "qid") int qid,
         @WebParam(name = "operation") String operation,
-        @WebParam(name = "token") String token,
-        @WebParam(name = "expirationDate") long expirationDate
+        @WebParam(name = "token") String token
     ) throws Exception {
         String tokenStatus = isValidToken(token).trim();
         if ("valid".equals(tokenStatus)) { 
@@ -361,19 +368,21 @@ public class StackExchangeService {
     public int voteAnswer(
         @WebParam(name = "aid") int aid,
         @WebParam(name = "operation") String operation,
-        @WebParam(name = "token") String token,
-        @WebParam(name = "expirationDate") long expirationDate
+        @WebParam(name = "token") String token
     ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+        String tokenStatus = isValidToken(token).trim();
+        if ("valid".equals(tokenStatus)) { 
             Connection conn = ConnectDb.connect();
             Statement stmt = conn.createStatement();
             PreparedStatement dbStatement;
             String sql = null;
 
-            if ("up".equals(operation)) {
+            if("up".equals(operation)) {
                 sql = "UPDATE answers SET votes=votes + 1 WHERE aid = ?";
-            } else if ("down".equals(operation)) {
-                sql = "UPDATE answers SET votes=votes - 1 WHERE aid = ?";
+
+            }
+            else if("down".equals(operation)) {
+                sql = "UPDATE answers SET votes=votes-1 WHERE aid = ?";
             }
 
             dbStatement = conn.prepareStatement(sql);
@@ -384,13 +393,17 @@ public class StackExchangeService {
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, aid);
             ResultSet res = dbStatement.executeQuery();
-            while (res.next()) {
+
+            while(res.next()) {
                 return res.getInt("votes");
-            }
+            }   
         }
-        else {
-            
+	else if ("expired".equals(tokenStatus)) {
+            return -9999;
         }
+	else {
+	    return 9999;
+	}
         
         return 0;
     }

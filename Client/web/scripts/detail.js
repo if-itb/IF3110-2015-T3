@@ -88,19 +88,33 @@
             http.setRequestHeader("Content-length", params.length);
             http.setRequestHeader("Connection", "close");
 
-            http.onreadystatechange = function () {
-                if (http.readyState === 4 && http.status === 200) {
-		    if(http.responseXML){
-			var newVote = http.responseXML.getElementsByTagName("new-vote")[0].childNodes[0].nodeValue;
-			getSibling($this,"voteVal").innerHTML = newVote;
+            var invalid, expired, newVote = 0;
+	    http.onreadystatechange = function () {
+		if (http.readyState === 4) {
+		    if (http.status === 200) {
+			invalid = http.responseXML.getElementsByTagName("invalid")[0];
+			expired = http.responseXML.getElementsByTagName("expired")[0];
+			newVote = http.responseXML.getElementsByTagName("new-vote")[0];
+			if (newVote) {
+			    getSibling($this, "voteVal").innerHTML = newVote.childNodes[0].nodeValue;
+			} else if (expired) {
+			    delete_cookie();
+			    window.location.href = "InvalidateCookie";
+			} else {
+			    delete_cookie();
+			    window.location.href = "InvalidateCookie";
+
+			}
+
+		    } else if (http.status === 401)
+		    {
+			delete_cookie();
+			window.location.href = "InvalidateCookie";
 		    }
-                }
-		else if(http.status === 401)
-		{
-		    window.location.href = "auth.html";
 		}
-            };
-            http.send(params);
+
+	    };
+	    http.send(params);
         };
     }
     

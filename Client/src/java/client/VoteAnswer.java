@@ -31,16 +31,24 @@ public class VoteAnswer extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
 	
-        if(rh.isHasToken()) {
-            int newVote = voteAnswer(aid, operation, rh.getToken(), rh.getExpirationDate());        
-            response.setContentType("text/xml");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
-        }
-        else {
+	
+	if (rh.isHasToken()) {
+	    int newVote = voteAnswer(aid, operation, rh.getToken());
+	    response.setContentType("text/xml");
+	    response.setHeader("Cache-Control", "no-cache");
+	    if (newVote != 9999 && newVote != -9999) {
+		response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
+	    } else if (newVote == 9999) {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("<expired>true</expired>");
+	    } else {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("<invalid>true</invalid>");
+	    }
+	} else {
 	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-
+	}
+	
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,12 +98,14 @@ public class VoteAnswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteAnswer(int aid, String operation, String token, long expirationDate) throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.voteAnswer(aid, operation, token, expirationDate);
+    private int voteAnswer(int aid, java.lang.String operation, java.lang.String token) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.voteAnswer(aid, operation, token);
     }
+
+
 
 
 }

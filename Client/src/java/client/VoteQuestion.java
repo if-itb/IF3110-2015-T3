@@ -29,7 +29,7 @@ public class VoteQuestion extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
         if(rh.isHasToken()) {
-            int newVote = voteQuestion(qid, operation, rh.getToken(), rh.getExpirationDate());
+            int newVote = voteQuestion(qid, operation, rh.getToken());
 	    response.setContentType("text/xml");
 	    response.setHeader("Cache-Control", "no-cache");
 	    if(newVote!=9999 && newVote!=-9999) {
@@ -96,11 +96,12 @@ public class VoteQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteQuestion(int qid, String operation, String token, long expirationDate) throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.voteQuestion(qid, operation, token, expirationDate);
+    private int voteQuestion(int qid, java.lang.String operation, java.lang.String token) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.voteQuestion(qid, operation, token);
     }
+
 
 }

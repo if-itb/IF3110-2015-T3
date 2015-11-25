@@ -39,13 +39,21 @@ public class CreateAnswer extends HttpServlet {
 	if(rh.isHasToken()){
 	    String content = request.getParameter("content");
 	    int qid = Integer.parseInt(request.getParameter("qid"));
-	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken(), rh.getExpirationDate());
-	    response.sendRedirect("detail?idDetail=" + qid);
+	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken());
+	    
+	    if ("success".equals(res)) {
+		 response.sendRedirect("detail?idDetail=" + qid);
+	    } else if ("invalid".equals(res)) {
+		response.sendRedirect("InvalidateCookie");
+	    } else {
+		response.sendRedirect("InvalidateCookie");
+	    }
+	    
 	}
 	else
 	{
 	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	    response.sendRedirect("auth.html");
+	    response.sendRedirect("InvalidateCookie");
 	}
 
     }
@@ -97,11 +105,11 @@ public class CreateAnswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createAnswer(int qid, java.lang.String name, java.lang.String content, java.lang.String token, long expirationDate) throws Exception_Exception {
+    private String createAnswer(int qid, java.lang.String name, java.lang.String content, java.lang.String token) throws Exception_Exception {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
-	return port.createAnswer(qid, name, content, token, expirationDate);
+	return port.createAnswer(qid, name, content, token);
     }
 
     
