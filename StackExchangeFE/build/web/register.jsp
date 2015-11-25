@@ -1,7 +1,7 @@
 <%-- 
-    Document   : login
-    Created on : Nov 14, 2015, 11:08:03 PM
-    Author     : user
+    Document   : register
+    Created on : Nov 25, 2015, 5:39:49 PM
+    Author     : User
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Page</title>
+        <title>Register Page</title>
         <link rel="stylesheet" href="css/style.css">
         <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
     </head>
@@ -24,27 +24,21 @@
         <li><span>Image 06</span></li>
         
     </ul>
-    
-        <div class="grad"></div>
+       
+            <div class="grad"></div>
 		<div class="header">
 			<div>Stack<span>Exchange</span></div>
                         <br>
-                        <div>Login<span>!</span></div>
+                        <div>Register<span>!</span></div>
 		</div>
                 <div class="login">
                     <form method="POST" action="http://localhost:8082/WBD_IS/testrestservlet">
                         <input type="text" placeholder="username" name="username"><br>
-                        <input type="password" placeholder="password" name="password"><br>
-                        <input type="submit" value="login"><br>
-                        <p><a href="">forgot password?</a></p>
+                        <input type="password" placeholder="password" name="password"><br><br>
+                        <input type="text" placeholder="email" name="email"><br>
+                        <input type="submit" value="register"><br>
                     </form>
-                    
-                    <br><br><br><br>
-                    <p>
-                        Don't have an account yet ?
-                        <a href="http://localhost:8080/StackExchangeFE/register.jsp">Sign Up</a>
-                    </p>
-		</div>
-
+                </div>
     </body>
+    
 </html>
