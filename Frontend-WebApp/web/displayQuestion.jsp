@@ -15,44 +15,65 @@
         <a href="index.jsp"><h1>Simple StackExchange</h1></a>
         <h2>Topic</h2>
         <div class="garis"></div>
-
-        <table >
+        
+        <%
+        QuestionModule.QuestionWS_Service service = new QuestionModule.QuestionWS_Service();
+        QuestionModule.QuestionWS port = service.getQuestionWSPort();
+        
+        QuestionModule.Question q = new QuestionModule.Question();
+        String str = request.getParameter("id");
+        if(str != null) {
+          int id = Integer.parseInt(str);
+          q = port.getQuestionByID(id);
+        }
+        %>
+        
+        <table class="question">
             <tr>
-                <td class="vote">
-                    
-                    <img src="image/Up.png"  width="30" hight="30">
-                    <h3><div>
-                        nVote
-                    </div></h3>
-                    <img src="image/down.png"  width="30" hight="30">
-                    
-                </td>
-                <td class="dContent">
-                    Content
-                </td>
+                    <td class="number">
+                            <%= q.getQvote() %>
+                    </td>
+                    <td class="number">
+                            nAns
+                    </td>
+                    <td>
+                    </td>
+                    <td class="Topic">
+                        <a href="displayQuestion.jsp?id=<%=q.getQid()%>">
+                            <%= q.getQtopic() %>
+                        </a>
+                    </td>
+                    <td class="Date">
+                            <%= q.getQtimestamp() %>
+                    </td>
             </tr>
             <tr>
-                <td>
-                </td>
-                <td class="Detail">
-                    Asked by
-                    <span class="name">
-                        Username
-                    </span>
-                    at
-                    date
-
-                    | 
-                    <a href="ask.jsp?"><span class="edit">
-                    edit
-                    </span></a>
-                    |
-                    <span class="del">
-                    delete
-                    </span>
-                </td>
+                    <td class="Text">
+                            Votes
+                    </td>
+                    <td class="Text">
+                            Answers
+                    </td>
+                    <td></td>
+                    <td class="Content">
+                            <%= q.getQcontent() %>
+                    </td>
+                    <td class="Detail">
+                            Asked by
+                            <span class="name">
+                                    <%= q.getUemail() %>
+                            </span>
+                            | 
+                            <a href="ask.jsp?id=<%=q.getQid()%>"><span class="edit">
+                            edit
+                            </span></a>
+                            |
+                            <a href="delete.jsp?id=<%=q.getQid()%>"><Span class="delete">
+                            delete
+                            </span></a>
+                    </td>
             </tr>
-        </table>
+    </table>
         
         <h2>nAns Answer</h2>
         <div class="garis"></div>
@@ -97,7 +118,7 @@
             <div align="right">
                     <input type="submit" value="Post" onclick="return validateAns()" action="addAnswer.jsp">
             </div>
-            <input type="hidden" name="id_q" />
+            <input name="id" type="hidden" value=<%=q.getQid()%>>
         </form>
 
     </body>

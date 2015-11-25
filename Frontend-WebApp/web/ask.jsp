@@ -17,19 +17,33 @@
         
         <h2>What's your question?</h2>
         
-        <form action="addQuestion.php" method="post" name="ask-form">
-            <input type="text" name="Name" class="form-field" placeholder="Name"></input>
+        <%
+            
+        
+        QuestionModule.QuestionWS_Service service = new QuestionModule.QuestionWS_Service();
+        QuestionModule.QuestionWS port = service.getQuestionWSPort();
+        
+        QuestionModule.Question q = new QuestionModule.Question();
+        String str = request.getParameter("id");
+        if(str != null) {
+          int id = Integer.parseInt(str);
+          q = port.getQuestionByID(id);
+        }
+        %>
+        
+        <form action="addQuestion.jsp" method="post" name="ask-form">
+            <input type="text" name="Name" class="form-field" placeholder="Name" value="<%= str != null?q.getQauthorname():"" %>"></input>
             <br>
-            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email"></input>
+            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" value="<%= str != null?q.getUemail():"" %>"></input>
             <br>
-            <input type="text" name="Topic" class="form-field" placeholder="Question Topic" ></input>
+            <input type="text" name="Topic" class="form-field" placeholder="Question Topic" value="<%= str != null?q.getQtopic() :""%>"></input>
             <br>
-            <textarea name="Content" placeholder="Content" class="form-textarea" ></textarea>
+            <textarea name="Content" placeholder="Content" class="form-textarea" ><%= str != null?q.getQcontent():"" %></textarea>
             <br>
             <div align="right">
                     <input type="submit" value="Post" onclick="return validateForm()" action="addQuestion.jsp">
             </div>
-            <input type="hidden" name="id_q" />
+            <input name="id" type="hidden" value=<%=q.getQid()%>>
         </form>
 
     </body>

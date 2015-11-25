@@ -28,19 +28,21 @@
         
         <h5>Cannot find what you are  looking for? <a href="ask.jsp"><span id="link">Ask here</span></a></h5>
         <h4>Recently Asked Questions</h4>
-        <%--
-            <%
-                QuestionModule.QuestionWS service = new QuestionWS.QuestionWS_QuestionWS();
-                QuestionModule.QuestionWS port = service.getQuestionWSPort();
-                java.util.ArrayList<QuestionModule.Question> questions = port.getAllQuestion();
-            %>
-        --%>
+        
+        <%
+            QuestionModule.QuestionWS_Service service = new QuestionModule.QuestionWS_Service();
+            QuestionModule.QuestionWS port = service.getQuestionWSPort();
+            java.util.List<QuestionModule.Question> questions = port.getAllQuestion();
+        %>
+        
         <div class="garis"></div>
+        
+        <% for(QuestionModule.Question q : questions) { %>
         
         <table class="question">
             <tr>
                     <td class="number">
-                            nVote
+                            <%= q.getQvote() %>
                     </td>
                     <td class="number">
                             nAns
@@ -48,12 +50,12 @@
                     <td>
                     </td>
                     <td class="Topic">
-                        <a href="displayQuestion.jsp">
-                            Topic
+                        <a href="displayQuestion.jsp?id=<%=q.getQid()%>">
+                            <%= q.getQtopic() %>
                         </a>
                     </td>
                     <td class="Date">
-                            date
+                            <%= q.getQtimestamp() %>
                     </td>
             </tr>
             <tr>
@@ -65,25 +67,25 @@
                     </td>
                     <td></td>
                     <td class="Content">
-                            Content
+                            <%= q.getQcontent() %>
                     </td>
                     <td class="Detail">
                             Asked by
                             <span class="name">
-                                    Username
+                                    <%= q.getUemail() %>
                             </span>
                             | 
-                            <a href="ask.jsp"><span class="edit">
+                            <a href="ask.jsp?id=<%=q.getQid()%>"><span class="edit">
                             edit
                             </span></a>
                             |
-                            <Span class="delete">
+                            <a href="delete.jsp?id=<%=q.getQid()%>"><Span class="delete">
                             delete
-                            </span>
+                            </span></a>
                     </td>
             </tr>
     </table>
     <div class="garis"></div>
-        
+    <% } %>
     </body>
 </html>

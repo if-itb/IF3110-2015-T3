@@ -24,7 +24,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import jdk.internal.org.xml.sax.InputSource;
+//import jdk.internal.org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
