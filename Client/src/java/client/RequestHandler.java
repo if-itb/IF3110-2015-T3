@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RequestHandler {
     
     private String token = "" , username = "";
-    private Long expirationDate = Long.getLong("0") ;
+    private long expirationDate = 0;
   
     private final HttpServletRequest request;
     private final Cookie cookies[];
@@ -17,20 +17,25 @@ public class RequestHandler {
 	this.cookies = this.request.getCookies();
     }
     
-    public boolean isAuthenticated() {
-	for (Cookie cookie : this.cookies) {
-	    if ("expirationDate".equals(cookie.getName())) {
-		this.expirationDate = Long.parseLong(cookie.getValue());
-	    }
-	    if ("token".equals(cookie.getName())) {
-		this.token = cookie.getValue();
-	    }
-	    if ("username".equals(cookie.getName())) {
-		this.username = cookie.getValue();
+    public boolean isHasToken() {
+	try{
+	    for (Cookie cookie : this.cookies) {
+		if ("expirationDate".equals(cookie.getName())) {
+		    this.expirationDate = Long.parseLong(cookie.getValue());
+		}
+		if ("token".equals(cookie.getName())) {
+		    this.token = cookie.getValue();
+		}
+		if ("username".equals(cookie.getName())) {
+		    this.username = cookie.getValue();
+		}
 	    }
 	}
-
-	return (!this.token.isEmpty() && this.expirationDate!=0.);
+	catch(NullPointerException e) {
+	    System.out.println("COOKIE IS EMPTY");
+	}
+	
+	return (!this.token.isEmpty() );
     }
     
     public String getToken() {

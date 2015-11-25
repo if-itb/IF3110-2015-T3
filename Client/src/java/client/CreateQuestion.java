@@ -38,7 +38,7 @@ public class CreateQuestion extends HttpServlet {
 	
 	RequestHandler rh = new RequestHandler(request);
 	
-	boolean authenticated = rh.isAuthenticated();
+	boolean authenticated = rh.isHasToken();
 	
 	if(authenticated){
 	    String qtopic = request.getParameter("qtopic");

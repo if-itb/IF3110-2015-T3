@@ -38,10 +38,10 @@ public class DetailQuestion extends HttpServlet {
 	response.setContentType("text/html");
 	request.setAttribute("question", question);
 	request.setAttribute("answers", answers);
-	if(rh.isAuthenticated()){
+	if(rh.isHasToken()){
 	    request.setAttribute("username",rh.getUsername());
 	}
-	request.setAttribute("isAuthenticated", rh.isAuthenticated());
+	request.setAttribute("isAuthenticated", rh.isHasToken());
 	request.getRequestDispatcher("/detail.jsp").forward(request, response);
 	
 

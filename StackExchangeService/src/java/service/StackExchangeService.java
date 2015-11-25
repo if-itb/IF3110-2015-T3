@@ -89,7 +89,10 @@ public class StackExchangeService {
             @WebParam(name = "token") String token,
             @WebParam(name = "expirationDate") long expirationDate    
         ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+	
+	String valid = isValidToken(token).trim();
+        if ("valid".equals(valid)) {
+	    System.out.println("VALID TOKEN");
             Connection conn = ConnectDb.connect();
             Statement stmt;
             stmt = conn.createStatement();
@@ -102,11 +105,14 @@ public class StackExchangeService {
             sql = "delete from questions where qid = ?";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, qid);
-
+	    
             rs = dbStatement.executeUpdate();
-
-            return "Delete question Success";
+            return "success";
         }
+	else if("invalid".equals(valid)) {
+	    System.out.println("INVALID TOKEN");
+	    return "invalid_token";
+	}
         return "Error";
     }
 
@@ -192,7 +198,6 @@ public class StackExchangeService {
         Connection conn = ConnectDb.connect();
         Statement stmt;
         stmt = conn.createStatement();
-        
         String sql = "SELECT * FROM answers WHERE qid = ?  ORDER BY  aid DESC";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
@@ -221,7 +226,6 @@ public class StackExchangeService {
         @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
         if (System.currentTimeMillis() / 1000 <= expirationDate) {
-	    
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt;
 	    stmt = conn.createStatement();
@@ -362,6 +366,19 @@ public class StackExchangeService {
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
 	    return result;
 	}
+    }
+    
+    private String isValidToken(String token) {
+	Form form = new Form();
+	form.param("token", token);
+
+	Client client = ClientBuilder.newClient();
+	String url = "http://localhost:8080/IdentityService/Auth";
+
+	String valid = client.target(url).request(MediaType.TEXT_PLAIN)
+		.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
+	System.out.println("VALID -->" + valid);
+	return valid;
     }
 }
 

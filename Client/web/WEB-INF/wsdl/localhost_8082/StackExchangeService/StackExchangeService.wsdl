@@ -19,12 +19,6 @@
 <message name="deleteQuestionResponse">
 <part name="parameters" element="tns:deleteQuestionResponse"/>
 </message>
-<message name="getAnswers">
-<part name="parameters" element="tns:getAnswers"/>
-</message>
-<message name="getAnswersResponse">
-<part name="parameters" element="tns:getAnswersResponse"/>
-</message>
 <message name="editQuestion">
 <part name="parameters" element="tns:editQuestion"/>
 </message>
@@ -36,6 +30,12 @@
 </message>
 <message name="getQuestionResponse">
 <part name="parameters" element="tns:getQuestionResponse"/>
+</message>
+<message name="getAnswers">
+<part name="parameters" element="tns:getAnswers"/>
+</message>
+<message name="getAnswersResponse">
+<part name="parameters" element="tns:getAnswersResponse"/>
 </message>
 <message name="createAnswer">
 <part name="parameters" element="tns:createAnswer"/>
@@ -78,11 +78,6 @@
 <output wsam:Action="http://service/StackExchangeService/deleteQuestionResponse" message="tns:deleteQuestionResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/deleteQuestion/Fault/Exception"/>
 </operation>
-<operation name="getAnswers">
-<input wsam:Action="http://service/StackExchangeService/getAnswersRequest" message="tns:getAnswers"/>
-<output wsam:Action="http://service/StackExchangeService/getAnswersResponse" message="tns:getAnswersResponse"/>
-<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getAnswers/Fault/Exception"/>
-</operation>
 <operation name="editQuestion">
 <input wsam:Action="http://service/StackExchangeService/editQuestionRequest" message="tns:editQuestion"/>
 <output wsam:Action="http://service/StackExchangeService/editQuestionResponse" message="tns:editQuestionResponse"/>
@@ -92,6 +87,11 @@
 <input wsam:Action="http://service/StackExchangeService/getQuestionRequest" message="tns:getQuestion"/>
 <output wsam:Action="http://service/StackExchangeService/getQuestionResponse" message="tns:getQuestionResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getQuestion/Fault/Exception"/>
+</operation>
+<operation name="getAnswers">
+<input wsam:Action="http://service/StackExchangeService/getAnswersRequest" message="tns:getAnswers"/>
+<output wsam:Action="http://service/StackExchangeService/getAnswersResponse" message="tns:getAnswersResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getAnswers/Fault/Exception"/>
 </operation>
 <operation name="createAnswer">
 <input wsam:Action="http://service/StackExchangeService/createAnswerRequest" message="tns:createAnswer"/>
@@ -145,18 +145,6 @@
 <soap:fault name="Exception" use="literal"/>
 </fault>
 </operation>
-<operation name="getAnswers">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="Exception">
-<soap:fault name="Exception" use="literal"/>
-</fault>
-</operation>
 <operation name="editQuestion">
 <soap:operation soapAction=""/>
 <input>
@@ -170,6 +158,18 @@
 </fault>
 </operation>
 <operation name="getQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
+</operation>
+<operation name="getAnswers">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

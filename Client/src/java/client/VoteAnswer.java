@@ -31,7 +31,7 @@ public class VoteAnswer extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
 	
-        if(rh.isAuthenticated()) {
+        if(rh.isHasToken()) {
             int newVote = voteAnswer(aid, operation, rh.getToken(), rh.getExpirationDate());        
             response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-cache");

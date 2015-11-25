@@ -36,23 +36,34 @@ public class DeleteQuestion extends HttpServlet {
         
         String idDeleted = request.getParameter("idDeleted");
         
-        Cookie cookies[] = request.getCookies();
-        String token = null;
-        Long expirationDate = null;
-        for (Cookie cookie : cookies) {
-            if ("expirationDate".equals(cookie.getName())) {
-                expirationDate = Long.parseLong(cookie.getValue());
-            }
-            if ("token".equals(cookie.getName())) {
-                token = cookie.getValue();
-            }
+	RequestHandler rh = new RequestHandler(request);
+	
+//        Cookie cookies[] = request.getCookies();
+//        String token = null;
+//        long expirationDate = 0;
+//	boolean ada = false;
+//        
+//	for (Cookie cookie : cookies) {
+//            if ("expirationDate".equals(cookie.getName())) {
+//                expirationDate = Long.parseLong(cookie.getValue());
+//            }
+//            if ("token".equals(cookie.getName())) {
+//                token = cookie.getValue();
+//		ada = true;
+//		break;
+//            }
+//        }
+	boolean hasToken = rh.isHasToken();
+        if (hasToken) {
+	    System.out.println("Client : Call Delete");
+	    System.out.println(rh.getToken()+ " : " +rh.getExpirationDate());
+            String res = deleteQuestion(Integer.parseInt(idDeleted), rh.getToken(), rh.getExpirationDate());
+	    if(!res.trim().equals("success")){
+		response.sendRedirect("InvalidateCookie");
+	    }
         }
-        if (token != null && expirationDate != null) {
-            deleteQuestion(Integer.parseInt(idDeleted), token, expirationDate);
-        }
-        
-        // Redirect ke Lists
-        response.sendRedirect("Home");
+
+	response.sendRedirect("Home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -71,7 +82,9 @@ public class DeleteQuestion extends HttpServlet {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
             Logger.getLogger(DeleteQuestion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch(IllegalStateException e){
+	    
+	}
     }
 
     /**

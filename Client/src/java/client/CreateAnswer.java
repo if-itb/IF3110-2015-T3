@@ -36,7 +36,7 @@ public class CreateAnswer extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
 	
-	if(rh.isAuthenticated()){
+	if(rh.isHasToken()){
 	    String content = request.getParameter("content");
 	    int qid = Integer.parseInt(request.getParameter("qid"));
 	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken(), rh.getExpirationDate());

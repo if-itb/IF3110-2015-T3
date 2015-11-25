@@ -64,16 +64,11 @@ public class Login extends HttpServlet {
 	    PrintWriter pw = response.getWriter();
 
 	    Cookie tokenCookie = new Cookie("token", token);
-	    tokenCookie.setMaxAge(lifetime); 
 	    response.addCookie(tokenCookie);
 	    
 	    Cookie usernameCookie = new Cookie("username", username);
-	    usernameCookie.setMaxAge(lifetime); 
 	    response.addCookie(usernameCookie);
 	    
-	    Cookie exDateCookie = new Cookie("expirationDate", expirationDate);
-	    exDateCookie.setMaxAge(lifetime); 
-	    response.addCookie(exDateCookie);
 
 	    pw.println("Cookies created");
 	    response.sendRedirect("Home");

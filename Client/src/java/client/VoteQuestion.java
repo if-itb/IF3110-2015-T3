@@ -28,7 +28,7 @@ public class VoteQuestion extends HttpServlet {
         String operation =  request.getParameter("operation");
         
 	RequestHandler rh = new RequestHandler(request);
-        if(rh.isAuthenticated()) {
+        if(rh.isHasToken()) {
             int newVote = voteQuestion(qid, operation, rh.getToken(), rh.getExpirationDate());        
             response.setContentType("text/xml");
             response.setHeader("Cache-Control", "no-cache");
