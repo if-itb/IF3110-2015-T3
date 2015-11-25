@@ -4,14 +4,20 @@
 <xsd:import namespace="http://service/" schemaLocation="http://localhost:8082/StackExchangeService/StackExchangeService?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getQuestionWithoutValidation">
+<part name="parameters" element="tns:getQuestionWithoutValidation"/>
+</message>
+<message name="getQuestionWithoutValidationResponse">
+<part name="parameters" element="tns:getQuestionWithoutValidationResponse"/>
+</message>
+<message name="Exception">
+<part name="fault" element="tns:Exception"/>
+</message>
 <message name="getAllQuestion">
 <part name="parameters" element="tns:getAllQuestion"/>
 </message>
 <message name="getAllQuestionResponse">
 <part name="parameters" element="tns:getAllQuestionResponse"/>
-</message>
-<message name="Exception">
-<part name="fault" element="tns:Exception"/>
 </message>
 <message name="deleteQuestion">
 <part name="parameters" element="tns:deleteQuestion"/>
@@ -68,6 +74,11 @@
 <part name="parameters" element="tns:createQuestionResponse"/>
 </message>
 <portType name="StackExchangeService">
+<operation name="getQuestionWithoutValidation">
+<input wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationRequest" message="tns:getQuestionWithoutValidation"/>
+<output wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationResponse" message="tns:getQuestionWithoutValidationResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidation/Fault/Exception"/>
+</operation>
 <operation name="getAllQuestion">
 <input wsam:Action="http://service/StackExchangeService/getAllQuestionRequest" message="tns:getAllQuestion"/>
 <output wsam:Action="http://service/StackExchangeService/getAllQuestionResponse" message="tns:getAllQuestionResponse"/>
@@ -121,6 +132,18 @@
 </portType>
 <binding name="StackExchangeServicePortBinding" type="tns:StackExchangeService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getQuestionWithoutValidation">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
+</operation>
 <operation name="getAllQuestion">
 <soap:operation soapAction=""/>
 <input>

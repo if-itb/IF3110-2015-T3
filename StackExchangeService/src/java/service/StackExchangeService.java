@@ -210,6 +210,36 @@ public class StackExchangeService {
 	
     }
     
+    @WebMethod(operationName = "getQuestionWithoutValidation")
+    public Question getQuestionWithoutValidation(
+	    @WebParam(name = "qid") int qid
+    ) throws Exception {
+
+	Connection conn = ConnectDb.connect();
+	Statement stmt;
+	stmt = conn.createStatement();
+	String sql = "select * from questions where qid = ?";
+
+	PreparedStatement dbStatement = conn.prepareStatement(sql);
+	dbStatement.setInt(1, qid);
+
+	ResultSet rs = dbStatement.executeQuery();
+	while (rs.next()) {
+	    return new Question(
+		    rs.getInt("qid"),
+		    rs.getString("name"),
+		    rs.getString("email"),
+		    rs.getString("qtopic"),
+		    rs.getString("qcontent"),
+		    rs.getInt("votes"),
+		    rs.getInt("answer_count"),
+		    rs.getString("created_at"));
+	}
+	
+	return null;
+
+    }
+    
     @WebMethod(operationName = "getAnswers")
     public ArrayList<Answer> getAnswers(
             @WebParam(name = "qid") int qid

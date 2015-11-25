@@ -34,6 +34,10 @@
 
 <xs:element name="getQuestionResponse" type="tns:getQuestionResponse"/>
 
+<xs:element name="getQuestionWithoutValidation" type="tns:getQuestionWithoutValidation"/>
+
+<xs:element name="getQuestionWithoutValidationResponse" type="tns:getQuestionWithoutValidationResponse"/>
+
 <xs:element name="registerUser" type="tns:registerUser"/>
 
 <xs:element name="registerUserResponse" type="tns:registerUserResponse"/>
@@ -215,6 +219,18 @@
 <xs:complexType name="deleteQuestionResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionWithoutValidation">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionWithoutValidationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:question" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
