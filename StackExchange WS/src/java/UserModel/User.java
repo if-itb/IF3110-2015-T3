@@ -14,13 +14,8 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name = "User")
 public class User {
-<<<<<<< HEAD
     @XmlElement(name = "u_id", required = true)
     private int u_id;
-=======
-    @XmlElement(name = "uid", required = true)
-    private int uid;
->>>>>>> origin/master
     @XmlElement(name = "name", required = true)
     private String name;
     @XmlElement(name = "email", required = true)
@@ -30,25 +25,16 @@ public class User {
 
 
     public User(){
-<<<<<<< HEAD
         u_id = 0;
     }
 
     public User(int _uid, String _name, String _email, String _password){
         this.u_id = _uid;
-=======
-        uid = 0;
-    }
-
-    public User(int _uid, String _name, String _email, String _password){
-        this.uid = _uid;
->>>>>>> origin/master
         this.name = _name;
         this.email = _email;
         this.password = _password;
     }
 
-<<<<<<< HEAD
     public int getUID(){
         return u_id;
     }
@@ -61,7 +47,4 @@ public class User {
     public String getUPassword(){
         return password;
     }   
-=======
-
->>>>>>> origin/master
 }

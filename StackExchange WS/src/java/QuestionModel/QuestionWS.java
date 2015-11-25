@@ -260,4 +260,59 @@ public class QuestionWS {
         return Valid;
        
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getAnswerCount")
+    public int getAnswerCount(@WebParam(name = "q_id") int q_id) {
+        int count = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            String sql;
+            
+            sql = "SELECT * FROM answer WHERE q_id = ?";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, q_id);
+            
+            ResultSet rs = dbStatement.executeQuery();
+            
+            // Extract data from result set
+            while(rs.next()){        
+              ++count;
+            }
+      
+            rs.close();
+            stmt.close();
+        } catch(SQLException ex) {
+            Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return count;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getQVoteByQID")
+    public int getQVoteByQID(@WebParam(name = "q_id") int q_id) {
+        int vote_count = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT SUM(v_count) v_count FROM `vote` WHERE q_id = ?";
+            
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, q_id);
+
+            ResultSet rs = dbStatement.executeQuery();
+
+            while(rs.next()) {
+                vote_count += rs.getInt("v_count");
+            }
+            stmt.close();
+        } catch(SQLException ex) {
+            Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vote_count;
+    }
 }

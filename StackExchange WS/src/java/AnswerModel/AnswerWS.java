@@ -5,6 +5,7 @@
  */
 package AnswerModel;
 
+import Auth.Auth;
 import DatabaseWS.DB;
 import QuestionModel.QuestionWS;
 import java.io.BufferedReader;
@@ -79,62 +80,107 @@ public class AnswerWS {
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "insertAnswer")
-    @WebResult(name = "insAnswer")
+   /* @WebMethod(operationName = "insertAnswer")
     public int insertAnswer(@WebParam(name = "access_token") String token,
                             @WebParam(name = "qid") int qid,
-                            @WebParam(name = "content") String content) 
-        throws Exception {
+                            @WebParam(name = "content") String content) throws SQLException {
         // cek token (kasih IS)
-        
-        int Valid;
-        String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
-        URL obj = new URL(url);
-        
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        String USER_AGENT = "Mozilla/5.0";
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'Get' request to " + url);
-        System.out.println("Response Code : " + responseCode);
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        
-        while ((inputLine = in.readLine()) != null){
-            response.append(inputLine);
-            
-        }
-        in.close();
-                
-        System.out.println(response.toString());
-        
-        if (response.toString() == token){
+        Auth auth = new Auth();
+        Answer answer = new Answer();
+        int Valid = auth.check(token);
+        if (Valid == 1){
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO answer (q_id, a_content) VALUES (?, ?)";
-
+                sql = "INSERT INTO answer (q_id, u_id, a_content) VALUES (?, ?, ?)";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, qid);
-                dbStatement.setString(2, content);
-
-                ResultSet rs = dbStatement.executeQuery();
-                rs.close();
-                stmt.close();
-                Valid = 1;
+                dbStatement.setInt(1, answer.getQID());
+                dbStatement.setInt(2, auth.getUserID(token));
+                dbStatement.setString(3, answer.getAContent());
             } catch (SQLException e){
-                Valid = 0;
+                Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, e);
             }
-            
-        }
-        else {
-            Valid = 0;
         }
         return Valid;
-       
+    }
+*/
+    /**
+     * Web service operation
+     */
+  /*  @WebMethod(operationName = "voteAnswer")
+    public int voteAnswer(@WebParam(name = "access_token") String token, @WebParam(name = "a_id") int a_id, @WebParam(name = "value") int value) {
+        Auth auth = new Auth();
+        int Valid = auth.check(token);
+        if (Valid == 1){
+            try {
+                int u_id = auth.getUserID(token);
+                int count = 0;
+                
+                Statement stmt = conn.createStatement();
+                String sql;
+                sql = "SELECT * FROM vote WHERE u_id = ? AND a_id = ?";
+                
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, u_id);
+                dbStatement.setInt(2, a_id);
+                
+                ResultSet rs = dbStatement.executeQuery();
+                
+                while (rs.next()){
+                    ++count;
+                }
+                
+                if (count == 0){
+                    sql = "INSERT INTO vote (u_id, a_id, q_id, v_count) VALUES (?, ?, 0, ?)";
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, u_id);
+                    dbStatement.setInt(2, a_id);
+                    dbStatement.setInt(3, value);
+                    
+                    dbStatement.executeUpdate();
+                    
+                } else {
+                    sql = "UPDATE vote_answer SET v_count = ? WHERE u_id = ? AND a_id = ?";
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, value);
+                    dbStatement.setInt(2, u_id);
+                    dbStatement.setInt(3, a_id);
+                    
+                    dbStatement.executeUpdate();
+                    
+                }
+                stmt.close();
+            } catch (SQLException e){
+                Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
+        
+        return Valid;
+    }
+*/
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "getAVoteByAID")
+    public int getAVoteByAID(@WebParam(name = "a_id") int a_id) {
+        int vote_count = 0;
+        try {
+            Statement stmt = conn.createStatement();
+            String sql;
+
+            sql = "SELECT SUM(v_count) v_count FROM `vote` WHERE a_id = ?";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, a_id);
+
+            ResultSet rs = dbStatement.executeQuery();
+
+            while(rs.next()) {
+                vote_count += rs.getInt("v_count");
+            }
+            stmt.close();
+        } catch(SQLException ex) {
+            Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return vote_count;
     }
 }

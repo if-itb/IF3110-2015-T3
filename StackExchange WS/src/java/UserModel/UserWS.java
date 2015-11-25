@@ -5,31 +5,18 @@
  */
 package UserModel;
 
-<<<<<<< HEAD
 import AnswerModel.Answer;
 import DatabaseWS.DB;
-=======
-import DatabaseWS.DB;
-<<<<<<< HEAD
->>>>>>> origin/master
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/master
->>>>>>> origin/master
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
->>>>>>> origin/master
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -48,13 +35,8 @@ public class UserWS {
     public int register (@WebParam(name = "name") String name,
                         @WebParam(name = "email") String email,
                         @WebParam(name = "password") String password){
-<<<<<<< HEAD
         ArrayList<User> user = new ArrayList<User>();
         int i = 0;
-=======
-        
-        int user = 0;
->>>>>>> origin/master
         
         try {
             Statement stmt = conn.createStatement();
@@ -62,7 +44,6 @@ public class UserWS {
             sql = "SELECT * FROM user WHERE email = ?";
             
             PreparedStatement dbStatement = conn.prepareStatement(sql);
-<<<<<<< HEAD
             dbStatement.setString(1, email);
             ResultSet rs = dbStatement.executeQuery();
             
@@ -75,18 +56,6 @@ public class UserWS {
                                         )
                             );
                 i = 0;
-=======
-            
-            ResultSet rs = dbStatement.executeQuery();
-            
-            
-            if (rs != null){
-                sql = "INSERT INTO user (name, email, password) VALUES (?, ?, ?)";
-                dbStatement = conn.prepareStatement(sql);
-                ResultSet res = dbStatement.executeQuery();
-                user = 1;
-                res.close();
->>>>>>> origin/master
             }
             
             rs.close();
@@ -95,12 +64,7 @@ public class UserWS {
             
         }
 
-<<<<<<< HEAD
         return i;
-=======
-        return user;
-<<<<<<< HEAD
->>>>>>> origin/master
     }
 
     /**
@@ -231,10 +195,5 @@ public class UserWS {
         }
         return Valid;
        
-<<<<<<< HEAD
-=======
-=======
->>>>>>> origin/master
->>>>>>> origin/master
     }
 }
