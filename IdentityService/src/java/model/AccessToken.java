@@ -30,7 +30,7 @@ public final class AccessToken {
     private long expirationDate;
     private String username;
     
-    public final long lifetime = 30;
+    public final long lifetime = 10;
     
     public AccessToken() {}
     

@@ -47,7 +47,7 @@ public class EditQuestion extends HttpServlet {
 	    }
         }
         else {
-            response.sendRedirect("Home");
+            response.sendRedirect("InvalidateCookie");
         }
         
     }

@@ -115,7 +115,6 @@
 <xs:element name="qtopic" type="xs:string" minOccurs="0"/>
 <xs:element name="qcontent" type="xs:string" minOccurs="0"/>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="expirationDate" type="xs:long"/>
 </xs:sequence>
 </xs:complexType>
 

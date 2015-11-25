@@ -29,10 +29,20 @@ public class VoteQuestion extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
         if(rh.isHasToken()) {
-            int newVote = voteQuestion(qid, operation, rh.getToken(), rh.getExpirationDate());        
-            response.setContentType("text/xml");
-            response.setHeader("Cache-Control", "no-cache");
-            response.getWriter().write("<new-vote>" + newVote+ "</new-vote>");
+            int newVote = voteQuestion(qid, operation, rh.getToken(), rh.getExpirationDate());
+	    response.setContentType("text/xml");
+	    response.setHeader("Cache-Control", "no-cache");
+	    if(newVote!=9999 && newVote!=-9999) {
+		response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
+	    }
+	    else if(newVote==9999 ) {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("<expired>true</expired>");
+	    }
+	    else {
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("<invalid>true</invalid>");
+	    }
         }
         else {
 	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

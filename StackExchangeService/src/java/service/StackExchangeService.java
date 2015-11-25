@@ -51,8 +51,7 @@ public class StackExchangeService {
             @WebParam(name = "name") String name,
             @WebParam(name = "qtopic") String qtopic,
             @WebParam(name = "qcontent") String qcontent,
-            @WebParam(name = "token") String token,
-            @WebParam(name = "expirationDate") long expirationDate
+            @WebParam(name = "token") String token
         ) throws Exception {
 	
 	String tokenStatus = isValidToken(token).trim();
@@ -83,10 +82,10 @@ public class StackExchangeService {
         }
 	else if ("invalid".equals(tokenStatus)) {
 	    System.out.println("INVALID TOKEN");
-	    return "invalid_token";
+	    return "invalid";
 	} else {
 	    System.out.println("EXPIRED_TOKEN");
-	    return "invalid_token";
+	    return "expired";
 	}
     }
 
@@ -117,11 +116,11 @@ public class StackExchangeService {
         }
 	else if("invalid".equals(tokenStatus)) {
 	    System.out.println("INVALID TOKEN");
-	    return "invalid_token";
+	    return "invalid";
 	}
 	else {
 	    System.out.println("EXPIRED_TOKEN");
-	    return "invalid_token";
+	    return "expired";
 	}
     }
 
@@ -169,10 +168,10 @@ public class StackExchangeService {
         }
 	else if ("invalid".equals(tokenStatus)) {
 	    System.out.println("INVALID TOKEN");
-	    return "invalid_token";
+	    return "invalid";
 	} else {
 	    System.out.println("EXPIRED_TOKEN");
-	    return "invalid_token";
+	    return "expired";
 	}
     }
 
@@ -320,7 +319,8 @@ public class StackExchangeService {
         @WebParam(name = "token") String token,
         @WebParam(name = "expirationDate") long expirationDate
     ) throws Exception {
-        if (System.currentTimeMillis() / 1000 <= expirationDate) {
+        String tokenStatus = isValidToken(token).trim();
+        if ("valid".equals(tokenStatus)) { 
             Connection conn = ConnectDb.connect();
             Statement stmt = conn.createStatement();
             PreparedStatement dbStatement;
@@ -347,9 +347,12 @@ public class StackExchangeService {
                 return res.getInt("votes");
             }   
         }
-        else {
-            
+	else if ("expired".equals(tokenStatus)) {
+            return -9999;
         }
+	else {
+	    return 9999;
+	}
         
         return 0;
     }

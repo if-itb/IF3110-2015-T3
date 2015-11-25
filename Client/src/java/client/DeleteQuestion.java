@@ -46,6 +46,10 @@ public class DeleteQuestion extends HttpServlet {
 		response.sendRedirect("InvalidateCookie");
 	    }
         }
+	else {
+	    response.sendRedirect("InvalidateCookie");
+	}
+	    
 
 	response.sendRedirect("Home");
     }

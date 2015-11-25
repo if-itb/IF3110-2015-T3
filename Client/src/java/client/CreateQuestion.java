@@ -43,21 +43,22 @@ public class CreateQuestion extends HttpServlet {
 	if(hasToken){
 	    String qtopic = request.getParameter("qtopic");
 	    String qcontent = request.getParameter("qcontent");
-	    String res = createQuestion(rh.getUsername(), qtopic, qcontent, rh.getToken(), rh.getExpirationDate());
+	    String res = createQuestion(rh.getUsername(), qtopic, qcontent, rh.getToken());
 	    
 	    if("success".equals(res)){
 		response.sendRedirect("Home");
 	    }
 	    else if("invalid".equals(res)){
-		response.sendRedirect("auth.html");
+		
+		response.sendRedirect("InvalidateCookie");
 	    }
 	    else {
-		response.sendRedirect("auth.html");
+		response.sendRedirect("InvalidateCookie");
 	    }
 	}
 	else
 	{
-	    response.sendRedirect("auth.html");
+	    response.sendRedirect("InvalidateCookie");
         }
 	
     }
@@ -109,11 +110,12 @@ public class CreateQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createQuestion(java.lang.String name, java.lang.String qtopic, java.lang.String qcontent, java.lang.String token, long expirationDate) throws Exception_Exception {
+    private String createQuestion(java.lang.String name, java.lang.String qtopic, java.lang.String qcontent, java.lang.String token) throws Exception_Exception {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
-	return port.createQuestion(name, qtopic, qcontent, token, expirationDate);
+	return port.createQuestion(name, qtopic, qcontent, token);
     }
+
 
 }
