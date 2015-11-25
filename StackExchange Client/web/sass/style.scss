@@ -1,0 +1,332 @@
+@import 'reset';
+@import 'variables';
+@import 'grid';
+@import 'base';
+
+/////////////////////////////
+/////////////////////////////
+//// HOMEPAGE
+/////////////////////////////
+/////////////////////////////
+
+#searchForm input[type="text"] {
+  width: 400px;
+}
+
+#searchForm {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.ask-here-link {
+  color: #D49515 !important;
+}
+
+.meta-name {
+  color: $blue-secondary;
+}
+
+.question-edit {
+  color: #D49515 !important;
+}
+
+.form-delete {
+  color: #F25858 !important;
+}
+
+.btn-submit {
+  height: 37px;
+  font-weight: $font-weight__semi-bold;
+  color: #FFF;
+  border: none;
+  background-color: $blue-tertiary;
+  cursor: pointer;
+  transition: background 300ms ease;
+}
+
+.btn-submit:hover {
+  background-color: darken($blue-tertiary, 10%);
+}
+
+
+.ask-here {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.outer-container {
+  width: 960px;
+  margin: 48px auto;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background-color: $container-background;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.inner-container {
+  margin: 0 auto;
+  width: 770px;
+}
+
+.main-title h1 {
+  font-size: 30px;
+  text-align: center;
+}
+
+.main-title h1 span {
+  color: $title-color;
+}
+
+.main-title a,
+.main-title a:hover {
+  color: $font-color__main;
+  font-weight: $font-weight__semi-bold;
+  text-decoration: none;
+}
+
+.secondary-title h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: $font-weight__normal;
+  color: $font-color__secondary;
+}
+
+.question-list > .inner-container:first-child .question {
+  border-top: 2px solid $border-color;
+}
+
+.question {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid $border-color;
+}
+
+.question-summary {
+  position: relative;
+  min-height: 74.8px;
+}
+
+.question-title {
+  font-size: 18px;
+  font-weight: $font-weight__semi-bold;
+  margin-bottom: 1em;
+}
+
+.question-title a,
+.question-title a:visited {
+  color: $blue-secondary;
+  text-decoration: none;
+}
+
+.question-meta,
+.answer-meta {
+  text-align: right;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.question-edit,
+.question-edit:visited {
+  color: $blue-secondary;
+  text-decoration: none;
+}
+
+.question-delete,
+.question-delete:visited {
+  color: $blue-secondary;
+  text-decoration: none;
+}
+
+.question-status,
+.answer-status {
+  text-align: center;
+}
+
+.status-title {
+  font-size: 12px;
+  color: $font-color__secondary;
+}
+
+.status-counts {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: $font-weight__semi-bold;
+  color: $font-color__secondary;
+}
+
+.question-vote,
+.question-answers {
+  float: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 50%;
+}
+
+/////////////////////////////
+/////////////////////////////
+//// QUESTION & ANSWER
+/////////////////////////////
+/////////////////////////////
+
+.question-header h1 {
+  font-size: 24px;
+  font-weight: $font-weight__semi-bold;
+  color: $blue-secondary;
+  margin-bottom: 10px;
+}
+
+.question-item {
+  margin-bottom: 30px;
+}
+
+.question-item,
+.answer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 2px solid $border-color;
+}
+
+.answer:last-child {
+  border-bottom: 2px solid $border-color; 
+  margin-bottom: 30px;
+}
+
+/////////////////////////////
+/////////////////////////////
+//// VOTE
+/////////////////////////////
+/////////////////////////////
+
+.vote-counts {
+  font-size: 30px;
+  font-weight: $font-weight__semi-bold;
+  color: $font-color__secondary;
+}
+
+.vote-down a,
+.vote-up a {
+  font-size: 20px;
+  text-decoration: none;
+  color: $font-color__secondary;
+  transition: color 300ms ease;
+
+  &:hover {
+    color: darken($font-color__secondary, 20%);
+  }
+}
+
+.answer-header h2 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: $font-weight__normal;
+  color: $font-color__secondary;
+}
+
+/////////////////////////////
+/////////////////////////////
+//// EDIT DELETE BUTTON
+/////////////////////////////
+/////////////////////////////
+
+.delete-form {
+  display: inline;
+}
+
+.form-delete {
+  display: inline;
+  padding: 0;
+  font-family: 'Open sans', sans-serif;
+  font-weight: $font-weight__normal;
+  color: $blue-secondary;
+  font-size: 14px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  @extend a;
+}
+
+/////////////////////////////
+/////////////////////////////
+//// ANSWER FORM
+/////////////////////////////
+/////////////////////////////
+
+.form-field input#email,
+.form-field input#name {
+  font-size: 14px;
+  width: 250px;
+}
+
+.form-field input,
+.form-field textarea {
+  font-family: 'Open sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  display: block;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.form-field textarea {
+  width: 100%;
+  height: 200px;
+}
+
+.answer-form-header {
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: $font-weight__light;
+  color: $font-color__secondary;
+}
+
+/////////////////////////////
+/////////////////////////////
+/////////////////////////////
+/////////////////////////////
+
+.form-wrapper {
+  border-top: 2px solid $border-color;
+  padding-top: 20px;
+}
+
+
+input#topic {
+  width: 300px;
+}
+
+
+/////////////////////////////
+/////////////////////////////
+//// LOGIN & REGISTER FORM
+/////////////////////////////
+/////////////////////////////
+
+.login-form-wrapper,
+.register-form-wrapper {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px; 
+}
+
+.login-form-wrapper input.login,
+.register-form-wrapper input.login {
+  width: 100%;
+}
+
+.login-form-wrapper .btn-submit,
+.register-form-wrapper .btn-submit {
+  float: right;
+}
+
+.account-menu {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.account-menu li {
+    display: inline-block;
+    margin-left: 25px;
+}
