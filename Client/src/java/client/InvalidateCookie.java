@@ -34,7 +34,7 @@ public class InvalidateCookie extends HttpServlet {
 	response.setContentType("text/html;charset=UTF-8");
 	for (Cookie cookie : request.getCookies()) {
 	    Cookie old = cookie;
-	    if ("expirationDate".trim().equals(cookie.getName()) || "token".trim().equals(cookie.getName()) || "username".trim().equals(cookie.getName())) {
+	    if ("id".trim().equals(cookie.getName()) || "token".trim().equals(cookie.getName()) || "username".trim().equals(cookie.getName())) {
 		cookie.setValue(null);
 		cookie.setMaxAge(0);
 		response.addCookie(old);

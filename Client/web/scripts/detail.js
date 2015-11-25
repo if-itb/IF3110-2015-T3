@@ -26,12 +26,13 @@
             http.setRequestHeader("Content-length", params.length);
             http.setRequestHeader("Connection", "close");
 	
-	    var invalid,expired,newVote = 0;
+	    var invalid,expired,newVote, cantVote;
             http.onreadystatechange = function () {
                 if (http.readyState === 4) {
 		    if (http.status === 200){
 			 invalid = http.responseXML.getElementsByTagName("invalid")[0];
 			 expired = http.responseXML.getElementsByTagName("expired")[0];
+			 cantVote = http.responseXML.getElementsByTagName("cantVote")[0];
 			 newVote = http.responseXML.getElementsByTagName("new-vote")[0];
 			if(newVote){
 			    getSibling($this, "qVoteVal").innerHTML = newVote.childNodes[0].nodeValue;
@@ -40,10 +41,12 @@
 			    delete_cookie();
 			    window.location.href = "InvalidateCookie";
 			}
-			else {
+			else if(invalid) {
 			    delete_cookie();
 			    window.location.href = "InvalidateCookie";
-			    
+			}
+			else {
+			   console.log("Cant vote") ;
 			}
 			
 		    }

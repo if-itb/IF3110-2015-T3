@@ -54,11 +54,12 @@ public class Login extends HttpServlet {
 	{
 	    String result = client.target(url).request(MediaType.APPLICATION_XML)
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
+	    
 	    String token = xmlParse(result, "token");
 	    String username = xmlParse(result, "username");
-	    String expirationDate = xmlParse(result, "expirationDate");
-	    int lifetime =  Integer.parseInt(xmlParse(result, "lifetime")) ;
-	    System.out.println("Token : "+ xmlParse(result, "token"));
+	    String id = xmlParse(result,"id");
+	    
+	    System.out.println(result);
 	    
 	    response.setContentType("text/html");
 	    PrintWriter pw = response.getWriter();
@@ -69,8 +70,10 @@ public class Login extends HttpServlet {
 	    Cookie usernameCookie = new Cookie("username", username);
 	    response.addCookie(usernameCookie);
 	    
+	    Cookie idCookie = new Cookie("id", id);
+	    response.addCookie(idCookie);
+	    
 
-	    pw.println("Cookies created");
 	    response.sendRedirect("Home");
 	    
 	}

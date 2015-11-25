@@ -36,7 +36,7 @@ public class Logout extends HttpServlet {
 	
 	for (Cookie cookie : request.getCookies()) {
 	    Cookie old = cookie;
-	    if ("expirationDate".equals(cookie.getName()) || "token".equals(cookie.getName()) || "username".equals(cookie.getName())) {
+	    if ("id".equals(cookie.getName()) || "token".equals(cookie.getName()) || "username".equals(cookie.getName())) {
 		cookie.setValue(null);
 		cookie.setMaxAge(0);
 		response.addCookie(old);

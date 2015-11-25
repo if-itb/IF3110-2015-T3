@@ -24,21 +24,23 @@ import mysql.ConnectDb;
  */
 
 @XmlRootElement(name = "accessToken")
-@XmlType(propOrder = { "token","username", "expirationDate", "lifetime" })
+@XmlType(propOrder = { "id", "token","username" })
 public final class AccessToken {
     private String token;
     private long expirationDate;
     private String username;
+    private long id;
     
-    public final long lifetime = 1000;
+    private long lifetime = 3000;
     
     public AccessToken() {}
     
-    public AccessToken(String email, String username) throws SQLException {
+    public AccessToken(String email, String username, long id) throws SQLException {
         long now = System.currentTimeMillis() / 1000;
         this.token =  email + Long.toString(now);
         this.expirationDate = now + lifetime;
 	this.username = username;
+	this.id = id;
     }
     
     @XmlElement
@@ -51,9 +53,13 @@ public final class AccessToken {
         return this.username;
     }
     
-    @XmlElement
     public long getExpirationDate() {
         return this.expirationDate;
+    }
+    
+    @XmlElement
+    public long getId() {
+	return this.id;
     }
     
     public String toXML() {
@@ -67,8 +73,9 @@ public final class AccessToken {
             return stringWriter.toString();
         }
         catch (JAXBException exception) {
+	    System.out.println(exception);
+	    return "JANCUK";
         }
-        return null;
     }
     
     public void addToDatabase() throws SQLException {

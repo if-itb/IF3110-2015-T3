@@ -29,19 +29,24 @@ public class VoteQuestion extends HttpServlet {
         
 	RequestHandler rh = new RequestHandler(request);
         if(rh.isHasToken()) {
-            int newVote = voteQuestion(qid, operation, rh.getToken());
+            int newVote = voteQuestion(qid, operation, rh.getToken(),rh.getId());
+	    System.out.println("RESULT : " + newVote);
 	    response.setContentType("text/xml");
 	    response.setHeader("Cache-Control", "no-cache");
-	    if(newVote!=9999 && newVote!=-9999) {
-		response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
-	    }
-	    else if(newVote==9999 ) {
+	    if(newVote==9999 ) {
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.getWriter().write("<expired>true</expired>");
 	    }
-	    else {
+	    else if(newVote==-9999 ){
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.getWriter().write("<invalid>true</invalid>");
+	    }
+	    else if(newVote==1234) {
+//		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("<cantVote>true</cantVote>");
+	    }
+	    else {
+		    response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
 	    }
         }
         else {
@@ -96,12 +101,14 @@ public class VoteQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteQuestion(int qid, java.lang.String operation, java.lang.String token) throws Exception_Exception {
+    private int voteQuestion(int qid, java.lang.String operation, java.lang.String token, int id) throws Exception_Exception {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
-	return port.voteQuestion(qid, operation, token);
+	return port.voteQuestion(qid, operation, token, id);
     }
+
+
 
 
 }
