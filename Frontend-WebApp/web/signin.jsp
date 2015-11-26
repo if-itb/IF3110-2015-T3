@@ -17,7 +17,7 @@
         <h2 style="color:#A0A0A0" align="Center">Sign In</h2>
         <div class="garis"></div>
         
-        <form action="addAccount.jsp" method="post" name="ask-form">
+        <form action="grant.jsp" method="post" name="ask-form">
             Email
             <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" required></input>
             <br>
@@ -25,7 +25,7 @@
             <input type="text" name="Password" class="form-field" placeholder="Password" required></input>
             <br>
             <div align="right">
-                    <input type="submit" value="Sign In" onclick="return validateForm()" action="addAccount.jsp">
+                    <input type="submit" value="Sign In" onclick="return validateForm()" action="grant.jsp">
             </div>
             <input type="hidden" name="id_q" />
         </form>
