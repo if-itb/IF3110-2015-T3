@@ -5,6 +5,7 @@
  */
 package model;
 
+import identify.Encryptor;
 import java.io.StringWriter;
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.*;
@@ -78,7 +79,7 @@ public class User {
         String query = "SELECT * FROM users WHERE email = ? AND password = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setString(1, email);
-        preparedStatement.setString(2, password);
+        preparedStatement.setString(2, Encryptor.encrypt(password));
         
         ResultSet result = preparedStatement.executeQuery();
         if (result.next()) {
@@ -100,7 +101,7 @@ public class User {
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, email);
-        preparedStatement.setString(3, password);
+        preparedStatement.setString(3, Encryptor.encrypt(password));
 
         int result = preparedStatement.executeUpdate();
     }

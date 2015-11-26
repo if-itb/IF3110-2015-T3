@@ -67,7 +67,7 @@ public class User {
         String query = "SELECT * FROM users WHERE name = ? AND password = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setString(1, name);
-        preparedStatement.setString(2, password);
+        preparedStatement.setString(2, Encryptor.encrypt(password));
         
         ResultSet result = preparedStatement.executeQuery();
         if (result.next()) {
@@ -103,21 +103,21 @@ public class User {
         Connection conn = ConnectDb.connect();
         Statement statement = conn.createStatement();
         
+	String epassword = Encryptor.encrypt(password);
+	
         String sql = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, email);
-        preparedStatement.setString(3, password);
+        preparedStatement.setString(3,epassword );
 
         int result = preparedStatement.executeUpdate();
         
-        return new User(name, email, password);
+        return new User(name, email, epassword);
     }
     
     private int id;
     private String name;
     private String email;
     private String password;
-    
-    
 }

@@ -482,7 +482,7 @@ public class StackExchangeService {
 
 	    Form form = new Form();
 	    form.param("email", user.getEmail());
-	    form.param("password", user.getPassword());
+	    form.param("password", password);
 	    
 	    Client client = ClientBuilder.newClient();
 	    String url = "http://localhost:8080/IdentityService/login";
