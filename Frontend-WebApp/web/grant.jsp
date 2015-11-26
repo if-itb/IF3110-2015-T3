@@ -4,6 +4,7 @@
     Author     : nim_13512501
 --%>
 
+<%@page import="java.util.Calendar"%>
 <%@page import="java.io.BufferedReader"%>
 <%@page import="java.io.IOException"%>
 <%@page import="java.io.InputStream"%>
@@ -64,7 +65,7 @@
 
             String result = null;
             String access_token = null;
-            String lifetime = null;
+            int lifetime = 0;
 
             switch(connection.getResponseCode()){
                 case HttpURLConnection.HTTP_CREATED:
@@ -76,20 +77,20 @@
                     Document document = builder.parse(xmlstream);
                     result =  connection.getResponseMessage();
                     access_token = document.getElementsByTagName("access_token").item(0).getTextContent();
-                    lifetime = document.getElementsByTagName("lifetime").item(0).getTextContent();
-                case HttpURLConnection.HTTP_NOT_FOUND:
-                    result = "NOT FOUND";
-                case HttpURLConnection.HTTP_UNAUTHORIZED:
-                    result = "UNAUTHORIZED";
+                    lifetime = Integer.parseInt(document.getElementsByTagName("lifetime").item(0).getTextContent());
+            
+                    session.setAttribute("access_token", access_token);
+                    session.setAttribute("lifetime", lifetime);
+                    session.setAttribute("start", Calendar.getInstance());
+        
                 default:
                     result = connection.getResponseMessage();
             }
-            
-            
             
         %>
         access_token : <%=access_token%><br>
         lifetime : <%=lifetime%><br>
         result : <%=result%><br>
+        <a href="index.jsp"> Home</a>
     </body>
 </html>
