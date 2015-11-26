@@ -105,9 +105,9 @@ public class QuestionWS {
     
     @WebMethod(operationName = "InsertQuestion")
     @WebResult(name = "Status")
-    public String InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
-        String Status = "Success";
+    public int InsertQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "topic") String topic, @WebParam(name = "content")String content){//param token qid topic content , mail ganti token
         Database DB = new Database();
+        int qid = 0;
         Connection con = DB.connect();
         PreparedStatement ps=null;
         try{
@@ -119,10 +119,12 @@ public class QuestionWS {
                 ps.setString(2,topic);
                 ps.setString(3,content);
                 ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) qid = rs.getInt(1);
                 ps.close();
                 
             }else{
-                Status = "invalid access_token";//TODO kirimkan error bahwa login gagal
+                qid = -1;//TODO kirimkan error bahwa login gagal
             }
         }catch(SQLException ex){
             ex.printStackTrace();
@@ -133,7 +135,6 @@ public class QuestionWS {
                 if(ps!=null)    ps.close();
             }catch(SQLException ex ){
                 ex.printStackTrace();
-                Status = "SQLException: " + ex.getMessage();
             }
             try{
                 if(con!=null)    con.close();
@@ -141,7 +142,7 @@ public class QuestionWS {
                 ex.printStackTrace();
             }
         }
-        return Status;
+        return qid;
     }
     
     @WebMethod(operationName="UpdateQuestion")
