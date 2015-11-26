@@ -12,6 +12,10 @@
         <servlet-name>viewQuestion</servlet-name>
         <servlet-class>Question.viewQuestion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getAnswer</servlet-name>
+        <servlet-class>Answer.getAnswer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>getQuestion</servlet-name>
         <url-pattern>/getQuestion</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>viewQuestion</servlet-name>
         <url-pattern>/viewQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAnswer</servlet-name>
+        <url-pattern>/getAnswer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
