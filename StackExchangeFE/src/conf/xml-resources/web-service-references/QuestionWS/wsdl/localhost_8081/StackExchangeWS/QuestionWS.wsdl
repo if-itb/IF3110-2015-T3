@@ -44,6 +44,12 @@
 <message name="getQVoteByQIDResponse">
 <part name="parameters" element="tns:getQVoteByQIDResponse"/>
 </message>
+<message name="getUserID">
+<part name="parameters" element="tns:getUserID"/>
+</message>
+<message name="getUserIDResponse">
+<part name="parameters" element="tns:getUserIDResponse"/>
+</message>
 <portType name="QuestionWS">
 <operation name="getQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/getQuestionRequest" message="tns:getQuestion"/>
@@ -71,6 +77,10 @@
 <operation name="getQVoteByQID">
 <input wsam:Action="http://QuestionModel/QuestionWS/getQVoteByQIDRequest" message="tns:getQVoteByQID"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getQVoteByQIDResponse" message="tns:getQVoteByQIDResponse"/>
+</operation>
+<operation name="getUserID">
+<input wsam:Action="http://QuestionModel/QuestionWS/getUserIDRequest" message="tns:getUserID"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getUserIDResponse" message="tns:getUserIDResponse"/>
 </operation>
 </portType>
 <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
@@ -131,6 +141,15 @@
 </output>
 </operation>
 <operation name="getQVoteByQID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUserID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

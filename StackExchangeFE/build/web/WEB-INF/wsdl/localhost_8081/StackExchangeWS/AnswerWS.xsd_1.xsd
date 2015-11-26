@@ -10,6 +10,10 @@
 
 <xs:element name="getAnswerByQIDResponse" type="tns:getAnswerByQIDResponse"/>
 
+<xs:element name="getUserID" type="tns:getUserID"/>
+
+<xs:element name="getUserIDResponse" type="tns:getUserIDResponse"/>
+
 <xs:complexType name="getAVoteByAID">
 <xs:sequence>
 <xs:element name="a_id" type="xs:int"/>
@@ -43,6 +47,18 @@
 <xs:element name="a_content" type="xs:string"/>
 <xs:element name="a_date" type="xs:string"/>
 <xs:element name="u_name" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserID">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

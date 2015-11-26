@@ -27,6 +27,21 @@ public interface AnswerWS {
 
     /**
      * 
+     * @param token
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserID", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserID")
+    @ResponseWrapper(localName = "getUserIDResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserIDResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/getUserIDRequest", output = "http://AnswerModel/AnswerWS/getUserIDResponse")
+    public int getUserID(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
      * @param aId
      * @return
      *     returns int

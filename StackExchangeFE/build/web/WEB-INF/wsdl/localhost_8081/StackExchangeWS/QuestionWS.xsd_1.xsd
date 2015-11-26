@@ -18,6 +18,10 @@
 
 <xs:element name="getQuestionResponse" type="tns:getQuestionResponse"/>
 
+<xs:element name="getUserID" type="tns:getUserID"/>
+
+<xs:element name="getUserIDResponse" type="tns:getUserIDResponse"/>
+
 <xs:element name="insertQuestion" type="tns:insertQuestion"/>
 
 <xs:element name="insertQuestionResponse" type="tns:insertQuestionResponse"/>
@@ -116,6 +120,18 @@
 <xs:complexType name="deleteQuesetionResponse">
 <xs:sequence>
 <xs:element name="delQuestion" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserID">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

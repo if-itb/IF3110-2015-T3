@@ -32,13 +32,14 @@
                         <div>Register<span>!</span></div>
 		</div>
                 <div class="login">
-                    <form method="POST" action="http://localhost:8082/WBD_IS/testrestservlet">
+                    <form method="POST" action="http://localhost:8080/StackExchangeFE/checkregister.jsp">
                         <input type="text" placeholder="username" name="username"><br>
                         <input type="password" placeholder="password" name="password"><br><br>
                         <input type="text" placeholder="email" name="email"><br>
                         <input type="submit" value="register"><br>
                     </form>
                 </div>
+            
     </body>
     
 </html>

@@ -37,7 +37,7 @@
                 
 		<% if (s==null || s.isEmpty()) 
                 { %>
-                    <form name="questionForm" action="insertQuestion.jsp" method="post" onsubmit="return validateQue()">
+                    <form name="questionForm" action="insertQuestion.jsp?token=<%=t%>" method="post" onsubmit="return validateQue()">
                              <div class="text-left">
                                 <input class="form-textbox" type="text" name="topic" placeholder="Question Topic"><br><br>
                                 <textarea name="question" placeholder="Content"></textarea><br><br>

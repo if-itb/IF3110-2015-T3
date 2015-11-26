@@ -143,4 +143,19 @@ public interface QuestionWS {
         @WebParam(name = "q_id", targetNamespace = "")
         int qId);
 
+    /**
+     * 
+     * @param token
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserID", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserID")
+    @ResponseWrapper(localName = "getUserIDResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserIDResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getUserIDRequest", output = "http://QuestionModel/QuestionWS/getUserIDResponse")
+    public int getUserID(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
 }

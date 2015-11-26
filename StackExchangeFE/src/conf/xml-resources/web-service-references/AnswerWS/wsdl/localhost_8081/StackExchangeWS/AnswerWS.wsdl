@@ -4,6 +4,12 @@
 <xsd:import namespace="http://AnswerModel/" schemaLocation="http://localhost:8081/StackExchangeWS/AnswerWS?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getUserID">
+<part name="parameters" element="tns:getUserID"/>
+</message>
+<message name="getUserIDResponse">
+<part name="parameters" element="tns:getUserIDResponse"/>
+</message>
 <message name="getAVoteByAID">
 <part name="parameters" element="tns:getAVoteByAID"/>
 </message>
@@ -17,6 +23,10 @@
 <part name="parameters" element="tns:getAnswerByQIDResponse"/>
 </message>
 <portType name="AnswerWS">
+<operation name="getUserID">
+<input wsam:Action="http://AnswerModel/AnswerWS/getUserIDRequest" message="tns:getUserID"/>
+<output wsam:Action="http://AnswerModel/AnswerWS/getUserIDResponse" message="tns:getUserIDResponse"/>
+</operation>
 <operation name="getAVoteByAID">
 <input wsam:Action="http://AnswerModel/AnswerWS/getAVoteByAIDRequest" message="tns:getAVoteByAID"/>
 <output wsam:Action="http://AnswerModel/AnswerWS/getAVoteByAIDResponse" message="tns:getAVoteByAIDResponse"/>
@@ -28,6 +38,15 @@
 </portType>
 <binding name="AnswerWSPortBinding" type="tns:AnswerWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getUserID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getAVoteByAID">
 <soap:operation soapAction=""/>
 <input>

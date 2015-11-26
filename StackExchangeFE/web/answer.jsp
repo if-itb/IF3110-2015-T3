@@ -115,7 +115,7 @@
                                 out.println("</tr>");
                             }
                         }
-                        out.println("<br><br><td colspan='3' class='tdtopic'><h2>Login <a href='http://localhost:8020/WBD_IS/login.jsp'>here</a> to answer the question</h2></td>");
+                        out.println("<br><br><td colspan='3' class='tdtopic'><h2>Login <a href='http://localhost:8082/WBD_IS/login.jsp'>here</a> to answer the question</h2></td>");
                         out.println("</table>");
                     }
                     else
@@ -124,7 +124,7 @@
                         out.println("<tr><br><br><br><br>");
                         out.println("<h1 class='text-left'>No Answer</h1><hr>");
                         out.println("</tr>"); 
-                        out.println("<td class='tdtopic'><h2>Login <a href='http://localhost:8020/WBD_IS/login.jsp'>here</a> to answer the question</h2></td>");
+                        out.println("<td class='tdtopic'><h2>Login <a href='http://localhost:8082/WBD_IS/login.jsp'>here</a> to answer the question</h2></td>");
                         out.println("</table>");
                     }
                 } 

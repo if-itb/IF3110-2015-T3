@@ -33,6 +33,8 @@ public class ObjectFactory {
     private final static QName _GetQVoteByQIDResponse_QNAME = new QName("http://QuestionModel/", "getQVoteByQIDResponse");
     private final static QName _GetQuestion_QNAME = new QName("http://QuestionModel/", "getQuestion");
     private final static QName _GetQuestionResponse_QNAME = new QName("http://QuestionModel/", "getQuestionResponse");
+    private final static QName _GetUserID_QNAME = new QName("http://QuestionModel/", "getUserID");
+    private final static QName _GetUserIDResponse_QNAME = new QName("http://QuestionModel/", "getUserIDResponse");
     private final static QName _InsertQuestion_QNAME = new QName("http://QuestionModel/", "insertQuestion");
     private final static QName _InsertQuestionResponse_QNAME = new QName("http://QuestionModel/", "insertQuestionResponse");
     private final static QName _UpdateQuestion_QNAME = new QName("http://QuestionModel/", "updateQuestion");
@@ -115,6 +117,22 @@ public class ObjectFactory {
      */
     public GetQuestionResponse createGetQuestionResponse() {
         return new GetQuestionResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetUserID }
+     * 
+     */
+    public GetUserID createGetUserID() {
+        return new GetUserID();
+    }
+
+    /**
+     * Create an instance of {@link GetUserIDResponse }
+     * 
+     */
+    public GetUserIDResponse createGetUserIDResponse() {
+        return new GetUserIDResponse();
     }
 
     /**
@@ -236,6 +254,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://QuestionModel/", name = "getQuestionResponse")
     public JAXBElement<GetQuestionResponse> createGetQuestionResponse(GetQuestionResponse value) {
         return new JAXBElement<GetQuestionResponse>(_GetQuestionResponse_QNAME, GetQuestionResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserID }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://QuestionModel/", name = "getUserID")
+    public JAXBElement<GetUserID> createGetUserID(GetUserID value) {
+        return new JAXBElement<GetUserID>(_GetUserID_QNAME, GetUserID.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserIDResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://QuestionModel/", name = "getUserIDResponse")
+    public JAXBElement<GetUserIDResponse> createGetUserIDResponse(GetUserIDResponse value) {
+        return new JAXBElement<GetUserIDResponse>(_GetUserIDResponse_QNAME, GetUserIDResponse.class, null, value);
     }
 
     /**

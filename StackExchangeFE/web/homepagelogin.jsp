@@ -10,8 +10,7 @@
 
 <html>
 
-        <% String t = request.getParameter("token");%>
-        <% String s = request.getParameter("id");%>    
+        <% String t = request.getParameter("token");%> 
     
 
 	<head>
@@ -46,8 +45,7 @@
 		<h2 class="font20 text-left">
 			Recently Asked Question <br>
 		</h2>
-                
-                
+
                 
                 <%-- start web service invocation --%><hr/>
 
@@ -59,6 +57,7 @@
                             // TODO process result here
                             java.util.List<questionmodel.Question> result = port.getQuestion();
                             out.println("<table class='table1'>");
+                            int id = port.getUserID(t);
                             for (int i=0;i<result.size();i++) 
                             {
                                 int count = port.getAnswerCount(result.get(i).getQId());
@@ -76,11 +75,18 @@
                                 out.println("<tr>");
                                 out.println("<td colspan='3' class='text-right'>");
                                 out.println("<p>");
-                                out.println("Asked by <span class='color-blue'>"+result.get(i).getUName()+"</span>");
-                                out.println(" | ");
-                                out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"'> edit </a>");
-                                out.println(" | ");
-                                out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"'> delete </a>");
+                                if (id==result.get(i).getUId())
+                                {
+                                    out.println("Asked by <span class='color-blue'>you</span>");
+                                    out.println(" | ");
+                                    out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"'> edit </a>");
+                                    out.println(" | ");
+                                    out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"'> delete </a>");
+                                }
+                                else
+                                {
+                                    out.println("Asked by <span class='color-blue'>"+result.get(i).getUName()+"</span>");
+                                }
                                 out.println("</p>");
                                 out.println("<br><hr>");
                                 out.println("</tr>");
@@ -94,7 +100,7 @@
 
                     %>
                 
-                <%-- end web service invocation --%><hr/>
+                <%-- end web service invocation --%>
 
 
 
