@@ -24,7 +24,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -81,10 +80,10 @@ public class AnswerWS {
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "insertAnswer")
+   /* @WebMethod(operationName = "insertAnswer")
     public int insertAnswer(@WebParam(name = "access_token") String token,
                             @WebParam(name = "qid") int qid,
-                            @WebParam(name = "content") String content) throws SQLException, ParseException {
+                            @WebParam(name = "content") String content) throws SQLException {
         // cek token (kasih IS)
         Auth auth = new Auth();
         Answer answer = new Answer();
@@ -104,12 +103,12 @@ public class AnswerWS {
         }
         return Valid;
     }
-
+*/
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "voteAnswer")
-    public int voteAnswer(@WebParam(name = "access_token") String token, @WebParam(name = "a_id") int a_id, @WebParam(name = "value") int value) throws ParseException {
+  /*  @WebMethod(operationName = "voteAnswer")
+    public int voteAnswer(@WebParam(name = "access_token") String token, @WebParam(name = "a_id") int a_id, @WebParam(name = "value") int value) {
         Auth auth = new Auth();
         int Valid = auth.check(token);
         if (Valid == 1){
@@ -158,7 +157,7 @@ public class AnswerWS {
         
         return Valid;
     }
-    
+*/
     /**
      * Web service operation
      */

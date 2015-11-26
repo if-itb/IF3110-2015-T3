@@ -63,7 +63,7 @@ public class testrestservlet extends HttpServlet {
         //processRequest(request, response);
         final PrintWriter out = response.getWriter();
          ArrayList<String> user = new ArrayList<String>();
-        String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
+        String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
         try {
             String temp_token = access_token;
             Class.forName("com.mysql.jdbc.Driver");
@@ -87,11 +87,9 @@ public class testrestservlet extends HttpServlet {
                 out.println("Comparison:"+comp);
             if(comp == -1){
             out.println("Expired");
-            response.sendRedirect("localhost:8082/WBD_IS/login.jsp");
             }
             else{
             out.println("Valid");
-            
             }
             //execute prepared statement
             preparedStmt.executeUpdate();
@@ -121,7 +119,7 @@ public class testrestservlet extends HttpServlet {
       
       out.println(request.getParameter("username"));
       out.println(request.getParameter("password"));
-      String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
+      String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String userName = "root";
@@ -157,7 +155,7 @@ public class testrestservlet extends HttpServlet {
                     preparedStmt.setString(2,access_token);
                     out.println("MASUK SINI 1");
                     out.println("Waktu Pembuatan Sesi : "+session.getCreationTime());
-                    response.sendRedirect("http://localhost:8080/StackExchangeFE/homepagelogin.jsp?token="+access_token);
+                    
                     
             }
             

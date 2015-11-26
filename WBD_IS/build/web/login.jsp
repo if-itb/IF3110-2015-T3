@@ -38,12 +38,6 @@
                         <input type="submit" value="login"><br>
                         <p><a href="">forgot password?</a></p>
                     </form>
-                    
-                    <br><br><br><br>
-                    <p>
-                        Don't have an account yet ?
-                        <a href="http://localhost:8080/StackExchangeFE/register.jsp">Sign Up</a>
-                    </p>
 		</div>
 
     </body>
