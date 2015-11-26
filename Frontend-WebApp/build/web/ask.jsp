@@ -32,10 +32,6 @@
         %>
         
         <form action="addQuestion.jsp" method="post" name="ask-form">
-            <input type="text" name="Name" class="form-field" placeholder="Name" value="<%= str != null?q.getQauthorname():"" %>"></input>
-            <br>
-            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" value="<%= str != null?q.getUemail():"" %>"></input>
-            <br>
             <input type="text" name="Topic" class="form-field" placeholder="Question Topic" value="<%= str != null?q.getQtopic() :""%>"></input>
             <br>
             <textarea name="Content" placeholder="Content" class="form-textarea" ><%= str != null?q.getQcontent():"" %></textarea>

@@ -1,5 +1,5 @@
 <%-- 
-    Document   : voteQuestion.jsp
+    Document   : addAnswer.jsp
     Author     : moel
 --%>
 
@@ -7,19 +7,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Simple StackExcahange | Question</title>
+        <title>Simple StackExcahange | Answer</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
+        
         <%
-            int qid = Integer.parseInt(request.getParameter("id"));
-            String v = request.getParameter("up");
-            boolean up;
-            if (v=="true") up=true;
-            else up=false;
-    
+            String str = request.getParameter("id");
+            int qid = Integer.parseInt(str);
+            String content = request.getParameter("content");
+            
             //getting token
             String token = (String)session.getAttribute("access_token");
             if (token == null) {response.sendRedirect("signin.jsp");}
@@ -30,20 +29,24 @@
                 if (limcal.before(Calendar.getInstance())){
                     response.sendRedirect("signin.jsp");
                 }else{
-                    String str;
-                    QuestionModule.QuestionWS_Service qservice = new QuestionModule.QuestionWS_Service();
-                    QuestionModule.QuestionWS port = qservice.getQuestionWSPort();
+
+                    Answer.AnswerWS_Service aservice = new Answer.AnswerWS_Service();
+                    Answer.AnswerWS port = aservice.getAnswerWSPort();
                     String alert;
                     String url = "";
                     
-                    str = port.voteQuestion(qid, up,token);
-                      
+                    str = port.insertAnswer(token, qid, content);
+                    qid = Integer.parseInt(str);
                     // = Integer.toString(qid);
-
-                    alert = str;
-                    url = "/displayQuestion.jsp?id=" + qid;
+                    if (qid<0){
+                      alert = "failed";
+                      url = "/index.jsp";
+                    }else{
+                      alert = "Success";
+                      url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
                       
-                    
+                    }
+
                     out.write("<script type='text/javascript'>\n");
                     out.write("alert('"+alert+"');\n");
 
@@ -51,6 +54,9 @@
                     out.write("</script>\n");
                 }
             }
+
         %>
     </body>
+    
+
 </html>

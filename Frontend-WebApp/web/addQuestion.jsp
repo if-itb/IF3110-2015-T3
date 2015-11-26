@@ -36,11 +36,13 @@
                     String alert;
                     String url = "";
                     if(qid != 0) {     // edit question
-                      alert = port.updateQuestion(token,qid, topic, content);
+                      alert = port.up
+                              dateQuestion(token,qid, topic, content);
                       str = Integer.toString(qid);
                     } else {
-                      qid = port.insertQuestion(token, topic, content);
-                      str = Integer.toString(qid);
+                      str = port.insertQuestion(token, topic, content);
+                      qid = Integer.parseInt(str);
+                      // = Integer.toString(qid);
                       if (qid<0){
                         alert = "failed";
                         url = "/index.jsp";

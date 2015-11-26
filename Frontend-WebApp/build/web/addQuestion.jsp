@@ -3,6 +3,7 @@
     Author     : moel
 --%>
 
+<%@page import="java.util.Calendar"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,26 +19,48 @@
             int qid = Integer.parseInt(str);
             String topic = request.getParameter("topic");
             String content = request.getParameter("content");
-            String token = "1";// not implemented yett
-
-            QuestionModule.QuestionWS_Service qservice = new QuestionModule.QuestionWS_Service();
-            QuestionModule.QuestionWS port = qservice.getQuestionWSPort();
-            if(qid != 0) {     // edit question
-              port.updateQuestion(token,qid, topic, content);
-              str = Integer.toString(qid);
-            } else {
-              port.insertQuestion(token, topic, content);
-              str = "";
-            }
-            String url;
-            if (str.isEmpty()){
-                url = "/Frontend_Webapp/index.jsp";
-            }else {
-                url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
-                
-            }
             
-            response.sendRedirect(url);
+            //getting token
+            String token = (String)session.getAttribute("access_token");
+            if (token == null) {response.sendRedirect("signin.jsp");}
+            else{
+                Calendar limcal = ((Calendar)session.getAttribute("start"));
+                Integer lifetime = (Integer)session.getAttribute("lifetime");
+                limcal.add(Calendar.SECOND, lifetime);
+                if (limcal.before(Calendar.getInstance())){
+                    response.sendRedirect("signin.jsp");
+                }else{
+
+                    QuestionModule.QuestionWS_Service qservice = new QuestionModule.QuestionWS_Service();
+                    QuestionModule.QuestionWS port = qservice.getQuestionWSPort();
+                    String alert;
+                    String url = "";
+                    if(qid != 0) {     // edit question
+                      alert = port.up
+                              dateQuestion(token,qid, topic, content);
+                      str = Integer.toString(qid);
+                    } else {
+                      str = port.insertQuestion(token, topic, content);
+                      qid = Integer.parseInt(str);
+                      // = Integer.toString(qid);
+                      if (qid<0){
+                        alert = "failed";
+                        url = "/index.jsp";
+                      }else{
+                        alert = "Success";
+                        url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
+                      }
+                    }
+
+
+
+                    out.write("<script type='text/javascript'>\n");
+                    out.write("alert('"+alert+"');\n");
+
+                    out.write("setTimeout(function(){window.location.href='"+url+"'},1000);");
+                    out.write("</script>\n");
+                }
+            }
 
         %>
     </body>

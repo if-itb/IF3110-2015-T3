@@ -1,5 +1,5 @@
 <%-- 
-    Document   : voteQuestion.jsp
+    Document   : voteAnswer.jsp
     Author     : moel
 --%>
 
@@ -9,13 +9,15 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Simple StackExcahange | Question</title>
+        <title>Simple StackExcahange | Answer</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
     <body>
         <%
             int qid = Integer.parseInt(request.getParameter("id"));
             String v = request.getParameter("up");
+            int aid = Integer.parseInt(request.getParameter("aid"));
+            
             boolean up;
             if (v=="true") up=true;
             else up=false;
@@ -31,14 +33,12 @@
                     response.sendRedirect("signin.jsp");
                 }else{
                     String str;
-                    QuestionModule.QuestionWS_Service qservice = new QuestionModule.QuestionWS_Service();
-                    QuestionModule.QuestionWS port = qservice.getQuestionWSPort();
+                    Answer.AnswerWS_Service aservice = new Answer.AnswerWS_Service();
+                    Answer.AnswerWS port = aservice.getAnswerWSPort();
                     String alert;
                     String url = "";
                     
-                    str = port.voteQuestion(qid, up,token);
-                      
-                    // = Integer.toString(qid);
+                    str = port.voteAnswer(qid,aid,up,token);
 
                     alert = str;
                     url = "/displayQuestion.jsp?id=" + qid;

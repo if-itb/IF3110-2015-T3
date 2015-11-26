@@ -13,21 +13,21 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="question">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="qid" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="uemail" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="qtopic" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="qcontent" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="qauthorname" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="qvote" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="qtimestamp" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="question"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="qid" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="uemail" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="qtopic" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="qcontent" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="qauthorname" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="qvote" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="qtimestamp" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

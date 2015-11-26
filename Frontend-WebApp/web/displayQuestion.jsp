@@ -22,19 +22,32 @@
         
         QuestionModule.Question q = new QuestionModule.Question();
         String str = request.getParameter("id");
+        int id=0;
         if(str != null) {
-          int id = Integer.parseInt(str);
+           id= Integer.parseInt(str);
           q = port.getQuestionByID(id);
         }
+        
+        Answer.AnswerWS_Service as = new Answer.AnswerWS_Service();
+        Answer.AnswerWS ap = as.getAnswerWSPort();
+        java.util.List<Answer.Answer> ans = ap.getAllAnswer(id);
+        
+        int na = ans.size();
         %>
         
         <table class="question">
             <tr>
-                    <td class="number">
-                            <%= q.getQvote() %>
-                    </td>
-                    <td class="number">
-                            nAns
+                    <td class="vote">
+                    <a href="voteQuestion.jsp?id=<%=q.getQid()%>+up=true">
+                        <img src="image/Up.png" width="30" hight="30">
+                    </a>
+
+                    <h3>
+                        <%= a.getAvote() %>
+                    </h3>
+                    <a href="voteQuestion.jsp?id=<%=q.getQid()%>+up=false">
+                        <img src="image/down.png"  width="30" hight="30">
+                    </a>
                     </td>
                     <td>
                     </td>
@@ -75,21 +88,25 @@
             </tr>
     </table>
         
-        <h2>nAns Answer</h2>
+        <h2><%= na %> Answer</h2>
         <div class="garis"></div>
-        
+        <% for(Answer.Answer a : ans) { %>
         <table >
             <tr>
                 <td class="vote">
-                    <img src="image/Up.png" width="30" hight="30">
+                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>+aid=<%=a.getAid()%>+up=true">
+                        <img src="image/Up.png" width="30" hight="30">
+                    </a>
 
                     <h3>
-                        nVote
+                        <%= a.getAvote() %>
                     </h3>
-                    <img src="image/down.png"  width="30" hight="30">
+                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>+aid=<%=a.getAid()%>+up=false">
+                        <img src="image/down.png"  width="30" hight="30">
+                    </a>
                 </td>
                 <td class="dContent">
-                    Content
+                    <%= a.getAcontent()%>
                 </td>
             </tr>
             <tr>
@@ -98,21 +115,17 @@
                 <td class="Detail">
                     Asked by
                     <span class="name">
-                        Username
+                        <%= a.getAauthorname() %>
                     </span>
                     at
-                    date
+                    <%= a.getAtimestamp() %>
                 </td>
             </tr>
         </table>
         <div class="garis"></div>
-        
+        <% } %>
         <h2 style="color:#A0A0A0">Your Answer</h2>
         <form action="addAnswer.php" method="post" name="ask-ans">
-            <input type="text" name="Name" class="form-field" placeholder="Name"></input>
-            <br>
-            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email"></input>
-            <br>
             <textarea name="Content" placeholder="Content" class="form-textarea" ></textarea>
             <br>
             <div align="right">
