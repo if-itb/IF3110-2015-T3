@@ -16,7 +16,7 @@
             
             String redir_url = null;
             String redir_label = null;
-            
+            String status = null;
             
             String Name = request.getParameter("Name");
             String Email = request.getParameter("Email");
@@ -27,16 +27,17 @@
             
             
             if (Name!=null && Email !=null && Password !=null ){
-                port.insertUser(Email, Name, Password);
+                status = port.insertUser(Email, Name, Password);
                 
                 //TODO display status if success
                 
-                if (true /*Status = "Success"*/){
-                    redir_url="index.jsp";
-                    redir_label = "home";
-                }
+
+                redir_url="index.jsp";
+                redir_label = "home";
             }
         %>
+        
+        Registration completed with status : <%=status%>
         
         <a href ="<%=redir_url%>">Go back to <%=redir_label%></a>
         
