@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.Desktop;
+import java.io.FileWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
@@ -30,6 +31,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 import javax.servlet.http.HttpSession;
+import org.json.simple.*;
 /**
  *
  * @author user
@@ -63,7 +65,7 @@ public class testrestservlet extends HttpServlet {
         //processRequest(request, response);
         final PrintWriter out = response.getWriter();
          ArrayList<String> user = new ArrayList<String>();
-        String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
+        String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
         try {
             String temp_token = access_token;
             Class.forName("com.mysql.jdbc.Driver");
@@ -87,9 +89,30 @@ public class testrestservlet extends HttpServlet {
                 out.println("Comparison:"+comp);
             if(comp == -1){
             out.println("Expired");
+            response.sendRedirect("http://localhost:8082/WBD_IS/login.jsp");
             }
             else{
             out.println("Valid");
+            query = "UPDATE token SET t_time = now() + INTERVAL 1 MINUTE WHERE t_token = ?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, temp_token);
+            out.println(temp_token);
+            out.println("Masuk Refresh Token");
+            JSONObject json = new JSONObject();
+            json.put("token",temp_token);
+            json.put("message","valid");
+            out.println(json.toString());
+            try{
+                FileWriter file = new FileWriter("C:\\xampp\\htdocs\\validation.json");
+                file.write(json.toJSONString());
+                file.flush();
+                file.close();
+                out.println("MSUK SINI");
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+            
             }
             //execute prepared statement
             preparedStmt.executeUpdate();
@@ -115,17 +138,17 @@ public class testrestservlet extends HttpServlet {
         //processRequest(request, response);
       final PrintWriter out = response.getWriter();
       ArrayList<String> user = new ArrayList<String>();
-      Random rand = new Random();
+      String userid;
       
       out.println(request.getParameter("username"));
       out.println(request.getParameter("password"));
-      String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
+      String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String userName = "root";
             String password = "";
             Connection conn = DriverManager.getConnection(MyURL,userName,password);
-            String query = "SELECT email,name,password FROM user WHERE email = ? AND password = ?";
+            String query = "SELECT u_id,email,name,password FROM user WHERE email = ? AND password = ?";
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, request.getParameter("username"));
             preparedStmt.setString(2, request.getParameter("password"));
@@ -140,22 +163,24 @@ public class testrestservlet extends HttpServlet {
                 response.sendRedirect(login);
             }
             else {
-                   
+                   user.add(result.getString("u_id"));
+                   userid = result.getString("u_id");
                    user.add(result.getString("name"));
                    user.add(result.getString("email"));
                    user.add(result.getString("password"));
                    access_token= UUID.randomUUID().toString();
                     out.println("Berhasil Login = "+user.toString());
+                    out.println("USERID ="+userid);
                     out.println("Token = "+access_token);
                     HttpSession session = request.getSession();
                     out.println("MASUK SINI 1");
-                    query = "REPLACE into token (u_email,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE) ";
+                    query = "REPLACE into token (u_id,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE) ";
                     preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setString(1,request.getParameter("username"));
+                    preparedStmt.setString(1,userid);
                     preparedStmt.setString(2,access_token);
                     out.println("MASUK SINI 1");
                     out.println("Waktu Pembuatan Sesi : "+session.getCreationTime());
-                    
+                    response.sendRedirect("http://localhost:8080/StackExchangeFE/homepagelogin.jsp?token="+access_token);
                     
             }
             
