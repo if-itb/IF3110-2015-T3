@@ -49,16 +49,15 @@ public class CreateQuestion extends HttpServlet {
 		response.sendRedirect("Home");
 	    }
 	    else if("invalid".equals(res)){
-		
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("invalid");
 	    }
 	    else {
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("expired");
 	    }
 	}
 	else
 	{
-	    response.sendRedirect("InvalidateCookie");
+	    response.sendRedirect("auth");
         }
 	
     }

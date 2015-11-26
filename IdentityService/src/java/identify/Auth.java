@@ -59,10 +59,8 @@ public class Auth extends HttpServlet {
 	    try (PrintWriter out = response.getWriter()) {
 		long expirationDate = 0;
 		if(rs.next()){
-		    System.out.println("In Database");
 		    expirationDate = rs.getLong("expiration_date");
 		    if (System.currentTimeMillis() / 1000 <= expirationDate) {
-			System.out.println("Auth : Valid");
 			out.println("valid");
 		    }
 		    else{
@@ -79,7 +77,6 @@ public class Auth extends HttpServlet {
 		    }
 		}
 		else {
-		    System.out.println("Auth : Invalid");
 		    out.println("invalid");
 		}
 	    

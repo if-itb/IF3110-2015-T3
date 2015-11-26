@@ -25,7 +25,6 @@ public class EditQuestion extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 	RequestHandler rh = new RequestHandler(request);
         if (rh.isHasToken()) {
-	    System.out.println("Call Edit");
             String res = editQuestion(
                                 Integer.parseInt(request.getParameter("idEdited")),
                                 rh.getUsername(),
@@ -34,9 +33,12 @@ public class EditQuestion extends HttpServlet {
                                 rh.getToken(),
                                 rh.getExpirationDate()
                             );
-	    if (!res.trim().equals("success")) {
+	    if (res.trim().equals("invalid")) {
 		System.out.println("Fail Edit");
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("invalid");
+	    }
+	    else if (res.trim().equals("expired")) {
+		response.sendRedirect("expired");
 	    }
 	    else{
 		if ("1".equals(request.getParameter("fromDetail"))) {
@@ -47,7 +49,7 @@ public class EditQuestion extends HttpServlet {
 	    }
         }
         else {
-            response.sendRedirect("InvalidateCookie");
+            response.sendRedirect("auth");
         }
         
     }

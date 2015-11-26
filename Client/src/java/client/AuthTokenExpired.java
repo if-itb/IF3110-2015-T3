@@ -6,6 +6,7 @@
 package client;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -17,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sorlawan
  */
-@WebServlet(name = "InvalidateCookie", urlPatterns = {"/InvalidateCookie"})
-public class InvalidateCookie extends HttpServlet {
+@WebServlet(name = "AuthTokenExpired", urlPatterns = {"/expired"})
+public class AuthTokenExpired extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,8 +41,9 @@ public class InvalidateCookie extends HttpServlet {
 		response.addCookie(old);
 	    }
 	}
-	response.sendRedirect("auth.html");
-	
+
+	request.setAttribute("errorMessage", "Your Token has Already Expired !");
+	request.getRequestDispatcher("/auth.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

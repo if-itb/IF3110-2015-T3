@@ -38,10 +38,10 @@
 			    getSibling($this, "qVoteVal").innerHTML = newVote.childNodes[0].nodeValue;
 			} else if (expired) {
 			    delete_cookie();
-			    window.location.href = "InvalidateCookie";
+			    window.location.href = "expired";
 			} else if (invalid) {
 			    delete_cookie();
-			    window.location.href = "InvalidateCookie";
+			    window.location.href = "invalid";
 			} else {
 			    console.log("Cant vote");
 			}
@@ -49,7 +49,7 @@
 		    else if(http.status === 401)
 		    {
 			delete_cookie();
-			window.location.href = "InvalidateCookie";
+			window.location.href = "auth";
 		    }
                 }
 		
@@ -99,16 +99,16 @@
 			    getSibling($this, "voteVal").innerHTML = newVote.childNodes[0].nodeValue;
 			} else if (expired) {
 			    delete_cookie();
-			    window.location.href = "InvalidateCookie";
+			    window.location.href = "auth";
 			} else if (invalid){
 			    delete_cookie();
-			    window.location.href = "InvalidateCookie";
+			    window.location.href = "auth";
 			}
 
 		    } else if (http.status === 401)
 		    {
 			delete_cookie();
-			window.location.href = "InvalidateCookie";
+			window.location.href = "auth";
 		    }
 		}
 

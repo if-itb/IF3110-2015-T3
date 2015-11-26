@@ -82,15 +82,10 @@ public class User {
         
         ResultSet result = preparedStatement.executeQuery();
         if (result.next()) {
-            if (result.isLast()) {
-                return new User(result.getInt("id"),
-                                result.getString("name"),
-                                result.getString("email"),
-                                result.getString("password"));
-            }
-            else {
-                throw new Exception("Seems like there's a problem with the database server.");
-            }
+	    return new User(result.getInt("id"),
+			    result.getString("name"),
+			    result.getString("email"),
+			    result.getString("password"));
         }
         else {
             return null;

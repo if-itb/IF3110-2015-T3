@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sorlawan
  */
-@WebServlet(name = "Logout", urlPatterns = {"/logout"})
-public class Logout extends HttpServlet {
+@WebServlet(name = "InvalidateCookie", urlPatterns = {"/auth"})
+public class Auth extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,19 +29,22 @@ public class Logout extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 	response.setContentType("text/html;charset=UTF-8");
-	
 	for (Cookie cookie : request.getCookies()) {
 	    Cookie old = cookie;
-	    if ("id".equals(cookie.getName()) || "token".equals(cookie.getName()) || "username".equals(cookie.getName())) {
+	    if ("id".trim().equals(cookie.getName()) || "token".trim().equals(cookie.getName()) || "username".trim().equals(cookie.getName())) {
 		cookie.setValue(null);
 		cookie.setMaxAge(0);
 		response.addCookie(old);
 	    }
 	}
-	response.sendRedirect("Home");
+			
+	request.setAttribute("errorMessage", " ");
+	request.getRequestDispatcher("/auth.jsp").forward(request, response);
 	
     }
 

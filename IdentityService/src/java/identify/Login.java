@@ -3,6 +3,8 @@ package identify;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,7 +45,8 @@ public class Login extends HttpServlet {
                     out.close();
                 }
                 else {
-                    out.close();
+		    response.getWriter().println("UserNotFound");
+		    response.getWriter().close();
                 }
             }
             catch (Exception exception) {
@@ -71,7 +74,12 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+	try {
+	    processRequest(request, response);
+	} catch (ServletException | IOException ex) {
+	    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
     }
 
     /**
@@ -85,7 +93,8 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+	    processRequest(request, response);
+
     }
 
     /**

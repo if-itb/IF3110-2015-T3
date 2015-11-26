@@ -474,15 +474,12 @@ public class StackExchangeService {
             @WebParam(name = "userEmail") String email,
             @WebParam(name = "userPassword") String password
     ) throws Exception {
-        
-        /* Check that no user with same name */
-        
         if (User.exist(email)) {
-	    return null;
+	    throw new Exception("UserExist");
 	}
         else {
 	    User user = User.create(name, email, password);
-	    
+
 	    Form form = new Form();
 	    form.param("email", user.getEmail());
 	    form.param("password", user.getPassword());

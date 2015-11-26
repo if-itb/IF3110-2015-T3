@@ -55,6 +55,12 @@ public class Login extends HttpServlet {
 	    String result = client.target(url).request(MediaType.APPLICATION_XML)
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
 	    
+	    if("UserNotFound".equals(result.trim())){
+		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		request.setAttribute("errorMessage", "Invalid Email / Password !");
+		request.getRequestDispatcher("/login.jsp").forward(request, response);
+	    }
+	    
 	    String token = xmlParse(result, "token");
 	    String username = xmlParse(result, "username");
 	    String id = xmlParse(result,"id");
@@ -73,13 +79,10 @@ public class Login extends HttpServlet {
 	    Cookie idCookie = new Cookie("id", id);
 	    response.addCookie(idCookie);
 	    
-
 	    response.sendRedirect("Home");
-	    
 	}
-	catch(Exception ex){
-	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	    request.setAttribute("errorMessage", "Invalid Email or Password !");
+	catch(ServletException | IOException ex){
+	    request.setAttribute("errorMessage", ex.getMessage());
 	    request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}
     }

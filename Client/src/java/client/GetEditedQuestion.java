@@ -38,8 +38,7 @@ public class GetEditedQuestion extends HttpServlet {
 	if (rh.isHasToken()) {
 	    Question question = getQuestion(rh.getToken(),Integer.parseInt(request.getParameter("idEdited")));
 	    if (question == null) {
-		System.out.println("Fail Edit");
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("expired");
 	    } else {
 		response.setContentType("text/html");
 		request.setAttribute("question", question);

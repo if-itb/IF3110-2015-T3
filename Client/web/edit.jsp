@@ -8,7 +8,6 @@
     <title>Ask Your Question</title>
     <link href='https://fonts.googleapis.com/css?family=Josefin+Slab:400,700italic,300' rel='stylesheet' type='text/css'>
     <link rel='stylesheet' href='styles/main.css'>
-    <script type='text/javascript' src='../scripts/validate.js'></script>
 </head>
 <body>
 <div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>

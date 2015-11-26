@@ -42,12 +42,15 @@ public class DeleteQuestion extends HttpServlet {
         if (hasToken) {
 	    System.out.println(rh.getToken()+ " : " +rh.getExpirationDate());
             String res = deleteQuestion(Integer.parseInt(idDeleted), rh.getToken());
-	    if(!res.trim().equals("success")){
-		response.sendRedirect("InvalidateCookie");
+	    if(res.trim().equals("expired")){
+		response.sendRedirect("expired");
+	    }
+	    else if (res.trim().equals("invalid")) {
+		response.sendRedirect("invalid");
 	    }
         }
 	else {
-	    response.sendRedirect("InvalidateCookie");
+	    response.sendRedirect("auth");
 	}
 	    
 

@@ -44,16 +44,16 @@ public class CreateAnswer extends HttpServlet {
 	    if ("success".equals(res)) {
 		 response.sendRedirect("detail?idDetail=" + qid);
 	    } else if ("invalid".equals(res)) {
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("invalid");
 	    } else {
-		response.sendRedirect("InvalidateCookie");
+		response.sendRedirect("expired");
 	    }
 	    
 	}
 	else
 	{
 	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-	    response.sendRedirect("InvalidateCookie");
+	    response.sendRedirect("auth");
 	}
 
     }
