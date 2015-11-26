@@ -4,6 +4,8 @@
     <system systemId="http://localhost:8080/Stackexchange_Webservice/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8080/Stackexchange_Webservice/QuestionWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/AnswerWS/AnswerWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/AnswerWS/AnswerWS.wsdl"/>
     <system systemId="http://localhost:8081/AnswerWS/AnswerWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/AnswerWS/AnswerWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/Stackexchange_Webservice/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/Stackexchange_Webservice/QuestionWS.wsdl"/>
+    <system systemId="http://localhost:8081/Stackexchange_Webservice/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/Stackexchange_Webservice/QuestionWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/Stackexchange_Webservice/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/Stackexchange_Webservice/UserWS.wsdl"/>
     <system systemId="http://localhost:8081/Stackexchange_Webservice/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/Stackexchange_Webservice/UserWS.xsd_1.xsd"/>
 </catalog>
