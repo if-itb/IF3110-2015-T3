@@ -5,6 +5,8 @@
  */
 package QuestionModel;
 
+import AnswerModel.Answer;
+import Auth.Auth;
 import DatabaseWS.DB;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -88,55 +90,23 @@ public class QuestionWS {
     throws Exception {
         // cek token (kasih IS)
         
-        int Valid;
-        String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
-        URL obj = new URL(url);
-        
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        String USER_AGENT = "Mozilla/5.0";
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'Get' request to " + url);
-        System.out.println("Response Code : " + responseCode);
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        
-        while ((inputLine = in.readLine()) != null){
-            response.append(inputLine);
-            
-        }
-        in.close();
-                
-        System.out.println(response.toString());
-        
-        if (response.toString() == token){
+        Auth auth = new Auth();
+        Question question = new Question();
+        int Valid = auth.check(token);
+        if (Valid == 1){
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO question (q_topic, q_content) VALUES (?, ?)";
-
+                sql = "INSERT INTO answer (q_id, u_id, a_content) VALUES (?, ?, ?)";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, title);
-                dbStatement.setString(2, content);
-
-                ResultSet rs = dbStatement.executeQuery();
-                rs.close();
-                stmt.close();
-                Valid = 1;
+                dbStatement.setInt(1, question.getID());
+                dbStatement.setInt(2, auth.getUserID(token));
+                dbStatement.setString(3, question.getQContent());
             } catch (SQLException e){
-                Valid = 0;
+                Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, e);
             }
-            
-        }
-        else {
-            Valid = 0;
         }
         return Valid;
-       
     }
 
     /**
@@ -150,52 +120,21 @@ public class QuestionWS {
             throws Exception {
         // cek token (kasih IS)
         
-        int Valid;
-        String url = "localhost:8082/WBD_IS/testrestservlet/?access_token=" + token;
-        URL obj = new URL(url);
-        
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        String USER_AGENT = "Mozilla/5.0";
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        
-        int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'Get' request to " + url);
-        System.out.println("Response Code : " + responseCode);
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        
-        while ((inputLine = in.readLine()) != null){
-            response.append(inputLine);
-            
-        }
-        in.close();
-                
-        System.out.println(response.toString());
-        
-        if (response.toString() == token){
+        Auth auth = new Auth();
+        Question question = new Question();
+        int Valid = auth.check(token);
+        if (Valid == 1){
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
-                sql = "UPDATE question SET (q_topic = '?', q_content = '?')";
-
+                sql = "UPDATE answer SET (q_id = ? , u_id = ? , a_content = ?)";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, topic);
-                dbStatement.setString(2, content);
-
-                ResultSet rs = dbStatement.executeQuery();
-                rs.close();
-                stmt.close();
-                Valid = 1;
+                dbStatement.setInt(1, question.getID());
+                dbStatement.setInt(2, auth.getUserID(token));
+                dbStatement.setString(3, question.getQContent());
             } catch (SQLException e){
-                Valid = 0;
+                Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, e);
             }
-            
-        }
-        else {
-            Valid = 0;
         }
         return Valid;
        

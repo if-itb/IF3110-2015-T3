@@ -25,9 +25,8 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.Cookie;
-/*import org.json.simple.*;
+import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;*/
 
 /**
  *
@@ -35,11 +34,11 @@ import org.json.simple.parser.ParseException;*/
  */
 public class Auth {
   
-  private String ReST = "http://localhost:8082/Identity_Service/validation";
+  private String ReST = "http://localhost:8082/WBD_IS/testrestservlet";
   
-  public int check ( String token ) {
+  public int check ( String token ) throws org.json.simple.parser.ParseException {
     int ret = -1;
-    //JSONParser parser = new JSONParser();    
+    JSONParser parser = new JSONParser();    
     try {
       String charset = "UTF-8";
       
@@ -64,21 +63,21 @@ public class Auth {
 
       String output;      
       Object obj;
-     // JSONObject jobj;
+      JSONObject jobj;
       
       while ((output = br.readLine()) != null) {
-        //obj = parser.parse(output);
-       // jobj = (JSONObject) obj;
+        obj = parser.parse(output);
+        jobj = (JSONObject) obj;
         
         ret = -1;
         
-        /*if (((String)jobj.get("message")).equals("valid")) {
+        if (((String)jobj.get("message")).equals("valid")) {
           ret = 1;
         } else if (((String)jobj.get("message")).equals("expired")) {
           ret = 0;
         } else {
           ret = -1;
-        }      */
+        }      
 
       }
       
@@ -105,7 +104,7 @@ public class Auth {
           Statement stmt = conn.createStatement();
           String sql;
 
-          sql = "SELECT * FROM access_token WHERE token = ?";
+          sql = "SELECT * FROM token WHERE u_id = ?";
           PreparedStatement dbStatement = conn.prepareStatement(sql);
           dbStatement.setString(1, token);
 
