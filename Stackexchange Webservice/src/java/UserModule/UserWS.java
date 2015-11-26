@@ -10,6 +10,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebParam;
 import DatabaseModule.Database;
+import IdentityServiceModule.IdentityService;
 import java.sql.*;
 
 /**
