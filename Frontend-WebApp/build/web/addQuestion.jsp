@@ -24,12 +24,20 @@
             QuestionModule.QuestionWS port = qservice.getQuestionWSPort();
             if(qid != 0) {     // edit question
               port.updateQuestion(token,qid, topic, content);
+              str = Integer.toString(qid);
             } else {
               port.insertQuestion(token, topic, content);
+              str = "";
+            }
+            String url;
+            if (str.isEmpty()){
+                url = "/Frontend_Webapp/index.jsp";
+            }else {
+                url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
+                
             }
             
-            //String url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
-            //response.sendRedirect(url);
+            response.sendRedirect(url);
 
         %>
     </body>

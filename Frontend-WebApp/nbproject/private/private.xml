@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/web/newaccount.jsp</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/web/addQuestion.jsp</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/web/signin.jsp</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/src/java/Answer/getAnswer.java</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/web/ask.jsp</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/web/register.jsp</file>
+            <file>file:/C:/xampp/tomcat/webapps/IF3110-2015-T2/Frontend-WebApp/src/java/Question/getQuestion.java</file>
+        </group>
     </open-files>
 </project-private>

@@ -18,10 +18,11 @@
         <div class="garis"></div>
         
         <form action="addAccount.jsp" method="post" name="ask-form">
-            
-            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email"></input>
+            Email
+            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" required></input>
             <br>
-            <input type="text" name="Password" class="form-field" placeholder="Password" ></input>
+            Password
+            <input type="text" name="Password" class="form-field" placeholder="Password" required></input>
             <br>
             <div align="right">
                     <input type="submit" value="Sign In" onclick="return validateForm()" action="addAccount.jsp">

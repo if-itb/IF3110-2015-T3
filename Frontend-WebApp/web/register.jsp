@@ -20,15 +20,20 @@
         <div class="garis"></div>
         
         <form action="addAccount.jsp" method="post" name="ask-form">
-            <input type="text" name="Name" class="form-field" placeholder="Name"></input>
+            Username
+            <input type="text" name="Name" class="form-field" placeholder="Name" required></input>
             <br>
-            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email"></input>
+            Email
+            <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" required></input>
             <br>
-            <input type="text" name="Password" class="form-field" placeholder="Password" ></input>
+            Password
+            <input type="text" name="Password" class="form-field" placeholder="Password" required></input>
             <br>
             <div align="right">
                     <input type="submit" value="Register" onclick="return validateForm()" action="addAccount.jsp">
+                    <h6>*When you register you accept the terms and regulation</h6>
             </div>
+            
             <input type="hidden" name="id_q" />
         </form>
         

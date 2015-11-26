@@ -20,7 +20,7 @@ import javax.xml.ws.WebServiceRef;
  */
 public class getQuestion extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/Stackexchange_Webservice/QuestionWS.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stackexchange_Webservice/QuestionWS.wsdl")
     private QuestionWS_Service service;
 
     /**
@@ -50,6 +50,8 @@ public class getQuestion extends HttpServlet {
             try {
                 java.util.List<QuestionModule.Question> res = getAllQuestion();
                 out.println("Result = " + res);
+                int n = res.size();
+                out.println("n = " + n);
                 for(QuestionModule.Question r : res){
                     out.println(r.getUemail());
                     out.println(r.getQtopic());
