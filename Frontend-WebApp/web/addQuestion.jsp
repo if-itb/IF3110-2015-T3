@@ -36,8 +36,7 @@
                     String alert;
                     String url = "";
                     if(qid != 0) {     // edit question
-                      alert = port.up
-                              dateQuestion(token,qid, topic, content);
+                      alert = port.updateQuestion(token,qid, topic, content);
                       str = Integer.toString(qid);
                     } else {
                       str = port.insertQuestion(token, topic, content);
