@@ -69,7 +69,7 @@ public class Login extends HttpServlet {
           
           DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
           
-          sql = "INSERT INTO access_token (user_id, token, expire_date) VALUES (?, ?, ?)";
+          sql = "REPLACE INTO access_token (user_id, token, expire_date) VALUES (?, ?, ?)";
           dbStatement = conn.prepareStatement(sql);
           dbStatement.setInt(1, rs.getInt("id"));
           dbStatement.setString(2, token);
