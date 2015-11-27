@@ -19,7 +19,7 @@
             int aid = Integer.parseInt(request.getParameter("aid"));
             
             boolean up;
-            if (v=="true") up=true;
+            if (v.equals("true")) up=true;
             else up=false;
     
             //getting token

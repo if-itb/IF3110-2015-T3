@@ -17,7 +17,7 @@
             int qid = Integer.parseInt(request.getParameter("id"));
             String v = request.getParameter("up");
             boolean up;
-            if (v=="true") up=true;
+            if (v.equals("true")) up=true;
             else up=false;
     
             //getting token
