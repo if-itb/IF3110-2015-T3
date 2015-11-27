@@ -17,8 +17,8 @@
         <%
             String str = request.getParameter("id");
             int qid = Integer.parseInt(str);
-            String topic = request.getParameter("topic");
-            String content = request.getParameter("content");
+            String topic = request.getParameter("Topic");
+            String content = request.getParameter("Content");
             
             //getting token
             String token = (String)session.getAttribute("access_token");
@@ -38,6 +38,7 @@
                     if(qid != 0) {     // edit question
                       alert = port.updateQuestion(token,qid, topic, content);
                       str = Integer.toString(qid);
+                      url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
                     } else {
                       str = port.insertQuestion(token, topic, content);
                       qid = Integer.parseInt(str);

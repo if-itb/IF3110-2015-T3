@@ -37,12 +37,12 @@ public class AnswerWS {
         ResultSet rs = null;
         
         try{
-            String query = "SELECT * FROM Answer NATURALJOIN UAccount WHERE qid = ?";
+            String query = "SELECT * FROM Answer NATURAL JOIN UAccount WHERE qid = ?";
             st = con.prepareStatement(query);
             st.setInt(1, qid);
             rs = st.executeQuery();
             while (rs.next()){
-                Answers.add(new Answer(rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("AuthorName"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created at")));
+                Answers.add(new Answer(rs.getInt("aid"),rs.getInt("qid"),rs.getString("Email"),rs.getString("AuthorName"),rs.getString("Content"),rs.getInt("vote"),rs.getString("created_at")));
             }
             rs.close();
         }catch(SQLException ex){

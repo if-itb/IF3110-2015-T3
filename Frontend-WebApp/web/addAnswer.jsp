@@ -17,7 +17,7 @@
         <%
             String str = request.getParameter("id");
             int qid = Integer.parseInt(str);
-            String content = request.getParameter("content");
+            String content = request.getParameter("Content");
             
             //getting token
             String token = (String)session.getAttribute("access_token");
@@ -36,14 +36,13 @@
                     String url = "";
                     
                     str = port.insertAnswer(token, qid, content);
-                    qid = Integer.parseInt(str);
                     // = Integer.toString(qid);
-                    if (qid<0){
-                      alert = "failed";
+                    if (!str.equals("Success")){
+                      alert = str;
                       url = "/index.jsp";
                     }else{
                       alert = "Success";
-                      url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
+                      url = "/Frontend_Webapp/displayQuestion.jsp?id=" + qid;
                       
                     }
 

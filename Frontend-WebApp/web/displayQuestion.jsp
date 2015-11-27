@@ -43,7 +43,7 @@
                     </a>
 
                     <h3>
-                        <%= a.getAvote() %>
+                        <%= q.getQvote() %>
                     </h3>
                     <a href="voteQuestion.jsp?id=<%=q.getQid()%>+up=false">
                         <img src="image/down.png"  width="30" hight="30">
@@ -125,7 +125,7 @@
         <div class="garis"></div>
         <% } %>
         <h2 style="color:#A0A0A0">Your Answer</h2>
-        <form action="addAnswer.php" method="post" name="ask-ans">
+        <form action="addAnswer.jsp" method="post" name="ask-ans">
             <textarea name="Content" placeholder="Content" class="form-textarea" ></textarea>
             <br>
             <div align="right">
