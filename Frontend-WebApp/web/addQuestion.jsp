@@ -43,7 +43,7 @@
                       str = port.insertQuestion(token, topic, content);
                       qid = Integer.parseInt(str);
                       // = Integer.toString(qid);
-                      if (qid<0){
+                      if (qid<=0){
                         alert = "failed";
                         url = "/index.jsp";
                       }else{
