@@ -22,7 +22,7 @@
             <input type="text" name="Email" class="form-field" id="Email" placeholder="Email" required></input>
             <br>
             Password
-            <input type="text" name="Password" class="form-field" placeholder="Password" required></input>
+            <input type="password" name="Password" class="form-field" placeholder="Password" required></input>
             <br>
             <div align="right">
                     <input type="submit" value="Sign In" onclick="return validateForm()" action="grant.jsp">
