@@ -450,6 +450,13 @@ a:visited {
     font-size : 20px;
 }
 
+.err-mid {
+    color : #ff1100;
+    font-weight: bold;
+    font-size : 30px;
+    text-align : center;
+}
+
 /*********************************
  *@userAuthBar
  */

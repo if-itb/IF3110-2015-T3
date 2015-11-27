@@ -1,5 +1,6 @@
-package client;
+package ClientServlet;
 
+import ClientServlet.helper.RequestHandler;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,36 +17,40 @@ import service.Question;
 import service.StackExchangeService_Service;
 
 
+// Servlet for create the detail page of a Question
 @WebServlet(name = "DetailQuestion", urlPatterns = {"/detail"})
 public class DetailQuestion extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-
-        int qid = Integer.parseInt(request.getParameter("idDetail"));
-        
+	// Create a new Handler for the request to this servlet
 	RequestHandler rh = new RequestHandler(request);
 	
+	// Get the id of the question
+	int qid = Integer.parseInt(request.getParameter("idDetail"));
+
+	// Get the question detail
 	Question question = getQuestionWithoutValidation(qid);
 	List<Answer> answers = getAnswers(qid);
 	
-	System.out.println(question.getQcontent());
-	
-	response.setContentType("text/html");
-	request.setAttribute("question", question);
-	request.setAttribute("answers", answers);
+	// Check if the request has token cookie
 	if(rh.isHasToken()){
+	    // We have user info in token	    
 	    request.setAttribute("isAuthenticated", true);
 	    request.setAttribute("username",rh.getUsername());
 	}
 	
-	request.getRequestDispatcher("/detail.jsp").forward(request, response);
+	// Set attributes
+	request.setAttribute("question", question);
+	request.setAttribute("answers", answers);
 	
+	// Dispatch this attribute with detail.jsp page
+	request.getRequestDispatcher("/detail.jsp").forward(request, response);
 
     }
 

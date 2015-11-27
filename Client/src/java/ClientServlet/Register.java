@@ -1,4 +1,4 @@
-package client;
+package ClientServlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,43 +23,33 @@ import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
 
+// Servlet for Registering a new User
 @WebServlet(name = "Register", urlPatterns = {"/Register"})
 public class Register extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws service.Exception_Exception
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
+	// Get the parameters needed
         String username = request.getParameter("username");
 	String email = request.getParameter("email");
 	String password = request.getParameter("password");
 	
 	try{
+	    // Call the web service
 	    String result = registerUser(username, email, password);
-	    System.out.println("result : " + result);
-
+	    
+	    // Parse The XML result  
 	    String token = xmlParse(result, "token");
 	    String usr = xmlParse(result, "username");
 	    String id = xmlParse(result, "id");
 	    
-	    System.out.println("Token : " + xmlParse(result, "token"));
-
-	    response.setContentType("text/html");
-	    PrintWriter pw = response.getWriter();
-
+	    // Add the parsed result as  cookies to the Response of this servlet
 	    Cookie tokenCookie = new Cookie("token", token);
 	    response.addCookie(tokenCookie);
 
@@ -68,14 +58,22 @@ public class Register extends HttpServlet {
 
 	    Cookie idCookie = new Cookie("id", id);
 	    response.addCookie(idCookie);
-
 	    
+	    
+	    // Redirect to home page
+	    response.setContentType("text/html");
 	    response.sendRedirect("Home");
 	    
 	}
-	catch(Exception ex){
+	catch(Exception_Exception ex){
+	    // Exception as the user not found 
 	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	    request.setAttribute("errorMessage", "Email Already Used !");
+	    request.getRequestDispatcher("/register.jsp").forward(request, response);
+	}
+	catch (IOException ex) {
+	    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	    request.setAttribute("errorMessage", ex.getMessage());
 	    request.getRequestDispatcher("/register.jsp").forward(request, response);
 	}
     }

@@ -5,6 +5,7 @@
  */
 package model;
 
+import model.helper.Encryptor;
 import java.io.StringWriter;
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.*;

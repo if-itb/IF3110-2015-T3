@@ -1,5 +1,6 @@
-package client;
+package ClientServlet;
 
+import ClientServlet.helper.RequestHandler;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,46 +11,60 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
-import service.Question;
 import service.StackExchangeService_Service;
 
 
-@WebServlet(name = "EditQuestion", urlPatterns = {"/edit"})
-public class GetEditedQuestion extends HttpServlet {
+// Servlet for Voting Question
+@WebServlet(name = "VoteAnswer", urlPatterns = {"/VoteAnswer"})
+public class VoteAnswer extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws service.Exception_Exception
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
+	// Get parameters needed
+        int aid = Integer.parseInt(request.getParameter("aid"));
+        String operation =  request.getParameter("operation");
+        
+	// Create new handler for the request to the servlet
 	RequestHandler rh = new RequestHandler(request);
-	if (rh.isHasToken()) {
-	    Question question = getQuestion(rh.getToken(),Integer.parseInt(request.getParameter("idEdited")));
-	    if (question == null) {
-		response.sendRedirect("expired");
-	    } else {
-		response.setContentType("text/html");
-		request.setAttribute("question", question);
-		request.setAttribute("fromDetail", request.getParameter("fromDetail"));
-		request.getRequestDispatcher("/edit.jsp").forward(request, response);
+	
+	// Check if the request has Token cookie
+        if(rh.isHasToken()) {
+	    
+	    // Call the web service
+            int newVote = voteAnswer(aid, operation, rh.getToken(),rh.getId());
+	    response.setContentType("text/xml");
+	    response.setHeader("Cache-Control", "no-cache");
+	    
+	    // Set the response based on the result above
+	    switch (newVote) {
+	    	case -9999: // Expired
+		    response.getWriter().write("<expired>true</expired>");
+		    break;
+	    	case 9999: // Invalid
+		    response.getWriter().write("<invalid>true</invalid>");
+		    break;
+	    	case 1234: // Cannot Vote
+		    response.getWriter().write("<cantVoteAnswer>true</cantVoteAnswer>");
+		    break;
+	    	default:   // Can vote
+		    response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
+		    break;
 	    }
-	} else {
-	    response.sendRedirect("Home");
-	}
+        }
+        else {
+	    // No token cookie found
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+	
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -64,7 +79,7 @@ public class GetEditedQuestion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetEditedQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VoteAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -82,7 +97,7 @@ public class GetEditedQuestion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetEditedQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VoteAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,13 +111,11 @@ public class GetEditedQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private Question getQuestion(java.lang.String token, int qid) throws Exception_Exception {
+    private int voteAnswer(int aid, java.lang.String operation, java.lang.String token, int id) throws Exception_Exception {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
-	return port.getQuestion(token, qid);
+	return port.voteAnswer(aid, operation, token, id);
     }
-
-
 
 }

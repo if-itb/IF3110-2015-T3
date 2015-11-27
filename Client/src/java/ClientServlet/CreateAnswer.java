@@ -1,8 +1,7 @@
+package ClientServlet;
 
-package client;
-
+import ClientServlet.helper.RequestHandler;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -12,44 +11,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
-import service.Question;
 import service.StackExchangeService_Service;
 
 
-
-@WebServlet(name = "GetListQuestions", urlPatterns = {"/Home"})
-public class GetListQuestions extends HttpServlet {
+@WebServlet(name = "CreateAnswer", urlPatterns = {"/answer"})
+public class CreateAnswer extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws service.Exception_Exception
-     */
+    
+    // Servlet for Creating Answer
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
+	// Create Request handler for the request to this servlet
 	RequestHandler rh = new RequestHandler(request);
-        List<Question> questions = getAllQuestion();
-	
-	
-	response.setContentType("text/html");
 	
 	if(rh.isHasToken()){
-	    request.setAttribute("username",rh.getUsername());
-	    request.setAttribute("isAuthenticated", rh.isHasToken());
+	    // Request Has token cookie
+	    // Get request parameters
+	    String content = request.getParameter("content");
+	    int qid = Integer.parseInt(request.getParameter("qid"));
+	    
+	    // Call the createAnswer WebService
+	    String res = createAnswer(qid, rh.getUsername(), content, rh.getToken());
+	    
+	    // Handle the response based on the result above
+	    if (null != res) switch (res) {
+	    	case "success":
+		    response.sendRedirect("detail?idDetail=" + qid);
+		    break;
+	    	case "invalid":
+		    response.sendRedirect("invalid");
+		    break;
+	    	default:
+		    response.sendRedirect("expired");
+		    break;
+	    }
 	}
-	request.setAttribute("questions", questions);
-	request.getRequestDispatcher("/list.jsp").forward(request, response);
-	
+	else
+	{
+	    // Request has no token cookie found. Redirect to Auth page
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	    response.sendRedirect("auth");
+	}
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -67,7 +74,7 @@ public class GetListQuestions extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetListQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -85,7 +92,7 @@ public class GetListQuestions extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(GetListQuestions.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreateAnswer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -99,10 +106,13 @@ public class GetListQuestions extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private List<service.Question> getAllQuestion() throws Exception_Exception {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        service.StackExchangeService port = service.getStackExchangeServicePort();
-        return port.getAllQuestion();
+    private String createAnswer(int qid, java.lang.String name, java.lang.String content, java.lang.String token) throws Exception_Exception {
+	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+	// If the calling of port operations may lead to race condition some synchronization is required.
+	service.StackExchangeService port = service.getStackExchangeServicePort();
+	return port.createAnswer(qid, name, content, token);
     }
+
+    
+
 }

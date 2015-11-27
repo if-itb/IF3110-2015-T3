@@ -15,36 +15,39 @@ import model.AccessToken;
 import model.User;
 
 
-
+// Servlet that provide the access token to the user that login
 @WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         if ("POST".equals(request.getMethod())) {
+	    // Get the email, and password
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+	    
             try (PrintWriter out = response.getWriter()) {
                 response.setContentType("application/xml;charset=UTF-8");
+		// Get user from database
                 User user = User.getUser(email, password);
+		
+		
                 if (user !=null) {
+		    // User exist in database
+		    // Create new accessToken
                     AccessToken accessToken = new AccessToken(user.getEmail(), user.getName(), user.getId());
-		    System.out.println(accessToken.toXML());
+		    
+		    // Return the XML of the access token object
 		    out.println(accessToken.toXML().trim());
+		    
+		    // Add the access token to database
 		    accessToken.addToDatabase();
+		    
                     out.close();
                 }
                 else {
+		    // User not exist in database
 		    response.getWriter().println("UserNotFound");
 		    response.getWriter().close();
                 }
@@ -55,6 +58,7 @@ public class Login extends HttpServlet {
             }
         }
         else {
+	    // Call without method POST
             try (PrintWriter out = response.getWriter()) {
                 out.println("Method not supported.");
                 out.close();

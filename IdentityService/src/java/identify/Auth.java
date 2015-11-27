@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import mysql.ConnectDb;
 
-
+// Check the status of the token passed to this servlet
 @WebServlet(name = "Auth", urlPatterns = {"/Auth"})
 public class Auth extends HttpServlet {
 
@@ -25,10 +25,13 @@ public class Auth extends HttpServlet {
 	    throws ServletException, IOException, SQLException {
 	response.setContentType("text/html;charset=UTF-8");
 	
+	// Get the tken
 	String token = request.getParameter("token");
 	
 	try {
 	    Connection conn = ConnectDb.connect();
+	    
+	    // Try to get the token from the database
 	    Statement stmt = null;
 	    String sql = "select * from access_token where access_token=?";
 	    PreparedStatement dbStatement;
@@ -40,34 +43,36 @@ public class Auth extends HttpServlet {
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, token);
 	    ResultSet rs = dbStatement.executeQuery();
+	    
+	    
 	    try (PrintWriter out = response.getWriter()) {
 		long expirationDate = 0;
+		
+		// Check if the token exsist in database
 		if(rs.next()){
+		    // Check if the token has already expired
 		    expirationDate = rs.getLong("expiration_date");
 		    if (System.currentTimeMillis() / 1000 <= expirationDate) {
-			out.println("valid");
+			out.println("valid");     //  Not expired yet == Valid
 		    }
 		    else{
-			System.out.println("Auth : Expire");
+			// Token expired
+			
+			// Delete the expired token from database
 			sql = "delete  from access_token where access_token=?";
-
-			dbStatement = conn.prepareStatement(sql);
-
 			dbStatement = conn.prepareStatement(sql);
 			dbStatement.setString(1, token);
-
 			dbStatement.executeUpdate();
 			out.println("expired");
 		    }
 		}
 		else {
+		    // The token is not exist in database
 		    out.println("invalid");
 		}
-	    
-		
 	    }
 	} catch (IOException | SQLException ex) {
-	    System.out.println("Error add Token : " + ex);
+	    System.out.println("Error add Token to Database : " + ex);
 	}
 	
 	

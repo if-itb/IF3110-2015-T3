@@ -1,12 +1,11 @@
+package ClientServlet;
 
-package client;
-
+import ClientServlet.helper.RequestHandler;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,51 +14,53 @@ import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
 
-@WebServlet(name = "CreateQuestion", urlPatterns = {"/question"})
-public class CreateQuestion extends HttpServlet {
+// Servlet for voting asnwer
+@WebServlet(name = "VoteQuestion", urlPatterns = {"/VoteQuestion"})
+public class VoteQuestion extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     * @throws service.Exception_Exception
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
         
-	
+	// Get parameters needed
+        int qid = Integer.parseInt(request.getParameter("qid"));
+        String operation =  request.getParameter("operation");
+        
+	// Create handler for the request to this sevlet
 	RequestHandler rh = new RequestHandler(request);
 	
-	boolean hasToken = rh.isHasToken();
-	
-	if(hasToken){
-	    String qtopic = request.getParameter("qtopic");
-	    String qcontent = request.getParameter("qcontent");
-	    String res = createQuestion(rh.getUsername(), qtopic, qcontent, rh.getToken());
+	// Check if the request has token cookie
+        if(rh.isHasToken()) {
 	    
-	    if("success".equals(res)){
-		response.sendRedirect("Home");
+	    // Call the webservcie
+            int newVote = voteQuestion(qid, operation, rh.getToken(),rh.getId());
+
+	    response.setContentType("text/xml");
+	    response.setHeader("Cache-Control", "no-cache");
+	    
+	    // Set the response based on the result above
+	    switch (newVote) {
+	    	case -9999: // Expired
+		    response.getWriter().write("<expired>true</expired>");
+		    break;
+	    	case 9999: // Invalid
+		    response.getWriter().write("<invalid>true</invalid>");
+		    break;
+	    	case 1234: // CannotVote
+		    response.getWriter().write("<cantVote>true</cantVote>");
+		    break;
+	    	default:   // Can Vote
+		    response.getWriter().write("<new-vote>" + newVote + "</new-vote>");
+		    break;
 	    }
-	    else if("invalid".equals(res)){
-		response.sendRedirect("invalid");
-	    }
-	    else {
-		response.sendRedirect("expired");
-	    }
-	}
-	else
-	{
-	    response.sendRedirect("auth");
         }
-	
+        else {
+	    // No token cookie found in the request
+	    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -77,7 +78,7 @@ public class CreateQuestion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(CreateQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VoteQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -95,7 +96,7 @@ public class CreateQuestion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (Exception_Exception ex) {
-            Logger.getLogger(CreateQuestion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VoteQuestion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -109,12 +110,14 @@ public class CreateQuestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String createQuestion(java.lang.String name, java.lang.String qtopic, java.lang.String qcontent, java.lang.String token) throws Exception_Exception {
+    private int voteQuestion(int qid, java.lang.String operation, java.lang.String token, int id) throws Exception_Exception {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
-	return port.createQuestion(name, qtopic, qcontent, token);
+	return port.voteQuestion(qid, operation, token, id);
     }
+
+
 
 
 }

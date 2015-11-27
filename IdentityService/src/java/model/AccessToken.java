@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.StringWriter;
@@ -18,11 +13,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlElement;
 import mysql.ConnectDb;
 
-/**
- *
- * @author dancinggrass
- */
 
+
+// ACCESS_TOKEN OBJECT
 @XmlRootElement(name = "accessToken")
 @XmlType(propOrder = { "id", "token","username" })
 public final class AccessToken {
@@ -31,7 +24,7 @@ public final class AccessToken {
     private String username;
     private long id;
     
-    private long lifetime = 30;
+    private final long lifetime = 15;
     
     public AccessToken() {}
     
@@ -83,7 +76,7 @@ public final class AccessToken {
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt = null;
 	    String sql = "insert into access_token(access_token, expiration_date)"
-		    + "values (?, ?)";
+		       + "values (?, ?)";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, this.getToken());
@@ -92,6 +85,5 @@ public final class AccessToken {
 	} catch (Exception ex) {
 	    System.out.println("Error add Token : " + ex);
 	}
-    }
-    
+    }    
 }

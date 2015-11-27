@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-import identify.Encryptor;
+import identify.helper.Encryptor;
 import java.io.StringWriter;
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.*;
@@ -75,7 +70,6 @@ public class User {
     
     public static User getUser(String email, String password) throws Exception {
         Connection conn = ConnectDb.connect();
-        Statement statement = conn.createStatement();
         String query = "SELECT * FROM users WHERE email = ? AND password = ?";
         PreparedStatement preparedStatement = conn.prepareStatement(query);
         preparedStatement.setString(1, email);
@@ -95,9 +89,8 @@ public class User {
     
     public static void create(String name, String email, String password) throws Exception {
         Connection conn = ConnectDb.connect();
-        Statement statement = conn.createStatement();
-        
-        String sql = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
+
+	String sql = "INSERT INTO users(name, email, password) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = conn.prepareStatement(sql);
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, email);

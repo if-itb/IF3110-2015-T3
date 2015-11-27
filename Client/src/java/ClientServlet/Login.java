@@ -1,7 +1,6 @@
-package client;
+package ClientServlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,52 +22,51 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 
-
+// Servlet for login user
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException {
 	
+	// Get the parameters needed
 	String email = request.getParameter("email");
 	String password = request.getParameter("password");
 	
+	// Creating a new Form Object, and set the parameters
 	Form form = new Form();
 	form.param("email", email);
 	form.param("password", password);
-
+	
+	// Create a new Client Object
 	Client client = ClientBuilder.newClient();
+	
+	// URL/Endpoint of the resource provider
 	String url = "http://localhost:8080/IdentityService/login";
 
 	try
 	{
+	    // Call the REST API and save the result string
 	    String result = client.target(url).request(MediaType.APPLICATION_XML)
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
 	    
+	    // The result is User not found or the loign failed
 	    if("UserNotFound".equals(result.trim())){
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		
+		// Redirect to the login page with error message
 		request.setAttribute("errorMessage", "Invalid Email / Password !");
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
 	    
-	    String token = xmlParse(result, "token");
-	    String username = xmlParse(result, "username");
-	    String id = xmlParse(result,"id");
+	    // Login Success, then parse the XML string
+	    String token = xmlParse(result, "token");	    // Parse the token from the XML document
+	    String username = xmlParse(result, "username"); // Parse the username from the XML document
+	    String id = xmlParse(result,"id");		    // Parse the user_id from the XML document
 	    
-	    System.out.println(result);
 	    
-	    response.setContentType("text/html");
-	    PrintWriter pw = response.getWriter();
-
+	    // Add the parsed result as  cookies to the Response of this servlet
 	    Cookie tokenCookie = new Cookie("token", token);
 	    response.addCookie(tokenCookie);
 	    
@@ -78,6 +76,8 @@ public class Login extends HttpServlet {
 	    Cookie idCookie = new Cookie("id", id);
 	    response.addCookie(idCookie);
 	    
+	    // Redirect it to the home page
+	    response.setContentType("text/html");
 	    response.sendRedirect("Home");
 	}
 	catch(ServletException | IOException ex){

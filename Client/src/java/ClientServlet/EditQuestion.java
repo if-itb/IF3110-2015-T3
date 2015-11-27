@@ -1,11 +1,11 @@
-package client;
+package ClientServlet;
 
+import ClientServlet.helper.RequestHandler;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +13,7 @@ import javax.xml.ws.WebServiceRef;
 import service.Exception_Exception;
 import service.StackExchangeService_Service;
 
-
+// Servlet for Editing Question
 @WebServlet(name = "editQuestion", urlPatterns = {"/editQuestion"})
 public class EditQuestion extends HttpServlet {
 
@@ -23,8 +23,13 @@ public class EditQuestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
+	
+	// Create a new Handler for the request to this servlet
 	RequestHandler rh = new RequestHandler(request);
+	
+	// Check if the request has token cookie
         if (rh.isHasToken()) {
+	    // Call the webservice with the parameters needed
             String res = editQuestion(
                                 Integer.parseInt(request.getParameter("idEdited")),
                                 rh.getUsername(),
@@ -33,22 +38,26 @@ public class EditQuestion extends HttpServlet {
                                 rh.getToken(),
                                 rh.getExpirationDate()
                             );
-	    if (res.trim().equals("invalid")) {
-		System.out.println("Fail Edit");
-		response.sendRedirect("invalid");
-	    }
-	    else if (res.trim().equals("expired")) {
-		response.sendRedirect("expired");
-	    }
-	    else{
-		if ("1".equals(request.getParameter("fromDetail"))) {
-		    response.sendRedirect("detail?idDetail=" + request.getParameter("idEdited"));
-		} else {
-		    response.sendRedirect("Home");
-		}
+	    
+	    // Set the response based on the result above
+	    switch (res.trim()) {
+	    	case "invalid":
+		    response.sendRedirect("invalid");
+		    break;
+	    	case "expired":
+		    response.sendRedirect("expired");
+		    break;
+	    	default:
+		    // Check the page that call this servlet. Than redirect to it.
+		    if ("1".equals(request.getParameter("fromDetail"))) {
+			response.sendRedirect("detail?idDetail=" + request.getParameter("idEdited")); // Called from detail page
+		    } else {
+			response.sendRedirect("Home"); // Called from home page
+		    }   break;
 	    }
         }
         else {
+	    // No token cookie found
             response.sendRedirect("auth");
         }
         

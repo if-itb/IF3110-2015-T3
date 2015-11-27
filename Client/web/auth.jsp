@@ -11,7 +11,7 @@
 <body>
 <div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>
     <div class="container clearfix">
-	<p class="err"><c:out value="${errorMessage}" /></p>
+	<p class="err-mid"><c:out value="${errorMessage}" /></p>
         <h3 class="text-mid">You need 
             <a href="login.jsp"><span class="login">Login</span></a>
                           or 
