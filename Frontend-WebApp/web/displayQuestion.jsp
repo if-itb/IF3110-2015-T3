@@ -13,8 +13,8 @@
     <body>
         
         <a href="index.jsp"><h1>Simple StackExchange</h1></a>
-        <h2>Topic</h2>
-        <div class="garis"></div>
+        
+        
         
         <%
         QuestionModule.QuestionWS_Service service = new QuestionModule.QuestionWS_Service();
@@ -35,6 +35,7 @@
         int na = ans.size();
         %>
         <h2><%= q.getQtopic() %></h2>
+        <div class="garis"></div>
         <table >
 			<tr>
 				<td class="vote">
@@ -50,9 +51,9 @@
 							
 				</td>
 				<td class="dContent">
-					<?php
-						<%= q.getQcontent() %>
-					?>
+					
+					<%= q.getQcontent() %>
+					
 				</td>
 			</tr>
 			<tr>
