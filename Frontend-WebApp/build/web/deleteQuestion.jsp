@@ -35,13 +35,8 @@
                       str = port.deleteQuestion(token, qid);
                       
                       // = Integer.toString(qid);
-                      if (qid<=0){
-                        alert = "failed";
-                        url = "index.jsp";
-                      }else{
-                        alert = "Success";
-                        url = "index.jsp";
-                      }
+                      alert = str;
+                      url = "index.jsp";
 
 
 
