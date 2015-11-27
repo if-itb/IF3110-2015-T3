@@ -45,4 +45,19 @@ public interface UserWS {
         @WebParam(name = "password", targetNamespace = "")
         String password);
 
+    /**
+     * 
+     * @param uid
+     * @return
+     *     returns usermodel.User
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserByUID", targetNamespace = "http://UserModel/", className = "usermodel.GetUserByUID")
+    @ResponseWrapper(localName = "getUserByUIDResponse", targetNamespace = "http://UserModel/", className = "usermodel.GetUserByUIDResponse")
+    @Action(input = "http://UserModel/UserWS/getUserByUIDRequest", output = "http://UserModel/UserWS/getUserByUIDResponse")
+    public User getUserByUID(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid);
+
 }

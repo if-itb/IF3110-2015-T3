@@ -62,8 +62,9 @@ public class testrestservlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("MASUK do GET testrestjava");
         //processRequest(request, response);
-        final PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
          ArrayList<String> user = new ArrayList<String>();
         String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
         try {
@@ -82,37 +83,17 @@ public class testrestservlet extends HttpServlet {
                 result.first();
                 java.util.Date lifetime = result.getTimestamp("t_time");
                 java.util.Date now = new java.util.Date();
-                out.println("Token:"+temp_token);
-                out.println("lifetime:" +lifetime );
-                out.println("now:" + now);
                 int comp = lifetime.compareTo(now);
-                out.println("Comparison:"+comp);
+ 
             if(comp == -1){
-            out.println("Expired");
-            response.sendRedirect("http://localhost:8082/WBD_IS/login.jsp");
+            out.println("expired");
+            response.sendRedirect("http://localhost:8082/WBD_IS/login.jsp?value=expired");
             }
             else{
-            out.println("Valid");
+            out.println("valid");
             query = "UPDATE token SET t_time = now() + INTERVAL 1 MINUTE WHERE t_token = ?";
             preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, temp_token);
-            out.println(temp_token);
-            out.println("Masuk Refresh Token");
-            JSONObject json = new JSONObject();
-            json.put("token",temp_token);
-            json.put("message","valid");
-            out.println(json.toString());
-            try{
-                FileWriter file = new FileWriter("C:\\xampp\\htdocs\\validation.json");
-                file.write(json.toJSONString());
-                file.flush();
-                file.close();
-                out.println("MSUK SINI");
-            }
-            catch (IOException e){
-                e.printStackTrace();
-            }
-            
             }
             //execute prepared statement
             preparedStmt.executeUpdate();
@@ -135,13 +116,11 @@ public class testrestservlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+              System.out.println("MASUK do POST testrestjava");
         //processRequest(request, response);
       final PrintWriter out = response.getWriter();
       ArrayList<String> user = new ArrayList<String>();
       String userid;
-      
-      out.println(request.getParameter("username"));
-      out.println(request.getParameter("password"));
       String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -158,7 +137,6 @@ public class testrestservlet extends HttpServlet {
                 String login = "http://localhost:8082/WBD_IS/login.jsp";
                 request.setAttribute("access_token", access_token);
                 //request.getRequestDispatcher(login).forward(request, response);
-                out.println("Username / Password tidak match");
                 access_token = "";
                 response.sendRedirect(login);
             }
@@ -169,17 +147,11 @@ public class testrestservlet extends HttpServlet {
                    user.add(result.getString("email"));
                    user.add(result.getString("password"));
                    access_token= UUID.randomUUID().toString();
-                    out.println("Berhasil Login = "+user.toString());
-                    out.println("USERID ="+userid);
-                    out.println("Token = "+access_token);
                     HttpSession session = request.getSession();
-                    out.println("MASUK SINI 1");
                     query = "REPLACE into token (u_id,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE) ";
                     preparedStmt = conn.prepareStatement(query);
                     preparedStmt.setString(1,userid);
                     preparedStmt.setString(2,access_token);
-                    out.println("MASUK SINI 1");
-                    out.println("Waktu Pembuatan Sesi : "+session.getCreationTime());
                     response.sendRedirect("http://localhost:8080/StackExchangeFE/homepagelogin.jsp?token="+access_token);
                     
             }

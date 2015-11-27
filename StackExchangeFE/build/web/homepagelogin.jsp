@@ -79,9 +79,9 @@
                                 {
                                     out.println("Asked by <span class='color-blue'>you</span>");
                                     out.println(" | ");
-                                    out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"'> edit </a>");
+                                    out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"&token="+t+"'> edit </a>");
                                     out.println(" | ");
-                                    out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"'> delete </a>");
+                                    out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"&token="+t+"'> delete </a>");
                                 }
                                 else
                                 {

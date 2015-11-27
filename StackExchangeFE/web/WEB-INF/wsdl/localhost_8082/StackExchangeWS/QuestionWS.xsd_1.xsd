@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://QuestionModel/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://QuestionModel/">
+
+<xs:element name="Exception" type="tns:Exception"/>
+
+<xs:element name="ParseException" type="tns:ParseException"/>
+
+<xs:element name="deleteQuestion" type="tns:deleteQuestion"/>
+
+<xs:element name="deleteQuestionResponse" type="tns:deleteQuestionResponse"/>
+
+<xs:element name="getAnswerCount" type="tns:getAnswerCount"/>
+
+<xs:element name="getAnswerCountResponse" type="tns:getAnswerCountResponse"/>
+
+<xs:element name="getQVoteByQID" type="tns:getQVoteByQID"/>
+
+<xs:element name="getQVoteByQIDResponse" type="tns:getQVoteByQIDResponse"/>
+
+<xs:element name="getQuestion" type="tns:getQuestion"/>
+
+<xs:element name="getQuestionByQID" type="tns:getQuestionByQID"/>
+
+<xs:element name="getQuestionByQIDResponse" type="tns:getQuestionByQIDResponse"/>
+
+<xs:element name="getQuestionResponse" type="tns:getQuestionResponse"/>
+
+<xs:element name="getUserID" type="tns:getUserID"/>
+
+<xs:element name="getUserIDResponse" type="tns:getUserIDResponse"/>
+
+<xs:element name="insertQuestion" type="tns:insertQuestion"/>
+
+<xs:element name="insertQuestionResponse" type="tns:insertQuestionResponse"/>
+
+<xs:element name="updateQuestion" type="tns:updateQuestion"/>
+
+<xs:element name="updateQuestionResponse" type="tns:updateQuestionResponse"/>
+
+<xs:element name="voteQuestion" type="tns:voteQuestion"/>
+
+<xs:element name="voteQuestionResponse" type="tns:voteQuestionResponse"/>
+
+<xs:complexType name="getQuestion">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getQuestionResponse">
+<xs:sequence>
+<xs:element name="Question" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="question">
+<xs:sequence>
+<xs:element name="q_id" type="xs:int"/>
+<xs:element name="u_id" type="xs:int"/>
+<xs:element name="q_vote" type="xs:int"/>
+<xs:element name="u_name" type="xs:string"/>
+<xs:element name="q_topic" type="xs:string"/>
+<xs:element name="q_content" type="xs:string"/>
+<xs:element name="q_date" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="topic" type="xs:string" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertQuestionResponse">
+<xs:sequence>
+<xs:element name="insQuestion" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="Exception">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="qid" type="xs:int"/>
+<xs:element name="topic" type="xs:string" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateQuestionResponse">
+<xs:sequence>
+<xs:element name="updQuestion" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQVoteByQID">
+<xs:sequence>
+<xs:element name="q_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQVoteByQIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerCount">
+<xs:sequence>
+<xs:element name="q_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerCountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestionResponse">
+<xs:sequence>
+<xs:element name="delQuestion" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByQID">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByQIDResponse">
+<xs:sequence>
+<xs:element name="Question" type="tns:question" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserID">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserIDResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="q_id" type="xs:int"/>
+<xs:element name="value" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ParseException">
+<xs:sequence>
+<xs:element name="errorType" type="xs:int"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:int"/>
+<xs:element name="unexpectedObject" type="xs:anyType" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

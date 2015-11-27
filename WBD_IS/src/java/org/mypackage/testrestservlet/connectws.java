@@ -5,6 +5,7 @@
  */
 package org.mypackage.testrestservlet;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.json.simple.JSONObject;
+import static org.mypackage.testrestservlet.testrestservlet.access_token;
 
 /**
  *
@@ -61,54 +64,74 @@ public class connectws extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+      System.out.println("MASUK do POST connectws");
         //processRequest(request, response);
-      final PrintWriter out = response.getWriter();
-      ArrayList<String> user = new ArrayList<String>();
-      Random rand = new Random();
-      
-      out.println(request.getParameter("username"));
-      out.println(request.getParameter("password"));
-      String MyURL = "jdbc:mysql://localhost:3306/wbd?zeroDateTimeBehavior=convertToNull";
+        final PrintWriter out = response.getWriter();
+         ArrayList<String> user = new ArrayList<String>();
+        String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
         try {
+            String temp_token = access_token;
             Class.forName("com.mysql.jdbc.Driver");
             String userName = "root";
             String password = "";
             Connection conn = DriverManager.getConnection(MyURL,userName,password);
-            String query = "SELECT email,name,password FROM user WHERE email = ? AND password = ?";
+            String query = "SELECT t_time FROM token WHERE t_token = ?";
+
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, request.getParameter("username"));
-            preparedStmt.setString(2, request.getParameter("password"));
+            preparedStmt.setString(1, temp_token);
+        
             ResultSet result = preparedStmt.executeQuery();
-            int i = 0;
-            if (result.first() == false){
-                String login = "http://localhost:8082/WBD_IS/login.jsp";
-                request.setAttribute("access_token", access_token);
-                //request.getRequestDispatcher(login).forward(request, response);
-                out.println("Username / Password tidak match");
-                access_token = "";
-                response.sendRedirect(login);
+   
+                result.first();
+                java.util.Date lifetime = result.getTimestamp("t_time");
+                java.util.Date now = new java.util.Date();
+                out.println("Token:"+temp_token);
+                out.println("lifetime:" +lifetime );
+                out.println("now:" + now);
+                int comp = lifetime.compareTo(now);
+                out.println("Comparison:"+comp);
+            if(comp == -1){
+            out.println("Expired");
+            JSONObject json = new JSONObject();
+            json.put("message","expired");
+            json.put("token",temp_token);
+            out.println(json.toString());
+            try{
+                FileWriter file = new FileWriter("C:\\xampp\\htdocs\\validation.json");
+                file.write(json.toJSONString());
+                file.flush();
+                file.close();
+                out.println("MSUK SINI");
             }
-            else {
-                   
-                   user.add(result.getString("name"));
-                   user.add(result.getString("email"));
-                   user.add(result.getString("password"));
-                   access_token= UUID.randomUUID().toString();
-                    out.println("Berhasil Login = "+user.toString());
-                    out.println("Token = "+access_token);
-                    HttpSession session = request.getSession();
-                    out.println("MASUK SINI 1");
-                    query = "INSERT INTO token (u_email,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE)";
-                    preparedStmt = conn.prepareStatement(query);
-                    preparedStmt.setString(1,request.getParameter("username"));
-                    preparedStmt.setString(2,access_token);
-                    out.println("MASUK SINI 1");
-                    out.println("Waktu Pembuatan Sesi : "+session.getCreationTime());
-                    
-                    
+            catch (IOException e){
+                e.printStackTrace();
             }
             
+            response.sendRedirect("http://localhost:8082/WBD_IS/login.jsp");
+            }
+            else{
+            out.println("Valid");
+            query = "UPDATE token SET t_time = now() + INTERVAL 1 MINUTE WHERE t_token = ?";
+            preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, temp_token);
+            out.println(temp_token);
+            out.println("Masuk Refresh Token");
+            JSONObject json = new JSONObject();
+            json.put("message","valid");
+            json.put("token",temp_token);
+            out.println(json.toString());
+            try{
+                FileWriter file = new FileWriter("C:\\xampp\\htdocs\\validation.json");
+                file.write(json.toJSONString());
+                file.flush();
+                file.close();
+                out.println("MSUK SINI");
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
             
+            }
             //execute prepared statement
             preparedStmt.executeUpdate();
             conn.close();

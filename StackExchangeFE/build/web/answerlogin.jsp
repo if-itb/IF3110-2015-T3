@@ -57,16 +57,9 @@
                                 out.println("<table class='table1'>");
                                 out.println("<tr>");
                                 out.println("<td class='tdnumber2 text-center'>");
-                                if (id==result.get(i).getUId())
-                                {
-                                    out.println("<br><br>"+result.get(i).getQVote()+"<br><br>Votes");
-                                }
-                                else
-                                {
-                                    out.println("<a href='voteUpQue.jsp?id="+result.get(i).getQId()+"'><img class='image1' src='jpg/arrowup.jpg' alt='VoteUp'></a>");
-                                    out.println("<br><br>"+result.get(i).getQVote()+"<br><br>");
-                                    out.println("<a href='voteDownQue.jsp?id="+result.get(i).getQId()+"'><img class='image1' src='jpg/arrowdown.jpg' alt='VoteDown'><br>");
-                                }
+                                out.println("<a href='voteQue.jsp?id="+result.get(i).getQId()+"&token="+t+"&value=plus'><img class='image1' src='jpg/arrowup.jpg' alt='VoteUp'></a>");
+                                out.println("<br><br>"+result.get(i).getQVote()+"<br><br>");
+                                out.println("<a href='voteQue.jsp?id="+result.get(i).getQId()+"&token="+t+"&value=minus'><img class='image1' src='jpg/arrowdown.jpg' alt='VoteDown'><br>");
                                 out.println("</td>");
                                 out.println("<td class='tdtopic text-left'>");
                                 out.println(result.get(i).getQContent());
@@ -80,9 +73,9 @@
                                     out.println("Asked by <span class='color-blue'>you</span>");
                                     out.println(" at <span>"+result.get(i).getQDate()+"</span>");
                                     out.println(" | ");
-                                    out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"'> edit </a>");
+                                    out.println("<a class'color-yellow' href='question.jsp?id="+result.get(i).getQId()+"&token="+t+"'> edit </a>");
                                     out.println(" | ");
-                                    out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"'> delete </a>");
+                                    out.println("<a class='color-red' href='deleteQuestion.jsp?id="+result.get(i).getQId()+"&token="+t+"'> delete </a>");
                                 }
                                 else
                                 {
@@ -133,16 +126,9 @@
                             {
                                 out.println("<tr>");
                                 out.println("<td class='tdnumber2 text-center'>");
-                                if (id==result.get(i).getUId())
-                                {
-                                    out.println("<br><br>"+result.get(i).getAVote()+"<br><br>Votes");
-                                }
-                                else
-                                {
-                                    out.println("<a href='voteUpAns.jsp?id="+result.get(i).getAId()+"'><img class='image1' src='jpg/arrowup.jpg' alt='VoteUp'></a>");
-                                    out.println("<br><br>"+result.get(i).getAVote()+"<br><br>");
-                                    out.println("<a href='voteDownAns.jsp?id="+result.get(i).getAId()+"'><img class='image1' src='jpg/arrowdown.jpg' alt='VoteUp'></a>");
-                                }
+                                out.println("<a href='voteAns.jsp?aid="+result.get(i).getAId()+"&qid="+s+"&token="+t+"&value=plus'><img class='image1' src='jpg/arrowup.jpg' alt='VoteUp'></a>");
+                                out.println("<br><br>"+result.get(i).getAVote()+"<br><br>");
+                                out.println("<a href='voteAns.jsp?aid="+result.get(i).getAId()+"&qid="+s+"&token="+t+"&value=minus'><img class='image1' src='jpg/arrowdown.jpg' alt='VoteUp'></a>");
                                 out.println("</td>");
                                 out.println("<td class='tdtopic text-left'>");
                                 out.println(result.get(i).getAContent());
@@ -156,9 +142,9 @@
                                     out.println("Answered by <span class='color-blue'>you</span>");
                                     out.println(" at <span>"+result.get(i).getADate()+"</span>");
                                     out.println(" | ");
-                                    out.println("<a class'color-yellow' href='updateAnswer.jsp?id="+result.get(i).getQId()+"'> edit </a>");
+                                    out.println("<a class'color-yellow' href='answerlogin.jsp?id="+result.get(i).getQId()+"&token="+t+"'> edit </a>");
                                     out.println(" | ");
-                                    out.println("<a class='color-red' href='deleteAnswer.jsp?id="+result.get(i).getQId()+"'> delete </a>");
+                                    out.println("<a class='color-red' href='answerlogin.jsp?id="+result.get(i).getQId()+"&token="+t+"'> delete </a>");
                                 }
                                 else
                                 {
@@ -186,7 +172,7 @@
                 %>
             <%-- end web service invocation --%>
         
-            <form name="questionForm" action="insertQuestion.jsp" method="post" onsubmit="return validateQue()">
+            <form name="questionForm" action="insertAnswer.jsp?id=<%=s%>&token=<%=t%>" method="post" onsubmit="return validateQue()">
                     <div class="text-left">
                         <br><br><br><br>
                         <h1>Do you know the answer of the question ?</h1>

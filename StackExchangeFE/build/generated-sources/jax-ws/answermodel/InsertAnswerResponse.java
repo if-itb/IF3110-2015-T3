@@ -3,6 +3,7 @@ package answermodel;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -16,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="insAnswer" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -27,26 +28,27 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "insertAnswerResponse", propOrder = {
-    "insAnswer"
+    "_return"
 })
 public class InsertAnswerResponse {
 
-    protected int insAnswer;
+    @XmlElement(name = "return")
+    protected int _return;
 
     /**
-     * Gets the value of the insAnswer property.
+     * Gets the value of the return property.
      * 
      */
-    public int getInsAnswer() {
-        return insAnswer;
+    public int getReturn() {
+        return _return;
     }
 
     /**
-     * Sets the value of the insAnswer property.
+     * Sets the value of the return property.
      * 
      */
-    public void setInsAnswer(int value) {
-        this.insAnswer = value;
+    public void setReturn(int value) {
+        this._return = value;
     }
 
 }

@@ -8,6 +8,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -29,6 +30,21 @@ public interface AnswerWS {
      * 
      * @param token
      * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserName", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserName")
+    @ResponseWrapper(localName = "getUserNameResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserNameResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/getUserNameRequest", output = "http://AnswerModel/AnswerWS/getUserNameResponse")
+    public String getUserName(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
+     * @param token
+     * @return
      *     returns int
      */
     @WebMethod
@@ -39,6 +55,41 @@ public interface AnswerWS {
     public int getUserID(
         @WebParam(name = "token", targetNamespace = "")
         String token);
+
+    /**
+     * 
+     * @param uid
+     * @param name
+     * @param accessToken
+     * @param qid
+     * @param content
+     * @param email
+     * @return
+     *     returns int
+     * @throws Exception_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "insertAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswer")
+    @ResponseWrapper(localName = "insertAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswerResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/insertAnswerRequest", output = "http://AnswerModel/AnswerWS/insertAnswerResponse", fault = {
+        @FaultAction(className = Exception_Exception.class, value = "http://AnswerModel/AnswerWS/insertAnswer/Fault/Exception")
+    })
+    public int insertAnswer(
+        @WebParam(name = "access_token", targetNamespace = "")
+        String accessToken,
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "content", targetNamespace = "")
+        String content,
+        @WebParam(name = "name", targetNamespace = "")
+        String name,
+        @WebParam(name = "email", targetNamespace = "")
+        String email)
+        throws Exception_Exception
+    ;
 
     /**
      * 
@@ -69,5 +120,48 @@ public interface AnswerWS {
     public List<Answer> getAnswerByQID(
         @WebParam(name = "qid", targetNamespace = "")
         int qid);
+
+    /**
+     * 
+     * @param accessToken
+     * @param aId
+     * @param value
+     * @return
+     *     returns int
+     * @throws ParseException_Exception
+     * @throws IOException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "voteAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.VoteAnswer")
+    @ResponseWrapper(localName = "voteAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.VoteAnswerResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/voteAnswerRequest", output = "http://AnswerModel/AnswerWS/voteAnswerResponse", fault = {
+        @FaultAction(className = ParseException_Exception.class, value = "http://AnswerModel/AnswerWS/voteAnswer/Fault/ParseException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://AnswerModel/AnswerWS/voteAnswer/Fault/IOException")
+    })
+    public int voteAnswer(
+        @WebParam(name = "access_token", targetNamespace = "")
+        String accessToken,
+        @WebParam(name = "a_id", targetNamespace = "")
+        int aId,
+        @WebParam(name = "value", targetNamespace = "")
+        int value)
+        throws IOException_Exception, ParseException_Exception
+    ;
+
+    /**
+     * 
+     * @param token
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserEmail", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserEmail")
+    @ResponseWrapper(localName = "getUserEmailResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.GetUserEmailResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/getUserEmailRequest", output = "http://AnswerModel/AnswerWS/getUserEmailResponse")
+    public String getUserEmail(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
 
 }

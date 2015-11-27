@@ -30,9 +30,12 @@
                 java.lang.String accessToken = t;
                 java.lang.String title = tit;
                 java.lang.String content = con;
+                java.util.List<questionmodel.Question> results = port.getQuestion();
+                int id = port.getUserID(t);
+                String n = port.getUserName(t);
+                String e = port.getUserEmail(t);
                 // TODO process result here
-                int result = port.insertQuestion(accessToken, title, content);
-                out.println("a");
+                int result = port.insertQuestion(accessToken, title, content, id, n, e);
                 if (result==1)
                 {
                     response.sendRedirect("http://localhost:8080/StackExchangeFE/homepagelogin.jsp?token="+t);

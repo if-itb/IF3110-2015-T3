@@ -28,6 +28,21 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param token
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserName", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserName")
+    @ResponseWrapper(localName = "getUserNameResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserNameResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getUserNameRequest", output = "http://QuestionModel/QuestionWS/getUserNameResponse")
+    public String getUserName(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
      * @return
      *     returns java.util.List<questionmodel.Question>
      */
@@ -40,9 +55,12 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param name
+     * @param topic
+     * @param id
      * @param accessToken
-     * @param title
      * @param content
+     * @param email
      * @return
      *     returns int
      * @throws Exception_Exception
@@ -57,17 +75,25 @@ public interface QuestionWS {
     public int insertQuestion(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
-        @WebParam(name = "title", targetNamespace = "")
-        String title,
+        @WebParam(name = "topic", targetNamespace = "")
+        String topic,
         @WebParam(name = "content", targetNamespace = "")
-        String content)
+        String content,
+        @WebParam(name = "id", targetNamespace = "")
+        int id,
+        @WebParam(name = "name", targetNamespace = "")
+        String name,
+        @WebParam(name = "email", targetNamespace = "")
+        String email)
         throws Exception_Exception
     ;
 
     /**
      * 
+     * @param uid
      * @param topic
      * @param accessToken
+     * @param qid
      * @param content
      * @return
      *     returns int
@@ -83,6 +109,10 @@ public interface QuestionWS {
     public int updateQuestion(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
         @WebParam(name = "topic", targetNamespace = "")
         String topic,
         @WebParam(name = "content", targetNamespace = "")
@@ -100,12 +130,12 @@ public interface QuestionWS {
      */
     @WebMethod
     @WebResult(name = "delQuestion", targetNamespace = "")
-    @RequestWrapper(localName = "deleteQuesetion", targetNamespace = "http://QuestionModel/", className = "questionmodel.DeleteQuesetion")
-    @ResponseWrapper(localName = "deleteQuesetionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.DeleteQuesetionResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/deleteQuesetionRequest", output = "http://QuestionModel/QuestionWS/deleteQuesetionResponse", fault = {
-        @FaultAction(className = Exception_Exception.class, value = "http://QuestionModel/QuestionWS/deleteQuesetion/Fault/Exception")
+    @RequestWrapper(localName = "deleteQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.DeleteQuestion")
+    @ResponseWrapper(localName = "deleteQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.DeleteQuestionResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/deleteQuestionRequest", output = "http://QuestionModel/QuestionWS/deleteQuestionResponse", fault = {
+        @FaultAction(className = Exception_Exception.class, value = "http://QuestionModel/QuestionWS/deleteQuestion/Fault/Exception")
     })
-    public int deleteQuesetion(
+    public int deleteQuestion(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
         @WebParam(name = "qid", targetNamespace = "")
@@ -145,6 +175,49 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param qid
+     * @return
+     *     returns questionmodel.Question
+     */
+    @WebMethod
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionByQID", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionByQID")
+    @ResponseWrapper(localName = "getQuestionByQIDResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionByQIDResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getQuestionByQIDRequest", output = "http://QuestionModel/QuestionWS/getQuestionByQIDResponse")
+    public Question getQuestionByQID(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid);
+
+    /**
+     * 
+     * @param accessToken
+     * @param qId
+     * @param value
+     * @return
+     *     returns int
+     * @throws IOException_Exception
+     * @throws ParseException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "voteQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.VoteQuestion")
+    @ResponseWrapper(localName = "voteQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.VoteQuestionResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/voteQuestionRequest", output = "http://QuestionModel/QuestionWS/voteQuestionResponse", fault = {
+        @FaultAction(className = ParseException_Exception.class, value = "http://QuestionModel/QuestionWS/voteQuestion/Fault/ParseException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://QuestionModel/QuestionWS/voteQuestion/Fault/IOException")
+    })
+    public int voteQuestion(
+        @WebParam(name = "access_token", targetNamespace = "")
+        String accessToken,
+        @WebParam(name = "q_id", targetNamespace = "")
+        int qId,
+        @WebParam(name = "value", targetNamespace = "")
+        int value)
+        throws IOException_Exception, ParseException_Exception
+    ;
+
+    /**
+     * 
      * @param token
      * @return
      *     returns int
@@ -155,6 +228,21 @@ public interface QuestionWS {
     @ResponseWrapper(localName = "getUserIDResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserIDResponse")
     @Action(input = "http://QuestionModel/QuestionWS/getUserIDRequest", output = "http://QuestionModel/QuestionWS/getUserIDResponse")
     public int getUserID(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
+     * @param token
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserEmail", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserEmail")
+    @ResponseWrapper(localName = "getUserEmailResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetUserEmailResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getUserEmailRequest", output = "http://QuestionModel/QuestionWS/getUserEmailResponse")
+    public String getUserEmail(
         @WebParam(name = "token", targetNamespace = "")
         String token);
 

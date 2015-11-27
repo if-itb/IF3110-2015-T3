@@ -13,6 +13,12 @@
     <message name="updateQuestionResponse"/>
     <message name="deleteQuesetion"/>
     <message name="deleteQuesetionResponse"/>
+    <message name="getUserID"/>
+    <message name="getUserIDResponse"/>
+    <message name="getUserName"/>
+    <message name="getUserNameResponse"/>
+    <message name="getUserEmail"/>
+    <message name="getUserEmailResponse"/>
     <portType name="QuestionWS">
         <operation name="getQuestion">
             <input message="tns:getQuestion"/>
@@ -30,6 +36,18 @@
             <input message="tns:deleteQuesetion"/>
             <output message="tns:deleteQuesetionResponse"/>
         </operation>
+        <operation name="getUserID">
+            <input message="tns:getUserID"/>
+            <output message="tns:getUserIDResponse"/>
+        </operation>
+        <operation name="getUserName">
+            <input message="tns:getUserName"/>
+            <output message="tns:getUserNameResponse"/>
+        </operation>
+        <operation name="getUserEmail">
+            <input message="tns:getUserEmail"/>
+            <output message="tns:getUserEmailResponse"/>
+        </operation>
     </portType>
     <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
         <wsp:PolicyReference URI="#QuestionWSPortBindingPolicy"/>
@@ -46,6 +64,18 @@
             <output/>
         </operation>
         <operation name="deleteQuesetion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getUserID">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getUserName">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getUserEmail">
             <input/>
             <output/>
         </operation>

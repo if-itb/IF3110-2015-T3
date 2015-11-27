@@ -5,6 +5,12 @@
 <xsd:import namespace="http://QuestionModel/" schemaLocation="http://localhost:8081/StackExchangeWS/QuestionWS?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="getUserName">
+<part name="parameters" element="tns:getUserName"/>
+</message>
+<message name="getUserNameResponse">
+<part name="parameters" element="tns:getUserNameResponse"/>
+</message>
 <message name="getQuestion">
 <part name="parameters" element="tns:getQuestion"/>
 </message>
@@ -26,11 +32,11 @@
 <message name="updateQuestionResponse">
 <part name="parameters" element="tns:updateQuestionResponse"/>
 </message>
-<message name="deleteQuesetion">
-<part name="parameters" element="tns:deleteQuesetion"/>
+<message name="deleteQuestion">
+<part name="parameters" element="tns:deleteQuestion"/>
 </message>
-<message name="deleteQuesetionResponse">
-<part name="parameters" element="tns:deleteQuesetionResponse"/>
+<message name="deleteQuestionResponse">
+<part name="parameters" element="tns:deleteQuestionResponse"/>
 </message>
 <message name="getAnswerCount">
 <part name="parameters" element="tns:getAnswerCount"/>
@@ -44,13 +50,41 @@
 <message name="getQVoteByQIDResponse">
 <part name="parameters" element="tns:getQVoteByQIDResponse"/>
 </message>
+<message name="getQuestionByQID">
+<part name="parameters" element="tns:getQuestionByQID"/>
+</message>
+<message name="getQuestionByQIDResponse">
+<part name="parameters" element="tns:getQuestionByQIDResponse"/>
+</message>
+<message name="voteQuestion">
+<part name="parameters" element="tns:voteQuestion"/>
+</message>
+<message name="voteQuestionResponse">
+<part name="parameters" element="tns:voteQuestionResponse"/>
+</message>
+<message name="ParseException">
+<part name="fault" element="tns:ParseException"/>
+</message>
+<message name="IOException">
+<part name="fault" element="tns:IOException"/>
+</message>
 <message name="getUserID">
 <part name="parameters" element="tns:getUserID"/>
 </message>
 <message name="getUserIDResponse">
 <part name="parameters" element="tns:getUserIDResponse"/>
 </message>
+<message name="getUserEmail">
+<part name="parameters" element="tns:getUserEmail"/>
+</message>
+<message name="getUserEmailResponse">
+<part name="parameters" element="tns:getUserEmailResponse"/>
+</message>
 <portType name="QuestionWS">
+<operation name="getUserName">
+<input wsam:Action="http://QuestionModel/QuestionWS/getUserNameRequest" message="tns:getUserName"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getUserNameResponse" message="tns:getUserNameResponse"/>
+</operation>
 <operation name="getQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/getQuestionRequest" message="tns:getQuestion"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getQuestionResponse" message="tns:getQuestionResponse"/>
@@ -65,10 +99,10 @@
 <output wsam:Action="http://QuestionModel/QuestionWS/updateQuestionResponse" message="tns:updateQuestionResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://QuestionModel/QuestionWS/updateQuestion/Fault/Exception"/>
 </operation>
-<operation name="deleteQuesetion">
-<input wsam:Action="http://QuestionModel/QuestionWS/deleteQuesetionRequest" message="tns:deleteQuesetion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/deleteQuesetionResponse" message="tns:deleteQuesetionResponse"/>
-<fault message="tns:Exception" name="Exception" wsam:Action="http://QuestionModel/QuestionWS/deleteQuesetion/Fault/Exception"/>
+<operation name="deleteQuestion">
+<input wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionRequest" message="tns:deleteQuestion"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionResponse" message="tns:deleteQuestionResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://QuestionModel/QuestionWS/deleteQuestion/Fault/Exception"/>
 </operation>
 <operation name="getAnswerCount">
 <input wsam:Action="http://QuestionModel/QuestionWS/getAnswerCountRequest" message="tns:getAnswerCount"/>
@@ -78,14 +112,37 @@
 <input wsam:Action="http://QuestionModel/QuestionWS/getQVoteByQIDRequest" message="tns:getQVoteByQID"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getQVoteByQIDResponse" message="tns:getQVoteByQIDResponse"/>
 </operation>
+<operation name="getQuestionByQID">
+<input wsam:Action="http://QuestionModel/QuestionWS/getQuestionByQIDRequest" message="tns:getQuestionByQID"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getQuestionByQIDResponse" message="tns:getQuestionByQIDResponse"/>
+</operation>
+<operation name="voteQuestion">
+<input wsam:Action="http://QuestionModel/QuestionWS/voteQuestionRequest" message="tns:voteQuestion"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/voteQuestionResponse" message="tns:voteQuestionResponse"/>
+<fault message="tns:ParseException" name="ParseException" wsam:Action="http://QuestionModel/QuestionWS/voteQuestion/Fault/ParseException"/>
+<fault message="tns:IOException" name="IOException" wsam:Action="http://QuestionModel/QuestionWS/voteQuestion/Fault/IOException"/>
+</operation>
 <operation name="getUserID">
 <input wsam:Action="http://QuestionModel/QuestionWS/getUserIDRequest" message="tns:getUserID"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getUserIDResponse" message="tns:getUserIDResponse"/>
+</operation>
+<operation name="getUserEmail">
+<input wsam:Action="http://QuestionModel/QuestionWS/getUserEmailRequest" message="tns:getUserEmail"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getUserEmailResponse" message="tns:getUserEmailResponse"/>
 </operation>
 </portType>
 <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
 <wsp:PolicyReference URI="#QuestionWSPortBindingPolicy"/>
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="getUserName">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getQuestion">
 <soap:operation soapAction=""/>
 <input>
@@ -119,7 +176,7 @@
 <soap:fault name="Exception" use="literal"/>
 </fault>
 </operation>
-<operation name="deleteQuesetion">
+<operation name="deleteQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -149,7 +206,40 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getQuestionByQID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="voteQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="ParseException">
+<soap:fault name="ParseException" use="literal"/>
+</fault>
+<fault name="IOException">
+<soap:fault name="IOException" use="literal"/>
+</fault>
+</operation>
 <operation name="getUserID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUserEmail">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

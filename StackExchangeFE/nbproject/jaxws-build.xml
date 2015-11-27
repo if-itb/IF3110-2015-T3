@@ -26,6 +26,22 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
+    <target name="wsimport-client-UserWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/UserWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWS" destdir="${build.generated.dir}/jax-wsCache/UserWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8082/StackExchangeWS/UserWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8082/StackExchangeWS/UserWS?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8082/StackExchangeWS/UserWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/UserWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/UserWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-UserWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/usermodel"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/UserWS"/>
+    </target>
     <target name="wsimport-client-AnswerWS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
         <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AnswerWS" destdir="${build.generated.dir}/jax-wsCache/AnswerWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchangeWS/AnswerWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/StackExchangeWS/AnswerWS?wsdl" xnocompile="true" xendorsed="true">
@@ -58,21 +74,5 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/questionmodel"/>
         <delete dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
     </target>
-    <target name="wsimport-client-UserWS" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/UserWS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWS" destdir="${build.generated.dir}/jax-wsCache/UserWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/StackExchangeWS/UserWS?wsdl" xnocompile="true" xendorsed="true">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/UserWS"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/UserWS">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-UserWS" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/usermodel"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/UserWS"/>
-    </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-AnswerWS, wsimport-client-QuestionWS, wsimport-client-UserWS"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-UserWS, wsimport-client-AnswerWS, wsimport-client-QuestionWS"/>
 </project>

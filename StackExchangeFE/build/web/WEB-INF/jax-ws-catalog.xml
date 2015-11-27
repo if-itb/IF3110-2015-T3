@@ -14,4 +14,10 @@
     <system systemId="http://localhost:8081/StackExchangeWS/QuestionWS?xsd=1" uri="wsdl/localhost_8081/StackExchangeWS/QuestionWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/StackExchangeWS/UserWS?wsdl" uri="wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl"/>
     <system systemId="http://localhost:8081/StackExchangeWS/UserWS?xsd=1" uri="wsdl/localhost_8081/StackExchangeWS/UserWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/AnswerWS?wsdl" uri="wsdl/localhost_8082/StackExchangeWS/AnswerWS.wsdl"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/AnswerWS?xsd=1" uri="wsdl/localhost_8082/StackExchangeWS/AnswerWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/QuestionWS?wsdl" uri="wsdl/localhost_8082/StackExchangeWS/QuestionWS.wsdl"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/QuestionWS?xsd=1" uri="wsdl/localhost_8082/StackExchangeWS/QuestionWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/UserWS?wsdl" uri="wsdl/localhost_8082/StackExchangeWS/UserWS.wsdl"/>
+    <system systemId="http://localhost:8082/StackExchangeWS/UserWS?xsd=1" uri="wsdl/localhost_8082/StackExchangeWS/UserWS.xsd_1.xsd"/>
 </catalog>
