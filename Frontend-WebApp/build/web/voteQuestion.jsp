@@ -41,7 +41,7 @@
                     // = Integer.toString(qid);
 
                     alert = str;
-                    url = "/displayQuestion.jsp?id=" + qid;
+                    url = "displayQuestion.jsp?id=" + qid;
                       
                     
                     out.write("<script type='text/javascript'>\n");

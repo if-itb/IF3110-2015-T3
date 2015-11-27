@@ -41,7 +41,7 @@
                     str = port.voteAnswer(qid,aid,up,token);
 
                     alert = str;
-                    url = "/displayQuestion.jsp?id=" + qid;
+                    url = "displayQuestion.jsp?id=" + qid;
                       
                     
                     out.write("<script type='text/javascript'>\n");

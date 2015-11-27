@@ -39,13 +39,13 @@
         <table >
 			<tr>
 				<td class="vote">
-					<a href="voteAnswer.jsp?id=<%=q.getQid()%>&up=true">
+					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=true">
 						<img src="image/Up.png" width="30" hight="30">
 					</a>
 					<h3>
 						<%= q.getQvote() %>
 					</h3>
-					<a href="voteAnswer.jsp?id=<%=q.getQid()%>&up=false">
+					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=false">
 						<img src="image/down.png"  width="30" hight="30">
 					</a>
 							
