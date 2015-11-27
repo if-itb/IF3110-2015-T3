@@ -61,6 +61,10 @@ public class Question {
         return qvote;
     }
 
+    public String getQauthorname() {
+        return qauthorname;
+    }
+
     public String getQtimestamp() {
         return qtimestamp;
     }

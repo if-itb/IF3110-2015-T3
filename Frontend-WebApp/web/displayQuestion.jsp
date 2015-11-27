@@ -34,59 +34,40 @@
         
         int na = ans.size();
         %>
-        
-        <table class="question">
-            <tr>
-                    <td class="vote">
-                    <a href="voteQuestion.jsp?id=<%=q.getQid()%>+up=true">
-                        <img src="image/Up.png" width="30" hight="30">
-                    </a>
-
-                    <h3>
-                        <%= q.getQvote() %>
-                    </h3>
-                    <a href="voteQuestion.jsp?id=<%=q.getQid()%>+up=false">
-                        <img src="image/down.png"  width="30" hight="30">
-                    </a>
-                    </td>
-                    <td>
-                    </td>
-                    <td class="Topic">
-                        <a href="displayQuestion.jsp?id=<%=q.getQid()%>">
-                            <%= q.getQtopic() %>
-                        </a>
-                    </td>
-                    <td class="Date">
-                            <%= q.getQtimestamp() %>
-                    </td>
-            </tr>
-            <tr>
-                    <td class="Text">
-                            Votes
-                    </td>
-                    <td class="Text">
-                            Answers
-                    </td>
-                    <td></td>
-                    <td class="Content">
-                            <%= q.getQcontent() %>
-                    </td>
-                    <td class="Detail">
-                            Asked by
-                            <span class="name">
-                                    <%= q.getUemail() %>
-                            </span>
-                            | 
-                            <a href="ask.jsp?id=<%=q.getQid()%>"><span class="edit">
-                            edit
-                            </span></a>
-                            |
-                            <a href="deleteQuestion.jsp?id=<%=q.getQid()%>"><Span class="delete">
-                            delete
-                            </span></a>
-                    </td>
-            </tr>
-    </table>
+        <h2><%= q.getQtopic() %></h2>
+        <table >
+			<tr>
+				<td class="vote">
+					<a href="voteAnswer.jsp?id=<%=q.getQid()%>,up=true">
+						<img src="image/Up.png" width="30" hight="30">
+					</a>
+					<h3>
+						<%= q.getQVote() %>
+					</h3>
+					<a href="voteAnswer.jsp?id=<%=q.getQid()%>,up=false">
+						<img src="image/down.png"  width="30" hight="30">
+					</a>
+							
+				</td>
+				<td class="dContent">
+					<?php
+						<%= q.getQContent() %>
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td class="Detail">
+					Asked by
+					<span class="name">
+						<%= q.getQAuthorName() %>
+					</span>
+					at
+					<%= q.getQtimestamp() %>
+				</td>
+			</tr>
+		</table>
         
         <h2><%= na %> Answer</h2>
         <div class="garis"></div>
@@ -94,14 +75,14 @@
         <table >
             <tr>
                 <td class="vote">
-                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>+aid=<%=a.getAid()%>+up=true">
+                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>,aid=<%=a.getAid()%>,up=true">
                         <img src="image/Up.png" width="30" hight="30">
                     </a>
 
                     <h3>
                         <%= a.getAvote() %>
                     </h3>
-                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>+aid=<%=a.getAid()%>+up=false">
+                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>,aid=<%=a.getAid()%>,up=false">
                         <img src="image/down.png"  width="30" hight="30">
                     </a>
                 </td>
