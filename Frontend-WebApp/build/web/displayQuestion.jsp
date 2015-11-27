@@ -42,7 +42,7 @@
 						<img src="image/Up.png" width="30" hight="30">
 					</a>
 					<h3>
-						<%= q.getQVote() %>
+						<%= q.getQvote() %>
 					</h3>
 					<a href="voteAnswer.jsp?id=<%=q.getQid()%>,up=false">
 						<img src="image/down.png"  width="30" hight="30">
@@ -51,7 +51,7 @@
 				</td>
 				<td class="dContent">
 					<?php
-						<%= q.getQContent() %>
+						<%= q.getQcontent() %>
 					?>
 				</td>
 			</tr>
@@ -61,7 +61,7 @@
 				<td class="Detail">
 					Asked by
 					<span class="name">
-						<%= q.getQAuthorName() %>
+						<%= q.getQauthorname() %>
 					</span>
 					at
 					<%= q.getQtimestamp() %>
