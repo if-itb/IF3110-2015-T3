@@ -81,7 +81,7 @@
                             edit
                             </span></a>
                             |
-                            <a href="delete.jsp?id=<%=q.getQid()%>"><Span class="delete">
+                            <a href="deleteQuestion.jsp?id=<%=q.getQid()%>"><Span class="delete">
                             delete
                             </span></a>
                     </td>

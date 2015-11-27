@@ -121,7 +121,6 @@ public class QuestionWS {
                 ps.executeUpdate();
                 ResultSet rs = ps.getGeneratedKeys();
                 if (rs.next()) qid = rs.getInt(1);
-                ps.close();
                 
             }else{
                 qid = -1;//TODO kirimkan error bahwa login gagal
@@ -159,7 +158,6 @@ public class QuestionWS {
                 checkps = con.prepareStatement("SELECT Email FROM Question WHERE qid=?");
                 checkps.setInt(1, qid);
                 ResultSet rs = checkps.executeQuery();
-                checkps.close();
                 if (rs.next()){
                     if (Email.equals(rs.getString("Email"))){
                         String query = "UPDATE Question SET QuestionTopic = ?, Content = ? where qid = ? ";
@@ -168,7 +166,6 @@ public class QuestionWS {
                         ps.setString(2, content);
                         ps.setInt(3, qid);
                         ps.executeUpdate();
-                        ps.close();
                     }else{
                         Status = "unauthorized";//TODO kirimkan error unauthorized
                     }
@@ -223,14 +220,12 @@ public class QuestionWS {
                 checkps = con.prepareStatement("SELECT Email FROM Question WHERE qid=?");
                 checkps.setInt(1, qid);
                 ResultSet rs = checkps.executeQuery();
-                checkps.close();
                 if (rs.next()){
                     if (Email.equals(rs.getString("Email"))){
                         String query = "DELETE FROM Question WHERE qid=? ";
                         ps = con.prepareStatement(query);
                         ps.setInt(1, qid);
                         ps.executeUpdate();
-                        ps.close();
                     }else{
                         Status = "unauthorized";//TODO kirimkan error unauthorized
                     }
@@ -299,7 +294,6 @@ public class QuestionWS {
                         ps.setInt(2, qid);
                         ps.setBoolean(3, up);
                         ps.executeUpdate();
-                        ps.close();
                 }else{
                     if(rs2.getBoolean("up")){
                         Status = "already upvoted";

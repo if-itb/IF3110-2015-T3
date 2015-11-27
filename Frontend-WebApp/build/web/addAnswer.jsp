@@ -39,7 +39,7 @@
                     // = Integer.toString(qid);
                     if (!str.equals("Success")){
                       alert = str;
-                      url = "/index.jsp";
+                      url = "index.jsp";
                     }else{
                       alert = "Success";
                       url = "/Frontend_Webapp/displayQuestion.jsp?id=" + qid;

@@ -45,7 +45,7 @@
                       // = Integer.toString(qid);
                       if (qid<=0){
                         alert = "failed";
-                        url = "/index.jsp";
+                        url = "index.jsp";
                       }else{
                         alert = "Success";
                         url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
