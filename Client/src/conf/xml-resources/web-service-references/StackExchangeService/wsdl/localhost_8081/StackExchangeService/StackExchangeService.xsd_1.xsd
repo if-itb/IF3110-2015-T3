@@ -109,21 +109,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="createQuestion">
-<xs:sequence>
-<xs:element name="name" type="xs:string" minOccurs="0"/>
-<xs:element name="qtopic" type="xs:string" minOccurs="0"/>
-<xs:element name="qcontent" type="xs:string" minOccurs="0"/>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="createQuestionResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="voteAnswer">
 <xs:sequence>
 <xs:element name="aid" type="xs:int"/>
@@ -136,6 +121,21 @@
 <xs:complexType name="voteAnswerResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createQuestion">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="qtopic" type="xs:string" minOccurs="0"/>
+<xs:element name="qcontent" type="xs:string" minOccurs="0"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -207,6 +207,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="getQuestionWithoutValidation">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionWithoutValidationResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:question" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="deleteQuestion">
 <xs:sequence>
 <xs:element name="qid" type="xs:int"/>
@@ -217,18 +229,6 @@
 <xs:complexType name="deleteQuestionResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getQuestionWithoutValidation">
-<xs:sequence>
-<xs:element name="qid" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getQuestionWithoutValidationResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:question" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

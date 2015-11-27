@@ -1,0 +1,11 @@
+/Client/build.xml
+/Client/catalog.xml
+/Client/nbproject/build-impl.xml
+/Client/nbproject/genfiles.properties
+/Client/nbproject/jax-ws.xml
+/Client/nbproject/jaxws-build.xml
+/Client/nbproject/project.xml
+/Client/src/conf/xml-resources/
+/Client/web/WEB-INF/wsdl/localhost_8081/
+
+
