@@ -361,4 +361,21 @@ input#topic {
   display: inline-block;
   margin-left: 25px; }
 
+.comment {
+  margin-top: 20px; }
+
+.comment-item {
+  padding-top: 1em;
+  border-bottom: 1px solid #B8B8B8; }
+
+.comment-item:first-child {
+  border-top: 1px solid #B8B8B8; }
+
+.comment-item p {
+  font-size: 13px; }
+
+.comment-item .author {
+  font-size: 13px;
+  color: #0077CC; }
+
 /*# sourceMappingURL=style.css.map */

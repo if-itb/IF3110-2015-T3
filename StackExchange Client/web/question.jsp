@@ -97,6 +97,20 @@
                 </div>
 
             </div> <!-- .row -->
+            
+            <div class="row">
+                <div class="comment col-10 col-push-2">
+                    <div class="comment-item">
+                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
+                    </div>
+                    <div class="comment-item">
+                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
+                    </div>
+                    <div class="comment-item">
+                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
+                    </div>
+                </div>
+            </div>
         </div> <!-- .question-item -->
 
     </div> <!-- .inner-container -->

@@ -330,3 +330,31 @@ input#topic {
     display: inline-block;
     margin-left: 25px;
 }
+
+/////////////////////////////
+/////////////////////////////
+//// COMMENTS
+/////////////////////////////
+/////////////////////////////
+
+.comment {
+  margin-top: 20px;
+}
+
+.comment-item {
+  padding-top: 1em;
+  border-bottom: 1px solid $border-color;
+}
+
+.comment-item:first-child {
+  border-top: 1px solid $border-color;
+}
+
+.comment-item p {
+  font-size: 13px;
+}
+
+.comment-item .author {
+  font-size: 13px;
+  color: $blue-secondary;
+}
