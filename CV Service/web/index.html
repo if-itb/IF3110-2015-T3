@@ -6,11 +6,33 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Comment and Vote Services</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Comment and Vote Services</div>
+        <hr>
+        /comment<br><br>
+        POST: add Comment<br>
+        Parameter: uid, qid, content
+        <br><br>
+        GET: get Comment<br>
+        Parameter: qid
+        <hr>
+        /vote/answer<br><br>
+        POST: vote Answer<br>
+        Parameter: uid, aid, value
+        <br><br>
+        GET: get vote of an Answer<br>
+        Parameter: aid
+        <hr>
+        /vote/question<br><br>
+        POST: vote Question<br>
+        Parameter: uid, qid, value
+        <br><br>
+        GET: get vote of a Question<br>
+        Parameter: qid
+        
     </body>
 </html>

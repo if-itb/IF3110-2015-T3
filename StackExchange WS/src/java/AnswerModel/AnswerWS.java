@@ -103,7 +103,7 @@ public class AnswerWS {
     
   }
   
-  @WebMethod(operationName = "voteAnswer")
+  /*@WebMethod(operationName = "voteAnswer")
     public int voteAnswer(@WebParam(name = "token") String token, @WebParam(name = "aid") int aid, @WebParam(name = "value") int value) {
         
       Auth auth = new Auth();
@@ -155,12 +155,12 @@ public class AnswerWS {
       }
       
       return ret;
-    }
+    }*/
 
     /**
      * Web service operation
      */
-    @WebMethod(operationName = "getVoteCountByAId")
+    /*@WebMethod(operationName = "getVoteCountByAId")
     public int getVoteCountByAId(@WebParam(name = "aid") int aid) {
         int vote_count = 0;
         try {
@@ -181,6 +181,6 @@ public class AnswerWS {
             Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
         }
         return vote_count;
-    }
+    }*/
 
 }
