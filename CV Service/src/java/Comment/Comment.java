@@ -69,7 +69,7 @@ public class Comment extends HttpServlet {
           obj.put("id", rs.getInt("id"));
           obj.put("q_id", rs.getInt("id_question"));
           obj.put("u_id", rs.getInt("id_user"));
-          obj.put("content", rs.getInt("content"));
+          obj.put("content", rs.getString("content"));
 
           out.print(obj);
           
