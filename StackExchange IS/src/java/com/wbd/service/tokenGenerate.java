@@ -7,6 +7,8 @@ import com.wbd.rest.Token;
 import MD5Hashing.MD5Hashing;
 
 import com.wbd.db.DBConnection;
+import com.wbd.rest.UserAgent;
+import com.wbd.rest.UserIP;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -26,31 +28,6 @@ import javax.ws.rs.core.MediaType;
 @Path("/token")
 public class tokenGenerate {
         
-    
-	/*public static boolean isTokenFound(Token token){
-		boolean found = false;
-
-		DBConnection dbc = new DBConnection();
-		PreparedStatement stmt = dbc.getStatement();
-		Connection conn = dbc.getConnection();
-		try{
-			String sql = "SELECT access_token FROM user WHERE access_token = ?";
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, token.access_token);
-    
-                        ResultSet rs = stmt.executeQuery(sql);
-			if (rs.next()){
-				found = true;
-			}             
-		} catch(SQLException se){
-			se.printStackTrace();
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-
-		return found;
-	}*/
-
 	public static Token generateToken(String email, String password){
 		Token token = new Token();
 
@@ -73,13 +50,20 @@ public class tokenGenerate {
 			if(rs.next()){
                 //User is not unique
                 MD5Hashing md5 = new MD5Hashing();
+                UserIP userip = new UserIP();
+                userip.requestIPAddress();
+                
+                UserAgent useragent = new UserAgent();
+                useragent.requestUserAgent();
+                
+                token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
 
-                token.access_token = md5.Hash(password);
                 token.lifetime = 5;
                 sql = "DELETE FROM token WHERE access_token = ?";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, token.access_token);
                 dbStatement.executeUpdate();
+        
                 sql = "INSERT INTO token(access_token,IDUser) VALUES (?,?)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, token.access_token);
