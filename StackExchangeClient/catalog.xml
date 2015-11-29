@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/StackExchangeWS/QuestionsWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8080/StackExchangeWS/QuestionsWS.wsdl"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/QuestionsWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8080/StackExchangeWS/QuestionsWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:32229/StackExchangeWS/Register?wsdl" uri="src/conf/xml-resources/web-service-references/Register/wsdl/localhost_32229/StackExchangeWS/Register.wsdl"/>
+    <system systemId="http://localhost:32229/StackExchangeWS/Register?xsd=1" uri="src/conf/xml-resources/web-service-references/Register/wsdl/localhost_32229/StackExchangeWS/Register.xsd_1.xsd"/>
+    <system systemId="http://localhost:41585/StackExchangeWS/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_41585/StackExchangeWS/UserWS.wsdl"/>
+    <system systemId="http://localhost:41585/StackExchangeWS/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_41585/StackExchangeWS/UserWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:41585/StackExchangeWS/QuestionsWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_41585/StackExchangeWS/QuestionsWS.wsdl"/>
+    <system systemId="http://localhost:41585/StackExchangeWS/QuestionsWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_41585/StackExchangeWS/QuestionsWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/QuestionsWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8081/StackExchangeWS/QuestionsWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/QuestionsWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8081/StackExchangeWS/QuestionsWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.xsd_1.xsd"/>
+</catalog>

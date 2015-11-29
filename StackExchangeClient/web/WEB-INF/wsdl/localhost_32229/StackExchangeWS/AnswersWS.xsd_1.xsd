@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://Answer/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://Answer/">
+
+<xs:element name="Answer" type="tns:answer"/>
+
+<xs:element name="getAnswersByQid" type="tns:getAnswersByQid"/>
+
+<xs:element name="getAnswersByQidResponse" type="tns:getAnswersByQidResponse"/>
+
+<xs:element name="getanswervote" type="tns:getanswervote"/>
+
+<xs:element name="getanswervoteResponse" type="tns:getanswervoteResponse"/>
+
+<xs:element name="insertAnswer" type="tns:insertAnswer"/>
+
+<xs:element name="insertAnswerResponse" type="tns:insertAnswerResponse"/>
+
+<xs:element name="voteanswers" type="tns:voteanswers"/>
+
+<xs:element name="voteanswersResponse" type="tns:voteanswersResponse"/>
+
+<xs:complexType name="getAnswersByQid">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswersByQidResponse">
+<xs:sequence>
+<xs:element name="Answer" type="tns:answer" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answer">
+<xs:sequence>
+<xs:element name="answer-id" type="xs:int"/>
+<xs:element name="answer-uid" type="xs:int"/>
+<xs:element name="answer-qid" type="xs:int"/>
+<xs:element name="answer-content" type="xs:string"/>
+<xs:element name="answer-timestamp" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteanswers">
+<xs:sequence>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="aid" type="xs:int"/>
+<xs:element name="value" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteanswersResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertAnswer">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="q_id" type="xs:int"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getanswervote">
+<xs:sequence>
+<xs:element name="aid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getanswervoteResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
