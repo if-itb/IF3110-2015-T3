@@ -58,7 +58,12 @@ response:
 		<lifetime>LIFETIME HERE</lifetime>
 		</response>
 	
-
+DELETE
+required parameters: access_token
+response:
+	404 if access token not found
+	204 NO CONTENT if access token found and successfully deleted
+	if some required parameters aren't supplied: 400 - BAD REQUEST
 
 -------------------------------------
 

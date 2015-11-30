@@ -19,7 +19,8 @@
             //getting token
             String token = (String)session.getAttribute("access_token");
             String user="";
-            if (token == null) {user="Register";}
+            String userlink="";
+            if (token == null) {user="Register";userlink="register.jsp";}
             else{
                 Calendar limcal = ((Calendar)session.getAttribute("start"));
                 Integer lifetime = (Integer)session.getAttribute("lifetime");
@@ -28,6 +29,7 @@
                     response.sendRedirect("signin.jsp");
                 }else{
                     user="Sign Out";
+                    userlink="signout.jsp";
                     
                 }
             }
@@ -37,7 +39,7 @@
         <a href="index.jsp"><h1>Simple StackExchange</h1></a>
         
         
-        <a href="register.jsp"><h4 align="Right"><%=user%></h4></a>
+        <a href="<%=userlink%>"><h4 align="Right"><%=user%></h4></a>
         <div class="garis"></div>
         
         <form action="search.jsp" method="GET" name="search">

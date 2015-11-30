@@ -167,6 +167,32 @@ public class Login extends HttpServlet {
 
         }
     }
+    
+    /** Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response XML access_token,
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    public void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException{
+        if (request.getParameterMap().containsKey("access_token")){
+            UUID access_token=UUID.fromString(request.getParameter("access_token"));
+            if (emails.containsKey(access_token) && expirations.containsKey(access_token)){
+                emails.remove(access_token);
+                expirations.remove(access_token);
+                response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }else{
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+        }else{
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+    }
 
     /**
      * Returns a short description of the servlet.

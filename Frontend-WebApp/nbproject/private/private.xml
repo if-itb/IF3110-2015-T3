@@ -6,7 +6,9 @@
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/addQuestion.jsp</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/ask.jsp</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/deleteQuestion.jsp</file>
+            <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/build/generated-sources/jax-ws/Answer/DeleteAnswer.java</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/register.jsp</file>
+            <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/signout.jsp</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/build/generated-sources/jax-ws/User/UserWS_Service.java</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/build/generated-sources/jax-ws/Answer/AnswerWS.java</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/signin.jsp</file>
@@ -20,6 +22,7 @@
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/catalog.xml</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/addAccount.jsp</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/build/generated-sources/jax-ws/Answer/Answer.java</file>
+            <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/web/index.jsp</file>
             <file>file:/home/nim_13512501/Documents/IF3110-2015-T2/Frontend-WebApp/build/generated-sources/jax-ws/User/InsertUser.java</file>
         </group>
     </open-files>
