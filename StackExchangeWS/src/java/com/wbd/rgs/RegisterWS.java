@@ -59,7 +59,7 @@ public class RegisterWS {
             dbStatement = conn.prepareStatement(sql);
             ResultSet rs = dbStatement.executeQuery();
             while (rs.next()){
-                if (email == rs.getString("email")){
+                if (email.equals(rs.getString("email"))){
                     return 0;
                 }
             }
