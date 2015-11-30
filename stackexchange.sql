@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.11
+-- version 4.2.7.1
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 27 Nov 2015 pada 17.19
--- Versi Server: 5.6.21
--- PHP Version: 5.6.3
+-- Generation Time: Nov 30, 2015 at 09:57 AM
+-- Server version: 5.6.20
+-- PHP Version: 5.5.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `answers`
+-- Table structure for table `answers`
 --
 
 CREATE TABLE IF NOT EXISTS `answers` (
@@ -32,33 +32,26 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `qid` int(10) NOT NULL,
   `content` text NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `answers`
---
-
-INSERT INTO `answers` (`id`, `uid`, `qid`, `content`, `timestamp`) VALUES
-(1, 7, 4, 'doni larang aku makan ikan', '2015-11-24 05:01:23'),
-(2, 7, 4, 'doni larang aku makan ikan', '2015-11-24 05:02:15'),
-(3, 1, 2, ' Duel otak\r\n', '2015-11-26 21:24:56'),
-(4, 21, 4, ' Java swing', '2015-11-26 21:27:38'),
-(5, 1, 2, ' adsfasfdsaddsafd', '2015-11-26 21:39:05'),
-(6, 1, 4, ' dasjfildjadsfjdsa', '2015-11-26 21:57:55'),
-(7, 1, 4, ' dsafdasfas', '2015-11-26 21:58:52'),
-(8, 1, 2, ' OMG it works!', '2015-11-26 22:02:04'),
-(9, 21, 1, ' test coba', '2015-11-27 06:24:49'),
-(10, 21, 31, ' test coba', '2015-11-27 09:23:09'),
-(11, 1, 35, ' kenapa lelah', '2015-11-27 16:19:13'),
-(12, 1, 28, ' asdfqwerty', '2015-11-27 19:47:43'),
-(13, 1, 37, 'dafasdfafdsafd', '2015-11-27 21:34:02'),
-(14, 1, 40, 'siapa yaaaa', '2015-11-27 23:00:46'),
-(15, 1, 41, 'asfafdsa', '2015-11-27 23:10:39');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `questions`
+-- Table structure for table `comments`
+--
+
+CREATE TABLE IF NOT EXISTS `comments` (
+`id` int(10) NOT NULL,
+  `uid` int(10) NOT NULL,
+  `qid` int(10) NOT NULL,
+  `content` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
 --
 
 CREATE TABLE IF NOT EXISTS `questions` (
@@ -67,10 +60,10 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `topic` varchar(150) NOT NULL,
   `content` text NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=42 ;
 
 --
--- Dumping data untuk tabel `questions`
+-- Dumping data for table `questions`
 --
 
 INSERT INTO `questions` (`id`, `uid`, `topic`, `content`, `timestamp`) VALUES
@@ -113,7 +106,7 @@ INSERT INTO `questions` (`id`, `uid`, `topic`, `content`, `timestamp`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tokens`
+-- Table structure for table `tokens`
 --
 
 CREATE TABLE IF NOT EXISTS `tokens` (
@@ -125,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `tokens` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -133,10 +126,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`uid`, `name`, `email`, `password`) VALUES
@@ -169,49 +162,28 @@ INSERT INTO `users` (`uid`, `name`, `email`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `vote_answers`
+-- Table structure for table `vote_answers`
 --
 
 CREATE TABLE IF NOT EXISTS `vote_answers` (
+`id` int(10) NOT NULL,
   `uid` int(10) NOT NULL,
   `aid` int(10) NOT NULL,
   `value` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `vote_answers`
---
-
-INSERT INTO `vote_answers` (`uid`, `aid`, `value`) VALUES
-(1, 12, 1),
-(1, 3, 1),
-(1, 13, 1),
-(1, 14, -1);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `vote_questions`
+-- Table structure for table `vote_questions`
 --
 
 CREATE TABLE IF NOT EXISTS `vote_questions` (
+`id` int(10) NOT NULL,
   `uid` int(10) NOT NULL,
   `qid` int(10) NOT NULL,
   `value` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `vote_questions`
---
-
-INSERT INTO `vote_questions` (`uid`, `qid`, `value`) VALUES
-(26, 34, 1),
-(1, 35, 1),
-(1, 34, -1),
-(1, 4, 1),
-(1, 28, 1),
-(1, 37, 1),
-(1, 40, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Indexes for dumped tables
@@ -221,25 +193,43 @@ INSERT INTO `vote_questions` (`uid`, `qid`, `value`) VALUES
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `uid` (`uid`), ADD KEY `qid` (`qid`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+ ADD PRIMARY KEY (`id`), ADD KEY `uid` (`uid`), ADD KEY `qid` (`qid`);
 
 --
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `uid` (`uid`);
 
 --
 -- Indexes for table `tokens`
 --
 ALTER TABLE `tokens`
- ADD UNIQUE KEY `token_str` (`token_str`);
+ ADD UNIQUE KEY `token_str` (`token_str`), ADD KEY `uid` (`uid`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
  ADD PRIMARY KEY (`uid`);
+
+--
+-- Indexes for table `vote_answers`
+--
+ALTER TABLE `vote_answers`
+ ADD PRIMARY KEY (`id`), ADD KEY `uid` (`uid`), ADD KEY `aid` (`aid`);
+
+--
+-- Indexes for table `vote_questions`
+--
+ALTER TABLE `vote_questions`
+ ADD PRIMARY KEY (`id`), ADD KEY `qid` (`qid`), ADD KEY `uid` (`uid`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -251,6 +241,11 @@ ALTER TABLE `users`
 ALTER TABLE `answers`
 MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
@@ -260,6 +255,60 @@ MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
 --
 ALTER TABLE `users`
 MODIFY `uid` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=29;
+--
+-- AUTO_INCREMENT for table `vote_answers`
+--
+ALTER TABLE `vote_answers`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `vote_questions`
+--
+ALTER TABLE `vote_questions`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE,
+ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`qid`) REFERENCES `questions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `comments`
+--
+ALTER TABLE `comments`
+ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE,
+ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`qid`) REFERENCES `questions` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `questions`
+--
+ALTER TABLE `questions`
+ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tokens`
+--
+ALTER TABLE `tokens`
+ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `vote_answers`
+--
+ALTER TABLE `vote_answers`
+ADD CONSTRAINT `vote_answers_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE,
+ADD CONSTRAINT `vote_answers_ibfk_2` FOREIGN KEY (`aid`) REFERENCES `answers` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `vote_questions`
+--
+ALTER TABLE `vote_questions`
+ADD CONSTRAINT `vote_questions_ibfk_1` FOREIGN KEY (`qid`) REFERENCES `questions` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `vote_questions_ibfk_2` FOREIGN KEY (`uid`) REFERENCES `users` (`uid`) ON DELETE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
