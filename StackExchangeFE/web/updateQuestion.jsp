@@ -21,7 +21,7 @@
 	java.lang.String accessToken = request.getParameter("token");
 	int qid = Integer.parseInt(request.getParameter("id"));
 	java.lang.String title = request.getParameter("topic");
-	java.lang.String content = request.getParameter("content");
+	java.lang.String content = request.getParameter("textarea1");
 	// TODO process result here
 	int result = port.updateQ(accessToken, qid, title, content);
 	if (result == 1){
