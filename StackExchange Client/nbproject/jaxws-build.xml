@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSGEN SECTION
+                ===================
+            -->
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-client-Question" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/Question"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Question" destdir="${build.generated.dir}/jax-wsCache/Question" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/Question/wsdl/localhost_8080/StackExchange_WS2/Question.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchange_WS2/Question?wsdl" xnocompile="true" xendorsed="true" package="stackexchange">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/Question/wsdl/localhost_8080/StackExchange_WS2/Question.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/Question"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/Question">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-Question" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/stackexchange"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/Question"/>
+    </target>
+    <target name="wsimport-client-AnswerWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AnswerWS" destdir="${build.generated.dir}/jax-wsCache/AnswerWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8080/StackExchange_WS2/AnswerWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/StackExchange_WS2/AnswerWS?wsdl" xnocompile="true" xendorsed="true" package="Answer">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8080/StackExchange_WS2/AnswerWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/AnswerWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-AnswerWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/Answer"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
+    </target>
+    <target name="wsimport-client-Operation" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/Operation"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Operation" destdir="${build.generated.dir}/jax-wsCache/Operation" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/Operation/wsdl/localhost_8080/Operation/Operation.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Operation/Operation?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/Operation/wsdl/localhost_8080/Operation/Operation.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/Operation"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/Operation">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-Operation" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/stackexchangews"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/Operation"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-Question, wsimport-client-AnswerWS, wsimport-client-Operation"/>
+</project>
