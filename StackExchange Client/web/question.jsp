@@ -99,15 +99,9 @@
             </div> <!-- .row -->
             
             <div class="row">
-                <div class="comment col-10 col-push-2">
-                    <div class="comment-item">
-                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
-                    </div>
-                    <div class="comment-item">
-                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
-                    </div>
-                    <div class="comment-item">
-                        <p>Lorem ipsum dolor sit amet - <span class="author">username</span></p>
+                <div class="comment col-10 col-push-2" ng-controller="commentController as comment">
+                    <div class="comment-item" ng-repeat="commentItem in comment.commentItems">
+                        <p>{{ commentItem.content }} - <span class="author">{{ commentItem.username }}</span></p>
                     </div>
                 </div>
             </div>
