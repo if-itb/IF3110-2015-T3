@@ -117,17 +117,28 @@
 	    		+"</div>"
 	    	+"</div>"           
                 ;
+                String question_comment = 
+                "<div class='block-comment'>"
+                    +"<div class='bc-content'>"
+                        +"ini komen"
+                        +" - "
+                        +"<a id='color-blue'>"
+                            +"penanya"
+                        +"</a>"
+                    +"</div>"
+	    	+"</div>"           
+                ;
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
                 
-                out.write(start + question + end);
+                out.write(start + question + question_comment + end);
                 out.write("<br><br>");
             
         } catch (Exception ex) {
             // TODO handle custom exceptions here
         }
         %>
-
+        
         <%
         try {
             com.wbd.ans.AnswerWS_Service service = new com.wbd.ans.AnswerWS_Service();
@@ -180,10 +191,21 @@
                         +"</div>"
                     +"</div>"
                 ;
+                String answer_comment = 
+                "<div class='block-comment'>"
+                    +"<div class='bc-content'>"
+                        +"ini komen"
+                        +" - "
+                        +"<a id='color-blue'>"
+                            +"penanya"
+                        +"</a>"
+                    +"</div>"
+	    	+"</div>"           
+                ;
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
 
-            out.write(start + answer + end);
+            out.write(start + answer + answer_comment + end);
                 
             }
             out.write("</ul>");

@@ -230,5 +230,15 @@ and open the template in the editor.
 		text-align: center;
 		float:center;
 	}
+        .block-comment{
+            font-family:calibri;
+        }
+        .bc-content{
+            margin-left:17.5%;
+            width: 65%;
+            text-align: left;
+            float:left;
+            clear: both;
+        }
         
         
