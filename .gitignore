@@ -1,0 +1,14 @@
+/StackExchange Client/nbproject/private/
+/StackExchange WebService/nbproject/private/
+/IdentityServices/nbproject/private/
+/StackExchange WebService/build/
+/StackExchange Client/build/
+/StackExchange Client/dist/
+/StackExchange WebService/dist/
+/IdentityServices/build/
+/IdentityServices/dist/
+*.xml
+*.properties
+*.MF
+*.xsd
+*.wsdl
