@@ -1,0 +1,21 @@
+/Identity Service/nbproject/private/
+/Stackexchange Webservice/nbproject/private/
+/Stackexchange Webservice/build/
+/Stackexchange Webservice/dist/
+/Identity Service/build/
+/Frontend-WebApp/dist/
+/Identity Service/dist/
+Frontend-WebApp/build/web/WEB-INF/classes/Answer/getAnswer.class
+Frontend-WebApp/nbproject/private/private.properties
+*.properties
+*.properties
+Frontend-WebApp/nbproject/private/private.xml
+*.properties
+*.properties
+Frontend-WebApp/nbproject/genfiles.properties
+Frontend-WebApp/nbproject/private/private.properties
+Frontend-WebApp/nbproject/private/private.xml
+Frontend-WebApp/nbproject/project.properties
+Identity Service/nbproject/project.properties
+Stackexchange Webservice/nbproject/project.properties
+

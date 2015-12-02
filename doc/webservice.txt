@@ -1,0 +1,39 @@
+/***** Method AnswerWS *****/
+GetAllAnswer(int qid) -> ArrayList<Answer>
+Ambil semua answer + nama" pembuatnya
+
+InsertAnswer(String access_token,int qid, String content) -> String Status 
+Insert answer, access token buat email yang buat
+
+UpdateAnswer(String access_token, String content, int aid, int qid) -> String Status 
+cuma bisa yang bikin yang edit
+
+DeleteAnswer(String access_token, int aid, int qid) ->String Status 
+cuma bisa yang bikin yang edit
+
+voteAnswer(int qid, int aid, boolean up, access_token) -> String Status 
+boolean up = 1 -> +1, up = 0 -> -1 buat vote, access_token buat ngecek udah ngevote apa belom
+
+/***** Method QuestionWS *****/
+GetAllQuestion()->ArrayList<Question>
+ambil semua data di question + nama user
+
+GetQuestionByID(int qid) ->Question
+ambil data 1 question + nama user
+
+InsertQuestion(String access_token, String topic, String content) -> int qid
+insert question ke database, access token buat tau email yang bikin, return qid question terakhir yang dimasukin
+
+UpdateQuestion(String access_token, int qid, String content, String topic) -> String Status
+update content & topic database, cuma bisa user yang buat pertanyaan
+
+DeleteQuestion(String access_token, int qid) -> String Status
+Delete Question, cuma bisa user yang buat pertanyaan
+
+voteQuestion(int qid, boolean up, string access_token) -> String Status
+boolean up = 1 -> +1, up = 0 -> -1 buat vote, access_token buat ngecek udah ngevote apa belom
+
+/***** Method UserWS *****/
+
+InsertUser(String email, String name, String password) -> String Status
+insert user ke DB jika belum ada emailnya, kalo udah ada balikin string udah ada

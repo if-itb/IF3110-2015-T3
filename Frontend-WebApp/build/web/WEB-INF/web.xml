@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>getQuestion</servlet-name>
+        <servlet-class>Question.getQuestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getQuestionByID</servlet-name>
+        <servlet-class>Question.getQuestionByID</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>viewQuestion</servlet-name>
+        <servlet-class>Question.viewQuestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getAnswer</servlet-name>
+        <servlet-class>Answer.getAnswer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getQuestion</servlet-name>
+        <url-pattern>/getQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getQuestionByID</servlet-name>
+        <url-pattern>/getQuestionByID</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewQuestion</servlet-name>
+        <url-pattern>/viewQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getAnswer</servlet-name>
+        <url-pattern>/getAnswer</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

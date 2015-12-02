@@ -1,0 +1,70 @@
+
+SETUP
+refer to https://www.dropbox.com/sh/2orw5fxthxgzvvd/AACpaA3w34GhCmDzzVFy7BW1a/NetBeans%20GlassFish%20Server%20For%203%20Project.pdf?dl=0 to see http port setup
+and refer to https://netbeans.org/competition/win-with-netbeans/mysql-client.html for jdbc driver setup. a driver is available in this project's root dir
+see username and password in stackexchange_db.sql
+
+
+AVAILABLE SERVICES
+
+-------------------------------------
+Identity_Service/UserDetails
+GET:
+required parameters: Email
+response: 404 if not found
+	Email,AuthorName, and empty AccountPassword field on success
+	if some required parameters aren't supplied: BAD REQUEST
+	format:XMl
+	like this:
+		<?xml version="1.0"?>
+		<UAccount>
+			<Email>EMAIL HERE</Email>
+			<AuthorName>AUTHOR NAME HERE</AuthorName>
+			<AccountPassword></AccountPassword>
+		</UAccount>
+
+POST
+required parameters: Email, AuthorName, AccountPassword
+response: 
+	on success: 201 CREATED
+	if some required parameters aren't supplied: BAD REQUEST
+	if email already used: 409 CONFLICT
+
+
+-------------------------------------
+Identity_Service/Login
+GET:
+required parameters: access_token
+response:
+	404 if access token not found
+	401 UNAUTHORIZED if access token expired
+	if some required parameters aren't supplied: 400 - BAD REQUEST
+	Email on success
+	format:XMl
+	like this:
+		<?xml version="1.0"?>
+		<Email>EMAIL HERE</Email>
+
+POST
+required parameters: Email, AccountPassword
+response: 
+	if some required parameters aren't supplied: 400 - BAD REQUEST
+	if keys (Email and AccountPassword) are invalid: 401 - UNAUTHORIZED
+	on success: 201 CREATED and xml body containing access_token and lifetime in seconds
+	like this:
+		<?xml version="1.0"?>
+		<response>
+		<access_token>ACCESS TOKEN HERE</access_token>
+		<lifetime>LIFETIME HERE</lifetime>
+		</response>
+	
+DELETE
+required parameters: access_token
+response:
+	404 if access token not found
+	204 NO CONTENT if access token found and successfully deleted
+	if some required parameters aren't supplied: 400 - BAD REQUEST
+
+-------------------------------------
+
+
