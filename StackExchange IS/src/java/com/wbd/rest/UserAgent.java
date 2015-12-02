@@ -17,17 +17,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UserAgent {
     private String agent;
+
+    public UserAgent(){
+        agent= "";
+    }
     
     public String getAgent(){
         return agent;
     }
     
     public void requestUserAgent() throws ServletException, IOException {
-
+        System.out.println("Request = ");
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                        
-        
+
         String  browserDetails  =   request.getHeader("User-Agent");
         agent = browserDetails;              
     }

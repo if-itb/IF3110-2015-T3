@@ -50,14 +50,22 @@ public class tokenGenerate {
 			if(rs.next()){
                 //User is not unique
                 MD5Hashing md5 = new MD5Hashing();
+                System.out.println("Setelah Hashing");
                 UserIP userip = new UserIP();
-                userip.requestIPAddress();
+                System.out.println("setelah hashing 2");
+                //userip.requestIPAddress();
                 
                 UserAgent useragent = new UserAgent();
-                useragent.requestUserAgent();
+                //useragent.requestUserAgent();
                 
-                token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
-
+                System.out.println("Halo !!!!!!!!!!!!!!!!!!");
+                System.out.println(md5.Hash(password));
+                System.out.println(userip.getIPAddress());
+                System.out.println(useragent.getAgent());
+                token.access_token = md5.Hash(password);
+                //token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
+                System.out.println("TOken : " + token.access_token);
+                
                 token.lifetime = 5;
                 sql = "DELETE FROM token WHERE access_token = ?";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);

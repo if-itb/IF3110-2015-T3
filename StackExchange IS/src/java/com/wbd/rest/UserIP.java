@@ -23,19 +23,25 @@ public class UserIP {
         return ipAddress;
     }
     
-    public void requestIPAddress() throws ServletException, IOException {
+    public UserIP(){
+        ipAddress = "";
+    }
     
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                
-        response.setContentType("text/html;charset=UTF-8");
-        String _ipAddress = request.getHeader("X-FORWARDED-FOR");
+    public void requestIPAddress() {
+        System.out.println("masuk ip address");
+        //HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        //HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+        //HttpServletRequest request = new HttpServletRequest();
         
-        if (_ipAddress == null) {
-            _ipAddress = request.getRemoteAddr();
-        }
+        System.out.println("setelah srvlet condtructed");
+        //response.setContentType("text/html;charset=UTF-8");
+        //String _ipAddress = request.getHeader("X-FORWARDED-FOR");
         
-        ipAddress = _ipAddress;              
+        //if (_ipAddress == null) {
+            //_ipAddress = request.getRemoteAddr();
+        //}
+        
+        //ipAddress = _ipAddress;              
     }
 
 }
