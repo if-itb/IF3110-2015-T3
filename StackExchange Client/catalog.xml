@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8081/StackExchange_WS/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WS/QuestionWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WS/QuestionWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchange_WS/UserWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchange_WS/UserWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/TokenWS?wsdl" uri="src/conf/xml-resources/web-service-references/TokenWS/wsdl/localhost_8081/StackExchange_WS/TokenWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/TokenWS?xsd=1" uri="src/conf/xml-resources/web-service-references/TokenWS/wsdl/localhost_8081/StackExchange_WS/TokenWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/AnswerWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WS/AnswerWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WS/AnswerWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WS/AnswerWS.xsd_1.xsd"/>
+</catalog>
