@@ -5,6 +5,7 @@
  */
 package Login;
 
+import Security.MD5;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,7 +49,7 @@ public class Login extends HttpServlet {
         String redirectUrl = request.getContextPath();
 
         String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String password = MD5.crypt(request.getParameter("password")); 
 
         try {
             // establish a connection with the identity service that handles login

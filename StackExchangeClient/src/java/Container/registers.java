@@ -5,6 +5,7 @@
  */
 package Container;
 
+import Security.MD5;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +36,8 @@ public class registers extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String password = request.getParameter("password"); 
+        String password = MD5.crypt(request.getParameter("password")); 
+        
         addUser(name, email, password);
         response.sendRedirect("home");
     }
