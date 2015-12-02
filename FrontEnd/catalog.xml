@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8002/WS/RegisterWS?wsdl" uri="src/conf/xml-resources/web-service-references/RegisterWS/wsdl/localhost_8002/WS/RegisterWS.wsdl"/>
+    <system systemId="http://localhost:8002/WS/RegisterWS?xsd=1" uri="src/conf/xml-resources/web-service-references/RegisterWS/wsdl/localhost_8002/WS/RegisterWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8002/WS/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8002/WS/QuestionWS.wsdl"/>
+    <system systemId="http://localhost:8002/WS/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8002/WS/QuestionWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8002/WS/AnswerWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8002/WS/AnswerWS.wsdl"/>
+    <system systemId="http://localhost:8002/WS/AnswerWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8002/WS/AnswerWS.xsd_1.xsd"/>
+</catalog>
