@@ -33,7 +33,7 @@ public class UserIP {
         //HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         //HttpServletRequest request = new HttpServletRequest();
         
-        System.out.println("setelah srvlet condtructed");
+        System.out.println("setelah srvlet conducted");
         //response.setContentType("text/html;charset=UTF-8");
         //String _ipAddress = request.getHeader("X-FORWARDED-FOR");
         
