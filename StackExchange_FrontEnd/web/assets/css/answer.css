@@ -1,0 +1,122 @@
+body{
+    background: #fafafa;
+}
+
+@font-face {
+    font-family: "LakkyReddy";
+    src: url('/assets/font/LakkiReddy-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+#logo-container{
+    padding: 0 1em;
+    font-family: "LakkyReddy";
+    transition: all .2s ease-out;
+    font-size: 2.1rem;
+}
+#logo-container:hover{
+    color:#BBDEFB;
+}
+
+.btn,
+.btn-floating{
+    transition: all .2s ease-out;
+}
+.btn:hover,
+.btn-floating:hover{
+    transform: scale(1.1) !important;
+}
+
+.question-close {
+    /*opacity: 0;*/
+    line-height: 2rem;
+    width: 2rem;
+    height: 2rem;
+    position:absolute;
+    right:-0.5rem;
+    top:-10px;
+}
+.question-close:hover{
+    transform: scale(1.15) !important;
+}
+.question-close i{
+    font-size: 2rem;
+    line-height: 2rem;
+}
+
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #2196F3;
+    box-shadow: 0 1px 0 0 #2196F3;
+}
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #2196F3 !important;
+}
+
+section#question{
+    margin: 20px auto;
+}
+.card{
+    transition: all .1s ease-out;
+}
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+}
+section#question .card:hover .question-close{
+    opacity: 1;
+}
+section#question .card,
+section#answer .card{
+    padding-bottom: 60px;
+}
+section#question .card .fixed-action-btn,
+section#answer .card .fixed-action-btn{
+    bottom: 1em;
+    right: -60px;
+    position:absolute;
+}
+section#question .card .fixed-action-btn > .btn-floating,
+section#answer .card .fixed-action-btn > .btn-floating{
+    visibility: hidden;
+}
+
+.card-content .input-field{
+    margin-top: 0;
+}
+/*.input-content{*/
+/*white-space: pre;*/
+/*}*/
+
+.thumb-btn-wrapper{
+    position:relative;
+}
+
+.thumbs-num{
+    /*position:absolute;*/
+    /*top:-1.1em;*/
+    /*left:1.6em;*/
+    border-radius: 0;
+    padding:7px 9px;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    line-height: 1;
+}
+
+/*section#question .card .fixed-action-btn.horizontal ul li:not(:last-child),*/
+/*section#answer .card .fixed-action-btn.horizontal ul li{*/
+    /*margin: 15px 45px 0 0;*/
+/*}*/
+
+#question-title{
+    width:90%;
+    margin:0 auto;
+}
+#answer-title{
+    width:90%;
+    margin:0 auto;
+}
+#answer-btn{
+    position:relative;
+    top:-2em;
+    right:2em;
+}
