@@ -18,6 +18,9 @@
             
             //getting token
             String token = (String)session.getAttribute("access_token");
+            String user_agent = request.getHeader("User-Agent");
+            String user_ip =  request.getRemoteAddr();
+            
             if (token == null) {response.sendRedirect("signin.jsp");}
             else{
                 Calendar limcal = ((Calendar)session.getAttribute("start"));
@@ -32,7 +35,8 @@
                     String alert;
                     String url = "";
                     
-                      str = port.deleteQuestion(token, qid);
+                      str = port.deleteQuestion(token, user_agent, user_ip, 
+                              qid);
                       
                       // = Integer.toString(qid);
                       alert = str;

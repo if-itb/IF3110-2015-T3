@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import javax.xml.bind.JAXBContext;
@@ -32,14 +33,15 @@ import org.xml.sax.SAXException;
  * @author nim_13512501
  */
 public class IdentityService {
-    public static String getEmail(String access_token) throws MalformedURLException, IOException, JAXBException, XPathExpressionException, ParserConfigurationException, SAXException{
+    public static String getEmail(String access_token, String user_agent, String user_ip) throws MalformedURLException, IOException, JAXBException, XPathExpressionException, ParserConfigurationException, SAXException{
         String uri =
-            "http://localhost:8082/Identity_Service/Login?access_token="+access_token;
+            "http://localhost:8082/Identity_Service/Login?access_token="+URLEncoder.encode(access_token, "UTF-8")
+                +"&user_agent="+URLEncoder.encode(user_agent,"UTF-8")
+                +"&user_ip="+URLEncoder.encode(user_ip,"UTF-8");
         URL url = new URL(uri);
         HttpURLConnection connection =
             (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept", "application/xml");
         
         switch(connection.getResponseCode()){
             case HttpURLConnection.HTTP_OK:

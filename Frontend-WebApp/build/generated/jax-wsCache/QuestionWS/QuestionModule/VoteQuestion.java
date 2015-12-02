@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="qid" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="up" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="access_token" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="user_agent" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="user_ip" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -32,7 +34,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "voteQuestion", propOrder = {
     "qid",
     "up",
-    "accessToken"
+    "accessToken",
+    "userAgent",
+    "userIp"
 })
 public class VoteQuestion {
 
@@ -40,6 +44,10 @@ public class VoteQuestion {
     protected boolean up;
     @XmlElement(name = "access_token")
     protected String accessToken;
+    @XmlElement(name = "user_agent")
+    protected String userAgent;
+    @XmlElement(name = "user_ip")
+    protected String userIp;
 
     /**
      * Gets the value of the qid property.
@@ -95,6 +103,54 @@ public class VoteQuestion {
      */
     public void setAccessToken(String value) {
         this.accessToken = value;
+    }
+
+    /**
+     * Gets the value of the userAgent property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    /**
+     * Sets the value of the userAgent property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setUserAgent(String value) {
+        this.userAgent = value;
+    }
+
+    /**
+     * Gets the value of the userIp property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getUserIp() {
+        return userIp;
+    }
+
+    /**
+     * Sets the value of the userIp property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setUserIp(String value) {
+        this.userIp = value;
     }
 
 }

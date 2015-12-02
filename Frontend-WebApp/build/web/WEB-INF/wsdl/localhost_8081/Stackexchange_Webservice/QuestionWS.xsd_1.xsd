@@ -26,24 +26,11 @@
 
 <xs:element name="voteQuestionResponse" type="tns:voteQuestionResponse"/>
 
-<xs:complexType name="UpdateQuestion">
-<xs:sequence>
-<xs:element name="access_token" type="xs:string" minOccurs="0"/>
-<xs:element name="qid" type="xs:int"/>
-<xs:element name="content" type="xs:string" minOccurs="0"/>
-<xs:element name="topic" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="UpdateQuestionResponse">
-<xs:sequence>
-<xs:element name="Status" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="InsertQuestion">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 <xs:element name="topic" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -51,18 +38,22 @@
 
 <xs:complexType name="InsertQuestionResponse">
 <xs:sequence>
-<xs:element name="Status" type="xs:string" minOccurs="0"/>
+<xs:element name="Status" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="DeleteQuestion">
+<xs:complexType name="UpdateQuestion">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 <xs:element name="qid" type="xs:int"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="topic" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="DeleteQuestionResponse">
+<xs:complexType name="UpdateQuestionResponse">
 <xs:sequence>
 <xs:element name="Status" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -90,11 +81,28 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="DeleteQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DeleteQuestionResponse">
+<xs:sequence>
+<xs:element name="Status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="voteQuestion">
 <xs:sequence>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="up" type="xs:boolean"/>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

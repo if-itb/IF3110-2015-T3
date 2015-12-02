@@ -27,7 +27,51 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param qid
+     * @return
+     *     returns QuestionModule.Question
+     */
+    @WebMethod(operationName = "GetQuestionByID")
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "GetQuestionByID", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetQuestionByID")
+    @ResponseWrapper(localName = "GetQuestionByIDResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetQuestionByIDResponse")
+    @Action(input = "http://QuestionModule/QuestionWS/GetQuestionByIDRequest", output = "http://QuestionModule/QuestionWS/GetQuestionByIDResponse")
+    public Question getQuestionByID(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid);
+
+    /**
+     * 
+     * @param userIp
      * @param topic
+     * @param userAgent
+     * @param accessToken
+     * @param content
+     * @return
+     *     returns int
+     */
+    @WebMethod(operationName = "InsertQuestion")
+    @WebResult(name = "Status", targetNamespace = "")
+    @RequestWrapper(localName = "InsertQuestion", targetNamespace = "http://QuestionModule/", className = "QuestionModule.InsertQuestion")
+    @ResponseWrapper(localName = "InsertQuestionResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.InsertQuestionResponse")
+    @Action(input = "http://QuestionModule/QuestionWS/InsertQuestionRequest", output = "http://QuestionModule/QuestionWS/InsertQuestionResponse")
+    public int insertQuestion(
+        @WebParam(name = "access_token", targetNamespace = "")
+        String accessToken,
+        @WebParam(name = "user_agent", targetNamespace = "")
+        String userAgent,
+        @WebParam(name = "user_ip", targetNamespace = "")
+        String userIp,
+        @WebParam(name = "topic", targetNamespace = "")
+        String topic,
+        @WebParam(name = "content", targetNamespace = "")
+        String content);
+
+    /**
+     * 
+     * @param userIp
+     * @param topic
+     * @param userAgent
      * @param accessToken
      * @param qid
      * @param content
@@ -42,6 +86,10 @@ public interface QuestionWS {
     public String updateQuestion(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
+        @WebParam(name = "user_agent", targetNamespace = "")
+        String userAgent,
+        @WebParam(name = "user_ip", targetNamespace = "")
+        String userIp,
         @WebParam(name = "qid", targetNamespace = "")
         int qid,
         @WebParam(name = "content", targetNamespace = "")
@@ -51,6 +99,20 @@ public interface QuestionWS {
 
     /**
      * 
+     * @return
+     *     returns java.util.List<QuestionModule.Question>
+     */
+    @WebMethod(operationName = "GetAllQuestion")
+    @WebResult(name = "Questions", targetNamespace = "")
+    @RequestWrapper(localName = "GetAllQuestion", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetAllQuestion")
+    @ResponseWrapper(localName = "GetAllQuestionResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetAllQuestionResponse")
+    @Action(input = "http://QuestionModule/QuestionWS/GetAllQuestionRequest", output = "http://QuestionModule/QuestionWS/GetAllQuestionResponse")
+    public List<Question> getAllQuestion();
+
+    /**
+     * 
+     * @param userIp
+     * @param userAgent
      * @param accessToken
      * @param qid
      * @return
@@ -64,11 +126,17 @@ public interface QuestionWS {
     public String deleteQuestion(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
+        @WebParam(name = "user_agent", targetNamespace = "")
+        String userAgent,
+        @WebParam(name = "user_ip", targetNamespace = "")
+        String userIp,
         @WebParam(name = "qid", targetNamespace = "")
         int qid);
 
     /**
      * 
+     * @param userIp
+     * @param userAgent
      * @param up
      * @param accessToken
      * @param qid
@@ -86,54 +154,10 @@ public interface QuestionWS {
         @WebParam(name = "up", targetNamespace = "")
         boolean up,
         @WebParam(name = "access_token", targetNamespace = "")
-        String accessToken);
-
-    /**
-     * 
-     * @param qid
-     * @return
-     *     returns QuestionModule.Question
-     */
-    @WebMethod(operationName = "GetQuestionByID")
-    @WebResult(name = "Question", targetNamespace = "")
-    @RequestWrapper(localName = "GetQuestionByID", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetQuestionByID")
-    @ResponseWrapper(localName = "GetQuestionByIDResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetQuestionByIDResponse")
-    @Action(input = "http://QuestionModule/QuestionWS/GetQuestionByIDRequest", output = "http://QuestionModule/QuestionWS/GetQuestionByIDResponse")
-    public Question getQuestionByID(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid);
-
-    /**
-     * 
-     * @param topic
-     * @param accessToken
-     * @param content
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod(operationName = "InsertQuestion")
-    @WebResult(name = "Status", targetNamespace = "")
-    @RequestWrapper(localName = "InsertQuestion", targetNamespace = "http://QuestionModule/", className = "QuestionModule.InsertQuestion")
-    @ResponseWrapper(localName = "InsertQuestionResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.InsertQuestionResponse")
-    @Action(input = "http://QuestionModule/QuestionWS/InsertQuestionRequest", output = "http://QuestionModule/QuestionWS/InsertQuestionResponse")
-    public String insertQuestion(
-        @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
-        @WebParam(name = "topic", targetNamespace = "")
-        String topic,
-        @WebParam(name = "content", targetNamespace = "")
-        String content);
-
-    /**
-     * 
-     * @return
-     *     returns java.util.List<QuestionModule.Question>
-     */
-    @WebMethod(operationName = "GetAllQuestion")
-    @WebResult(name = "Questions", targetNamespace = "")
-    @RequestWrapper(localName = "GetAllQuestion", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetAllQuestion")
-    @ResponseWrapper(localName = "GetAllQuestionResponse", targetNamespace = "http://QuestionModule/", className = "QuestionModule.GetAllQuestionResponse")
-    @Action(input = "http://QuestionModule/QuestionWS/GetAllQuestionRequest", output = "http://QuestionModule/QuestionWS/GetAllQuestionResponse")
-    public List<Question> getAllQuestion();
+        @WebParam(name = "user_agent", targetNamespace = "")
+        String userAgent,
+        @WebParam(name = "user_ip", targetNamespace = "")
+        String userIp);
 
 }

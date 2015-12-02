@@ -66,14 +66,15 @@ public class AnswerWS {
     
     @WebMethod(operationName = "InsertAnswer")
     @WebResult(name = "Status")
-    public String InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
+    public String InsertAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="user_agent")String user_agent, @WebParam(name="user_ip")String user_ip,
+            @WebParam(name="qid")int qid, @WebParam(name="content")String content){//aid qid content token 
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         
         PreparedStatement ps = null;
         try{
-            String Email = IdentityService.getEmail(access_token);
+            String Email = IdentityService.getEmail(access_token,user_agent,user_ip);
             if (Email!=null){
                 String query = "INSERT INTO Answer (qid,Email,Content) VALUES (?,?,?)";
                 ps = con.prepareStatement(query);
@@ -109,7 +110,8 @@ public class AnswerWS {
     
     @WebMethod(operationName = "UpdateAnswer")
     @WebResult(name = "Status")
-    public String UpdateAnswer(@WebParam(name="access_token") String access_token, @WebParam(name="content")String content, @WebParam(name="aid")int aid, @WebParam(name ="qid") int qid){
+    public String UpdateAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="user_agent")String user_agent, @WebParam(name="user_ip")String user_ip,
+            @WebParam(name="content")String content, @WebParam(name="aid")int aid, @WebParam(name ="qid") int qid){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
@@ -122,7 +124,7 @@ public class AnswerWS {
             checkps.setInt(1, aid);
             checkps.setInt(2, qid);
             ResultSet selRes = checkps.executeQuery();
-            String Email=IdentityService.getEmail(access_token); //TODO tangkap error kalau tidak ada
+            String Email=IdentityService.getEmail(access_token,user_agent,user_ip); //TODO tangkap error kalau tidak ada
             if (Email!=null){
                 if (selRes.next()){
                     if (Email.equals(selRes.getString("Email"))){
@@ -172,7 +174,7 @@ public class AnswerWS {
     
     @WebMethod(operationName = "DeleteAnswer")
     @WebResult(name = "Status")
-    public String DeleteAnswer(@WebParam(name="access_token")String access_token, @WebParam(name="aid")int aid,@WebParam(name="qid") int qid){
+    public String DeleteAnswer(@WebParam(name="access_token")String access_token,@WebParam(name="user_agent")String user_agent, @WebParam(name="user_ip")String user_ip, @WebParam(name="aid")int aid,@WebParam(name="qid") int qid){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
@@ -180,7 +182,7 @@ public class AnswerWS {
         PreparedStatement ps = null;
         PreparedStatement checkps = null;
         try{
-            String Email = IdentityService.getEmail(access_token);
+            String Email = IdentityService.getEmail(access_token,user_agent,user_ip);
             if (Email!=null){
                 checkps = con.prepareStatement("SELECT Email FROM Answer WHERE aid = ? AND qid = ?");
                 checkps.setInt(1, aid);
@@ -233,14 +235,15 @@ public class AnswerWS {
     
     @WebMethod(operationName="voteAnswer")
     @WebResult(name = "Status")
-    public String voteAnswer(@WebParam(name="qid")int qid,@WebParam(name="aid")int aid, @WebParam(name="up")boolean up, @WebParam(name="access_token")String access_token){
+    public String voteAnswer(@WebParam(name="qid")int qid,@WebParam(name="aid")int aid, @WebParam(name="up")boolean up, 
+            @WebParam(name="access_token")String access_token,@WebParam(name="user_agent")String user_agent, @WebParam(name="user_ip")String user_ip){
         String Status = "Success";
         Database DB = new Database();
         Connection con = DB.connect();
         PreparedStatement ps = null;
         PreparedStatement checkvote = null;
         try{
-            String Email = IdentityService.getEmail(access_token);
+            String Email = IdentityService.getEmail(access_token,user_agent,user_ip);
             if(Email!=null){
                 checkvote = con.prepareStatement("SELECT up FROM HasVotedAnswer WHERE qid = ? AND aid=? AND Email=?");
                 checkvote.setInt(1,qid);

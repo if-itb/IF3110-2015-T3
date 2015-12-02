@@ -47,8 +47,11 @@
             
             String Email = request.getParameter("Email");
             String Password = request.getParameter("Password");
+            String user_agent = request.getHeader("User-Agent");
+            String user_ip =  request.getRemoteAddr();
             
-            String urlParameters = "Email="+Email+"&AccountPassword="+Password;
+            String urlParameters = "Email="+Email+"&AccountPassword="+Password
+                    +"&user_agent="+user_agent+"&user_ip="+user_ip;
             
             
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());

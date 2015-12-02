@@ -24,23 +24,31 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Answer_QNAME = new QName("http://AnswerModule/", "Answer");
-    private final static QName _DeleteAnswer_QNAME = new QName("http://AnswerModule/", "DeleteAnswer");
-    private final static QName _DeleteAnswerResponse_QNAME = new QName("http://AnswerModule/", "DeleteAnswerResponse");
+    private final static QName _UpdateAnswerResponse_QNAME = new QName("http://AnswerModule/", "UpdateAnswerResponse");
     private final static QName _GetAllAnswer_QNAME = new QName("http://AnswerModule/", "GetAllAnswer");
+    private final static QName _DeleteAnswer_QNAME = new QName("http://AnswerModule/", "DeleteAnswer");
+    private final static QName _VoteAnswer_QNAME = new QName("http://AnswerModule/", "voteAnswer");
+    private final static QName _DeleteAnswerResponse_QNAME = new QName("http://AnswerModule/", "DeleteAnswerResponse");
     private final static QName _GetAllAnswerResponse_QNAME = new QName("http://AnswerModule/", "GetAllAnswerResponse");
     private final static QName _InsertAnswer_QNAME = new QName("http://AnswerModule/", "InsertAnswer");
-    private final static QName _InsertAnswerResponse_QNAME = new QName("http://AnswerModule/", "InsertAnswerResponse");
-    private final static QName _UpdateAnswer_QNAME = new QName("http://AnswerModule/", "UpdateAnswer");
-    private final static QName _UpdateAnswerResponse_QNAME = new QName("http://AnswerModule/", "UpdateAnswerResponse");
-    private final static QName _VoteAnswer_QNAME = new QName("http://AnswerModule/", "voteAnswer");
     private final static QName _VoteAnswerResponse_QNAME = new QName("http://AnswerModule/", "voteAnswerResponse");
+    private final static QName _UpdateAnswer_QNAME = new QName("http://AnswerModule/", "UpdateAnswer");
+    private final static QName _Answer_QNAME = new QName("http://AnswerModule/", "Answer");
+    private final static QName _InsertAnswerResponse_QNAME = new QName("http://AnswerModule/", "InsertAnswerResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: Answer
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link InsertAnswerResponse }
+     * 
+     */
+    public InsertAnswerResponse createInsertAnswerResponse() {
+        return new InsertAnswerResponse();
     }
 
     /**
@@ -52,27 +60,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DeleteAnswer }
+     * Create an instance of {@link UpdateAnswer }
      * 
      */
-    public DeleteAnswer createDeleteAnswer() {
-        return new DeleteAnswer();
-    }
-
-    /**
-     * Create an instance of {@link DeleteAnswerResponse }
-     * 
-     */
-    public DeleteAnswerResponse createDeleteAnswerResponse() {
-        return new DeleteAnswerResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetAllAnswer }
-     * 
-     */
-    public GetAllAnswer createGetAllAnswer() {
-        return new GetAllAnswer();
+    public UpdateAnswer createUpdateAnswer() {
+        return new UpdateAnswer();
     }
 
     /**
@@ -92,27 +84,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link InsertAnswerResponse }
+     * Create an instance of {@link VoteAnswerResponse }
      * 
      */
-    public InsertAnswerResponse createInsertAnswerResponse() {
-        return new InsertAnswerResponse();
+    public VoteAnswerResponse createVoteAnswerResponse() {
+        return new VoteAnswerResponse();
     }
 
     /**
-     * Create an instance of {@link UpdateAnswer }
+     * Create an instance of {@link DeleteAnswerResponse }
      * 
      */
-    public UpdateAnswer createUpdateAnswer() {
-        return new UpdateAnswer();
+    public DeleteAnswerResponse createDeleteAnswerResponse() {
+        return new DeleteAnswerResponse();
     }
 
     /**
-     * Create an instance of {@link UpdateAnswerResponse }
+     * Create an instance of {@link DeleteAnswer }
      * 
      */
-    public UpdateAnswerResponse createUpdateAnswerResponse() {
-        return new UpdateAnswerResponse();
+    public DeleteAnswer createDeleteAnswer() {
+        return new DeleteAnswer();
     }
 
     /**
@@ -124,20 +116,37 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link VoteAnswerResponse }
+     * Create an instance of {@link GetAllAnswer }
      * 
      */
-    public VoteAnswerResponse createVoteAnswerResponse() {
-        return new VoteAnswerResponse();
+    public GetAllAnswer createGetAllAnswer() {
+        return new GetAllAnswer();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Answer }{@code >}}
+     * Create an instance of {@link UpdateAnswerResponse }
      * 
      */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "Answer")
-    public JAXBElement<Answer> createAnswer(Answer value) {
-        return new JAXBElement<Answer>(_Answer_QNAME, Answer.class, null, value);
+    public UpdateAnswerResponse createUpdateAnswerResponse() {
+        return new UpdateAnswerResponse();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link UpdateAnswerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "UpdateAnswerResponse")
+    public JAXBElement<UpdateAnswerResponse> createUpdateAnswerResponse(UpdateAnswerResponse value) {
+        return new JAXBElement<UpdateAnswerResponse>(_UpdateAnswerResponse_QNAME, UpdateAnswerResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllAnswer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "GetAllAnswer")
+    public JAXBElement<GetAllAnswer> createGetAllAnswer(GetAllAnswer value) {
+        return new JAXBElement<GetAllAnswer>(_GetAllAnswer_QNAME, GetAllAnswer.class, null, value);
     }
 
     /**
@@ -150,21 +159,21 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "voteAnswer")
+    public JAXBElement<VoteAnswer> createVoteAnswer(VoteAnswer value) {
+        return new JAXBElement<VoteAnswer>(_VoteAnswer_QNAME, VoteAnswer.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswerResponse }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://AnswerModule/", name = "DeleteAnswerResponse")
     public JAXBElement<DeleteAnswerResponse> createDeleteAnswerResponse(DeleteAnswerResponse value) {
         return new JAXBElement<DeleteAnswerResponse>(_DeleteAnswerResponse_QNAME, DeleteAnswerResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllAnswer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "GetAllAnswer")
-    public JAXBElement<GetAllAnswer> createGetAllAnswer(GetAllAnswer value) {
-        return new JAXBElement<GetAllAnswer>(_GetAllAnswer_QNAME, GetAllAnswer.class, null, value);
     }
 
     /**
@@ -186,12 +195,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswerResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswerResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "InsertAnswerResponse")
-    public JAXBElement<InsertAnswerResponse> createInsertAnswerResponse(InsertAnswerResponse value) {
-        return new JAXBElement<InsertAnswerResponse>(_InsertAnswerResponse_QNAME, InsertAnswerResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "voteAnswerResponse")
+    public JAXBElement<VoteAnswerResponse> createVoteAnswerResponse(VoteAnswerResponse value) {
+        return new JAXBElement<VoteAnswerResponse>(_VoteAnswerResponse_QNAME, VoteAnswerResponse.class, null, value);
     }
 
     /**
@@ -204,30 +213,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UpdateAnswerResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link Answer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "UpdateAnswerResponse")
-    public JAXBElement<UpdateAnswerResponse> createUpdateAnswerResponse(UpdateAnswerResponse value) {
-        return new JAXBElement<UpdateAnswerResponse>(_UpdateAnswerResponse_QNAME, UpdateAnswerResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "Answer")
+    public JAXBElement<Answer> createAnswer(Answer value) {
+        return new JAXBElement<Answer>(_Answer_QNAME, Answer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswerResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "voteAnswer")
-    public JAXBElement<VoteAnswer> createVoteAnswer(VoteAnswer value) {
-        return new JAXBElement<VoteAnswer>(_VoteAnswer_QNAME, VoteAnswer.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswerResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://AnswerModule/", name = "voteAnswerResponse")
-    public JAXBElement<VoteAnswerResponse> createVoteAnswerResponse(VoteAnswerResponse value) {
-        return new JAXBElement<VoteAnswerResponse>(_VoteAnswerResponse_QNAME, VoteAnswerResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://AnswerModule/", name = "InsertAnswerResponse")
+    public JAXBElement<InsertAnswerResponse> createInsertAnswerResponse(InsertAnswerResponse value) {
+        return new JAXBElement<InsertAnswerResponse>(_InsertAnswerResponse_QNAME, InsertAnswerResponse.class, null, value);
     }
 
 }

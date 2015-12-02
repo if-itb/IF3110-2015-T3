@@ -19,6 +19,12 @@
             int qid = Integer.parseInt(str);
             String topic = request.getParameter("Topic");
             String content = request.getParameter("Content");
+            String user_agent = request.getHeader("User-Agent");
+            String user_ip =  request.getRemoteAddr();
+            
+            System.out.println("check");
+            System.out.println(user_agent);
+            System.out.println(user_ip);
             
             //getting token
             String token = (String)session.getAttribute("access_token");
@@ -36,19 +42,20 @@
                     String alert;
                     String url = "";
                     if(qid != 0) {     // edit question
-                      alert = port.updateQuestion(token,qid, topic, content);
+                      alert = port.updateQuestion(token, user_agent, user_ip,
+                              qid, topic, content);
                       str = Integer.toString(qid);
                       url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
                     } else {
-                      str = port.insertQuestion(token, topic, content);
-                      qid = Integer.parseInt(str);
+                      qid = port.insertQuestion(token, user_agent, user_ip,
+                              topic, content);
                       // = Integer.toString(qid);
                       if (qid<=0){
                         alert = "failed";
                         url = "index.jsp";
                       }else{
                         alert = "Success";
-                        url = "/Frontend_Webapp/displayQuestion.jsp?id=" + str;
+                        url = "/Frontend_Webapp/displayQuestion.jsp?id=" + qid;
                       }
                     }
 

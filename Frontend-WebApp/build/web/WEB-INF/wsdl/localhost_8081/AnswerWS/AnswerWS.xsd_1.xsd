@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://AnswerModule/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://AnswerModule/">
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://AnswerModule/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://AnswerModule/">
 
 <xs:element name="Answer" type="tns:answer"/>
 
@@ -46,24 +46,11 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="voteAnswer">
-<xs:sequence>
-<xs:element name="qid" type="xs:int"/>
-<xs:element name="aid" type="xs:int"/>
-<xs:element name="up" type="xs:boolean"/>
-<xs:element name="access_token" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="voteAnswerResponse">
-<xs:sequence>
-<xs:element name="Status" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="DeleteAnswer">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 <xs:element name="aid" type="xs:int"/>
 <xs:element name="qid" type="xs:int"/>
 </xs:sequence>
@@ -75,9 +62,28 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="voteAnswer">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+<xs:element name="aid" type="xs:int"/>
+<xs:element name="up" type="xs:boolean"/>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteAnswerResponse">
+<xs:sequence>
+<xs:element name="Status" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="InsertAnswer">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -92,6 +98,8 @@
 <xs:complexType name="UpdateAnswer">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="user_agent" type="xs:string" minOccurs="0"/>
+<xs:element name="user_ip" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 <xs:element name="aid" type="xs:int"/>
 <xs:element name="qid" type="xs:int"/>

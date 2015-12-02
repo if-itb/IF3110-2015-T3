@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.AbstractMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,8 +33,9 @@ import java.util.UUID;
 @WebServlet(urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
     private static final int defaultlifetime=600; //harus diganti nanti. ini sedikit cuma buat ngetes
-    private static Map<UUID,String> emails=new ConcurrentHashMap<UUID,String>();
-    private static Map<UUID,Calendar> expirations=new ConcurrentHashMap<UUID,Calendar>();
+    private static Map<String,AccessToken> tokens = new ConcurrentHashMap<String,AccessToken>();
+    private static Map<String,String> emails=new ConcurrentHashMap<String,String>();
+    private static Map<String,Calendar> expirations=new ConcurrentHashMap<String,Calendar>();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -45,12 +49,23 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+            System.out.println("check");
+            System.out.println(request.getParameter("user_agent"));
+            System.out.println(request.getParameter("user_ip"));
         //preproses
-        UUID access_token=null;
-        if (request.getParameterMap().containsKey("access_token")){
-            access_token=UUID.fromString(request.getParameter("access_token"));
-            if (emails.containsKey(access_token) && expirations.containsKey(access_token)){
-                if (Calendar.getInstance().before(expirations.get(access_token))){
+        String access_token=null;
+        if (request.getParameterMap().containsKey("access_token")
+                && request.getParameterMap().containsKey("user_agent")
+                && request.getParameterMap().containsKey("user_ip")){
+            access_token=request.getParameter("access_token");
+            if (emails.containsKey(access_token) && expirations.containsKey(access_token)
+                    &&tokens.containsKey(access_token)){
+                AccessToken checkAccessToken = tokens.get(access_token);
+                                
+                if (Calendar.getInstance().before(expirations.get(access_token))
+                        &&request.getParameter("user_agent").equals(checkAccessToken.getUser_agent())
+                        &&request.getParameter("user_ip").equals(checkAccessToken.getUser_ip())){
                     response.setContentType("application/xml");
                     PrintWriter writer=response.getWriter();
                     writer.println("<?xml version=\"1.0\"?>");
@@ -84,10 +99,16 @@ public class Login extends HttpServlet {
         //preprocess
         String Email = "";
         String AccountPassword = "";
+        String user_agent = "";
+        String user_ip = "";
         if (request.getParameterMap().containsKey("Email")
-                && request.getParameterMap().containsKey("AccountPassword")){
+                && request.getParameterMap().containsKey("AccountPassword")
+                && request.getParameterMap().containsKey("user_agent")
+                && request.getParameterMap().containsKey("user_ip")){
             Email=request.getParameter("Email");
             AccountPassword=request.getParameter("AccountPassword");
+            user_agent = request.getParameter("user_agent");
+            user_ip = request.getParameter("user_ip");
         }else{
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -120,20 +141,21 @@ public class Login extends HttpServlet {
             ResultSet selRes= selstmt.executeQuery();
             if (selRes.next()){
                 if (AccountPassword.equals(selRes.getString("AccountPassword"))){
-                    UUID this_UUID = null;
+                    AccessToken this_AccessToken = null;
                     do{
-                        this_UUID=UUID.randomUUID();
-                    }while (emails.containsKey(this_UUID));
-                    emails.put(this_UUID, Email);
+                        this_AccessToken=new AccessToken(user_agent,user_ip);
+                    }while (emails.containsKey(this_AccessToken));
+                    tokens.put(this_AccessToken.toString(),this_AccessToken);
+                    emails.put(this_AccessToken.toString(), Email);
                     Calendar expiration = Calendar.getInstance();
                     expiration.add(Calendar.SECOND, defaultlifetime);
-                    expirations.put(this_UUID, expiration);
-                    response.setHeader("Location", "?access_token="+this_UUID);
+                    expirations.put(this_AccessToken.toString(), expiration);
+                    response.setHeader("Location", "?access_token="+this_AccessToken);
                     response.setContentType("application/xml");
                     PrintWriter writer=response.getWriter();
                     writer.println("<?xml version=\"1.0\"?>");
                     writer.println("<response>");
-                    writer.println("<access_token>"+this_UUID+"</access_token>");
+                    writer.println("<access_token>"+this_AccessToken+"</access_token>");
                     writer.println("<lifetime>"+defaultlifetime+"</lifetime>");
                     writer.println("</response>");
                     response.setStatus(HttpServletResponse.SC_CREATED);
@@ -178,9 +200,15 @@ public class Login extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
-        if (request.getParameterMap().containsKey("access_token")){
-            UUID access_token=UUID.fromString(request.getParameter("access_token"));
-            if (emails.containsKey(access_token) && expirations.containsKey(access_token)){
+        if (request.getParameterMap().containsKey("access_token")
+                && request.getParameterMap().containsKey("user_agent")
+                && request.getParameterMap().containsKey("user_ip")){
+            String access_token=request.getParameter("access_token");
+            AccessToken checkAccessToken = tokens.get(access_token);
+            if (checkAccessToken!=null)                    
+            if (emails.containsKey(access_token) && expirations.containsKey(access_token)
+                        &&request.getParameter("user_agent").equals(checkAccessToken.getUser_agent())
+                        &&request.getParameter("user_ip").equals(checkAccessToken.getUser_ip())){
                 emails.remove(access_token);
                 expirations.remove(access_token);
                 response.setStatus(HttpServletResponse.SC_NO_CONTENT);

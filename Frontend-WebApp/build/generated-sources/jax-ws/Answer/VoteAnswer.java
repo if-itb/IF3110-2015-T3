@@ -13,18 +13,20 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="voteAnswer"&gt;
- *   &lt;complexContent&gt;
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
- *       &lt;sequence&gt;
- *         &lt;element name="qid" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
- *         &lt;element name="aid" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
- *         &lt;element name="up" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
- *         &lt;element name="access_token" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
- *       &lt;/sequence&gt;
- *     &lt;/restriction&gt;
- *   &lt;/complexContent&gt;
- * &lt;/complexType&gt;
+ * &lt;complexType name="voteAnswer">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="qid" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="aid" type="{http://www.w3.org/2001/XMLSchema}int"/>
+ *         &lt;element name="up" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="access_token" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="user_agent" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="user_ip" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
  * </pre>
  * 
  * 
@@ -34,7 +36,9 @@ import javax.xml.bind.annotation.XmlType;
     "qid",
     "aid",
     "up",
-    "accessToken"
+    "accessToken",
+    "userAgent",
+    "userIp"
 })
 public class VoteAnswer {
 
@@ -43,6 +47,10 @@ public class VoteAnswer {
     protected boolean up;
     @XmlElement(name = "access_token")
     protected String accessToken;
+    @XmlElement(name = "user_agent")
+    protected String userAgent;
+    @XmlElement(name = "user_ip")
+    protected String userIp;
 
     /**
      * Gets the value of the qid property.
@@ -114,6 +122,54 @@ public class VoteAnswer {
      */
     public void setAccessToken(String value) {
         this.accessToken = value;
+    }
+
+    /**
+     * Gets the value of the userAgent property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    /**
+     * Sets the value of the userAgent property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setUserAgent(String value) {
+        this.userAgent = value;
+    }
+
+    /**
+     * Gets the value of the userIp property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getUserIp() {
+        return userIp;
+    }
+
+    /**
+     * Sets the value of the userIp property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setUserIp(String value) {
+        this.userIp = value;
     }
 
 }

@@ -34,7 +34,7 @@ response:
 -------------------------------------
 Identity_Service/Login
 GET:
-required parameters: access_token
+required parameters: access_token,user_agent,user_ip
 response:
 	404 if access token not found
 	401 UNAUTHORIZED if access token expired
@@ -46,7 +46,7 @@ response:
 		<Email>EMAIL HERE</Email>
 
 POST
-required parameters: Email, AccountPassword
+required parameters: Email, AccountPassword,user_agent,user_ip
 response: 
 	if some required parameters aren't supplied: 400 - BAD REQUEST
 	if keys (Email and AccountPassword) are invalid: 401 - UNAUTHORIZED
@@ -59,7 +59,7 @@ response:
 		</response>
 	
 DELETE
-required parameters: access_token
+required parameters: access_token,user_agent,user_ip
 response:
 	404 if access token not found
 	204 NO CONTENT if access token found and successfully deleted

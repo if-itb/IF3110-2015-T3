@@ -18,6 +18,8 @@
             String str = request.getParameter("id");
             int qid = Integer.parseInt(str);
             String content = request.getParameter("Content");
+            String user_agent = request.getHeader("User-Agent");
+            String user_ip =  request.getRemoteAddr();
             
             //getting token
             String token = (String)session.getAttribute("access_token");
@@ -35,7 +37,8 @@
                     String alert;
                     String url = "";
                     
-                    str = port.insertAnswer(token, qid, content);
+                    str = port.insertAnswer(token, user_agent, user_ip, 
+                            qid, content);
                     // = Integer.toString(qid);
                     if (!str.equals("Success")){
                       alert = str;
