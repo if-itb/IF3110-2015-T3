@@ -60,7 +60,11 @@ public class Comment extends HttpServlet {
         Statement stmt = conn.createStatement();
         String sql;
 
-        sql = "SELECT * FROM comment_question WHERE id_question = ?";
+        sql = "SELECT comments.id, id_question, content, name FROM "
+          + "  (SELECT * FROM comment_question WHERE id_question = ?) AS comments "
+          + "   LEFT JOIN "
+          + "  (SELECT id, name FROM users) AS user "
+          + "   ON comments.id_user = user.id";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setString(1, qid);
 
@@ -71,7 +75,7 @@ public class Comment extends HttpServlet {
             JSONObject obj = new JSONObject();
             obj.put("id", rs.getInt("id"));
             obj.put("q_id", rs.getInt("id_question"));
-            obj.put("u_id", rs.getInt("id_user"));
+            obj.put("user", rs.getString("name"));
             obj.put("content", rs.getString("content"));
 
             ret.add(obj);
