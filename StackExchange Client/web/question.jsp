@@ -101,7 +101,7 @@
             <div class="row">
                 <div class="comment col-10 col-push-2" ng-controller="commentController as comment">
                     <div class="comment-item" ng-repeat="commentItem in comment.commentItems">
-                        <p>{{ commentItem.content }} - <span class="author">{{ commentItem.username }}</span></p>
+                        <p>{{ commentItem.content }} - <span class="author">{{ commentItem.user }}</span></p>
                     </div>
                 </div>
             </div>

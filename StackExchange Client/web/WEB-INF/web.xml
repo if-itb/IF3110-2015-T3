@@ -71,6 +71,10 @@
         <servlet-name>QuestionEditor</servlet-name>
         <servlet-class>Question.QuestionEditor</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QuestionComment</servlet-name>
+        <servlet-class>Question.QuestionComment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -138,6 +142,10 @@
     <servlet-mapping>
         <servlet-name>QuestionEditor</servlet-name>
         <url-pattern>/questioneditor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionComment</servlet-name>
+        <url-pattern>/QuestionComment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
