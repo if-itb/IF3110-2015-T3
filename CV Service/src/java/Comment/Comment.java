@@ -24,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -49,7 +50,7 @@ public class Comment extends HttpServlet {
   protected void processGetRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
     response.setContentType("application/json");
-    JSONObject obj = new JSONObject();
+    JSONArray ret = new JSONArray();
     
     try (PrintWriter out = response.getWriter()) {
       
@@ -66,21 +67,29 @@ public class Comment extends HttpServlet {
         ResultSet rs = dbStatement.executeQuery();
         if(rs.next()){
 
-          obj.put("id", rs.getInt("id"));
-          obj.put("q_id", rs.getInt("id_question"));
-          obj.put("u_id", rs.getInt("id_user"));
-          obj.put("content", rs.getString("content"));
+          do {
+            JSONObject obj = new JSONObject();
+            obj.put("id", rs.getInt("id"));
+            obj.put("q_id", rs.getInt("id_question"));
+            obj.put("u_id", rs.getInt("id_user"));
+            obj.put("content", rs.getString("content"));
 
-          out.print(obj);
-          
+            ret.add(obj);
+          } while(rs.next());
+           
+          out.print(ret); 
         } else {
-          obj.put("error", "no result");  
-          out.print(obj);        
+          JSONObject obj = new JSONObject();
+          obj.put("error", "no result");
+          ret.add(obj);
+          out.print(ret);        
         }
         stmt.close();
       } catch (SQLException ex) {
-          obj.put("error", ex);  
-          out.print(obj);        
+        JSONObject obj = new JSONObject();
+        obj.put("error", ex);  
+        ret.add(obj);
+        out.print(ret);        
       }      
     }
   }
