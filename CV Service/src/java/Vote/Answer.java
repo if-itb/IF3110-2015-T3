@@ -5,6 +5,7 @@
  */
 package Vote;
 
+import Auth.Auth;
 import Database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -96,51 +97,60 @@ public class Answer extends HttpServlet {
       String aid = request.getParameter("aid");
       String uid = request.getParameter("uid");
       String value = request.getParameter("value");
+      String token = request.getParameter("token");
       
-      try {
-          int count = 0;
-        
-          Statement stmt = conn.createStatement();
-          String sql;
-          PreparedStatement dbStatement;
+      Auth auth = new Auth();
+      int ret = auth.check(token);
+      
+      if ( ret == 1 ) {
+        try {
+            int count = 0;
 
-          sql = "SELECT * FROM vote_answer WHERE id_user = ? AND id_answer = ?";
-          dbStatement = conn.prepareStatement(sql);
-          dbStatement.setInt(1, Integer.parseInt(uid));
-          dbStatement.setInt(2, Integer.parseInt(aid));
+            Statement stmt = conn.createStatement();
+            String sql;
+            PreparedStatement dbStatement;
 
-          ResultSet rs = dbStatement.executeQuery();
-
-          // Extract data from result set
-          while(rs.next()){        
-            ++count;
-          }
-
-          if ( count == 0 ) {
-            sql = "INSERT INTO vote_answer (id_user, id_answer, value) VALUES (?, ?, ?)";
+            sql = "SELECT * FROM vote_answer WHERE id_user = ? AND id_answer = ?";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, Integer.parseInt(uid));
             dbStatement.setInt(2, Integer.parseInt(aid));
-            dbStatement.setInt(3, Integer.parseInt(value));
 
-            dbStatement.executeUpdate();
-          } else {
-            sql = "UPDATE vote_answer SET value = ? WHERE id_user = ? AND id_answer = ?";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, Integer.parseInt(value));
-            dbStatement.setInt(2, Integer.parseInt(uid));
-            dbStatement.setInt(3, Integer.parseInt(aid));
+            ResultSet rs = dbStatement.executeQuery();
 
-            dbStatement.executeUpdate();              
-          }
-          
-          obj.put("error", "success");  
-          out.print(obj);   
+            // Extract data from result set
+            while(rs.next()){        
+              ++count;
+            }
 
-          stmt.close();
-      } catch(SQLException ex) {
-          obj.put("error", ex);  
-          out.print(obj);    
+            if ( count == 0 ) {
+              sql = "INSERT INTO vote_answer (id_user, id_answer, value) VALUES (?, ?, ?)";
+              dbStatement = conn.prepareStatement(sql);
+              dbStatement.setInt(1, Integer.parseInt(uid));
+              dbStatement.setInt(2, Integer.parseInt(aid));
+              dbStatement.setInt(3, Integer.parseInt(value));
+
+              dbStatement.executeUpdate();
+            } else {
+              sql = "UPDATE vote_answer SET value = ? WHERE id_user = ? AND id_answer = ?";
+              dbStatement = conn.prepareStatement(sql);
+              dbStatement.setInt(1, Integer.parseInt(value));
+              dbStatement.setInt(2, Integer.parseInt(uid));
+              dbStatement.setInt(3, Integer.parseInt(aid));
+
+              dbStatement.executeUpdate();              
+            }
+
+            obj.put("error", "success");  
+            out.print(obj);   
+
+            stmt.close();
+        } catch(SQLException ex) {
+            obj.put("error", ex);  
+            out.print(obj);    
+        }
+      } else {
+        obj.put("error", "validation");  
+        out.print(obj);  
       }
       
     }

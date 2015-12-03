@@ -5,6 +5,7 @@
  */
 package Comment;
 
+import Auth.Auth;
 import Database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -117,29 +118,36 @@ public class Comment extends HttpServlet {
       String qid = request.getParameter("qid");
       String uid = request.getParameter("uid");
       String content = request.getParameter("content");
+      String token = request.getParameter("token");
       
-      System.out.println(qid);
+      Auth auth = new Auth();
+      int ret = auth.check(token);
       
-      try {      
-        Statement stmt = conn.createStatement();
-        String sql;
+      if ( ret == 1 ) {
+        try {      
+          Statement stmt = conn.createStatement();
+          String sql;
 
-        sql = "INSERT INTO comment_question (id_question, id_user, content) VALUES (?, ?, ?)";
-        PreparedStatement dbStatement = conn.prepareStatement(sql);
-        dbStatement.setInt(1, Integer.valueOf(qid));
-        dbStatement.setInt(2, Integer.valueOf(uid));
-        dbStatement.setString(3, content);
+          sql = "INSERT INTO comment_question (id_question, id_user, content) VALUES (?, ?, ?)";
+          PreparedStatement dbStatement = conn.prepareStatement(sql);
+          dbStatement.setInt(1, Integer.valueOf(qid));
+          dbStatement.setInt(2, Integer.valueOf(uid));
+          dbStatement.setString(3, content);
 
-        dbStatement.executeUpdate();
+          dbStatement.executeUpdate();
 
-        stmt.close();
-        obj.put("error", "success");  
-        out.print(obj);       
-          
-      } catch (SQLException ex) {
-          obj.put("error", ex);  
-          out.print(obj);        
-      }      
+          stmt.close();
+          obj.put("error", "success");  
+          out.print(obj);       
+
+        } catch (SQLException ex) {
+            obj.put("error", ex);  
+            out.print(obj);        
+        }      
+      } else {
+        obj.put("error", "validation");  
+        out.print(obj);        
+      }
     }
   }
   
