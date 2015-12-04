@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://question.model/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://question.model/">
+
+<xs:element name="Question" type="tns:question"/>
+
+<xs:element name="addQuestion" type="tns:addQuestion"/>
+
+<xs:element name="addQuestionResponse" type="tns:addQuestionResponse"/>
+
+<xs:element name="deleteQuestion" type="tns:deleteQuestion"/>
+
+<xs:element name="deleteQuestionResponse" type="tns:deleteQuestionResponse"/>
+
+<xs:element name="editQuestion" type="tns:editQuestion"/>
+
+<xs:element name="editQuestionResponse" type="tns:editQuestionResponse"/>
+
+<xs:element name="getAllQuestions" type="tns:getAllQuestions"/>
+
+<xs:element name="getAllQuestionsResponse" type="tns:getAllQuestionsResponse"/>
+
+<xs:element name="getQuestionByID" type="tns:getQuestionByID"/>
+
+<xs:element name="getQuestionByIDResponse" type="tns:getQuestionByIDResponse"/>
+
+<xs:element name="searchQuestions" type="tns:searchQuestions"/>
+
+<xs:element name="searchQuestionsResponse" type="tns:searchQuestionsResponse"/>
+
+<xs:complexType name="editQuestion">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="question_id" type="xs:int"/>
+<xs:element name="topic" type="xs:string" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="editQuestionResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addQuestion">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="topic" type="xs:string" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addQuestionResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAllQuestions">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getAllQuestionsResponse">
+<xs:sequence>
+<xs:element name="Question" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="question">
+<xs:sequence>
+<xs:element name="content" type="xs:string"/>
+<xs:element name="create_time" type="xs:string"/>
+<xs:element name="question_id" type="xs:int"/>
+<xs:element name="topic" type="xs:string"/>
+<xs:element name="user_id" type="xs:int"/>
+<xs:element name="vote" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByID">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByIDResponse">
+<xs:sequence>
+<xs:element name="Question" type="tns:question" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestion">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="question_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestionResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchQuestions">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchQuestionsResponse">
+<xs:sequence>
+<xs:element name="Question" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

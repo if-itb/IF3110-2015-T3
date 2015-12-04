@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://user.model/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://user.model/">
+
+<xs:element name="User" type="tns:user"/>
+
+<xs:element name="addUser" type="tns:addUser"/>
+
+<xs:element name="getIDbyEmail" type="tns:getIDbyEmail"/>
+
+<xs:element name="getIDbyEmailResponse" type="tns:getIDbyEmailResponse"/>
+
+<xs:element name="getUserByID" type="tns:getUserByID"/>
+
+<xs:element name="getUserByIDResponse" type="tns:getUserByIDResponse"/>
+
+<xs:element name="getUserByToken" type="tns:getUserByToken"/>
+
+<xs:element name="getUserByTokenResponse" type="tns:getUserByTokenResponse"/>
+
+<xs:complexType name="addUser">
+<xs:sequence>
+<xs:element name="u" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="email" type="xs:string"/>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="password" type="xs:string"/>
+<xs:element name="user_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByID">
+<xs:sequence>
+<xs:element name="user_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByIDResponse">
+<xs:sequence>
+<xs:element name="User" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIDbyEmail">
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getIDbyEmailResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByToken">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByTokenResponse">
+<xs:sequence>
+<xs:element name="User" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
