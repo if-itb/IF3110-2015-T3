@@ -1,0 +1,21 @@
+/FrontEnd/nbproject/private/
+/Identity/nbproject/private/
+/Webservice/nbproject/private/
+/FrontEnd/build/
+/Identity/build/
+/Webservice/build/
+/Webservice/dist/
+/WS/nbproject/private/
+/WS/build/
+/WebServiceRESTTest/nbproject/private/
+/Identity/dist/
+/WebServiceRESTTest/dist/
+/WebServiceRESTTest/build/
+.properties
+.xml
+.jar
+<<<<<<< HEAD
+/WS/dist/
+=======
+/FrontEnd/dist/
+>>>>>>> origin/master
