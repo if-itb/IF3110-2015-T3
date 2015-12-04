@@ -1,0 +1,188 @@
+h1,h2,h3,h4,h5 {
+	font-weight: 300;
+}
+
+body {
+  font-size: 1em; 
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: 'Raleway', sans-serif;
+  color: #222; 
+}
+
+hr {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-width: 0;
+  border-top: 1px solid #E1E1E1; 
+}
+
+a {
+  color: #DB5C1E; 
+  text-decoration: none ;}
+a:hover {
+  text-decoration: underline;
+
+}
+
+.homelink{
+	color: #000000;
+	text-decoration: none;
+}
+
+.homelink:hover{
+	color: #000000;
+	text-decoration: none;
+}
+
+.linkdelete{
+	color: #FF244E;
+}
+
+.linkedit{
+	color: #FFC024;
+}
+
+.linkname{
+	color: #2458FF;
+}
+
+#title {
+	text-align: center;
+	font-size: 3.2em;
+}
+
+.title2 {
+	color: #9D9D9D;
+}
+
+.votes, .answers{
+	width: 8%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.questiontitle{
+	width: 35%;
+	vertical-align: middle;
+	text-align: justify;
+	padding-left: 3em;
+}
+
+.questiontitle>a{
+	font-weight: 700;
+	color: #000000;
+}
+
+.detail{
+	text-align: right;
+	width: 41%;
+	vertical-align: bottom;
+}
+
+
+.stack{
+	width: 100%;
+}
+
+.stack>div{
+	display: inline-block;
+}
+
+
+.stackquestion>.votes, .stackquestion>.content{
+	display: inline-block;
+}
+
+.stackanswer>.votes, .stackanswer>.content{
+	display: inline-block;
+}
+
+.stackquestion>.content, .stackanswer>.content{
+	width: 91.5%;
+	vertical-align: middle;
+	text-align: justify;
+}
+
+.stackquestion>.detail, .stackanswer>.detail{
+	float: right;
+	clear: both;
+	width: auto;
+}
+
+.status>.content{
+	text-align: center;
+}
+
+h1.center{
+	text-align: center;
+}
+
+.login>.content {
+	width: 50%;
+	margin: auto;
+}
+
+.search{
+	width: 70%;
+	margin: auto;
+	text-align: center;
+}
+
+#searchbar {
+	width: 70%;
+}
+
+#searchsubmit {
+	width: 25%;
+}
+
+.container {
+	width: 960px;
+	margin: auto ;
+	padding: 0;
+}
+
+.textbox, .textarea{
+	padding-left: .5em;
+	width: 99%;
+	height: 2em;
+	margin-bottom: 0.5em;
+	font-weight: 200;
+  	font-family: 'Raleway', sans-serif;
+	font-size: 1em;	
+}
+
+.textarea {
+	height: 12em;
+	padding-top: .5em;
+}
+
+#post{
+	float: right;
+	clear: both;
+	font-size: 1em;
+}
+
+form{
+	width: 100%;
+	margin: auto;
+}
+
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	margin: auto;
+	border-bottom: 20px solid #B6B6B6;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	margin: auto;
+	border-top: 20px solid #B6B6B6;
+}
