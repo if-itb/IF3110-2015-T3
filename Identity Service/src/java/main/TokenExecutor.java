@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework.
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
  */
 package main;
 
@@ -16,9 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * @author Irene Wiliudarsan - 13513002
- * @author Angela Lynn - 13513032
- * @author Devina Ekawati - 13513088
+ * Kelas untuk melakukan validasi terhadap token pada basis data
  */
 public class TokenExecutor {
   // Atribut
@@ -28,17 +30,18 @@ public class TokenExecutor {
   private Connection connection;
   
   // Konstruktor
-  public TokenExecutor(String email, String password) {
+  // Konstruktor pada saat pengguna ingin melakukan log in
+  public TokenExecutor(String email, String password, String userAgent, String ipAddress) {
     // Periksa apakah email dan password ada di basis data
     try {
       // Connect database
       Database database = new Database();
       connection = database.connectDatabase();
-        idUser = getIdUser(email, password);
+        getIdUser(email, password);
         if (idUser != -999999) {
-          token = new Token(email, password);
+          token = new Token(email, password, userAgent, ipAddress);
           isValid = true;
-          LogIn(idUser);
+          LogIn();
         } else {
           // Kirim pesan error
           token = new Token();
@@ -49,6 +52,8 @@ public class TokenExecutor {
       System.out.println(ex.getMessage());
     }
   }
+  
+  // Konstruktor untuk validasi pada saat pengguna ingin melakukan suatu operasi pada web
   public TokenExecutor(String accessToken) {
     token = new Token();
     token.setAccessToken(accessToken);
@@ -77,10 +82,8 @@ public class TokenExecutor {
   }
   
   // Method
-  private void LogIn(int idUser) throws SQLException {
-    addToken(idUser);
-  }
-  private void addToken(int idUser) throws SQLException {
+  // Menyimpan token dengan ID user yang telah didapatkan dari basis data
+  private void LogIn() throws SQLException {
     // Menjalankan query
     try (Statement statement = connection.createStatement()) {
       // Menjalankan query
@@ -89,8 +92,8 @@ public class TokenExecutor {
       statement.close();
     }
   }
-  private int getIdUser(String email, String password) throws SQLException {
-    int idUser;
+  
+  private void getIdUser(String email, String password) throws SQLException {
     // Menjalankan query
     String query = "SELECT id_user FROM user WHERE email = ? AND password = ?";
     PreparedStatement dbStatement = connection.prepareStatement(query);
@@ -98,31 +101,16 @@ public class TokenExecutor {
     dbStatement.setString(2, password);
     ResultSet result = dbStatement.executeQuery();
     if (result.next()) {
-      // Email and password matched
+      // Email dan password sesuai
       idUser = result.getInt("id_user");
     } else {
       idUser = -999999;
     }
     result.close();
-    return idUser;
   }
-  private void checkTokenLifetimeExisted() throws SQLException {
-    try (Statement statement = connection.createStatement()) {
-      // Menjalankan query
-      String query = "SELECT id_user FROM user WHERE token = ? AND lifetime = ?";
-      PreparedStatement databaseStatement = connection.prepareStatement(query);
-      databaseStatement.setString(1, token.getAccessToken());
-      databaseStatement.setTimestamp(2, token.getLifetime());
-      ResultSet result = databaseStatement.executeQuery(query);
-      if (result.next()) {
-        // Token ada
-        isValid = true;
-      } else {
-        isValid = false;
-      }
-      result.close();
-    }
-  }
+  
+  // Memeriksa apakah sebuah token terdapat di basis data dan
+  // memiliki lifetime yang masih berlaku
   private void checkTokenValid() throws SQLException {
     try (Statement statement = connection.createStatement()) {
       // Menjalankan query
@@ -140,6 +128,7 @@ public class TokenExecutor {
           isValid = false;
         }
       } else {
+        // Token tidak ada pada basis data
         idUser = -999999;
         isValid = false;
       }
@@ -147,6 +136,8 @@ public class TokenExecutor {
       statement.close();
     }
   }
+  
+  // Mendapatkan nama pengguna untuk ditampilkan pada setiap halaman web dari basis data
   public String getUserName() {
     String name = "not-valid";
     try (Statement statement = connection.createStatement()) {
@@ -164,6 +155,8 @@ public class TokenExecutor {
     }
     return name;
   }
+  
+  // Mendapatkan nama dan email pengguna untuk ditampilkan pada form menjawab dan bertanya pada basis data
   public ArrayList<String> getUserIdentity() {
     ArrayList<String> identity = new ArrayList<String>();
     try (Statement statement = connection.createStatement()) {
@@ -182,6 +175,8 @@ public class TokenExecutor {
     }
     return identity;
   }
+  
+  // Menutup koneksi pada basis data
   public void closeConnection() {
     try {
       connection.close();

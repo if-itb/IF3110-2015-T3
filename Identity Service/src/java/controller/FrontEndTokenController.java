@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework.
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
  */
 package controller;
 
@@ -15,9 +19,7 @@ import org.json.simple.JSONObject;
 import main.*;
 
 /**
- * @author Irene Wiliudarsan - 13513002
- * @author Angela Lynn - 13513032
- * @author Devina Ekawati - 13513088
+ * Kelas yang menerima request servlet dari front-end saat melakukan log in.
  */
 public class FrontEndTokenController extends HttpServlet {
 
@@ -44,8 +46,19 @@ public class FrontEndTokenController extends HttpServlet {
     String email = request.getParameter("email");
     String password = request.getParameter("password");
     try (PrintWriter out = response.getWriter()) {
+      // Mendapatkan user agent browser
+      //String userAgent = request.getHeader("User-Agent");
+      String userAgent = "test";
+      
+      // Mendapatkan IP Address
+      // Memeriksa apakah client terhubung melalui proxy atau load balancer
+      String ipAddress = request.getHeader("X-FORWARDED-FOR");
+      if (ipAddress == null) {  
+        ipAddress = request.getRemoteAddr();
+      }
+      TokenExecutor executor = new TokenExecutor(email, password, userAgent, ipAddress);
+      
       JSONObject obj = new JSONObject();
-      TokenExecutor executor = new TokenExecutor(email, password);
       obj.put("access_token", executor.getToken().getAccessToken());
       out.print(obj);
       out.close();

@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework.
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
  */
 package controller;
 
@@ -16,8 +20,8 @@ import main.TokenExecutor;
 import org.json.simple.JSONObject;
 
 /**
- *
- * @author User
+ * Kelas yang menerima request servlet dari front-end saat 
+ * memuat halaman form penambahan pertanyaan, answer, dan comment.
  */
 public class UserIdentityController extends HttpServlet {
 
@@ -44,10 +48,21 @@ public class UserIdentityController extends HttpServlet {
     response.setHeader("Access-Control-Max-Age", "86400");
     String token = request.getParameter("token");
     try (PrintWriter out = response.getWriter()) {
-      JSONObject obj = new JSONObject();
+      // Mendapatkan user agent browser
+      //String userAgent = request.getHeader("User-Agent");
+      String userAgent = "test";
+      
+      // Mendapatkan IP Address
+      // Memeriksa apakah client terhubung melalui proxy atau load balancer
+      String ipAddress = request.getHeader("X-FORWARDED-FOR");
+      if (ipAddress == null) {  
+        ipAddress = request.getRemoteAddr();
+      }
       TokenExecutor executor = new TokenExecutor(token);
       ArrayList<String> identity = new ArrayList<String>();
       identity = executor.getUserIdentity();
+      
+      JSONObject obj = new JSONObject();
       obj.put("user_name", identity.get(0));
       obj.put("user_email", identity.get(1));
       out.print(obj);

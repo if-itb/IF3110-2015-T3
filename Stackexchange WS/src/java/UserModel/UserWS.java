@@ -182,7 +182,6 @@ public class UserWS {
         }
         try {
           JSONObject tokenResponse = new JSONObject(response);
-          //result = tokenResponse.getString("token");
           valid = tokenResponse.getBoolean("is_valid");
           userId = tokenResponse.getInt("id_user");
         } catch (JSONException ex) {
