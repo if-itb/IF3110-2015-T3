@@ -137,6 +137,19 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="searchQ">
+<xs:sequence>
+<xs:element name="QuestionTopic" type="xs:string" minOccurs="0"/>
+<xs:element name="Content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchQResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="createQ">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
@@ -148,19 +161,6 @@
 <xs:complexType name="createQResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="searchQ">
-<xs:sequence>
-<xs:element name="QuestionTopic" type="xs:string" minOccurs="0"/>
-<xs:element name="Content" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="searchQResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
