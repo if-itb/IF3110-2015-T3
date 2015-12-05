@@ -35,7 +35,10 @@ public class TokenGenerator {
     
     public TokenGenerator(int lifetime, String userAgent, String ip) {
         this.token = UUID.randomUUID().toString();
-        this.token.concat('#'+userAgent+"#"+ip);
+         String temp1= "#" +userAgent;
+         String temp2= "#" +ip;
+        this.token= this.token + temp1+ temp2;
+        //this.token.concat('#'+userAgent+"#"+ip);
         DB db = new DB();
         Connection conn = db.connect();
         
