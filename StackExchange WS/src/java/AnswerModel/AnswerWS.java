@@ -73,10 +73,10 @@ public class AnswerWS {
    * Web service operation
    */
   @WebMethod(operationName = "insertAnswer")
-  public int insertAnswer(@WebParam(name = "token") String token, @WebParam(name = "answer") Answer answer) {
+  public int insertAnswer(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent, @WebParam(name = "answer") Answer answer) {
     
     Auth auth = new Auth();
-    int ret = auth.check(token);
+    int ret = auth.check(token,userIP,userAgent);
     
     if ( ret == 1 ) {
       try {      

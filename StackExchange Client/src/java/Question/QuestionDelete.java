@@ -42,10 +42,16 @@ public class QuestionDelete extends HttpServlet {
         Tools tools = new Tools();
         String access_token = tools.getCookie("access_token", request);
         
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
+        
         int id_question = Integer.parseInt(request.getParameter("id_question"));
         int id_user = Integer.parseInt(request.getParameter("id_user"));
         
-        int ret = deleteQuestion(access_token, id_question, id_user);
+        int ret = deleteQuestion(access_token, userIP, userAgent, id_question, id_user);
                 
         switch (ret) {
           case 1:
@@ -103,12 +109,12 @@ public class QuestionDelete extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int deleteQuestion(java.lang.String token, int id, int uid) {
+    private int deleteQuestion(java.lang.String token, java.lang.String userIP, java.lang.String userAgent, int id, int uid) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.deleteQuestion(token, id, uid);
+        return port.deleteQuestion(token, userIP, userAgent, id, uid);
     }
 
-
+    
 }

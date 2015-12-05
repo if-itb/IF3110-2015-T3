@@ -40,12 +40,18 @@ public class AnswerNew extends HttpServlet {
         Tools tools = new Tools();
         String access_token = tools.getCookie("access_token", request);
         
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
+        
         AnswerWS.Answer answer = new Answer();
         
         answer.setContent(request.getParameter("content"));
         answer.setIdQuestion(Integer.parseInt(request.getParameter("qid")));
         
-        int ret = insertAnswer(access_token, answer);
+        int ret = insertAnswer(access_token, userIP, userAgent, answer);
         
         switch (ret) {
           case 1:
@@ -102,11 +108,11 @@ public class AnswerNew extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int insertAnswer(java.lang.String token, AnswerWS.Answer answer) {
+    private int insertAnswer(java.lang.String token, java.lang.String userIP, java.lang.String userAgent, AnswerWS.Answer answer) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         AnswerWS.AnswerWS port = service.getAnswerWSPort();
-        return port.insertAnswer(token, answer);
+        return port.insertAnswer(token, userIP, userAgent, answer);
     }
 
 }

@@ -43,12 +43,21 @@ public class Auth extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+    System.setProperty("java.net.preferIPv6Addresses", "false");
     
     JSONParser parser = new JSONParser();    
     try {
       String charset = "UTF-8";
       String email = request.getParameter("email");
       String password = request.getParameter("password");
+      
+      String userIP = request.getHeader("X-FORWARDED-FOR");  
+      if (userIP == null) {  
+          userIP = request.getRemoteAddr();  
+      }
+      String userAgent = request.getHeader("User-Agent");
+      request.setAttribute("userIP", userIP);
+      request.setAttribute("userAgent", userAgent);
       
       URL url = new URL("http://localhost:8082/Identity_Service/login");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -57,9 +66,11 @@ public class Auth extends HttpServlet {
       conn.setRequestProperty("Accept-Charset", charset);
       conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
      
-      String query = String.format("email=%s&password=%s", 
+      String query = String.format("email=%s&password=%s&userIP=%s&userAgent=%s", 
                                     URLEncoder.encode(email, charset), 
-                                    URLEncoder.encode(password, charset));
+                                    URLEncoder.encode(password, charset),
+                                    URLEncoder.encode(userIP, charset),
+                                    URLEncoder.encode(userAgent, charset));
       
       try (OutputStream output = conn.getOutputStream()) {
           output.write(query.getBytes(charset));

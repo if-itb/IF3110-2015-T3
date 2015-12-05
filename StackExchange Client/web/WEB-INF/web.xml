@@ -75,10 +75,6 @@
         <servlet-name>QuestionComment</servlet-name>
         <servlet-class>Question.QuestionComment</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Validate</servlet-name>
-        <servlet-class>User.Validate</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -150,10 +146,6 @@
     <servlet-mapping>
         <servlet-name>QuestionComment</servlet-name>
         <url-pattern>/QuestionComment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Validate</servlet-name>
-        <url-pattern>/validate</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

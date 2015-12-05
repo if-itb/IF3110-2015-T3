@@ -112,9 +112,9 @@ public class UserWS {
      * Web service operation
      */
     @WebMethod(operationName = "logoutUser")
-    public int logoutUser(@WebParam(name = "token") String token) {
+    public int logoutUser(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent) {
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
 
       if ( ret == 1 ) {
         try {
@@ -140,9 +140,9 @@ public class UserWS {
      * Web service operation
      */
     @WebMethod(operationName = "getUserByToken")
-    public User getUserByToken(@WebParam(name = "token") String token) {
+    public User getUserByToken(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent) {
         Auth auth = new Auth();
-        int ret = auth.check(token);
+        int ret = auth.check(token,userIP,userAgent);
         User user = null;
         if (ret == 1) {
             try {

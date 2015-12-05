@@ -38,9 +38,9 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "deleteQuestion")
-    public int deleteQuestion(@WebParam(name = "token") String token, @WebParam(name = "id") int id, @WebParam(name = "uid") int uid) {
+    public int deleteQuestion(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent, @WebParam(name = "id") int id, @WebParam(name = "uid") int uid) {
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
       
       if ( ret == 1 ) {
         try {
@@ -67,9 +67,9 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "insertQuestion")
-    public int insertQuestion(@WebParam(name = "token") String token, @WebParam(name = "question") Question question) {
+    public int insertQuestion(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent, @WebParam(name = "question") Question question) {
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
 
       if ( ret == 1 ) {
         try {
@@ -96,10 +96,10 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "updateQuestion")
-    public int updateQuestion(@WebParam(name = "token") String token, @WebParam(name = "question") Question question) {
+    public int updateQuestion(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent, @WebParam(name = "question") Question question) {
         
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
 
       if ( ret == 1 ) {
         try {
@@ -223,10 +223,10 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "voteQuestion")
-    public int voteQuestion(@WebParam(name = "token") String token, @WebParam(name = "qid") int qid, @WebParam(name = "value") int value) {
+    public int voteQuestion(@WebParam(name = "token") String token, @WebParam(name = "userIP") String userIP, @WebParam(name = "userAgent") String userAgent, @WebParam(name = "qid") int qid, @WebParam(name = "value") int value) {
         
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
 
       if ( ret == 1 ) {
         try {

@@ -55,7 +55,14 @@ public class Logout extends HttpServlet {
     processRequest(request, response);
     
     Tools tools = new Tools();
-    logoutUser(tools.getCookie("access_token", request));
+    
+    String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
+        
+    logoutUser(tools.getCookie("access_token", request), userIP, userAgent);
     
     Cookie ck = new Cookie("access_token", "youvebeenlogout");
     response.addCookie(ck);
@@ -88,11 +95,11 @@ public class Logout extends HttpServlet {
     return "Short description";
   }// </editor-fold>
 
-  private int logoutUser(java.lang.String token) {
-    // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-    // If the calling of port operations may lead to race condition some synchronization is required.
-    UserWS.UserWS port = service.getUserWSPort();
-    return port.logoutUser(token);
-  }
+    private int logoutUser(java.lang.String token, java.lang.String userIP, java.lang.String userAgent) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        UserWS.UserWS port = service.getUserWSPort();
+        return port.logoutUser(token, userIP, userAgent);
+    }
 
 }

@@ -39,13 +39,19 @@ public class QuestionEdit extends HttpServlet {
         Tools tools = new Tools();
         String access_token = tools.getCookie("access_token", request);
         
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
+        
         QuestionWS.Question question = new Question();
         
         question.setId(Integer.parseInt(request.getParameter("id_question")));
         question.setTopic(request.getParameter("title"));
         question.setContent(request.getParameter("content"));
         
-        int ret = updateQuestion(access_token, question);
+        int ret = updateQuestion(access_token, userIP, userAgent, question);
                         
         switch (ret) {
           case 1:
@@ -102,11 +108,11 @@ public class QuestionEdit extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int updateQuestion(java.lang.String token, QuestionWS.Question question) {
+    private int updateQuestion(java.lang.String token, java.lang.String userIP, java.lang.String userAgent, QuestionWS.Question question) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.updateQuestion(token, question);
+        return port.updateQuestion(token, userIP, userAgent, question);
     }
 
 }
