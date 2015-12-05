@@ -8,11 +8,10 @@ package Token;
 import database.Database;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,37 +21,12 @@ import javax.servlet.http.HttpServletResponse;
  * @author acel
  */
 public class IdentityChecker extends HttpServlet {
-    private int lifetime = 1000*1000; //100 seconds
-    private String[] userIdentifier = new String[2];
-    
-    public void decodeToken(String token){
-        byte[] byteDecoded = Base64.getDecoder().decode(token);
-        String decoded = new String(byteDecoded, StandardCharsets.UTF_8);
-        parseToken(decoded);        
-    }
-    
-    public void parseToken(String token){
-        String delim = ";";
-        userIdentifier = token.split(delim);
-    }
-    
-    public String getID(){
-        return userIdentifier[0];
-    }
-    
-    public String getTime(){
-        return userIdentifier[1];
-    }
-    
-    public boolean isNotExpired(){
-        return((System.currentTimeMillis() - Long.parseLong(getTime())) <= lifetime);
-    }
-    
+    private String token = "";
+    private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
+        
     public boolean isTokenValid(){
-        //path and port for the database
-        final String path = "jdbc:mysql://localhost:3306/stack_exchange";
         //query for database
-        final String query = "SELECT COUNT(*) FROM user WHERE user_id = '" + getID() + "'";
+        final String query = "SELECT COUNT(*) FROM token WHERE token = '" + token + "'";
         Database database = new Database();
         database.connect(path);
 
@@ -65,13 +39,18 @@ public class IdentityChecker extends HttpServlet {
         } catch (SQLException ex) {
         }
         database.closeDatabase();
-        if(result == 1 && isNotExpired()){
-            return true;
-        } else {
-            return false;
-        }
+        return (result == 1);
     }
     
+    public String deleteToken(){
+        //query for database
+        final String query = "DELETE FROM token WHERE id = '" + token + "'";
+        Database database = new Database();
+        database.connect(path);
+        database.changeData(query);
+        database.closeDatabase();
+        return "executed";
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -86,10 +65,16 @@ public class IdentityChecker extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String token = request.getParameter("token");
-            String id = request.getParameter("id");
-            decodeToken(token);
-            if(isTokenValid() && id.equals(getID())){
+            Cookie[] cookies = request.getCookies();
+            int expiry = -999;
+            for(Cookie temp : cookies){
+                if(temp.getName().equals("token")){
+                    token = temp.getValue();
+                    expiry = temp.getMaxAge();
+                }
+            }
+            
+            if(isTokenValid() && expiry != 0){
                 out.println("Successful");
             } else {
                 out.println("Failed");

@@ -8,14 +8,14 @@ package Token;
 import database.Database;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Timestamp;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,17 +26,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Token", urlPatterns = {"/Token"})
 public class Token extends HttpServlet {
+    public static int lifetime = 100; //100 seconds
     private String token = "";
-    private int userID = 0;
+    private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
     
     public long generateTime(){
         return System.currentTimeMillis();
     }
     
     public boolean isInDB(String username, String password){
-        //path and port for the database
-        final String path = "jdbc:mysql://localhost:3306/stack_exchange";
         //query for database
+        System.out.println("masuk");
         final String query = "SELECT COUNT(*) FROM user WHERE email = '" + username + "' AND password = '" + password + "'";
         Database database = new Database();
         database.connect(path);
@@ -47,25 +47,21 @@ public class Token extends HttpServlet {
             rs.next();
             result = rs.getInt("COUNT(*)");
             rs.close();
-            getUserID(username, password);
         } catch (SQLException ex) {
         }
+        System.out.println("keluar");
         database.closeDatabase();
-        if(result == 1){
-            return true;
-        } else {
-            return false;
-        }
+        return (result == 1);
     }
     
-    public void getUserID(String username, String password){
-        //path and port for the database
-        final String path = "jdbc:mysql://localhost:3306/stack_exchange";
+    public int getUserID(String username, String password){
         //query for database
         final String query = "SELECT * FROM user WHERE email = '" + username + "' AND password = '" + password + "'";
         Database database = new Database();
         database.connect(path);
-
+        
+        int userID = -1;
+        
         ResultSet rs = database.fetchData(query);
         try {
             rs.next();
@@ -74,16 +70,19 @@ public class Token extends HttpServlet {
         } catch (SQLException ex) {
         }
         database.closeDatabase();
-        
+        return userID;
     }
     
-    public void generateToken(String username){
-        try {
-            token = userID + ";" + generateTime();
-            token = Base64.getEncoder().encodeToString(token.getBytes("utf-8"));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Token.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void generateToken(String username, int user_id, String user_agent, String ip_address){
+        token = UUID.randomUUID().toString();
+        Date now = new Date(System.currentTimeMillis() + lifetime);
+        String expires = new Timestamp(now.getTime()).toString();
+        String query = "INSERT INTO token (user_id, uuid, expires, user_agent, ip_address) "
+                + "VALUES (" + user_id + ", '" + token + "', '" + expires + "', " + user_agent + "', '" + ip_address + "')";
+        Database database = new Database();
+        database.connect(path);
+        database.changeData(query);
+        database.closeDatabase();
     }
     
     /**
@@ -102,14 +101,22 @@ public class Token extends HttpServlet {
             //Variable
             String username = request.getParameter("uname");
             String password = request.getParameter("pword");
-            
+            String user_agent = request.getHeader("User-Agent");
+            String ip_address = request.getRemoteHost();
+            out.println(ip_address);
             if(isInDB(username,password)){
-                generateToken(username);
-                response.sendRedirect("http://localhost:8080/StackExchange_Client/index.jsp?token=" + token
-                                        + "&id=" + userID);
+                out.println("A" + username);
+                int user_id = getUserID(username, password);
+                generateToken(username, user_id, user_agent, ip_address);
+                Cookie cookie = new Cookie("token", token);
+                cookie.setMaxAge(lifetime);
+                response.addCookie(cookie);
+                response.sendRedirect("http://localhost:8080/StackExchange_Client/index.jsp");
             } else {
+                out.println("C");
                 token = "";
-                response.sendRedirect("http://localhost:8080/StackExchange_Client/login.jsp?ef=1");
+                response.sendError(1, "Login error!");
+                response.sendRedirect("http://localhost:8080/StackExchange_Client/login.jsp");
             }
         }
     }

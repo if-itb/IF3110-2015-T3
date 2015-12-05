@@ -16,7 +16,12 @@
 	<link rel="stylesheet" type="text/css" href="css/mainstyle.css">
     </head>
     <body>
-
+        <%
+            Cookie[] cookies = request.getCookies();
+            for(Cookie temp : cookies){
+                out.println(temp.getName() + " " + temp.getValue());
+            }
+        %>
 	<div id="wrapper">
             <%
             if(request.getParameter("token") != null && request.getParameter("id") != null){
