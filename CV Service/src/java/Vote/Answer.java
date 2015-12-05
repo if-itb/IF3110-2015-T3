@@ -98,9 +98,11 @@ public class Answer extends HttpServlet {
       String uid = request.getParameter("uid");
       String value = request.getParameter("value");
       String token = request.getParameter("token");
+      String userIP = request.getParameter("userIP");
+      String userAgent = request.getParameter("userAgent");
       
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token, userIP, userAgent);
       
       if ( ret == 1 ) {
         try {
