@@ -13,4 +13,14 @@
             30
         </session-timeout>
     </session-config>
+    <filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>is.cors.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>
+            CORS
+        </filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

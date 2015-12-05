@@ -5,6 +5,7 @@
  */
 package is.Comment;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -46,10 +47,16 @@ public class CommentRSServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
-        response.sendRedirect("http://localhost:8001/VoteComment/CommentRSServlet");
         PrintWriter out = response.getWriter();
-        out.println(response.toString());
         
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = request.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) {}
+        System.out.println(jb.toString());
     }
 
     /**

@@ -12,15 +12,22 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style2.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="angular.js" type="text/javascript"></script>
         <script>
-            angular.module('comment', [])
-                    .controller('commentCtrl', function($scope) {
+            var app = angular.module('comment', []);
+            app.config(function($httpProvider) {
+                $httpProvider.defaults.useXDomain = true;
+            });
+            app.controller('commentCtrl', function($scope, $http) {
                         $scope.comments = [];
                         $scope.comment = "";
-                        $scope.submitComment = function(comment) {
-                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet/", )
-                            $scope.comments.push(comment);
+                        var ahttp = $http;
+                        
+                        $scope.submitComment = function(comment, ahttp) {
+                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment})).then(function(response) {
+                                return response;
+                            });
+                            //$scope.comments.push(comment);
                             $scope.content = "";
                         }
             });
