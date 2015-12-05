@@ -9,7 +9,10 @@ import connection.DB;
 import java.sql.Connection;
 import org.json.*;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.InetAddress;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,7 +59,7 @@ public class login extends HttpServlet {
         response.setContentType("application/json");
         try(PrintWriter out = response.getWriter()){
             email= request.getParameter("email");
-            password = request.getParameter("password");
+            password = md5(request.getParameter("password"));
             if (email != null & password != null){
                 sql = "SELECT * FROM user WHERE email = ? AND password = ?";
                 conn.setAutoCommit(false);
@@ -126,4 +129,17 @@ public class login extends HttpServlet {
    {
        processRequest(request, response);
    }
+   
+   public static String md5(String input) {
+        String md5 = null;
+        if(null == input) return null;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("MD5");
+            digest.update(input.getBytes(), 0, input.length());
+            md5 = new BigInteger(1, digest.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return md5;
+    }
 }
