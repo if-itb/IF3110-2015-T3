@@ -96,12 +96,18 @@
 		              	</div>
 					</div>
 					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-		<ul>
-  			<li ng-repeat="x in comments">
-    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-  			</li>
-		</ul>
-		</div>
+						<ul>
+				  			<li ng-repeat="x in comments">
+				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+				  			</li>
+						</ul>
+					</div>
+					<div ng-app="commenApp" ng-controller="MyController">
+				        <input type="button" value="Show Hide DIV" ng-click="ShowHide()" />
+				        <br />
+				        <br />
+				        <div ng-show = "IsVisible">My DIV</div>
+				    </div>
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -142,14 +148,22 @@
 		<%@include file="footer.jsp" %>
 		
 	</div>
+	<script type="text/javascript">
+	var app = angular.module('commentApp', []);
+	app.controller('commentCtrl', function($scope, $http) {
+	    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
+	    .then(function(response) {$scope.comments = response.data;});
+	});
 	
-	<script>
-var app = angular.module('commentApp', []);
-app.controller('commentCtrl', function($scope, $http) {
-    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-    .then(function(response) {$scope.comments = response.data;});
-});
-</script>
+    app.controller('MyController', function ($scope) {
+        //This will hide the DIV by default.
+        $scope.IsVisible = false;
+        $scope.ShowHide = function () {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+        }
+    });
+	</script>
 </body>
 	<% 	} else {
 			%>
