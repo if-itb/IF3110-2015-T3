@@ -19,6 +19,21 @@ body
 	margin-bottom : 4px;
 }
 
+.button1
+{
+    padding: 0;
+    text-decoration: underline;
+    color: Purple;
+    border: none;
+    background: none;
+    font-size: 20px;
+}
+
+.underline
+{
+    text-decoration: underline;
+}
+
 .font20
 {
 	font-size : 20px;
