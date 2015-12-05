@@ -21,13 +21,15 @@ import org.me.stackx.module.User;
  */
 @WebService(serviceName = "ws")
 public class ws {
+
+
     /**
      * Web service operation
      * @return createdQuestionId
      */
     @WebMethod(operationName = "createQuestion")
-    public int createQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "title") String title, @WebParam(name = "content") String content) {
-        User u = new User(access_token);
+    public int createQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "title") String title, @WebParam(name = "content") String content) {
+        User u = new User(access_token, user_agent, ip_address);
         return QuestionModel.create(u, title, content);
     }
 
@@ -53,8 +55,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "editQuestion")
-    public int editQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id, @WebParam(name = "title") final String title, @WebParam(name = "content") final String content) {
-        User u = new User(access_token);
+    public int editQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id, @WebParam(name = "title") final String title, @WebParam(name = "content") final String content) {
+        User u = new User(access_token, user_agent, ip_address);
         return QuestionModel.edit(u, id, title, content);
     }
 
@@ -62,8 +64,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "voteUpQuestion")
-    public int voteUpQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public int voteUpQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return QuestionModel.vote(u, id, 1);
     }
     
@@ -71,8 +73,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "voteDownQuestion")
-    public int voteDownQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public int voteDownQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return QuestionModel.vote(u, id, -1);
     }
     
@@ -80,8 +82,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "deleteQuestion")
-    public String deleteQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public String deleteQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return QuestionModel.delete(u, id);
     }
 
@@ -91,8 +93,8 @@ public class ws {
      * @return createdAnswerId
      */
     @WebMethod(operationName = "createAnswer")
-    public int createAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "question_id") int question_id, @WebParam(name = "content") String content) {
-        User u = new User(access_token);
+    public int createAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "question_id") int question_id, @WebParam(name = "content") String content) {
+        User u = new User(access_token, user_agent, ip_address);
         return AnswerModel.create(u, question_id, content);
     }
 
@@ -106,20 +108,10 @@ public class ws {
 
     /**
      * Web service operation
-     * @param id
-     * @return question
-     */
-    @WebMethod(operationName = "getAnswerById")
-    public Answer getAnswerById(@WebParam(name = "id") final int id) {
-        return AnswerModel.getById(id);
-    }
-
-    /**
-     * Web service operation
      */
     @WebMethod(operationName = "editAnswer")
-    public int editAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id, @WebParam(name = "content") final String content) {
-        User u = new User(access_token);
+    public int editAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id, @WebParam(name = "content") final String content) {
+        User u = new User(access_token, user_agent, ip_address);
         return AnswerModel.edit(u, id, content);
     }
 
@@ -127,8 +119,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "voteUpAnswer")
-    public int voteUpAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public int voteUpAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return AnswerModel.vote(u, id, 1);
     }
     
@@ -136,8 +128,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "voteDownAnswer")
-    public int voteDownAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public int voteDownAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return AnswerModel.vote(u, id, -1);
     }
     
@@ -145,8 +137,8 @@ public class ws {
      * Web service operation
      */
     @WebMethod(operationName = "deleteAnswer")
-    public String deleteAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "id") final int id) {
-        User u = new User(access_token);
+    public String deleteAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "ip_address") String ip_address, @WebParam(name = "user_agent") String user_agent, @WebParam(name = "id") final int id) {
+        User u = new User(access_token, user_agent, ip_address);
         return AnswerModel.delete(u, id);
     }
 
@@ -165,6 +157,5 @@ public class ws {
     public User getUserById(@WebParam(name = "id") final int id) {
         return UserModel.getById(id);
     }
-    
     
 }

@@ -14,14 +14,16 @@ import java.sql.Date;
 public class Question {
     private int questionId;
     private int userId;
+    private String userName;
     private String title;
     private String content;
     private int vote;
     private String createDate;
 
-    public Question(int questionId, int userId, String title, String content, int vote, String createDate) {
+    public Question(int questionId, int userId, String userName, String title, String content, int vote, String createDate) {
         this.questionId = questionId;
         this.userId = userId;
+        this.userName = userName;
         this.title = title;
         this.content = content;
         this.vote = vote;
@@ -42,6 +44,14 @@ public class Question {
     
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getTitle() {

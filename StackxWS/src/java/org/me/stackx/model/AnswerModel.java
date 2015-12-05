@@ -273,71 +273,6 @@ public class AnswerModel {
         return r;
     }
     
-    
-    public static Answer getById(int id) {
-        Answer r = null;
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-           //STEP 2: Register JDBC driver
-           Class.forName("com.mysql.jdbc.Driver");
-
-           //STEP 3: Open a connection
-           conn = (Connection) DriverManager.getConnection(DB_URL,USER,PASS);
-
-           //STEP 4: Execute a query
-           stmt = (Statement) conn.createStatement();
-           String sql;
-           sql = "SELECT answer_id, question_id, user_id, content, create_date, SUM( vote ) AS vote" +
-                " FROM (" +
-                    " SELECT q.answer_id AS answer_id, q.question_id AS question_id, q.user_id AS user_id, content, create_date, IFNULL( vq.value, 0 ) AS vote" +
-                    " FROM answer AS q" +
-                    " LEFT OUTER JOIN vote_answer AS vq ON q.answer_id = vq.answer_id" +
-                    " ) AS a" +
-                " WHERE answer_id = " + id +
-                " GROUP BY answer_id" +
-                " ORDER BY vote, create_date DESC";
-            //STEP 5: Extract data from result set
-            try (ResultSet rs = stmt.executeQuery(sql)) {
-                //STEP 5: Extract data from result set
-                rs.next();
-                //Retrieve by column name
-                int answerId  = rs.getInt("answer_id");
-                int questionId  = rs.getInt("question_id");
-                int userId = rs.getInt("user_id");
-                String content = rs.getString("content");
-                int vote = rs.getInt("vote");
-                Timestamp createDate = rs.getTimestamp("create_date");
-
-                r = new Answer(answerId, questionId, userId, content, vote, createDate.toString());
-                rs.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-           stmt.close();
-           conn.close();
-        } catch(SQLException se) {
-           //Handle errors for JDBC
-           se.printStackTrace();
-        } catch(Exception e) {
-           //Handle errors for Class.forName
-           e.printStackTrace();
-        } finally {
-           //finally block used to close resources
-           try {
-              if (stmt!=null)
-                 stmt.close();
-           } catch(SQLException se2){ }// nothing we can do
-           try {
-              if (conn!=null)
-                 conn.close();
-           } catch (SQLException se) {
-              se.printStackTrace();
-           }//end finally try
-        }//end try
-        return r;
-    }
-    
     public static Answer[] getAllFromQuestionId(int questionId) {
         //TODO: request to oauth to get who is the requester
         ArrayList<Answer> answerList = new ArrayList<>();
@@ -354,12 +289,12 @@ public class AnswerModel {
            //STEP 4: Execute a query
            stmt = (Statement) conn.createStatement();
            String sql;
-           sql = "SELECT answer_id, question_id, user_id, content, create_date, SUM( vote ) AS vote" +
+           sql = "SELECT answer_id, question_id, u.name AS user_name, a.user_id as user_id, content, a.create_date, SUM( vote ) AS vote" +
                 " FROM (" +
                     " SELECT q.answer_id AS answer_id, q.question_id AS question_id, q.user_id AS user_id, content, create_date, IFNULL( vq.value, 0 ) AS vote" +
                     " FROM answer AS q" +
                     " LEFT OUTER JOIN vote_answer AS vq ON q.answer_id = vq.answer_id" +
-                    " ) AS a" +
+                    " ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id" +
                 " WHERE question_id = " + questionId +
                 " GROUP BY answer_id" +
                 " ORDER BY vote, create_date DESC";
@@ -370,11 +305,12 @@ public class AnswerModel {
                     //Retrieve by column name
                     int answerId  = rs.getInt("answer_id");
                     int userId = rs.getInt("user_id");
+                    String userName = rs.getString("user_name");
                     String content = rs.getString("content");
                     int vote = rs.getInt("vote");
                     Timestamp createDate = rs.getTimestamp("create_date");
 
-                    answerList.add(new Answer(answerId, questionId, userId, content, vote, createDate.toString()));
+                    answerList.add(new Answer(answerId, questionId, userId, userName, content, vote, createDate.toString()));
                 }
                 r = new Answer[answerList.size()];
                 r = answerList.toArray(r);

@@ -30,7 +30,7 @@ public class Authentication extends HttpServlet {
     private String is_valid;
     
    //timeout constant
-    static final int timeout = 30; // timeout in seconds
+    static final int timeout = 180000; // timeout in seconds
     
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
