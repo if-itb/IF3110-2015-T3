@@ -22,12 +22,13 @@ public class DB {
     public static Connection connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            String userName = "root";
-            String password = "";
+            String user = "root";
+            String pass = "";
             
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", 
-                                                        userName, 
-                                                        password);
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", 
+                    user, 
+                    pass);
             return conn;
             
         } catch (SQLException e){

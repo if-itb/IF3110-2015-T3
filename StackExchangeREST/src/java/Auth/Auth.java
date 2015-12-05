@@ -5,7 +5,6 @@
  */
 package Auth;
 
-import Connection.Connect;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +62,6 @@ public class Auth {
             while ((output = br.readLine()) != null) {
               obj = parser.parse(output);
               jobj = (JSONObject) obj;
-
               ret = -1;
 
               if (((String)jobj.get("message")).equals("valid")) {
