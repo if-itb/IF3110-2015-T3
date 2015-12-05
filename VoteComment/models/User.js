@@ -27,9 +27,13 @@ user.get = function(req, callback) {
         if (!error && response.statusCode == 200) {
             var resp;
             if (body.is_valid == -2) {
-                resp = Response(Const.STATUS_INVALID_TOKEN, 'Token is invalid. Please login.', {});
+                resp = Response(Const.STATUS_INVALID_TOKEN, 'Token is invalid. Please login.');
             } else if (body.is_valid == -1) {
-                resp = Response(Const.STATUS_EXPIRED_TOKEN, 'Token has expired. Please relogin.', {});
+                resp = Response(Const.STATUS_EXPIRED_TOKEN, 'Token has expired. Please relogin.');
+            } else if (body.is_valid == -3) {
+                resp = Response(Const.STATUS_DIFFERENT_UA, 'You use different browser. Please relogin.');
+            } else if (body.is_valid == -4) {
+                resp = Response(Const.STATUS_DIFFERENT_IP, 'You use different computer. Please relogin.');
             } else {
                 resp = Response(Const.STATUS_OK, '', body);
             }
