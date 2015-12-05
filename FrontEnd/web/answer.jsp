@@ -12,6 +12,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style2.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script>
+            angular.module('comment', [])
+                    .controller('commentCtrl', function($scope) {
+                        $scope.comments = [];
+                        $scope.comment = "";
+                        $scope.submitComment = function(comment) {
+                            $scope.comments.push(comment);
+                            $scope.content = "";
+                        }
+            });
+            
+        </script>
         <title>Simple StackExchange</title>
     </head>
     <body>
@@ -96,7 +109,15 @@
                                 out.println("<p>asked by" + result.get(i).getName() + " at " + result.get(i).getDatetime() + " </p>");
 
                             }
-
+                            out.println("<div ng-controller='commentCtrl' ng-app='comment'>");
+                            out.println("<div ng-repeat='comment in comments'>");
+                            out.println("{{comment}}");
+                            out.println("</div>");
+                            out.println("<div>");
+                            out.println("<input type='text' placeholder='Add a comment' ng-model='content' ng-keypress='$event.keyCode==13 && submitComment(content)' ><br><span style='font-size:8pt;'>Press Enter to submit</span>");
+                            out.println("</form>");
+                            out.println("</div>");
+                            out.println("</div>");
                             out.println("</div>");
                             out.println("<div>");
                             out.println("<h2>" + result.get(i).getAnswers() + " Answers</h2>");
@@ -134,7 +155,7 @@
                             out.println("<div class='columnlargest center'>");
                             out.println("<p class='warp'>" + result.get(i).getAnswer() + "</p>");
                             out.println("</div>");
-
+                            
                             out.println("<div class='footer'>");
                             out.println("<p>answered by " + result.get(i).getName() + " at " + result.get(i).getDatetime() + "</p>");
                             out.println("</div>");

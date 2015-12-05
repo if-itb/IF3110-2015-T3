@@ -38,3 +38,4 @@ Identity/nbproject/project.xml
 /FrontEnd3/build/
 /VoteComment/build/
 /VoteComment/nbproject/private/
+*.properties
