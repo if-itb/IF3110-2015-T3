@@ -54,7 +54,7 @@ router.route('/question/comment/:id/downvote').post(function(req,res) {
 //create question comment
 router.route('/question/:id/comment')
     .get(function(req, res){
-        questionComment.getByAnswerId(req.params.id, function(r) {
+        questionComment.getByQuestionId(req.params.id, function(r) {
             res.status(r.status + '');
             res.json(r);
         });
