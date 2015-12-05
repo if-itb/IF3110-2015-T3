@@ -9,6 +9,7 @@ import connection.DB;
 import java.sql.Connection;
 import org.json.*;
 import java.io.*;
+import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,7 +43,7 @@ public class login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         /*KAMUS*/
-        String email, password, sql, token, delquery, insquery;
+        String email, password, sql, token, delquery, insquery, userAgent, ip;
         ResultSet result;
         int uid;
         Calendar calendar;
@@ -72,6 +73,16 @@ public class login extends HttpServlet {
                        calendar.add(Calendar.DATE, 1);
                        token_expired = new Timestamp(calendar.getTime().getTime());
                        token = UUID.randomUUID().toString().replaceAll("-","");
+                       userAgent = request.getHeader("User-Agent");
+                       token = token + "#" + userAgent;
+                       ip = request.getRemoteAddr();
+                       if (ip.equalsIgnoreCase("0:0:0:0:0:0:0:1"))
+                       {
+                           InetAddress inetAddress = InetAddress.getLocalHost();
+                           String ipAddress = inetAddress.getHostAddress();
+                           ip = ipAddress;
+                       }
+                       token += "#" + ip;
                        delquery = "DELETE FROM token WHERE user_id=?;";
                        insquery = "INSERT INTO token (token_id,user_id,token_expired) VALUES (?,?,?);";
                        try
