@@ -17,6 +17,7 @@ public class Comment implements Serializable {
     private long questionId;
     private String content;
     private String createdAt;
+    private String name = null;
     
      public Comment(long id, String content, long userId, long questionId, String createdAt) {
         this.id = id;
@@ -44,6 +45,14 @@ public class Comment implements Serializable {
 
     public String getCreatedAt() {
         return createdAt;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setId(long id) {
