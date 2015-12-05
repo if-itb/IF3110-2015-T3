@@ -34,7 +34,7 @@ import static java.lang.Math.toIntExact;
  *
  * @author user
  */
-@WebService(endpointInterface = "org.jaxws.StackExchange")
+@WebService(endpointInterface = "com.mycompany.nasipadang.jaxws.StackExchange")
 public class StackExchangeImpl implements StackExchange {
     private Connection connection;
     private void connectDB() throws SQLException{
@@ -173,8 +173,7 @@ public class StackExchangeImpl implements StackExchange {
                 st = connection.createStatement();
                 sql = "SELECT * FROM vote_question WHERE id = '" + qu.id + "' AND id_user = '" + id_user + "'";
                 rs = st.executeQuery(sql);
-                if(rs.next()) qu.hasVote = true;
-                else qu.hasVote = false;
+                qu.hasVote = rs.next();
                 closeDB();
             }
         } catch (SQLException e) {
@@ -245,8 +244,7 @@ public class StackExchangeImpl implements StackExchange {
                 st = connection.createStatement();
                 sql = "SELECT * FROM vote_answer WHERE id_answer = '" + an.id_answer + "'AND id_user = '" + id_user + "'";
                 rs = st.executeQuery(sql);
-                if(rs.next()) an.hasVote = true;
-                else an.hasVote = false;
+                an.hasVote = rs.next();
                 closeDB(); 
             }
         } catch (SQLException e) {
@@ -290,8 +288,7 @@ public class StackExchangeImpl implements StackExchange {
                     Statement st = connection.createStatement();
                     String sql = "SELECT * FROM vote_answer WHERE id_answer = '" + a.id_answer + "' AND id_user = '" + id_user + "'";
                     ResultSet rs = st.executeQuery(sql);
-                    if(rs.next()) a.hasVote = true;
-                    else a.hasVote = false;
+                    a.hasVote = rs.next();
                     closeDB();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -385,30 +382,32 @@ public class StackExchangeImpl implements StackExchange {
     public int updateVoteAnswer(String token, int id_answer, int vote){
         int id_user = whoIs(token);
         int votes = 0;
-        try {
-            connectDB();
-            Statement st = connection.createStatement();
-            String sql = "INSERT INTO vote_answer (id_answer, id_user, value) VALUES ('"+ id_answer +"', '"+ id_user +"', '"+ vote +"')";
-            st.execute(sql);
-            closeDB();
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }
+        if(id_user != 0)
+            try {
+                connectDB();
+                Statement st = connection.createStatement();
+                String sql = "INSERT INTO vote_answer (id_answer, id_user, value) VALUES ('"+ id_answer +"', '"+ id_user +"', '"+ vote +"')";
+                st.execute(sql);
+                closeDB();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
         return votes;
     }
     @Override
     public int updateVoteQuestion(String token, int id, int vote){
         int id_user = whoIs(token);
         int votes = 0;
-        try {
-            connectDB();
-            Statement st = connection.createStatement();
-            String sql = "INSERT INTO vote_question (id, id_user, value) VALUES ('"+ id +"', '"+ id_user +"', '"+ vote +"')";
-            st.execute(sql);
-            closeDB();
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }
+        if(id_user != 0)
+            try {
+                connectDB();
+                Statement st = connection.createStatement();
+                String sql = "INSERT INTO vote_question (id, id_user, value) VALUES ('"+ id +"', '"+ id_user +"', '"+ vote +"')";
+                st.execute(sql);
+                closeDB();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
         return votes;
     }
 }
