@@ -73,6 +73,8 @@ button:hover, input[type="submit"]:hover {
     padding: 0 5px;
 }
 
+
+
 #wrapper {
     margin: 0 auto;
     max-width: 800px;
@@ -88,6 +90,11 @@ button:hover, input[type="submit"]:hover {
     text-align: center;
     width: 5%;
 }
+
+.comment{
+    margin-left: 250px;
+    float: right;
+}text
 
 .title {
     border-bottom: 2px solid #FF9F1C;;
@@ -146,6 +153,7 @@ textarea {
     font-family: inherit;
     font-size: inherit;
     height: 200px;
+    width: 600px;
     padding: 8px 10px;
 }
 

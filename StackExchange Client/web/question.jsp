@@ -14,7 +14,60 @@
 </head>
 
 <body>
+    
+    <script>
+    var vote = angular.module('voteup',[]);
+    $scope.counter = 0;
+    $scope.add = function(amount) {    
     <%
+    try {
+	questionWebService.QuestionWebService_Service service = new questionWebService.QuestionWebService_Service();
+	questionWebService.QuestionWebService port = service.getQuestionWebServicePort();
+	            String token = "";
+            Cookie[] cookies = request.getCookies();
+            for(Cookie temp : cookies){
+                if(temp.getName().equals("token")){
+                    token = temp.getValue();
+                }
+            }
+        java.lang.String arg0 = token;
+	int arg1 = Integer.parseInt(request.getParameter("qid"));
+	int arg2 = Integer.parseInt(request.getParameter("id"));
+	java.lang.String result = port.incrVote(arg0, arg1, arg2);
+    } catch (Exception ex) {
+        
+    }
+    
+    %>
+  };
+  
+    $scope.subtract = function(amount) { $scope.counter -= amount; };
+    });
+    </script>
+<script>
+var app = angular.module('myForm', []);
+app.controller('formCtrl', function($scope) {
+    $scope.master = {lastName: "Doe"};
+    $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+    };
+    $scope.reset();
+});
+</script>
+
+<script>
+    var app2= angular.module('getComment', []);
+    app2.controller('commentCtrl', function($scope, $http){
+     $http.toString("http://localhost:8080/StackExchange_Client/index.jsp");
+     $scope.master = {sesuatu: $http.toLocaleString("http://localhost:8080/StackExchange_Client/index.jsp")};
+    });
+    
+</script>    
+<script>
+    
+</script>
+
+<%
         String token = "";
         Cookie[] cookies = request.getCookies();
         for(Cookie temp : cookies){
@@ -45,6 +98,10 @@
                         <a href=" <% out.print("qvoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid")); %>" >
                         <img src="img/upvote.png" width ="35" height="35"><br>
                         </a>
+                        <div ng-controller="DemoController">
+                            <h4>The simplest adding machine ever</h4>
+                            <button ng-click="add(1)" class="button">Add</button>
+                        </div>
                         <span id="question-vote-count<%= result.getUserId()%>"><%= result.getVote() %></span><br>
                         <a href=" <% out.print("qvoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid")); %>">  
                         <img src="img/downvote.png" width="35" height="35">
@@ -84,16 +141,16 @@
                                             <a href=" <% out.print("avoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid") + "&aid=" +result.get(i).getAnswerId()); %>">
                                             <img src="img/upvote.png" width="35" height="35">
                                             </a><br>
-
-                                            <a href=" <% out.print("avotedown.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid") + "&aid=" +result.get(i).getAnswerId()); %>">
-                                            <img src="img/downvote.png" width="35" height="35">
-                                            </a>
-                                        </div>
                                             <div class = "col content">
                                                 <span id="answer-vote-count-<%= result.get(i).getAnswerId() %>">
                                                  <%= result.get(i).getVote() %>
                                                 </span>
                                             </div>
+                                            <a href=" <% out.print("avotedown.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid") + "&aid=" +result.get(i).getAnswerId()); %>">
+                                            <img src="img/downvote.png" width="35" height="35">
+                                            </a>
+                                        </div>
+                                        
                                         <div class="col-content">
                                             <p>
                                                 <%= result.get(i).getContent() %>
@@ -106,6 +163,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <ul>
+                              <li ng-app="getComment" ng-controller="commentCtrl">
+                                  <textarea ng-model="master.sesuatu"></textarea>
+                              </li>
+                            </ul>        
+                            <div class="comment" ng-app="myForm" ng-controller="formCtrl">
+                                <form novalidate>
+                                    Comment this<br>
+                                    <textarea ng-model="user.lastName" placeholder="comment here"></textarea>
+                                    <br><br>
+                                    <button ng-click="reset()">COMMENT</button>
+                                </form>
+                            </div>        
                             <% 
                             } //end for
                             %>
