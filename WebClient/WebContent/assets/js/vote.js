@@ -25,7 +25,7 @@ function changeDown(status){
 	}
 }
 
-function VoteUp(bool,id){
+function VoteUp(bool,id,cookie){
     prepare();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -56,7 +56,7 @@ function VoteUp(bool,id){
     xmlhttp.send();
 };
 
-function VoteDown(bool,id){
+function VoteDown(bool,id,cookie){
 	prepare();
     xmlhttp.onreadystatechange=function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
@@ -81,10 +81,10 @@ function VoteDown(bool,id){
         }
     }
     if(bool){
-    	xmlhttp.open("GET","vote/questionvotedown.jsp?id="+id,true);
+    	xmlhttp.open("GET","vote/questionvotedown.jsp?id="+id,true,cookie);
     }
     else{
-    	xmlhttp.open("GET","vote/answervotedown.jsp?id="+id,true);
+    	xmlhttp.open("GET","vote/answervotedown.jsp?id="+id,true,cookie);
     }
     xmlhttp.send();
 };
