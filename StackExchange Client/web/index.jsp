@@ -26,9 +26,7 @@
             }
         %>
 	<div id="wrapper">
-            <h1 class="center">
-                <a href="index.jsp">Simple StackExchange</a>
-            </h1>
+            <jsp:include page="header.jsp" />
             <div class="row">
                 <%
                 if(!token.isEmpty()){
@@ -111,7 +109,7 @@
                             String s = String.valueOf(id);
                     %>
                             <div class="col title">
-                                <a href="question.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a>
+                                <a href="question.jsp?id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a>
                             </div>
                             <div class="content">
                                 <br>
