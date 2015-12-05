@@ -60,7 +60,6 @@ public class Login extends HttpServlet {
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
 	    
-            System.out.println(result);
 	    // Login Success, then parse the XML string
 	    String token = xmlParse(result, "token");	    // Parse the token from the XML document
 	    String username = xmlParse(result, "username"); // Parse the username from the XML document

@@ -1,5 +1,4 @@
 (function(){
-
     // Handler For Vote Question
     var qVote =document.getElementsByClassName("qVote");
     for(var i=0;i<qVote.length;i++) {

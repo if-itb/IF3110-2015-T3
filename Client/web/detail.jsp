@@ -10,27 +10,27 @@
     <link rel='stylesheet' href='styles/main.css'>
 </head>
 
-<body>
+<body ng-app = 'App'>
     <div class='header'><a href='Home'><h1>Simple StackExhange</h1></a></div>
     <div class='container clearfix'>
         <div class='containerDetail'>
-	    <div class="auth">
-		
-		<c:choose>
-		    <c:when test="${isAuthenticated}">
-			<h2><a class="logout" href="logout">Logout</a><span class="username"><c:out value="(  ${username}  )"/></span><h2>
-		    </c:when>    
-		    <c:otherwise>
-			<h2><a class="lgn" href="login.jsp">Login</a><a class="rgs" href="register.jsp">Register</a>
-		    </c:otherwise>
-		</c:choose>
-	    </div>
+        <div class="auth">
+        
+        <c:choose>
+            <c:when test="${isAuthenticated}">
+            <h2><a class="logout" href="logout">Logout</a><span class="username"><c:out value="(  ${username}  )"/></span><h2>
+            </c:when>    
+            <c:otherwise>
+            <h2><a class="lgn" href="login.jsp">Login</a><a class="rgs" href="register.jsp">Register</a>
+            </c:otherwise>
+        </c:choose>
+        </div>
             <h2><c:out value="${question.getQtopic()}" /></h2>
             <div class='row rowQuestion clearfix'>
-                <div class='colVote'>
-                    <div class='qVote arrow-up' id='<c:out value="${question.getQid()}" />'></div>
-                    <span class='qVoteVal'><c:out value="${question.getVotes()}" /></span>
-                    <div class='qVote arrow-down' id='<c:out value="${question.getQid()}" />'></div>
+                <div class='colVote' ng-controller='voteCtrl'>
+                    <div class='qVote arrow-up' id='<c:out value="${question.getQid()}" />' ng-click='voteUp()'></div>
+                    <span class='qVoteVal'>{{vote}}</span>
+                    <div class='qVote arrow-down' id='<c:out value="${question.getQid()}" />' ng-click='voteDown()'></div>
                 </div>
                 <div class='elemQDetail'>
                     <p><c:out value="${question.getQcontent()}" /></p>
@@ -38,16 +38,30 @@
                         <span class='askedBy'>Asked By : </span>
                         <div class='author'>
                             <span class='name'> <c:out value="${question.getName()}" /> at <c:out value="${question.getCreatedAt()}"/>
-				<c:set var="name" scope="page" value="${question.getName()}"/>
-				<c:set var="username" scope="page" value="${username}"/>
-				<c:if test="${ name == username}">
-				    <a href='edit?idEdited=<c:out value="${question.getQid()}" />&fromDetail=1'><span class='edit' >Edit</span></a>
-				    <a href='delete?idDeleted=<c:out value="${question.getQid()}" />'><span class='delete'>Delete</span></a>
-				</c:if>
+                <c:set var="name" scope="page" value="${question.getName()}"/>
+                <c:set var="username" scope="page" value="${username}"/>
+                <c:if test="${ name == username}">
+                    <a href='edit?idEdited=<c:out value="${question.getQid()}" />&fromDetail=1'><span class='edit' >Edit</span></a>
+                    <a href='delete?idDeleted=<c:out value="${question.getQid()}" />'><span class='delete'>Delete</span></a>
+                </c:if>
                             </span>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+            <div ng-controller = 'commentCtrl'>
+
+                <form ng-submit='comment()'>
+                    <input type="text" id = "content" name="content" placeholder="Put Your Comment Here" ng-model="username">
+                    <button type="submit"> Submit </button>
+                </form>
+                <div ng-repeat = "comment in comments">
+                    <p>{{comment.content}} <strong>{{comment.name}}</strong> at {{comment.created_at}}</p>  
+                </div>
+
+                <a>Add a Comment</a>
             </div>
 
             <div class='answer'>
@@ -56,9 +70,9 @@
 
                     <c:forEach items="${answers}" var="answer">
                     <div class='colVote'>
-                        <div class='aVote arrow-up' id='<c:out value="${answer.getQid()}" />'></div>
-                        <span class='voteVal'><c:out value="${answer.getVotes()}" /></span>
-                        <div class='aVote arrow-down' id='<c:out value="${answer.getQid()}" />'></div>
+                        <div class='aVote arrow-up' id='<c:out value="${answer.getQid()}" />' ng-click='voteUp()'></div>
+                        <span class='voteVal'>{{vote}}</span>
+                        <div class='aVote arrow-down' id='<c:out value="${answer.getQid()}" />' ng-click='voteDown()'></div>
                     </div>
                     <div class='elemQDetail'>
                         <div class='elemQuestion elemA'><c:out value="${answer.getContent()}" /></div>
@@ -85,6 +99,8 @@
 </div>
 </div>
 
-<script src='scripts/detail.js'></script>
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="controller.js"></script>
+    <script type="text/javascript" src="vote.js"></script>
 </body>
 </html>
