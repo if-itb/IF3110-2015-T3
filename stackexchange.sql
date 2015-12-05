@@ -3,11 +3,10 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2015 at 08:42 AM
+-- Generation Time: Dec 05, 2015 at 10:21 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -33,7 +32,15 @@ CREATE TABLE IF NOT EXISTS `answer` (
   `id_user` int(10) NOT NULL,
   `content` text NOT NULL,
   `timepost` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `answer`
+--
+
+INSERT INTO `answer` (`id`, `id_question`, `id_user`, `content`, `timepost`) VALUES
+(1, 1, 2, 'Halo salam kenal. Nama saya wawan', '2015-11-28 00:20:55'),
+(2, 1, 3, 'Halo namaku raihan', '2015-11-28 00:21:16');
 
 -- --------------------------------------------------------
 
@@ -47,7 +54,14 @@ CREATE TABLE IF NOT EXISTS `question` (
   `topic` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `timepost` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `question`
+--
+
+INSERT INTO `question` (`id`, `id_user`, `topic`, `content`, `timepost`) VALUES
+(1, 1, 'Hello, World!', 'Selamat datang di Web Kami...', '2015-11-28 00:20:18');
 
 -- --------------------------------------------------------
 
@@ -60,7 +74,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES
+(1, 'Admin', 'admin@selamatdaribadai.org', 'admin123'),
+(2, 'adarwawan', 'adarwawan@gmail.com', 'adalah123'),
+(3, 'raihannur', 'raihan@gmail.com', '280795');
 
 -- --------------------------------------------------------
 
@@ -73,6 +96,21 @@ CREATE TABLE IF NOT EXISTS `user_token` (
   `token` varchar(255) NOT NULL,
   `time_expire` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_token`
+--
+
+INSERT INTO `user_token` (`id_user`, `token`, `time_expire`) VALUES
+(2, '797#Java/1.8.0_31#127.0.0.1', '2015-12-05 07:30:19'),
+(2, '350#Java/1.8.0_31#127.0.0.1', '2015-12-05 07:31:52'),
+(2, '718#Java/1.8.0_31#127.0.0.1', '2015-12-05 07:33:16'),
+(2, '497#Mozilla/5.0 (Windows NT 10.0; rv:42.0) Gecko/20100101 Firefox/42.0#0:0:0:0:0:0:0:1', '2015-12-05 07:35:59'),
+(2, '738#Java/1.8.0_31#127.0.0.1', '2015-12-05 07:40:55'),
+(2, '42#Mozilla/5.0 (Windows NT 10.0; rv:42.0) Gecko/20100101 Firefox/42.0#127.0.0.1', '2015-12-05 07:44:25'),
+(2, '610#Mozilla%2F5.0+%28Windows+NT+10.0%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-05 09:15:23'),
+(2, '530#Mozilla%2F5.0+%28Windows+NT+10.0%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F46.0.2490.86+Safari%2F537.36#0:0:0:0:0:0:0:1', '2015-12-05 09:20:14'),
+(2, '592#Mozilla%2F5.0+%28Windows+NT+10.0%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-05 09:20:48');
 
 -- --------------------------------------------------------
 
@@ -118,7 +156,7 @@ ALTER TABLE `question`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username` (`username`);
 
 --
 -- Indexes for table `user_token`
@@ -146,17 +184,17 @@ ALTER TABLE `vote_question`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
@@ -192,7 +230,6 @@ ADD CONSTRAINT `vote_answer_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `user` (`
 ALTER TABLE `vote_question`
 ADD CONSTRAINT `vote_question_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT `vote_question_ibfk_2` FOREIGN KEY (`id_question`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

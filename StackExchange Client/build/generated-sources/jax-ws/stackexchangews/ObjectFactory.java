@@ -33,6 +33,7 @@ public class ObjectFactory {
     private final static QName _IOException_QNAME = new QName("http://stackexchangews/", "IOException");
     private final static QName _DeleteQ_QNAME = new QName("http://stackexchangews/", "deleteQ");
     private final static QName _AuthResponse_QNAME = new QName("http://stackexchangews/", "AuthResponse");
+    private final static QName _VoteResponse_QNAME = new QName("http://stackexchangews/", "voteResponse");
     private final static QName _GetUIDbyTokenResponse_QNAME = new QName("http://stackexchangews/", "getUIDbyTokenResponse");
     private final static QName _CreateAnswerResponse_QNAME = new QName("http://stackexchangews/", "createAnswerResponse");
     private final static QName _RegisterResponse_QNAME = new QName("http://stackexchangews/", "registerResponse");
@@ -45,6 +46,7 @@ public class ObjectFactory {
     private final static QName _MalformedURLException_QNAME = new QName("http://stackexchangews/", "MalformedURLException");
     private final static QName _DeleteAResponse_QNAME = new QName("http://stackexchangews/", "deleteAResponse");
     private final static QName _CountVote_QNAME = new QName("http://stackexchangews/", "countVote");
+    private final static QName _EditQResponse_QNAME = new QName("http://stackexchangews/", "editQResponse");
     private final static QName _GetUserbyID_QNAME = new QName("http://stackexchangews/", "getUserbyID");
     private final static QName _GetUserbyToken_QNAME = new QName("http://stackexchangews/", "getUserbyToken");
     private final static QName _CountAnswerResponse_QNAME = new QName("http://stackexchangews/", "countAnswerResponse");
@@ -92,6 +94,14 @@ public class ObjectFactory {
      */
     public CountVote createCountVote() {
         return new CountVote();
+    }
+
+    /**
+     * Create an instance of {@link EditQResponse }
+     * 
+     */
+    public EditQResponse createEditQResponse() {
+        return new EditQResponse();
     }
 
     /**
@@ -236,6 +246,14 @@ public class ObjectFactory {
      */
     public AuthResponse createAuthResponse() {
         return new AuthResponse();
+    }
+
+    /**
+     * Create an instance of {@link VoteResponse }
+     * 
+     */
+    public VoteResponse createVoteResponse() {
+        return new VoteResponse();
     }
 
     /**
@@ -384,6 +402,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://stackexchangews/", name = "voteResponse")
+    public JAXBElement<VoteResponse> createVoteResponse(VoteResponse value) {
+        return new JAXBElement<VoteResponse>(_VoteResponse_QNAME, VoteResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetUIDbyTokenResponse }{@code >}}
      * 
      */
@@ -489,6 +516,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://stackexchangews/", name = "countVote")
     public JAXBElement<CountVote> createCountVote(CountVote value) {
         return new JAXBElement<CountVote>(_CountVote_QNAME, CountVote.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link EditQResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://stackexchangews/", name = "editQResponse")
+    public JAXBElement<EditQResponse> createEditQResponse(EditQResponse value) {
+        return new JAXBElement<EditQResponse>(_EditQResponse_QNAME, EditQResponse.class, null, value);
     }
 
     /**

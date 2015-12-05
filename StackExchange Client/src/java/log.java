@@ -60,10 +60,16 @@ public class log extends HttpServlet {
             String charset = "UTF-8";
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            
-            String query = String.format("email=%s&password=%s", 
+            String UA =  request.getHeader("User-Agent");
+            String address = request.getHeader("X-Forwarded-For");
+            if (address == null) {
+                address = request.getRemoteAddr();
+            }
+            String query = String.format("email=%s&password=%s&ua=%s&addr=%s", 
                                     URLEncoder.encode(email, charset), 
-                                    URLEncoder.encode(password, charset));
+                                    URLEncoder.encode(password, charset),
+                                    URLEncoder.encode(UA,charset),
+                                    URLEncoder.encode(address,charset));
             
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setDoOutput(true); // Triggers POST.
@@ -87,7 +93,7 @@ public class log extends HttpServlet {
               if (output.equals("{\"error\":\"invalid email or password\"}")) {
                   out.println("Login failed, invalid email or password");
               } else {       
-                  out.println("Login success! Welcome!");
+                  out.println("Login success! Welcome!");                  
                     obj = parser.parse(output);
                     jobj = (JSONObject) obj;                    
                     String acctoken = (String) jobj.get("user_token");                       

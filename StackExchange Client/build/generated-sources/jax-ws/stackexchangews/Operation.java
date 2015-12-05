@@ -1,7 +1,6 @@
 
 package stackexchangews;
 
-import javax.jws.Oneway;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -49,24 +48,35 @@ public interface Operation {
 
     /**
      * 
-     * @param title
+     * @param topic
+     * @param id
      * @param content
      * @param token
-     * @return
-     *     returns boolean
+     * @throws ParseException_Exception
+     * @throws UnsupportedEncodingException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "createQuestion", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateQuestion")
-    @ResponseWrapper(localName = "createQuestionResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateQuestionResponse")
-    @Action(input = "http://stackexchangews/Operation/createQuestionRequest", output = "http://stackexchangews/Operation/createQuestionResponse")
-    public boolean createQuestion(
+    @RequestWrapper(localName = "editQ", targetNamespace = "http://stackexchangews/", className = "stackexchangews.EditQ")
+    @ResponseWrapper(localName = "editQResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.EditQResponse")
+    @Action(input = "http://stackexchangews/Operation/editQRequest", output = "http://stackexchangews/Operation/editQResponse", fault = {
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/editQ/Fault/IOException"),
+        @FaultAction(className = UnsupportedEncodingException_Exception.class, value = "http://stackexchangews/Operation/editQ/Fault/UnsupportedEncodingException"),
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/editQ/Fault/MalformedURLException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/editQ/Fault/ParseException")
+    })
+    public void editQ(
         @WebParam(name = "token", targetNamespace = "")
         String token,
-        @WebParam(name = "title", targetNamespace = "")
-        String title,
+        @WebParam(name = "id", targetNamespace = "")
+        int id,
+        @WebParam(name = "topic", targetNamespace = "")
+        String topic,
         @WebParam(name = "content", targetNamespace = "")
-        String content);
+        String content)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
+    ;
 
     /**
      * 
@@ -74,35 +84,28 @@ public interface Operation {
      * @param token
      * @return
      *     returns boolean
+     * @throws ParseException_Exception
+     * @throws UnsupportedEncodingException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "deleteQ", targetNamespace = "http://stackexchangews/", className = "stackexchangews.DeleteQ")
     @ResponseWrapper(localName = "deleteQResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.DeleteQResponse")
-    @Action(input = "http://stackexchangews/Operation/deleteQRequest", output = "http://stackexchangews/Operation/deleteQResponse")
+    @Action(input = "http://stackexchangews/Operation/deleteQRequest", output = "http://stackexchangews/Operation/deleteQResponse", fault = {
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/deleteQ/Fault/MalformedURLException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/deleteQ/Fault/IOException"),
+        @FaultAction(className = UnsupportedEncodingException_Exception.class, value = "http://stackexchangews/Operation/deleteQ/Fault/UnsupportedEncodingException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/deleteQ/Fault/ParseException")
+    })
     public boolean deleteQ(
         @WebParam(name = "token", targetNamespace = "")
         String token,
         @WebParam(name = "idq", targetNamespace = "")
-        int idq);
-
-    /**
-     * 
-     * @param mode
-     * @param id
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "countVote", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CountVote")
-    @ResponseWrapper(localName = "countVoteResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CountVoteResponse")
-    @Action(input = "http://stackexchangews/Operation/countVoteRequest", output = "http://stackexchangews/Operation/countVoteResponse")
-    public int countVote(
-        @WebParam(name = "mode", targetNamespace = "")
-        boolean mode,
-        @WebParam(name = "id", targetNamespace = "")
-        String id);
+        int idq)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
+    ;
 
     /**
      * 
@@ -110,11 +113,20 @@ public interface Operation {
      * @param val
      * @param idq
      * @param token
+     * @throws ParseException_Exception
+     * @throws UnsupportedEncodingException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
-    @Oneway
     @RequestWrapper(localName = "vote", targetNamespace = "http://stackexchangews/", className = "stackexchangews.Vote")
-    @Action(input = "http://stackexchangews/Operation/vote")
+    @ResponseWrapper(localName = "voteResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.VoteResponse")
+    @Action(input = "http://stackexchangews/Operation/voteRequest", output = "http://stackexchangews/Operation/voteResponse", fault = {
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/vote/Fault/IOException"),
+        @FaultAction(className = UnsupportedEncodingException_Exception.class, value = "http://stackexchangews/Operation/vote/Fault/UnsupportedEncodingException"),
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/vote/Fault/MalformedURLException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/vote/Fault/ParseException")
+    })
     public void vote(
         @WebParam(name = "token", targetNamespace = "")
         String token,
@@ -123,7 +135,9 @@ public interface Operation {
         @WebParam(name = "idq", targetNamespace = "")
         String idq,
         @WebParam(name = "val", targetNamespace = "")
-        int val);
+        int val)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
+    ;
 
     /**
      * 
@@ -148,102 +162,39 @@ public interface Operation {
 
     /**
      * 
-     * @param token
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getUserbyToken", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyToken")
-    @ResponseWrapper(localName = "getUserbyTokenResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyTokenResponse")
-    @Action(input = "http://stackexchangews/Operation/getUserbyTokenRequest", output = "http://stackexchangews/Operation/getUserbyTokenResponse")
-    public String getUserbyToken(
-        @WebParam(name = "token", targetNamespace = "")
-        String token);
-
-    /**
-     * 
      * @param ida
      * @param token
      * @return
      *     returns boolean
+     * @throws ParseException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "deleteA", targetNamespace = "http://stackexchangews/", className = "stackexchangews.DeleteA")
     @ResponseWrapper(localName = "deleteAResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.DeleteAResponse")
-    @Action(input = "http://stackexchangews/Operation/deleteARequest", output = "http://stackexchangews/Operation/deleteAResponse")
+    @Action(input = "http://stackexchangews/Operation/deleteARequest", output = "http://stackexchangews/Operation/deleteAResponse", fault = {
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/deleteA/Fault/MalformedURLException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/deleteA/Fault/ParseException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/deleteA/Fault/IOException")
+    })
     public boolean deleteA(
         @WebParam(name = "token", targetNamespace = "")
         String token,
         @WebParam(name = "ida", targetNamespace = "")
-        int ida);
-
-    /**
-     * 
-     * @param topic
-     * @param id
-     * @param content
-     * @param token
-     */
-    @WebMethod
-    @Oneway
-    @RequestWrapper(localName = "editQ", targetNamespace = "http://stackexchangews/", className = "stackexchangews.EditQ")
-    @Action(input = "http://stackexchangews/Operation/editQ")
-    public void editQ(
-        @WebParam(name = "token", targetNamespace = "")
-        String token,
-        @WebParam(name = "id", targetNamespace = "")
-        int id,
-        @WebParam(name = "topic", targetNamespace = "")
-        String topic,
-        @WebParam(name = "content", targetNamespace = "")
-        String content);
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getUserbyID", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyID")
-    @ResponseWrapper(localName = "getUserbyIDResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyIDResponse")
-    @Action(input = "http://stackexchangews/Operation/getUserbyIDRequest", output = "http://stackexchangews/Operation/getUserbyIDResponse")
-    public String getUserbyID(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
-
-    /**
-     * 
-     * @param idq
-     * @param content
-     * @param token
-     * @return
-     *     returns boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "createAnswer", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateAnswer")
-    @ResponseWrapper(localName = "createAnswerResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateAnswerResponse")
-    @Action(input = "http://stackexchangews/Operation/createAnswerRequest", output = "http://stackexchangews/Operation/createAnswerResponse")
-    public boolean createAnswer(
-        @WebParam(name = "token", targetNamespace = "")
-        String token,
-        @WebParam(name = "idq", targetNamespace = "")
-        String idq,
-        @WebParam(name = "content", targetNamespace = "")
-        String content);
+        int ida)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception
+    ;
 
     /**
      * 
      * @param token
      * @return
-     *     returns java.lang.String
-     * @throws MalformedURLException_Exception
+     *     returns int
      * @throws UnsupportedEncodingException_Exception
      * @throws ParseException_Exception
+     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
      */
     @WebMethod(operationName = "Auth")
@@ -256,9 +207,41 @@ public interface Operation {
         @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/Auth/Fault/IOException"),
         @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/Auth/Fault/ParseException")
     })
-    public String auth(
+    public int auth(
         @WebParam(name = "token", targetNamespace = "")
         String token)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
+    ;
+
+    /**
+     * 
+     * @param title
+     * @param content
+     * @param token
+     * @return
+     *     returns boolean
+     * @throws ParseException_Exception
+     * @throws UnsupportedEncodingException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "createQuestion", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateQuestion")
+    @ResponseWrapper(localName = "createQuestionResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateQuestionResponse")
+    @Action(input = "http://stackexchangews/Operation/createQuestionRequest", output = "http://stackexchangews/Operation/createQuestionResponse", fault = {
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/createQuestion/Fault/MalformedURLException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/createQuestion/Fault/IOException"),
+        @FaultAction(className = UnsupportedEncodingException_Exception.class, value = "http://stackexchangews/Operation/createQuestion/Fault/UnsupportedEncodingException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/createQuestion/Fault/ParseException")
+    })
+    public boolean createQuestion(
+        @WebParam(name = "token", targetNamespace = "")
+        String token,
+        @WebParam(name = "title", targetNamespace = "")
+        String title,
+        @WebParam(name = "content", targetNamespace = "")
+        String content)
         throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
     ;
 
@@ -279,6 +262,39 @@ public interface Operation {
 
     /**
      * 
+     * @param id
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserbyID", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyID")
+    @ResponseWrapper(localName = "getUserbyIDResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyIDResponse")
+    @Action(input = "http://stackexchangews/Operation/getUserbyIDRequest", output = "http://stackexchangews/Operation/getUserbyIDResponse")
+    public String getUserbyID(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
+     * @param mode
+     * @param id
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "countVote", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CountVote")
+    @ResponseWrapper(localName = "countVoteResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CountVoteResponse")
+    @Action(input = "http://stackexchangews/Operation/countVoteRequest", output = "http://stackexchangews/Operation/countVoteResponse")
+    public int countVote(
+        @WebParam(name = "mode", targetNamespace = "")
+        boolean mode,
+        @WebParam(name = "id", targetNamespace = "")
+        String id);
+
+    /**
+     * 
      * @param token
      * @return
      *     returns int
@@ -291,5 +307,52 @@ public interface Operation {
     public int getUIDbyToken(
         @WebParam(name = "token", targetNamespace = "")
         String token);
+
+    /**
+     * 
+     * @param token
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUserbyToken", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyToken")
+    @ResponseWrapper(localName = "getUserbyTokenResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.GetUserbyTokenResponse")
+    @Action(input = "http://stackexchangews/Operation/getUserbyTokenRequest", output = "http://stackexchangews/Operation/getUserbyTokenResponse")
+    public String getUserbyToken(
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
+     * @param idq
+     * @param content
+     * @param token
+     * @return
+     *     returns boolean
+     * @throws ParseException_Exception
+     * @throws UnsupportedEncodingException_Exception
+     * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "createAnswer", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateAnswer")
+    @ResponseWrapper(localName = "createAnswerResponse", targetNamespace = "http://stackexchangews/", className = "stackexchangews.CreateAnswerResponse")
+    @Action(input = "http://stackexchangews/Operation/createAnswerRequest", output = "http://stackexchangews/Operation/createAnswerResponse", fault = {
+        @FaultAction(className = MalformedURLException_Exception.class, value = "http://stackexchangews/Operation/createAnswer/Fault/MalformedURLException"),
+        @FaultAction(className = IOException_Exception.class, value = "http://stackexchangews/Operation/createAnswer/Fault/IOException"),
+        @FaultAction(className = UnsupportedEncodingException_Exception.class, value = "http://stackexchangews/Operation/createAnswer/Fault/UnsupportedEncodingException"),
+        @FaultAction(className = ParseException_Exception.class, value = "http://stackexchangews/Operation/createAnswer/Fault/ParseException")
+    })
+    public boolean createAnswer(
+        @WebParam(name = "token", targetNamespace = "")
+        String token,
+        @WebParam(name = "idq", targetNamespace = "")
+        String idq,
+        @WebParam(name = "content", targetNamespace = "")
+        String content)
+        throws IOException_Exception, MalformedURLException_Exception, ParseException_Exception, UnsupportedEncodingException_Exception
+    ;
 
 }

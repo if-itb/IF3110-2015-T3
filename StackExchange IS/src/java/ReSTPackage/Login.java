@@ -8,6 +8,7 @@ package ReSTPackage;
 import database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -65,11 +66,10 @@ public class Login extends HttpServlet {
                 //Generate Token
                 Random rand = new Random();
                 int randnum = rand.nextInt(1000);
-                String useragent = request.getHeader("user-agent");
-                String address = request.getHeader("X-Forwarded-For");
-                if (address == null) {
-                    address = request.getRemoteAddr();
-                }
+                String useragent = request.getParameter("ua");
+                useragent = URLEncoder.encode(useragent, "UTF-8");
+                String address = request.getParameter("addr");
+                
                 String token = randnum + "#" + useragent + "#" + address;
                 
                 //Generate Expired Time
