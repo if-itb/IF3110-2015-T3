@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<nav class="blue" role="navigation">
+<nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper"><a id="logo-container" href="#" class="brand-logo">Stack Exchange</a>
         <ul class="right hide-on-med-and-down">
             <c:if test = "${login != 'true'}">
@@ -41,14 +41,14 @@
                     <div class="input-field">
                         <%--<i class="material-icons prefix">search</i>--%>
                         <input id="input-search" type="text" class="validate">
-                        <label for="input-search">Search</label>
+                        <label class="red-text" for="input-search">Search</label>
                     </div>
                     <div class="center-align">
-                        <i>Cannot find what you are looking for?</i> &nbsp;&nbsp;<a class="waves-effect waves-light btn blue white-text modal-trigger" data-target="modal1">Ask here</a>
+                        <i class="red-text">Cannot find what you are looking for?</i> &nbsp;&nbsp;<a class="waves-effect waves-light btn red lighten-1 white-text modal-trigger" data-target="modal1">Ask here</a>
                     </div>
                 </form>
                 <div class="col s2" id="search-btn-wrapper">
-                    <a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">search</i></a>
+                    <a class="btn-floating btn-large waves-effect waves-light red lighten-1"><i class="material-icons">search</i></a>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
 </section>
 
 <section id="question-title">
-    <h5 class="blue-text">Top Questions</h5>
+    <h5 class="red-text">Top Questions</h5>
     <div class="divider"></div>
 </section>
 
@@ -64,7 +64,7 @@
     <c:forEach items="${questions}" var="question">
         <div class="row">
             <div class="col s10 offset-s1">
-                <div class="card blue" data-id="${question.id}">
+                <div class="card red lighten-1" data-id="${question.id}">
                     <div class="card-content white-text">
                         <span class="clearfix">
                             <span class="card-title">${question.title}</span>
@@ -81,18 +81,8 @@
                         </a>
                         <ul>
                             <li class="thumb-btn-wrapper">
-                                <a class="btn-floating orange thumbs-num">
+                                <a class="btn-floating red lighten-2 thumbs-num">
                                         ${question.vote}
-                                </a>
-                            </li>
-                            <li class="thumb-btn-wrapper">
-                                <a class="btn-floating waves-effect green question-upvote-btn">
-                                    <i class="material-icons">thumb_up</i>
-                                </a>
-                            </li>
-                            <li class="thumb-btn-wrapper">
-                                <a class="btn-floating waves-effect red question-downvote-btn">
-                                    <i class="material-icons">thumb_down</i>
                                 </a>
                             </li>
                         </ul>
@@ -107,27 +97,27 @@
 <div id="modal1" class="modal">
     <form method="POST" id="add-question-form">
         <div class="modal-content">
-            <h4>Ask Your Question</h4>
+            <h4 class="red-text">Ask Your Question</h4>
 
             <div class="row">
                 <div class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="title" type="text" class="validate" name="title">
-                            <label for="title">Title</label>
+                            <label class="red-text" for="title">Title</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <textarea id="textarea1" class="materialize-textarea" name="content"></textarea>
-                            <label for="textarea1">Textarea</label>
+                            <label class="red-text" for="textarea1">Question</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button id="add-question-btn" class="waves-effect blue white-text btn-flat" type="submit" value="Send">Send</button>
+            <button id="add-question-btn" class="waves-effect red lighten-1 white-text btn-flat" type="submit" value="Send">Send</button>
         </div>
     </form>
 </div>

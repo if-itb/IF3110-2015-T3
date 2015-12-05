@@ -21,7 +21,7 @@
 </head>
 <body>
 
-<nav class="blue" role="navigation">
+<nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper"><a id="logo-container" href="/" class="brand-logo">Stack Exchange</a>
         <ul class="right hide-on-med-and-down">
             <li><img src="/assets/images/user-icon.png" alt="" class="circle responsive-img"></li>
@@ -30,7 +30,7 @@
 </nav>
 
 <div class="valign-wrapper register-card-wrapper center-align">
-    <div class="card-panel blue">
+    <div class="card-panel red lighten-1">
           <h1 class="white-text">${error}</h1>
     </div>
 </div>
