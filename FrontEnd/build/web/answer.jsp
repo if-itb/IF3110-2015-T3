@@ -36,7 +36,17 @@
     </head>
     <body>
         <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                }
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
 
@@ -44,8 +54,6 @@
 
                 Timestamp result = new Timestamp(port.getExpiredDate(token));
                 Timestamp ts = new Timestamp(System.currentTimeMillis());
-                /*out.println(ts);
-                out.println(result);*/
 
                 if (ts.after(result)) {
                     String site = "http://localhost:8001/Identity/LoginRSServlet?token="+request.getParameter("token");
@@ -62,22 +70,14 @@
                 out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + request.getParameter("token") + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
             %>
             <div class="container">
-                <%
-                    
-                    if (token != null) {
-                        out.println("<p><a href='index.jsp?token=" + token + "'>Simple StackExchange</a></p> ");
-                    } else {
-                        out.println("<p><a href='index.jsp'>Simple StackExchange</a></p> ");
-                    }
-
-                %> 
+                <p><a href="index.jsp">Simple StackExchange</a></p>
             </div>
         </div>
 
         <div class="main">
             <div class="container">
                 <%-- start web service invocation --%><hr/>
-                <%                    token = request.getParameter("token");
+                <%                    
                     int qidFromURL = Integer.parseInt(request.getParameter("id"));
 
                     //take the first question
@@ -91,14 +91,14 @@
                             out.println("<h2>" + result.get(i).getTopic() + "</h2>");
                             out.println("<div class='columnsmall left'>");
                             //hide if token is not validated 
-                            if (token != null) {
+                            if (!token.equals("")) {
                                 out.println("<a href='upQues.jsp?id=" + qidFromURL + "&token=" + token + "'>");
                                 out.println("<img src='up.png' alt='up' height='42' width='42' >");
                                 out.println("</a>");
                             }
                             //print number of votes
                             out.println("<p>" + result.get(i).getVotes() + "</p>");
-                            if (token != null) {
+                            if (!token.equals("")) {
                                 out.println("<a href='downQues.jsp?id=" + qidFromURL + "&token=" + token + "'>");
                                 out.println("<img src='down.png' alt='up' height='42' width='42' >");
                                 out.println("</a>");
@@ -145,14 +145,14 @@
 
                             out.println("<div class='columnsmall left' >");
                             //hide if token is not validated 
-                            if (token != null) {
+                            if (!token.equals("")) {
                                 out.println("<a href='upAns.jsp?id=" + result.get(i).getAnswerID() + "&qid=" + qidFromURL + "&token=" + token + "'>");
                                 out.println("<img src='up.png' alt='up' height='42' width='42' >");
                                 out.println("</a>");
                             }
                             out.println("<p>" + result.get(i).getVotes() + "</p>");
                             //hide if token is not validated 
-                            if (token != null) {
+                            if (!token.equals("")) {
                                 out.println("<a href='downAns.jsp?id=" + result.get(i).getAnswerID() + "&qid=" + qidFromURL + "&token=" + token + "'>");
                                 out.println("<img src='down.png' alt='up' height='42' width='42' >");
                                 out.println("</a>");
@@ -180,7 +180,7 @@
                 <div>
                     
                     <%                        //Check if the token is null then hide form
-                        if (token != null) {
+                        if (!token.equals("")) {
                             out.println("<h3>Your Answer</h3>");
                             out.println("<form name='answer' action='insertanswer.jsp?id=" + request.getParameter("id") + "&token=" + token + "' method='post' class='form'>");
                             out.println("<textarea name='content' placeholder='Content' maxlength='1500'></textarea>");

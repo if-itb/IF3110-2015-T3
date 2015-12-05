@@ -14,7 +14,17 @@
     </head>
     <body>
         <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                }
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
 
@@ -42,8 +52,8 @@
             <div class="container">
                 <%
                     
-                    if (token != null) {
-                        out.println("<p><a href='index.jsp?token=" + token + "'>Simple StackExchange</a></p> ");
+                    if (!token.equals("")) {
+                        out.println("<p><a href='index.jsp" + "'>Simple StackExchange</a></p> ");
                     } else {
                         out.println("<p><a href='index.jsp'>Simple StackExchange</a></p> ");
                     }
@@ -55,7 +65,7 @@
         <div class="main">
             <div class="container">
 
-                <%                    out.println("<form  name='question' action='insertquestion.jsp?token=" + token + "' method='post' class='form' >");
+                <%                    out.println("<form  name='question' action='insertquestion.jsp' method='post' class='form' >");
                     out.println(" <input type='text' name='topic' placeholder='Question Topic' maxlength='30'><br>");
                     out.println("<textarea name='content' placeholder='Content' maxlength='1500'></textarea>");
                     out.println(" <input type='submit' value='Post' >");

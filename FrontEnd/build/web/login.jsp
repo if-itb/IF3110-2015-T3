@@ -126,7 +126,6 @@
                             out.println("<br>Login unsuccessful. Username and password combination is incorrect.");
                         }
                         else {
-                            out.println("SDKLF");
                             response.sendRedirect("http://localhost:8000/FrontEnd/index.jsp");
                         }
                         
@@ -149,7 +148,5 @@
                 </form>
             </div>
         </div>
-
-
     </body>
 </html>

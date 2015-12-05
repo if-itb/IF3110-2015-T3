@@ -107,7 +107,6 @@ public class LoginRSServlet extends HttpServlet {
                 token = UUID.randomUUID().toString(); 
                 String finalToken = token + "#"+userAgent+"#"+request.getRemoteAddr(); //generate token
                 
-                out.println(finalToken);
                 Cookie ctoken = new Cookie("access_token",finalToken);
                 Cookie cfrontend = new Cookie("access_token_frontend",finalToken);
                 ctoken.setPath("/Identity/");
@@ -116,7 +115,7 @@ public class LoginRSServlet extends HttpServlet {
                 sql = "INSERT INTO sessions (Email, AccessToken,ExpiredDate) VALUES (?,?,NOW()+INTERVAL 5 MINUTE)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, request.getParameter("email"));
-                dbStatement.setString(2, token);
+                dbStatement.setString(2, finalToken);
                 dbStatement.executeUpdate();
 
                 response.addCookie(ctoken);

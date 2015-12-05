@@ -14,7 +14,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
     <%-- start web service invocation --%><hr/>
     <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                }
             int aid = Integer.parseInt(request.getParameter("id"));
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
