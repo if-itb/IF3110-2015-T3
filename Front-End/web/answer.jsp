@@ -7,7 +7,24 @@
 <%@ page import="QuestionWS.Question" %>
 <%@ page import="AnswerWS.Answer" %>
 <%@ page import="java.util.List" %>
+<%@ page import="javax.servlet.http.Cookie" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
+<% 
+    Cookie[] cookies = null;
+    Cookie cookie = null;
+    String token = "";
+    
+    cookies = request.getCookies();
+    if (cookies != null) {
+        for (int i=0; i < cookies.length; i++) {
+            cookie = cookies[i];
+            if ("token".equals(cookie.getName())) {
+                token = cookie.getValue();
+            }
+        }
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +40,11 @@
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="index?token=<%= request.getParameter("token") %>" class="brand-logo">RestingSOAP</a>
+      <a id="logo-container" href="index" class="brand-logo">RestingSOAP</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="about.jsp?token=<%= request.getParameter("token") %>">About Us</a></li>
-        <li><a href="login.jsp?token=<%= request.getParameter("token") %>">Log In</a></li>
-        <li><a href="register.jsp?token=<%= request.getParameter("token") %>">Sign Up</a></li>
+        <li><a href="about.jsp">About Us</a></li>
+        <li><a href="login.jsp">Log In</a></li>
+        <li><a href="register.jsp">Sign Up</a></li>
       </ul>
     </div>
   </nav>
@@ -54,14 +71,14 @@
             <div class="card-content white-text">
               <span class="card-title"><%= question.getTopic() %></span>
                 <p class="right vote"><%= question.getVote()%> vote</p>
-                <a href="voteDownQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= request.getParameter("token") %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
-                <a href="voteUpQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= request.getParameter("token") %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
+                <a href="voteDownQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
+                <a href="voteUpQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
                 <p><%= question.getContent() %></p>
             </div>
             <div class="card-action">
               <p class="blue-text text-lighten-1 right">Asked by <%= question.getUsername() %> at <%= question.getTimestamp() %></p>
-              <a href="editQuestion?qid=<%= question.getQuestionid() %>&token=<%= request.getParameter("token") %>">Edit</a>
-              <a class="red-text" href="delete?qid=<%= question.getQuestionid() %>&token=<%= request.getParameter("token") %>">Delete</a>
+              <a href="editQuestion?qid=<%= question.getQuestionid() %>">Edit</a>
+              <a class="red-text" href="delete?qid=<%= question.getQuestionid() %>">Delete</a>
             </div>
           </div>
         </div>
@@ -82,8 +99,8 @@
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <p class="right vote"><%= answer.getVote()%> vote</p>
-              <a href="voteDownAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= request.getParameter("token") %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
-              <a href="voteUpAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= request.getParameter("token") %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
+              <a href="voteDownAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
+              <a href="voteUpAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
               <p><%= answer.getContent() %></p>
             </div>
             <div class="card-action">
@@ -100,7 +117,7 @@
  
   <form action="submitAnswer" method="post">
   <input name="qid" type="hidden" value="<%= question.getQuestionid() %>">
-  <input name="token" type="hidden" value="<%= request.getParameter("token") %>">
+  <input name="token" type="hidden" value="<%= token %>">
   <div class="container">
     <div class="section">
         <h2 class="header center blue-text text-darken-4">Your Answer</h2>

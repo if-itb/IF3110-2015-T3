@@ -13,11 +13,11 @@ import java.sql.*;
 public class DBConnection {
 	// JDBC driver name dan database URL
 	final String JDBC_DRIVER="com.mysql.jdbc.Driver";  
-	final String DB_URL="jdbc:mysql://localhost:3306/restingsoapdb";
+	final String DB_URL="jdbc:mysql://localhost:3306/restingsoapdb?zeroDateTimeBehavior=convertToNull";
 		
 	//  Username dan password
 	final String USER = "root";
-	final String PASS = "venzel";//sesuaikan dengan password database
+	final String PASS = "";//sesuaikan dengan password database
 	
 	private Connection conn;
 	

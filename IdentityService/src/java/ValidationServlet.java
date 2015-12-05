@@ -22,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
+import ua_parser.Client;
+import ua_parser.Parser;
 
 /**
  *
@@ -49,11 +51,22 @@ public class ValidationServlet extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
           String token = request.getParameter("token");
-
+          
+          String userAgent = request.getHeader("User-Agent");
+          Parser uaParser = new Parser();
+          Client c = uaParser.parse(userAgent);
+          String ua = c.userAgent.family + "_" + c.os.family + "_" + c.device.family;
+                    
+          String ipAddress = request.getHeader("X-Forwarded-For");
+          if (ipAddress == null) 
+            ipAddress = request.getRemoteAddr();
+          
+          System.out.println(token);
+          String[] tokenSplit = token.split("|");
           try {
               Statement stmt = conn.createStatement();
               String sql;
-
+              
               sql = "SELECT * FROM token WHERE value = ?";
               PreparedStatement dbStatement = conn.prepareStatement(sql);
               dbStatement.setString(1, token);
@@ -94,13 +107,26 @@ public class ValidationServlet extends HttpServlet {
                   }
 
                   out.print(obj);
-              } else {
+              } else if (!tokenSplit[1].equals(ua)) {
                   try {
-                      obj.put("message", "invalid");
+                      obj.put("message", "invalidagent");
                   } catch (JSONException ex) {
                       Logger.getLogger(ValidationServlet.class.getName()).log(Level.SEVERE, null, ex);
                   }
                   out.print(obj);
+              } else if (!tokenSplit[2].equals(ipAddress)) {
+                  try {
+                      obj.put("message", "invalidip");
+                  } catch (JSONException ex) {
+                      Logger.getLogger(ValidationServlet.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                  out.print(obj);
+              } else {
+                 try {
+                      obj.put("message", "invalid");
+                  } catch (JSONException ex) {
+                      Logger.getLogger(ValidationServlet.class.getName()).log(Level.SEVERE, null, ex);
+                  } 
               }
 
           } catch(SQLException ex) {  

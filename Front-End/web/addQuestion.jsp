@@ -20,11 +20,11 @@
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="index?token=<%= request.getParameter("token") %>" class="brand-logo">RestingSOAP</a>
+      <a id="logo-container" href="index" class="brand-logo">RestingSOAP</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="about.jsp?token=<%= request.getParameter("token") %>">About Us</a></li>
-        <li><a href="login.jsp?token=<%= request.getParameter("token") %>">Log In</a></li>
-        <li><a href="register.jsp?token=<%= request.getParameter("token") %>">Sign Up</a></li>
+        <li><a href="about.jsp">About Us</a></li>
+        <li><a href="login.jsp">Log In</a></li>
+        <li><a href="register.jsp">Sign Up</a></li>
       </ul>
     </div>
   </nav>
@@ -42,8 +42,7 @@
     <div class="parallax"><img src="images/background1.jpg" alt="Unsplashed background img 1"></div>
   </div>
 
-  <form action="submitQuestion" method="post">  
-  <input name="token" type="hidden" value="<%= request.getParameter("token") %>">
+  <form action="submitQuestion" method="post">
   <div class="container">
     <div class="section">
         <h2 class="header center blue-text text-darken-4">Question</h2>        

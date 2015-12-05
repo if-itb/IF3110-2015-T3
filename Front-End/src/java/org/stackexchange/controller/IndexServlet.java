@@ -87,7 +87,7 @@ public class IndexServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private List<Question> getAllQuestions() {
+    private java.util.List<QuestionWS.Question> getAllQuestions() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();

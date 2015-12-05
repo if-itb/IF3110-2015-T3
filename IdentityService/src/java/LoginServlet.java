@@ -13,9 +13,12 @@ import java.util.UUID;
 import java.util.logging.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import ua_parser.Parser;
+import ua_parser.Client;
 
 /**
  *
@@ -83,20 +86,35 @@ public class LoginServlet extends HttpServlet {
                 rs = statement.executeQuery(query1);
 
                 if (rs.next()) {
-                    UUID tokenGenerator = UUID.randomUUID();
+                    UUID tokenGenerator = UUID.randomUUID();                    
                     String token = tokenGenerator.toString();
-
+                    
+                    String userAgent = request.getHeader("User-Agent");
+                    Parser uaParser = new Parser();
+                    Client c = uaParser.parse(userAgent);
+                    String ua = c.userAgent.family + "_" + c.os.family + "_" + c.device.family;
+                    
+                    String ipAddress = request.getHeader("X-Forwarded-For");
+                    if (ipAddress == null) 
+                        ipAddress = request.getRemoteAddr();                    
+                                        
+                    String fulltoken = token + "|" + ua + "|" + ipAddress;
+                    
                     Calendar date = Calendar.getInstance();
                     long t = date.getTimeInMillis();
                     Date expirationDate = new Date(t + (15 * 60000));
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-
-                    String updateQuery = "INSERT INTO token(value, user_Email, expiration_date) values('" + token + "', '" + request.getParameter("email") + "', '" + df.format(expirationDate) + "')";
+                    
+                    String updateQuery = "INSERT INTO token(value, user_Email, expiration_date) values('" + fulltoken + "', '" + request.getParameter("email") + "', '" + df.format(expirationDate) + "')";
                     statement.execute(updateQuery);
-                    response.sendRedirect("http://localhost:8082/Front-End/index?token=" + token);
-                }
-                else {
+                    
+                    Cookie tokenCookie = new Cookie("token", fulltoken);
+                    tokenCookie.setPath("/Front-End");
+                    response.addCookie(tokenCookie);
+                    response.sendRedirect("http://localhost:8082/Front-End/index");
+                    
+                    
+                } else {
                     rs = statement.executeQuery(query2);
                     if (rs.next()) {
                         response.sendRedirect("http://localhost:8082/Front-End/login.jsp?fail");

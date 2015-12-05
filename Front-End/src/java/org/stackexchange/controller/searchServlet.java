@@ -37,11 +37,10 @@ public class searchServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String token = request.getParameter("token");
         String keyword = request.getParameter("keyword");
         List<Question> questions = getSearchQuestions(keyword);
         request.setAttribute("questions", questions);
-        response.sendRedirect("index?token="+token);
+        response.sendRedirect("index");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

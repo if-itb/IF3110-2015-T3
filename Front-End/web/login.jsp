@@ -20,11 +20,11 @@
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="index?token=<%= request.getParameter("token") %>" class="brand-logo">RestingSOAP</a>
+      <a id="logo-container" href="index" class="brand-logo">RestingSOAP</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="about.jsp?token=<%= request.getParameter("token") %>">About Us</a></li>
-        <li class="active"><a href="login.jsp?token=<%= request.getParameter("token") %>">Log In</a></li>
-        <li><a href="register.jsp?token=<%= request.getParameter("token") %>">Sign Up</a></li>
+        <li><a href="about.jsp">About Us</a></li>
+        <li class="active"><a href="login.jsp">Log In</a></li>
+        <li><a href="register.jsp">Sign Up</a></li>
       </ul>
     </div>
   </nav>

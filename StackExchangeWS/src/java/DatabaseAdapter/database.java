@@ -22,7 +22,7 @@ public class database {
         try {
             String url = "jdbc:mysql://localhost:3306/restingsoapdb?zeroDateTimeBehavior=convertToNull";
             String username = "root";
-            String password = "venzel";
+            String password = "";
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, username, password);
         } catch (SQLException ex) {

@@ -4,17 +4,17 @@
 <xsd:import namespace="http://AnswerModel/" schemaLocation="http://localhost:8081/StackExchangeWS/AnswerWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getAnswerByQID">
-<part name="parameters" element="tns:getAnswerByQID"/>
-</message>
-<message name="getAnswerByQIDResponse">
-<part name="parameters" element="tns:getAnswerByQIDResponse"/>
-</message>
 <message name="createAnswer">
 <part name="parameters" element="tns:createAnswer"/>
 </message>
 <message name="createAnswerResponse">
 <part name="parameters" element="tns:createAnswerResponse"/>
+</message>
+<message name="getAnswerByQID">
+<part name="parameters" element="tns:getAnswerByQID"/>
+</message>
+<message name="getAnswerByQIDResponse">
+<part name="parameters" element="tns:getAnswerByQIDResponse"/>
 </message>
 <message name="voteAnswer">
 <part name="parameters" element="tns:voteAnswer"/>
@@ -23,13 +23,13 @@
 <part name="parameters" element="tns:voteAnswerResponse"/>
 </message>
 <portType name="AnswerWS">
-<operation name="getAnswerByQID">
-<input wsam:Action="http://AnswerModel/AnswerWS/getAnswerByQIDRequest" message="tns:getAnswerByQID"/>
-<output wsam:Action="http://AnswerModel/AnswerWS/getAnswerByQIDResponse" message="tns:getAnswerByQIDResponse"/>
-</operation>
 <operation name="createAnswer">
 <input wsam:Action="http://AnswerModel/AnswerWS/createAnswerRequest" message="tns:createAnswer"/>
 <output wsam:Action="http://AnswerModel/AnswerWS/createAnswerResponse" message="tns:createAnswerResponse"/>
+</operation>
+<operation name="getAnswerByQID">
+<input wsam:Action="http://AnswerModel/AnswerWS/getAnswerByQIDRequest" message="tns:getAnswerByQID"/>
+<output wsam:Action="http://AnswerModel/AnswerWS/getAnswerByQIDResponse" message="tns:getAnswerByQIDResponse"/>
 </operation>
 <operation name="voteAnswer">
 <input wsam:Action="http://AnswerModel/AnswerWS/voteAnswerRequest" message="tns:voteAnswer"/>
@@ -38,7 +38,7 @@
 </portType>
 <binding name="AnswerWSPortBinding" type="tns:AnswerWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getAnswerByQID">
+<operation name="createAnswer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -47,7 +47,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="createAnswer">
+<operation name="getAnswerByQID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

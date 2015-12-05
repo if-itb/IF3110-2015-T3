@@ -9,6 +9,7 @@ import QuestionWS.QuestionWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,8 +50,22 @@ public class DeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
+
+        Cookie[] cookies = null;
+        Cookie cookie = null;
+        String token = "";
+
+        cookies = request.getCookies();
+        if (cookies != null) {
+            for (int i=0; i < cookies.length; i++) {
+                cookie = cookies[i];
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                }
+            }
+        }
+        
         int qid = Integer.parseInt(request.getParameter("qid"));
-        String token = request.getParameter("token");
         deleteQuestion(qid,token);
 //        processRequest(request, response);
         request.getRequestDispatcher("/index").forward(request, response);
