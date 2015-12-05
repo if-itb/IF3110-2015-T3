@@ -48,28 +48,27 @@ public class ISAuth extends HttpServlet {
             JSONObject object = new JSONObject();
             
             try (PreparedStatement statement = conn.prepareStatement(sql)){
-               statement.setString(1, token);
+                statement.setString(1, token);
                
-               ResultSet result = statement.executeQuery();
+                ResultSet result = statement.executeQuery();
                
-               if(result.next()){
-                   Date now = new Date();
-                   DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                if(result.next()){
+                    Date now = new Date();
+                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    
-                   try {
-                       Date expiry_date = format.parse(result.getString("expiry_date"));
-                       if (now.after(expiry_date)){
-                           object.put("error", "Expired Token");
-                           String deleteQuery = "DELETE FROM token WHERE access_token = ?";
-                           try (PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery)){
-                               deleteStatement.setString(1, token);
-                               deleteStatement.execute();
-                           }
-                       }
-                       else {
-                           object.put("id", result.getInt("u_id"));
-                           
-                       }
+                    try {
+                        Date expiry_date = format.parse(result.getString("expiry_date"));
+                        if (now.after(expiry_date)){
+                            object.put("error", "Expired Token");
+                            String deleteQuery = "DELETE FROM token WHERE access_token = ?";
+                            try (PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery)){
+                                deleteStatement.setString(1, token);
+                                deleteStatement.execute();
+                            }
+                        }
+                        else {
+                            object.put("id", result.getInt("u_id"));   
+                        }
                    }
                    catch(SQLException | ParseException e){
                        
