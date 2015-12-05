@@ -23,17 +23,22 @@ public final class AccessToken {
     private long expirationDate;
     private String username;
     private long id;
+    private String useragent;
+    private String ip;
     
     private final long lifetime = 15000;
     
     public AccessToken() {}
     
-    public AccessToken(String email, String username, long id) throws SQLException {
+    public AccessToken(String email, String username, long id, String useragent, String ip) throws SQLException {
         long now = System.currentTimeMillis() / 1000;
         this.token =  email + Long.toString(now);
         this.expirationDate = now + lifetime;
 	this.username = username;
 	this.id = id;
+        this.useragent = useragent;
+        this.ip = ip;
+        System.out.println(useragent + " " + ip);
     }
     
     @XmlElement
@@ -75,13 +80,15 @@ public final class AccessToken {
 	try {
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt = null;
-	    String sql = "insert into access_token(access_token, expiration_date, user_id)"
-		       + "values (?, ?, ?)";
+	    String sql = "insert into access_token(access_token, expiration_date, user_id, user_agent, ip)"
+		       + "values (?, ?, ?, ?, ?)";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, this.getToken());
 	    dbStatement.setInt(2, (int) (long) this.getExpirationDate());
             dbStatement.setLong(3, this.getId());
+            dbStatement.setString(4, this.useragent);
+            dbStatement.setString(5, this.ip);
 	    int rs = dbStatement.executeUpdate();
 	} catch (Exception ex) {
 	    System.out.println("Error add Token : " + ex);

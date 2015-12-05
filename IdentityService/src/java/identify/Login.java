@@ -31,11 +31,11 @@ public class Login extends HttpServlet {
                 response.setContentType("application/xml;charset=UTF-8");
 		// Get user from database
                 User user = User.getUser(email, password);
-                
                 if (user !=null) {
 		    // User exist in database
 		    // Create new accessToken
-                    AccessToken accessToken = new AccessToken(user.getEmail(), user.getName(), user.getId());
+                    AccessToken accessToken = new AccessToken(user.getEmail(), user.getName(), user.getId(), 
+                            request.getHeader("User-Agent"), request.getHeader("Remote-Origin"));
                     
 		    // Return the XML of the access token object
 		    out.println(accessToken.toXML().trim());

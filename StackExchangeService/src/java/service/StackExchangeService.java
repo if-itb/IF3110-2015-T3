@@ -7,17 +7,33 @@ import mysql.ConnectDb;
 import model.Question;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import model.Answer;
 import model.User;
 
 
 @WebService(serviceName = "StackExchangeService")
 public class StackExchangeService {
+    @Resource WebServiceContext wscontext;
+    public String getIP() {
+        MessageContext msgcontext = wscontext.getMessageContext();
+        HttpServletRequest request = (HttpServletRequest)msgcontext.get(MessageContext.SERVLET_REQUEST);
+        return request.getHeader("Remote-Origin");
+    }
+    
+    public String getUserAgent() {
+        MessageContext msgcontext = wscontext.getMessageContext();
+        HttpServletRequest request = (HttpServletRequest)msgcontext.get(MessageContext.SERVLET_REQUEST);
+        return request.getHeader("User-Agent");
+    }
     
     private int getUserId(String token) throws Exception {
         Connection conn = ConnectDb.connect();
@@ -70,6 +86,7 @@ public class StackExchangeService {
 	String tokenStatus = isValidToken(token).trim();
 	if (null != tokenStatus) switch (tokenStatus) {
 	    case "valid":
+                
                 int user_id = this.getUserId(token);
                 
                 Connection conn = ConnectDb.connect();
@@ -80,10 +97,11 @@ public class StackExchangeService {
 		ResultSet res = dbStatement.executeQuery();
 		
 		String email = null;
+                String useragent = null;
 		if(res.next()){
 		    email = res.getString("email");
 		}
-		
+                
 		stmt = conn.createStatement();
 		sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at, user_id)" +
 			"values (null, ?,?,?,?,0,0,Now(), ?)";
@@ -487,7 +505,7 @@ public class StackExchangeService {
 	    Client client = ClientBuilder.newClient();
 	    String url = "http://localhost:8080/IdentityService/login";
 	    
-	    String result = client.target(url).request(MediaType.APPLICATION_XML)
+	    String result = client.target(url).request(MediaType.APPLICATION_XML).header("User-Agent", this.getUserAgent())
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
 	    return result;
 	}

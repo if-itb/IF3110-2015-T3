@@ -49,6 +49,8 @@ public class Login extends HttpServlet {
 	{
 	    // Call the REST API and save the result string
 	    String result = client.target(url).request(MediaType.APPLICATION_XML)
+                    .header("User-Agent", request.getHeader("User-Agent"))
+                    .header("Remote-Origin", request.getRemoteAddr())
 		    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
 	    
 	    // The result is User not found or the loign failed
