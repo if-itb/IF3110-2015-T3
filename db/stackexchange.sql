@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2015 at 01:36 PM
+-- Generation Time: Dec 05, 2015 at 05:55 PM
 -- Server version: 5.6.26
 -- PHP Version: 5.6.12
 
@@ -74,7 +74,7 @@ INSERT INTO `question` (`id`, `name`, `email`, `topic`, `content`, `vote`) VALUE
 
 CREATE TABLE IF NOT EXISTS `token` (
   `email` varchar(60) NOT NULL,
-  `token_string` varchar(100) NOT NULL,
+  `token_string` varchar(200) NOT NULL,
   `expired_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `token` (
 --
 
 INSERT INTO `token` (`email`, `token_string`, `expired_date`) VALUES
-('muhtarhartopo@gmail.com', '03803bc38b8a7c244e724fab81057bcc5c63d751', '2015-11-27 10:10:14');
+('muhtarhartopo@gmail.com', 'puef1lc4htagb0v8n24t0u9f48$Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0$0:0:0:0:0:0:0:1$', '2015-12-05 16:13:00');
 
 -- --------------------------------------------------------
 
