@@ -1,31 +1,47 @@
 var answer = require('../models/Answer.js');
+var user = require('../models/User.js');
+var Const = require('../models/Const');
+var Response = require('../models/Response');
 
 var express = require('express');
 var router = express.Router();
 
-router.route('/answer/:id/upvote').get(function(req, res) {
-    answer.vote({answerId: req.params.id, userId: req.body.user_id, value: 1}, function(r) {
-        res.json(r);
+router.route('/answer/:id/upvote').post(function(req, res) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
+        if (usr.status === Const.STATUS_OK) {
+            answer.vote({answerId: req.params.id, userId: usr.data.user_id, value: 1}, function(r) {
+                res.status(r.status + '');
+                res.json(r);
+            });
+        } else {
+            res.status(usr.status + '');
+            res.json(Response(usr.status, usr.message));
+        }
     });
 });
 
-router.route('/answer/:id/downvote').get(function(req, res) {
-    answer.vote({answerId: req.params.id, userId: req.body.user_id, value: 1}, function(r) {
-        res.json(r);
+router.route('/answer/:id/downvote').post(function(req, res) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
+        if (usr.status === Const.STATUS_OK) {
+            answer.vote({answerId: req.params.id, userId: usr.data.user_id, value: -1}, function(r) {
+                res.status(r.status + '');
+                res.json(r);
+            });
+        } else {
+            res.status(usr.status + '');
+            res.json(Response(usr.status, usr.message));
+        }
     });
 });
-
-//create answer comment
-router.route('/answer/:id/comment')
-    .get(function(req, res){
-        answer.getByAnswerId(req.params.id, function(r) {
-            res.json(r);
-        });
-    })
-    .post(function(req,res) {
-        answer.create({answerId: req.params.id, userId: req.body.user_id, content: req.body.content}, function(r) {
-            res.json(r);
-        });
-    });
 
 module.exports = router;

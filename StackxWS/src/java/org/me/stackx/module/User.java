@@ -16,7 +16,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,11 +31,13 @@ public class User {
     private int valid;
     
     
-    public User(String accessToken) {
+    public User(String accessToken, String userAgent, String ipAddress) {
         try {
             this.valid = -1;
             JSONObject requestObj = new JSONObject();
             requestObj.put("token", accessToken);
+            requestObj.put("user_agent", userAgent);
+            requestObj.put("ip_address", ipAddress);
             byte[] postData       = requestObj.toString().getBytes( StandardCharsets.UTF_8 );
             int    postDataLength = postData.length;
             String request        = "http://localhost:8080/Identity_Service/Authentication";

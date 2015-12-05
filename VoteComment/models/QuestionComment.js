@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var Response = require('./Response');
+var Const = require('./Const');
 
 var connection = mysql.createConnection({
     host    : 'localhost',
@@ -16,9 +17,9 @@ questionComment.getById = function(id, callback) {
     connection.query('SELECT comment_id, question_id, user_id, content, create_date FROM comment_question WHERE comment_id=?', [id], function(err, results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results[0]);
+            resp = Response(Const.STATUS_OK, '', results[0]);
         }
         callback(resp);
 
@@ -27,22 +28,22 @@ questionComment.getById = function(id, callback) {
 }
 
 questionComment.getByQuestionId = function(id, callback) {
-    var sql = 'SELECT comment_id, question_id, user_id, content, create_date, SUM(vote) AS vote' +
+    var sql = 'SELECT comment_id, question_id, a.user_id AS user_id, u.name AS user_name, content, a.create_date, SUM(vote) AS vote' +
         ' FROM (' +
             ' SELECT c.comment_id AS comment_id, c.question_id AS question_id, c.user_id AS user_id, content, create_date, IFNULL( v.value, 0 ) AS vote' +
             ' FROM comment_question AS c' +
             ' LEFT OUTER JOIN vote_comment_question AS v ON c.comment_id = v.comment_id' +
-        ' ) AS a' +
+        ' ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id' +
         ' WHERE question_id=?' +
-        ' GROUP BY question_id' +
+        ' GROUP BY comment_id' +
         ' ORDER BY vote, create_date DESC';
 
     connection.query(sql, [id], function(err, results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results);
+            resp = Response(Const.STATUS_OK, '', results);
         }
         callback(resp);
 
@@ -58,7 +59,7 @@ questionComment.vote = function(req, callback) {
                 ' VALUES (?, ?, ?)';
 
             connection.query(sql, [req.commentId, req.userId, req.value], function(err, results) {
-                var resp = Response(0, '', results);
+                var resp = Response(Const.STATUS_OK, '', results);
                 callback(resp);
             });
         } else {
@@ -67,9 +68,9 @@ questionComment.vote = function(req, callback) {
                 connection.query(sql, [req.value, req.commentId, req.userId], function(err, results) {
                     var resp;
                     if (err) {
-                        resp = Response(err.errno, err.code, {});
+                        resp = Response(err.errno, err.message, {});
                     } else {
-                        resp = Response(0, '', results);
+                        resp = Response(Const.STATUS_OK, '', results);
                     }
                     callback(resp);
                 });
@@ -85,12 +86,12 @@ questionComment.create = function(req, callback) {
     var sql = 'INSERT INTO comment_question (question_id, user_id, content, create_date)' +
         ' VALUES (?, ?, ?, CURRENT_TIMESTAMP)';
 
-    connection.query(sql, [req.answerId, req.userId, req.content], function(err,results) {
+    connection.query(sql, [req.questionId, req.userId, req.content], function(err,results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results);
+            resp = Response(Const.STATUS_OK, '', results);
         }
         callback(resp);
 

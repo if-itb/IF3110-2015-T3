@@ -13,14 +13,16 @@ public class Answer {
     private int answerId;
     private int questionId;
     private int userId;
+    private String userName;
     private String content;
     private int vote;
     private String createDate;
 
-    public Answer(int answerId, int questionId, int userId, String content, int vote, String createDate) {
+    public Answer(int answerId, int questionId, int userId, String userName, String content, int vote, String createDate) {
         this.answerId = answerId;
         this.questionId = questionId;
         this.userId = userId;
+        this.userName = userName;
         this.content = content;
         this.vote = vote;
         this.createDate = createDate;
@@ -48,6 +50,14 @@ public class Answer {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getContent() {

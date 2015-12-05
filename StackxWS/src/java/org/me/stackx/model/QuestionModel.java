@@ -286,12 +286,12 @@ public class QuestionModel {
            //STEP 4: Execute a query
            stmt = (Statement) conn.createStatement();
            String sql;
-           sql = "SELECT question_id, user_id, title, content, create_date, SUM( vote ) AS vote" +
+           sql = "SELECT question_id, a.user_id as user_id, u.name AS user_name, title, content, a.create_date, SUM( vote ) AS vote" +
                 " FROM (" +
                     " SELECT q.question_id AS question_id, q.user_id AS user_id, title, content, create_date, IFNULL( vq.value, 0 ) AS vote" +
                     " FROM question AS q" +
                     " LEFT OUTER JOIN vote_question AS vq ON q.question_id = vq.question_id" +
-                    " ) AS a" +
+                    " ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id" +
                 " WHERE question_id = " + id +
                 " GROUP BY question_id" +
                 " ORDER BY create_date DESC";
@@ -302,12 +302,13 @@ public class QuestionModel {
                 //Retrieve by column name
                 int questionId  = rs.getInt("question_id");
                 int userId = rs.getInt("user_id");
+                String userName = rs.getString("user_name");
                 String title = rs.getString("title");
                 String content = rs.getString("content");
                 int vote = rs.getInt("vote");
                 Timestamp createDate = rs.getTimestamp("create_date");
 
-                r = new Question(questionId, userId, title, content, vote, createDate.toString());
+                r = new Question(questionId, userId, userName, title, content, vote, createDate.toString());
                 rs.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -352,12 +353,12 @@ public class QuestionModel {
            //STEP 4: Execute a query
            stmt = (Statement) conn.createStatement();
            String sql;
-           sql = "SELECT question_id, user_id, title, content, create_date, SUM( vote ) AS vote" +
+           sql = "SELECT question_id, a.user_id as user_id, u.name as user_name, title, content, a.create_date, SUM( vote ) AS vote" +
                 " FROM (" +
                     " SELECT q.question_id AS question_id, q.user_id AS user_id, title, content, create_date, IFNULL( vq.value, 0 ) AS vote" +
                     " FROM question AS q" +
                     " LEFT OUTER JOIN vote_question AS vq ON q.question_id = vq.question_id" +
-                    " ) AS a" +
+                    " ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id" +
                 " GROUP BY question_id" +
                 " ORDER BY create_date DESC";
             //STEP 5: Extract data from result set
@@ -367,12 +368,13 @@ public class QuestionModel {
                     //Retrieve by column name
                     int questionId  = rs.getInt("question_id");
                     int userId = rs.getInt("user_id");
+                    String userName = rs.getString("user_name");
                     String title = rs.getString("title");
                     String content = rs.getString("content");
                     int vote = rs.getInt("vote");
                     Timestamp createDate = rs.getTimestamp("create_date");
 
-                    questionList.add(new Question(questionId, userId, title, content, vote, createDate.toString()));
+                    questionList.add(new Question(questionId, userId, userName, title, content, vote, createDate.toString()));
                 }
                 r = new Question[questionList.size()];
                 r = questionList.toArray(r);
