@@ -8,6 +8,7 @@ package ReST;
 import Database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -62,7 +63,7 @@ public class Login extends HttpServlet {
           Random rand = new Random();
           int randomNum = rand.nextInt((1000 - 1) + 1) + 1;
           
-          String token = email + Integer.toString(randomNum) + userIP + userAgent;
+          String token = URLEncoder.encode(email + Integer.toString(randomNum) + userIP + userAgent, "UTF-8");
           
           Calendar date = Calendar.getInstance();
           long t = date.getTimeInMillis();

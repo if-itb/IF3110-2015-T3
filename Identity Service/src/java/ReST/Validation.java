@@ -8,6 +8,7 @@ package ReST;
 import Database.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,10 +51,10 @@ public class Validation extends HttpServlet {
       String userIP = request.getParameter("userIP");
       String userAgent = request.getParameter("userAgent");
       
-      String userIdentifier = userIP.toLowerCase() + userAgent.toLowerCase();
-      
+      String userIdentifier = URLEncoder.encode(userIP + userAgent, "UTF-8");
+
       if (!token.equals(null) && token.length() > userIdentifier.length())
-          if (token.substring(userIdentifier.length()).toLowerCase().equals(userIdentifier))
+          if (token.substring(token.length()-userIdentifier.length(), token.length()).equals(userIdentifier))
             try {
                 Statement stmt = conn.createStatement();
                 String sql;

@@ -14,11 +14,6 @@
     <%
         Cookie[] cookies = null;
         cookies = request.getCookies();
-        String userIP = request.getHeader("X-FORWARDED-FOR");  
-        if (userIP == null) {  
-            userIP = request.getRemoteAddr();  
-        }
-        String userAgent = request.getHeader("User-Agent");
         String token = null;
         if (cookies != null) {
             for (Cookie cookie: cookies) {
@@ -27,6 +22,12 @@
                 }
             }
         }
+        
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
     %>
     <%-- start web service invocation --%>
     <%

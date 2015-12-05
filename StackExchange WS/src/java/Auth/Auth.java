@@ -48,7 +48,7 @@ public class Auth {
       conn.setRequestMethod("POST");
       conn.setRequestProperty("Accept-Charset", charset);
       conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-
+      
       String query = String.format("token=%s&userIP=%s&userAgent=%s", 
                                     URLEncoder.encode(token, charset),
                                     URLEncoder.encode(userIP, charset),
