@@ -73,7 +73,7 @@ answerComment.vote = function(req, callback) {
                     resp = Response(err.errno, err.message, {});
                     callback(resp);
                 } else {
-                    questionComment.getById(req.commentId, function(r) {
+                    answerComment.getById(req.commentId, function(r) {
                         resp = r;
                         callback(resp);
                     });
