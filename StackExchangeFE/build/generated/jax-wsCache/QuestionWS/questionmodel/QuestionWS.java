@@ -195,8 +195,8 @@ public interface QuestionWS {
      * @param value
      * @return
      *     returns int
-     * @throws IOException_Exception
      * @throws ParseException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")

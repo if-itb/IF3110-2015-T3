@@ -128,8 +128,8 @@ public interface AnswerWS {
      * @param value
      * @return
      *     returns int
-     * @throws ParseException_Exception
      * @throws IOException_Exception
+     * @throws ParseException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
