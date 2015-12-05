@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : Dec 5, 2015, 2:09:48 PM
-    Author     : M. Fauzan Naufan
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

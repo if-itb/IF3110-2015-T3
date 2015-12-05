@@ -32,6 +32,7 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String UserAgent = request.getHeader("User-Agent");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             // Get the parameters needed
@@ -42,6 +43,7 @@ public class Login extends HttpServlet {
             Form form = new Form();
             form.param("email", email);
             form.param("password", password);
+            form.param("user-agent", UserAgent);
 	
             // Create a new Client Object
             Client client = ClientBuilder.newClient();
@@ -53,7 +55,7 @@ public class Login extends HttpServlet {
                // Call the REST API and save the result string
                String result = client.target(url).request(MediaType.APPLICATION_XML)
             	    .post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-                // The result is User not found or the loign failed
+                // The result is User not found or the login failed
                 if("authenticationerror".equals(result.trim())){
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		

@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -25,6 +24,7 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String IP = request.getRemoteAddr();
         // JDBC driver name and database URL
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/stackexchange";
@@ -59,7 +59,7 @@ public class Login extends HttpServlet {
 
                     String token = "";
                     do {
-                        token = generateToken();
+                        token = generateToken(request.getParameter("user-agent"), IP);
                         sql = "SELECT COUNT(*) as rowcount from token where AccessToken = '" + token + "'";
                         rs = stmt.executeQuery(sql);
                         rs.next();
@@ -70,9 +70,6 @@ public class Login extends HttpServlet {
                     sql = "INSERT INTO token (AccessToken,UserID,ExpiredDate) VALUES ('" + token + "'," + userid + ",'" + expiredDate + "')";
                     i = stmt.executeUpdate(sql);
                     if (i > 0) {
-                        //Cookie accessToken = new Cookie("access_token", token);
-                        //accessToken.setMaxAge(60 * 60 * 24);
-                        //response.addCookie(accessToken);
                         out.println(token);
                     }
                 } else {
@@ -124,17 +121,23 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String generateToken() {
+    private String generateToken(String UA, String IP) {
         String sAlphabet = "abcdefghijklmnopqrstuvwxyz";
         String CAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String number = "0123456789";
         String token = "";
+        String newUA = "";
+        String[] parts = UA.split(";");
+        for (String part : parts) {
+            newUA = newUA+ " " + part;
+        }
 
         Random r = new Random();
         token = token + sAlphabet.charAt(r.nextInt(26));
         token = token + number.charAt(r.nextInt(10));
         token = token + number.charAt(r.nextInt(10));
         token = token + CAlphabet.charAt(r.nextInt(26));
+        token = token + "#" + newUA.substring(1) + "#" + IP;
 
         return token;
     }
