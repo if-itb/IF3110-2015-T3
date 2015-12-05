@@ -24,6 +24,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 
@@ -170,18 +171,14 @@ public class voteServiceQ {
         System.out.println("Message : " + message);
         return message;
     }
+
+	@POST
+	//@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public int post() {
+            //int result = voteUp(access_token,qid);
+            System.out.println("HAHAH : Access TOken " );
+            return 10;
+	}
     
-    @POST
-    //@Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String post() throws ParseException{
-      String result = "Luminto";
-        /*if (direction == 1){
-            result = voteUp(access_token,qid);
-        } else {
-            result = voteDown(access_token,qid);
-        }*/
-        //System.out.println("Nino Homo" + token.access_token);
-        return result;
-    }
 }

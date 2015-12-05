@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html >
+<html ng-app ='voteApp'>
     <head>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
@@ -86,16 +86,16 @@
             
                 String question = 
  
-                    "<div ng-app ='voteApp' ng-controller='voteController' class='block-QA'>"
+                    "<div  ng-controller='voteQuestionController' class='block-QA'>"
 			+"<div class='bQA-vote'>"
-                            +"<a href = voteUp.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a class='vote-value' id='question_vote-" + qid +"'>"
 				+result.get(i).getVote()
                             +"</a>"
                             +"<br><br>"
-                            +"<a href = voteDown.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
                         +"</div>"
                         +"</a>"
 			+"</div>"
@@ -170,15 +170,15 @@
                 // java.lang.String result2 = port.getNamaAns(result.get(i).getIDAns());
 
                 String answer = 
-                    "<div class='block-QA'>"
+                    "<div ng-app ='voteApp' ng-controller='voteAnswerController' class='block-QA'>"
                         +"<div class='bQA-vote'>"
-                            +"<a href = voteUpAns.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "&ansid=" + result.get(i).getIDAns() + "><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteAnswer(" + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a class='vote-value' id='answer_vote-"+ result.get(i).getIDAns() +"'>" + result.get(i).getVote()
                             +"</a>"
                             +"<br><br>"
-                            +"<a href = voteDownAns.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "&ansid=" + result.get(i).getIDAns() + "><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteAnswer( " + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
                             +"</div></a>"
 			+"</div>"
                         +"<div class='bQA-content'>"
@@ -240,51 +240,81 @@
           </div>
     </body>
 
-<div ng-app="myApp" ng-controller="customersCtrl"> 
-
-<ul>
-  <li ng-repeat="x in names">
-    {{ x.Name + ', ' + x.Country }}
-  </li>
-</ul>
-
-</div>
-<script>
-var app = angular.module('myApp', []);
-app.controller('customersCtrl', function($scope, $http) {
-  $http.get("http://www.w3schools.com/angular/customers.php")
-  .then(function (response) {$scope.names = response.data.records;});
-});
-</script>
 
     <script>
         var app = angular.module('voteApp',[]);
-        app.controller('voteController', function($scope,$http){
-            console.log("Luminto Homo");
-            var access_token = "<%= request.getParameter("token") %>";
-            var qid = "<%= request.getParameter("id") %>";
-            var data = {access_token: access_token ,question_id: qid , direction: 1  };
-            console.log("Access Token : " + access_token);
-            console.log("Question ID : " + qid);
-            console.log(data);
- 
-            $scope.voteUrl = "http://localhost:8082/StackExchange_IS/rest/voteQ";
-            
-            $http({
-                url: $scope.voteUrl,
-                data: data,
-                method: 'POST',
-                dataType: "json"
-//                headers: {
-//                    'Content-Type': 'application/json'
-//                }
-            })
-            .then(function (data){
-                console.log("Success : " + data);
-            },function (err){
-                console.log("Error : " + err);
-            });
-         
+
+        app.controller('voteQuestionController', function($scope,$http){
+            var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceQuestion";
+            $scope.token = "<%= request.getParameter("token") %>";
+            $scope.direction = -99;
+            console.log("Hello World");
+            $scope.voteQuestion = function(access_token, qid, direction) {
+                console.log("Luminto Homo");
+                var access_token = "<%= request.getParameter("token") %>";
+                var qid = "<%= request.getParameter("id") %>";
+                var commentParameter = {access_token: access_token ,question_id: qid,direction : $scope.direction};
+                console.log("Access Token : " + access_token);
+                console.log("Question ID : " + qid);
+                console.log(JSON.stringify(commentParameter));
+                $http({
+                    url: voteUrl,
+                    data: JSON.stringify(commentParameter),
+                    method: 'POST',
+                    dataType: "json",
+                    crossDomain: true
+                })
+                .then(function (response){
+                    console.log("Success");
+                    $scope.message = response.data.message;
+                    console.log("Message " + $scope.message);
+                    /*if ($scope.message == 1 || $scope.message == -5){
+                        
+                    } else {
+                        window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
+                    }*/
+                },function (err){
+                    console.log("Error : " + err);
+                });
+            };
         });
+        
+                
+        //var aApp = angular.module('voteAnswerApp',[]);
+
+        app.controller('voteAnswerController', function($scope,$http){
+            var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceAnswer";
+            $scope.token = "<%= request.getParameter("token") %>";
+            $scope.direction = -99;
+            console.log("Hello World");
+            $scope.voteAnswer = function(access_token, ansid, direction) {
+                var access_token = "<%= request.getParameter("token") %>";
+                var commentParameter = {access_token: access_token ,answer_id: ansid,direction : $scope.direction};
+                console.log("Access Token : " + access_token);
+                console.log("Question ID : " + ansid);
+                console.log(JSON.stringify(commentParameter));
+                $http({
+                    url: voteUrl,
+                    data: JSON.stringify(commentParameter),
+                    method: 'POST',
+                    dataType: "json",
+                    crossDomain: true
+                })
+                .then(function (response){
+                    console.log("Success");
+                    $scope.message = response.data.message;
+                    console.log("Message " + $scope.message);
+                    /*if ($scope.message == 1 || $scope.message == -5){
+                        
+                    } else {
+                        window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
+                    }*/
+                },function (err){
+                    console.log("Error : " + err);
+                });
+            };
+        });
+
+    
     </script>
 </html>

@@ -5,7 +5,6 @@
         <servlet-name>ValidateUser</servlet-name>
         <servlet-class>ValidateUser</servlet-class>
     </servlet>
-    
     <servlet>
         <servlet-name>TokenService</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -14,7 +13,6 @@
             <param-value>com.wbd.service</param-value>
         </init-param>
     </servlet>
-
     <servlet>
         <servlet-name>Gateway Servlet</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -24,7 +22,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    
+    <servlet>
+        <servlet-name>voteServiceQuestion</servlet-name>
+        <servlet-class>com.wbd.service.voteServiceQuestion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ValidateUser</servlet-name>
         <url-pattern>/ValidateUser</url-pattern>
@@ -33,7 +34,10 @@
         <servlet-name>TokenService</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>voteServiceQuestion</servlet-name>
+        <url-pattern>/voteServiceQuestion</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -45,10 +49,9 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
-    
     <filter>
-    <filter-name>CORS</filter-name>
-    <filter-class>com.wbd.cors.CorsFilter</filter-class>
+        <filter-name>CORS</filter-name>
+        <filter-class>com.wbd.cors.CorsFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>

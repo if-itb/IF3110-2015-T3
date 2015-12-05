@@ -62,7 +62,7 @@ public class tokenGenerate {
                 System.out.println(md5.Hash(password));
                 System.out.println(userip.getIPAddress());
                 System.out.println(useragent.getAgent());
-                token.access_token = md5.Hash(password);
+                token.access_token = "a" + md5.Hash(password);
                 //token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
                 System.out.println("TOken : " + token.access_token);
                 
