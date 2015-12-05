@@ -46,11 +46,11 @@
 		<h2><c:out value="${question.topic}"/><hr></h2>
 	
 		<div class="vote">
-                    <a href="/Stack_Exchange_Client/VoteQuestion?qid=${question.id}&flag=1">
+                    <a href="http://localhost:8084/Stack%20Exchange%20VC/VoteQuestion?qid=${question.id}&flag=1">
                         <div class="arrow-up"></div>
                     </a>
                     <h3> <div id="question-vote"><c:out value="${question.vote}"/></div></h3>
-                     <a href="/Stack_Exchange_Client/VoteQuestion?qid=${question.id}&flag=-1">
+                     <a href="http://localhost:8084/Stack%20Exchange%20VC/VoteQuestion?qid=${question.id}&flag=-1">
                         <div class="arrow-down"></div>
                     </a>
 		</div>
@@ -77,11 +77,11 @@
                 <c:forEach var="answer" items="${answers}">
                 <div class="boxarea">
                     <div class="vote">
-			<a href="/Stack_Exchange_Client/VoteAnswer?qid=${question.id}&flag=1&aid=${answer.id}">
+			<a href="http://localhost:8084/Stack%20Exchange%20VC/VoteAnswer?qid=${question.id}&flag=1&aid=${answer.id}">
                             <div class="arrow-up"></div>
                         </a>
 			<h3> <div id="answer-vote-${answer.id}"><c:out value="${answer.vote}"/></div> </h3>
-			<a href="/Stack_Exchange_Client/VoteAnswer?qid=${question.id}&flag=-1&aid=${answer.id}">
+			<a href="http://localhost:8084/Stack%20Exchange%20VC/VoteAnswer?qid=${question.id}&flag=-1&aid=${answer.id}">
                             <div class="arrow-down"></div>
                         </a>
                     </div>

@@ -2,12 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
         <group name="stack-clone-service-advanced">
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/EditQuestion.java</file>
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddQuestion.java</file>
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddAnswer.java</file>
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/QuestionServlet.java</file>
+        </group>
+        <group>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/web/question-page.jsp</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/DelQuestion.java</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/EditQuestion.java</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddQuestion.java</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/nbproject/build-impl.xml</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddAnswer.java</file>
+            <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/web/style.css</file>
         </group>
     </open-files>
 </project-private>

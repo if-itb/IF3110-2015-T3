@@ -104,7 +104,7 @@ public class Login extends HttpServlet {
                     out.print(obj);
                     Cookie cookie = new Cookie("token", token);
                     cookie.setMaxAge(60*5); //5 minutes
-                    cookie.setPath("/Stack_Exchange_Client");
+                    cookie.setPath("/");
                     response.addCookie(cookie);
 
                     request.setAttribute("loginsuccessful", 1);

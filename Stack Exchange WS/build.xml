@@ -10,6 +10,7 @@
 <project name="Stack_Exchange_WS" default="default" basedir=".">
     <description>Builds, tests, and runs the project Stack Exchange WS.</description>
     <import file="nbproject/build-impl.xml"/>
+    <property name="libs.CopyLibs.classpath=/Applications/NetBeans/NetBeans 7.0.1.app/Contents/Resources/NetBeans/java/ant/extra/org-netbeans-modules-java-j2seproject-copylibstask.jar" value="bin/copylibstask.jar"/>
     <!--
 
     There exist several targets which are by default empty and which can be 
