@@ -21,9 +21,8 @@
             app.controller('commentCtrl', function($scope, $http) {
                         $scope.comments = [];
                         $scope.comment = "";
-                        var ahttp = $http;
                         
-                        $scope.submitComment = function(comment, qid, ahttp) {
+                        $scope.submitComment = function(comment, qid) {
                             $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment, qid:qid})).then(function(response) {
                                 $scope.comments.push(response.data.name + " " + response.data.comment + " " + response.data.time);
                             });

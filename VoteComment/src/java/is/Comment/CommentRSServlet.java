@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
@@ -94,8 +95,8 @@ public class CommentRSServlet extends HttpServlet {
                 objOut.put("name", "Cliff");
                 objOut.put("comment", comment);
                 objOut.put("qid", qid);
-                Date d = new Date();
-                objOut.put("time", d.toString());
+                Timestamp time = new Timestamp(System.currentTimeMillis());
+                objOut.put("time", time.toString());
                 out.println(objOut);
             }
             
