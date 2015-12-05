@@ -37,14 +37,14 @@ public class AnswerFacadeREST extends AbstractFacade<Answer> {
 
   @POST
   @Override
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public void create(Answer entity) {
     super.create(entity);
   }
 
   @PUT
   @Path("{id}")
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public void edit(@PathParam("id") Integer id, Answer entity) {
     super.edit(entity);
   }
@@ -57,21 +57,21 @@ public class AnswerFacadeREST extends AbstractFacade<Answer> {
 
   @GET
   @Path("{id}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public Answer find(@PathParam("id") Integer id) {
     return super.find(id);
   }
 
   @GET
   @Override
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<Answer> findAll() {
     return super.findAll();
   }
 
   @GET
   @Path("{from}/{to}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<Answer> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
     return super.findRange(new int[]{from, to});
   }
