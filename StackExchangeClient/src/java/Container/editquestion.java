@@ -17,6 +17,8 @@ import javax.xml.ws.WebServiceRef;
 import question.Question;
 import question.QuestionsWS_Service;
 import user.User;
+import ClientValidate.ClientValidate;
+
 import user.UserWS_Service;
 
 /**
@@ -44,8 +46,6 @@ public class editquestion extends HttpServlet {
             throws ServletException, IOException {
         
         int qid = Integer.parseInt(request.getParameter("qid"));
-
-        String token = ""; 
         boolean found = false; 
         int i = 0; 
         Cookie[] cookies = request.getCookies();
@@ -55,20 +55,21 @@ public class editquestion extends HttpServlet {
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
-            
-        if (cookies != null) {
-            while (!found && i < cookies.length){
-                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                String[] parts = tokendicookie.split("#");
-                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                    token = cookies[i].getValue();
-                    found = true; 
-                }
-                i++;
-            }
-        }
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+//        if (cookies != null) {
+//            while (!found && i < cookies.length){
+//                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
+//                
+//                String[] parts = tokendicookie.split("#");
+//                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
+//                    token = cookies[i].getValue();
+//                    found = true; 
+//                }
+//                i++;
+//            }
+//        }
         
-        if (found) {
+        if (token != null) {
             // get user and compare it with the token ID
             User user = getUserByToken(token);
             Question question = getQuestionById(qid);

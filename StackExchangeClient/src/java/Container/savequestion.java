@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import question.QuestionsWS_Service;
+import ClientValidate.ClientValidate;
 
 /**
  *
@@ -35,7 +36,6 @@ public class savequestion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            String token =""; 
             boolean found = false; 
             int i = 0; 
             Cookie[] cookies = null;
@@ -46,23 +46,13 @@ public class savequestion extends HttpServlet {
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
-            
-            if (cookies != null) {
-                while (!found && i < cookies.length){
-                    String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                    String[] parts = tokendicookie.split("#");
-                    if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                         token = cookies[i].getValue();
-                         found = true; 
-                         
-                    }
-                    i++;
-                }
+            String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+            if (token != null) {
+                int qid = Integer.parseInt(request.getParameter("qid"));
+                String newTopic = request.getParameter("topic");
+                String newContent = request.getParameter("content");
+                updateQuestion(token, qid, newTopic, newContent);
             }
-            int qid = Integer.parseInt(request.getParameter("qid"));
-            String newTopic = request.getParameter("topic");
-            String newContent = request.getParameter("content");
-            updateQuestion(token, qid, newTopic, newContent);
             response.sendRedirect("home");
     }
 

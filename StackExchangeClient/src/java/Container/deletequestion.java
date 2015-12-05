@@ -17,6 +17,7 @@ import question.Question;
 import question.QuestionsWS_Service;
 import user.User;
 import user.UserWS_Service;
+import ClientValidate.ClientValidate;
 
 /**
  *
@@ -57,20 +58,10 @@ public class deletequestion extends HttpServlet {
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
-            
-        if (cookies != null) {
-            while (!found && i < cookies.length){
-                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                String[] parts = tokendicookie.split("#");
-                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                    String token = cookies[i].getValue();
-                    if (getUserByToken(token).getUid() == tanya.getQuestionUid() ){
-                        ins = deleteQuestion(token, questionid);
-                    }
-                    
-                    found = true;
-                }
-                i++;
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        if (token != null) {
+            if (getUserByToken(token).getUid() == tanya.getQuestionUid() ){
+                ins = deleteQuestion(token, questionid);
             }
         }
         response.sendRedirect("home");

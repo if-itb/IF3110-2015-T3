@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import question.QuestionsWS_Service;
 import javax.servlet.http.Cookie;
+import ClientValidate.ClientValidate;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -47,20 +49,11 @@ public class askquestion extends HttpServlet {
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
-            
-        if (cookies != null) {
-            while (!found && i < cookies.length){
-                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                String[] parts = tokendicookie.split("#");
-                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                     String token = cookies[i].getValue();
-                     String topic = request.getParameter("topic");
-                     String content = request.getParameter("content"); 
-                     int suc = createQuestion(token, topic, content);
-                     found = true; 
-                }
-                i++;
-            }
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        if (token != null) {
+            String topic = request.getParameter("topic");
+            String content = request.getParameter("content"); 
+            int suc = createQuestion(token, topic, content);
         }
         response.sendRedirect("home");
     }

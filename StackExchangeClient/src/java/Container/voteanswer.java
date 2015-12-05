@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import ClientValidate.ClientValidate;
 
 /**
  *
@@ -48,19 +49,10 @@ public class voteanswer extends HttpServlet {
         if (ipAddress == null) {  
             ipAddress = request.getRemoteAddr();  
         }
-            
-        if (cookies != null) {
-            while (!found && i < cookies.length){
-                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                String[] parts = tokendicookie.split("#");
-                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                    String token = cookies[i].getValue();
-                    int value = Integer.parseInt(request.getParameter("jlhvote"));
-                    ins = voteanswers(token, aid ,value);
-                    found = true;
-                }
-                i++;
-            }
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        if (token != null) {
+            int value = Integer.parseInt(request.getParameter("jlhvote"));
+            ins = voteanswers(token, aid ,value);
         }
         response.sendRedirect("viewpost?qid="+qid);
         }
