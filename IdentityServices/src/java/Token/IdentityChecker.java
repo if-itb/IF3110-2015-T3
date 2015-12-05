@@ -8,8 +8,10 @@ package Token;
 import database.Database;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -26,22 +28,31 @@ public class IdentityChecker extends HttpServlet {
     private String token = "";
     private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
         
-    public boolean isTokenValid(){
+    public boolean isTokenValid(int user_id, String user_agent, String ip_address){
         //query for database
-        final String query = "SELECT COUNT(*) FROM token WHERE token = '" + token + "'";
+        final String query = "SELECT COUNT(*), expires, user_id FROM token WHERE uuid = '" + token + "' "
+                + "AND user_agent = '" + user_agent + "' AND ip_address = '" + ip_address + "'";
         Database database = new Database();
         database.connect(path);
 
         int result = 0;
+        String expires = "";
         ResultSet rs = database.fetchData(query);
+        int uid = 0;
         try {
             rs.next();
             result = rs.getInt("COUNT(*)");
+            expires = rs.getString("expires");
+            uid = rs.getInt("user_id");
             rs.close();
         } catch (SQLException ex) {
         }
         database.closeDatabase();
-        return (result == 1);
+        
+        //check expiry
+        Date date = new Date(System.currentTimeMillis());
+        Timestamp t = Timestamp.valueOf(expires);
+        return (result == 1 && t.compareTo(date) > 0 && user_id == uid);
     }
     
     public String deleteToken(String uuid){
@@ -73,8 +84,11 @@ public class IdentityChecker extends HttpServlet {
                     token = temp.getValue();
                 }
             }
-            if(request.getParameter("action").isEmpty()){
-                if(isTokenValid()){
+            int uid = Integer.parseInt(request.getParameter("id"));
+            String user_agent = request.getHeader("User-Agent");
+            String ip_address = request.getRemoteHost();
+            if(request.getParameter("action") == null   ){
+                if(isTokenValid(uid, user_agent, ip_address)){
                     out.println("Successful");
                 } else {
                     out.println("Failed");

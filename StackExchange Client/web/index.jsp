@@ -45,7 +45,7 @@
                   }
                   %>!
                   <div class="right">
-                      <a href="http://localhost:8082/IdentityServices/IdentityChecker?action=logout"">Logout</a>
+                      <a href="http://localhost:8082/IdentityServices/IdentityChecker?action=logout">Logout</a>
                   </div>
                 <%
                 } //bracket for if
@@ -54,7 +54,7 @@
             </div>
             <div id="main-search" class="center">
                     <%
-                    if(request.getParameter("id") != null){
+                    if(request.getParameter("id") != null && !token.isEmpty()){
                     %>
                         <form action="index.jsp?id=<%=request.getParameter("id")%>" method="POST">
                     <%
@@ -69,7 +69,7 @@
                     </form>
             </div>
             <%
-            if(request.getParameter("id") != null){
+            if(request.getParameter("id") != null && !token.isEmpty()){
             %>
                 <div class="center">
                     <h3>

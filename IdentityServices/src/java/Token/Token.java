@@ -52,6 +52,26 @@ public class Token extends HttpServlet {
         return (result == 1);
     }
     
+    public boolean isInDB(int user_id, String user_agent, String ip_address){
+        //query for database
+        final String query = "SELECT COUNT(*), uuid FROM token WHERE user_id = " + user_id + 
+                        " AND user_agent = '" + user_agent + "' AND ip_address = '" + ip_address + "'" ;
+        Database database = new Database();
+        database.connect(path);
+
+        int result = 0;
+        ResultSet rs = database.fetchData(query);
+        try {
+            rs.next();
+            result = rs.getInt("COUNT(*)");
+            token = rs.getString("uuid");
+            rs.close();
+        } catch (SQLException ex) {
+        }
+        database.closeDatabase();
+        return (result >= 1);
+    }
+    
     public int getUserID(String username, String password){
         //query for database
         final String query = "SELECT * FROM user WHERE email = '" + username + "' AND password = '" + password + "'";
@@ -83,6 +103,16 @@ public class Token extends HttpServlet {
         database.closeDatabase();
     }
     
+    public void deleteToken(String uuid){
+        //query for database
+        final String query = "DELETE FROM token WHERE uuid = '" + uuid + "'";
+        Database database = new Database();
+        database.connect(path);
+        database.changeData(query);
+        database.closeDatabase();
+    }
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -101,8 +131,12 @@ public class Token extends HttpServlet {
             String password = request.getParameter("pword");
             String user_agent = request.getHeader("User-Agent");
             String ip_address = request.getRemoteHost();
-            if(isInDB(username,password)){
-                int user_id = getUserID(username, password);
+            int user_id = getUserID(username, password);
+            
+            if(isInDB(username,password)){   
+                if(isInDB(user_id, user_agent, ip_address)){
+                    deleteToken(token);
+                }
                 generateToken(username, user_id, user_agent, ip_address);
                 Cookie cookie_token = new Cookie("token", token);
                 cookie_token.setMaxAge(lifetime);
