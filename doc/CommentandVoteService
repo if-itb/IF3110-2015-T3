@@ -22,4 +22,22 @@ tempat: http://localhost:8082/CommentandVoteService
 			status 400 BAD REQUEST bila ada parameter yang tidak ditemukan, body sebaris "UNSUPPLIED PARAMETER"
 			status 404 NOT FOUND bila question/answer tidak ditemukan
 			status 401 UNAUTHORIZED, body detail error, bila ada error dari identity service
-			
+----------------------------------------------------
+/Comment
+	GET:
+		parameters:
+			qid
+		response:
+			tipe:application/xml
+			bodi: list of comment seperti contoh di bawah ini:
+				<list>
+					<comment cid="3" Email="apa" AuthorName="terserah" created_at="2015-12-05 11:18:43.0" >wolajkd</comment>
+					<comment cid="4" Email="apa" AuthorName="terserah" created_at="2015-12-05 11:18:49.0" >wolajkd</comment>
+
+						.
+						.
+						.
+
+					<comment cid="5" Email="apa" AuthorName="terserah" created_at="2015-12-05 11:21:03.0" >wolajkd</comment>
+				</list>
+----------------------------------------------------
