@@ -5,11 +5,13 @@
 --%>
 
 <%@page import="com.mycompany.nasipadang.wsdl.StackExchange"%>
-<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
-<%@page import="com.mycompany.nasipadang.wsdl.Question"%>
 <%@page import="com.mycompany.nasipadang.wsdl.AnswerArray"%>
 <%@page import="com.mycompany.nasipadang.wsdl.Answer"%>
+<%@page import="com.mycompany.nasipadang.wsdl.AnswerArray"%>
 <%@page import="java.util.List"%>
+<%@page import="com.mycompany.nasipadang.wsdl.Question"%>
+<%@page import="com.mycompany.nasipadang.wsdl.QuestionArray"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,7 +19,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Simple StackExchange</title>
 	<link rel="stylesheet" href="css/style.css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="js/validation.js"></script>
 	<script src="js/delete_question.js"></script>
 	<script src="js/ajax.js"></script>
@@ -58,7 +59,7 @@
                             <table>
                                 <tbody>
                                     <tr><td><p class="content"><%=question.getContent()%></p></td></tr>
-                                    <tr><td><div class="credential">asked by <%=question.getName()%> at <%=question.getTimestamp()%><%if(name != null && name.equals(question.getName())){%> | <a class="yellow" href="edit.jsp?id=<%=question.getId()%>">edit</a> | <a class="delete" href="javascript:confirmDelete(<%=question.getId()%>)">delete</a></div></td></tr><%}%>
+                                    <tr><td><div class="credential">asked by <%=question.getName()%> at <%=question.getTimestamp()%> | <a class="yellow" href="edit.jsp?id=<%=question.getId()%>">edit</a> | <a class="delete" href="javascript:confirmDelete(<%=question.getId()%>)">delete</a></div></td></tr>
                                 </tbody>
                             </table>
                         </td>
@@ -93,60 +94,92 @@
                         </table>
                     </li><br>
                 <%}%>
-                <hr></hr>
-                    <li>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <%if(name != null && !question.isHasVote()){%><a class="vote-up" href="update_vote_answer.jsp?id={{answer.id}}&id_answer={{answer.id}}&vote=1">Up</a><%}%>
-                                        <div class="vote" id="votes{{answer.id}}}">{{answer.vote}}</div>
-                                        <%if(name != null && !question.isHasVote()){%><a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id}}&vote=-1">Down</a><%}%>
-                                    </td>
-                                    <td>
-                                        <table>
-                                            <tbody>
-                                                <tr><td><p class="content">{{answer.content}}</p></td></tr>
-                                                <tr><td><div class="credential">answered by {{answer.name}} at {{answer.timestamp}}</div></td></tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </li><br>
             </ul>
-            <div id="ajax_answer"></div>
+            <ul>     
+                <li repeat="answer in answers">
+                    <hr></hr>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a class="vote-up" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id}}&vote=1">Up</a>
+                                    <div class="vote" id="votes{{answer.id}}">{{answer.vote}}</div>
+                                    <a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id}}&vote=-1">Down</a>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr><td><p class="content">{{answer.content}}</p></td></tr>
+                                            <tr><td><div class="credential">answered by {{answer.name}} at {{answer.timestamp}}</div></td></tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li><br>
+            </ul>
 	</div>
 
 	<hr></hr>
-	<div class="new-answer">
+        <div class="new-answer" ng-app="comment" ng-controller="commentController">
 		<div class="title">Your Answer</div>
                 <%if (name != null) {%>
-                <div ng-app="comment" ng-controller="comment">
-                    <form name="answer" method="post" action="ajaxComment">
-                        <input class="inputform" type="hidden" name="token" value="<%=token%>"><br>
-                        <input type="hidden" name="id" value="<%=question.getId()%>">
-                        <textarea class="inputform" type="text" ng-model="content" placeholder="Content"></textarea><br>
-                        <input class="button" type="submit" value="Post" onclick="">
-                    </form>
-                </div>
-                <p class="content">{{content}}</p></td></tr>
+                <form name="answer" method="post" ng-submit="processForm()">
+                    <input type="hidden" name="token" value="<%=token%>"><br>
+                    <input type="hidden" name="id" value="<%=question.getId()%>">
+                    <textarea class="inputform" type="text" ng-model="content" placeholder="Content"></textarea><br>
+                    <input class="button" type="submit" value="Post">
+		</form>
                 <%}else{%>
                     <a href="login_form.jsp">log in</a>
                     <a href="reg.jsp">register</a>
                 <%}%>
-                
 	</div>
+        <hr></hr>
+            <li>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tbody>
+                                        <tr><td><p class="content">{{content}}</p></td></tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li><br>
     </body>
     <script>
         var app = angular.module('comment', []);
-        app.controller('comment', function($scope) {
+        app.controller('commentController', function($scope) {
             $scope.content = "";
         });
-        app.controller('ajaxComment', function($scope, $http) {
-            $http.post("rest/comment", $scope)
-            .then(function(response) {$scope.answer = response.data.records;});
-        });
+        function ajaxComment($scope, $http) {
+            $scope.formData = {};
+            $scope.processForm = function() {
+                $http({
+                    method  : 'POST',
+                    url     : 'rest/comment',
+                    data    : $.param($scope.formData),  // pass in data as strings
+                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+                   })
+                    .success(function(data) {
+                      console.log(data);
+
+                      if (!data.success) {
+                        // if not successful, bind errors to error variables
+//                        $scope.errorName = data.errors.name;
+//                        $scope.errorSuperhero = data.errors.superheroAlias;
+                      } else {
+                        // if successful, bind success message to message
+                        $scope.answers = data.message;
+                      }
+                    });
+            };
+        }
     </script>
 </html>

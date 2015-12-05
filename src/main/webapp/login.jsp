@@ -4,15 +4,19 @@
     Author     : theaolivia
 --%>
 
-<%@page import="org.wsdl.StackExchangeImplService"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchange"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
 <%
     StackExchangeImplService stackExchangeService = new StackExchangeImplService();
-    org.wsdl.StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
+    StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
     String token = stackExchange.login(request.getParameter("email"), request.getParameter("password"));
     //out.println(token);
     if(!token.equals("fail") && token != null){
         request.setAttribute("token", token);
         response.setStatus(response.SC_MOVED_TEMPORARILY);
         response.setHeader("Location", "index.jsp");
+    }
+    else{
+        
     }
 %>

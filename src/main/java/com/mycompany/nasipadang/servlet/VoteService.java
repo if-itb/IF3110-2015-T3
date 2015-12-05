@@ -5,12 +5,29 @@
  */
 package com.mycompany.nasipadang.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import static java.lang.Math.toIntExact;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -18,6 +35,54 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class VoteService extends HttpServlet {
 
+    private Connection connection;
+    private void connectDB() throws SQLException{
+        try {
+            System.out.println("Loading driver...");
+            Class.forName("com.mysql.jdbc.Driver");
+            System.out.println("Driver loaded!");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Cannot find the driver in the classpath!", e);
+        }
+        String url = "jdbc:mysql://localhost:3306/db_stackexchange";
+        String username = "root";
+        String password = "";
+        connection = null;
+        System.out.println("Connecting database...");
+        connection = (Connection) DriverManager.getConnection(url, username, password);
+        System.out.println("Database connected!");
+    }
+    private void closeDB() throws SQLException{
+        connection.close();
+    }
+    private int whoIs(String token){
+        String url = ("http://localhost:8080/NasiPadang/rest/identity?token=" + token);
+        int id_user = 0;
+        try{
+            HttpClient c = new DefaultHttpClient();        
+            HttpGet p = new HttpGet(url);        
+ 
+            HttpResponse r = c.execute(p);
+ 
+            BufferedReader rd = new BufferedReader(new InputStreamReader(r.getEntity().getContent()));
+            String line = "";
+            JSONObject o = null;
+            while ((line = rd.readLine()) != null) {
+               //Parse our JSON response        
+               JSONParser j = new JSONParser();
+               o = (JSONObject)j.parse(line);
+            }
+            if(o.get("status").equals("ok")){
+                long id_us = (long) o.get("id_user");
+                id_user = toIntExact(id_us);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return id_user;
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,7 +121,6 @@ public class VoteService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -70,7 +134,28 @@ public class VoteService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        org.json.JSONObject json = new org.json.JSONObject();
+        String token = request.getParameter("token");
+        int id_user = whoIs(token);
+        if(id_user != 0){
+            try {
+                connectDB();
+                Statement st = connection.createStatement();
+                String sql = "INSERT INTO vote_question (id, id_user, value) VALUES ('"+ request.getParameter("id") +"', '"+ id_user +"', '"+ request.getParameter("vote") +"')";
+                st.execute(sql);
+                closeDB();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            json.put("status", "ok");
+        }
+        else{
+            json.put("status", "invalid");
+        }
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            out.println(json.toString());
+        }
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.List;
 public class ExampleUsageService {
     public static void main(String args[]){
         StackExchangeImplService stackExchangeService = new StackExchangeImplService();
-        com.mycompany.nasipadang.wsdl.StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
+        StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
         QuestionArray allQuestion = stackExchange.getAllQuestion("");
         List<Question> item = allQuestion.item;
         System.out.println(item.get(0).content);

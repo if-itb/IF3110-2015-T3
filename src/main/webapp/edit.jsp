@@ -4,8 +4,9 @@
     Author     : user
 --%>
 
-<%@page import="org.wsdl.Question"%>
-<%@page import="org.wsdl.StackExchangeImplService"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchange"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
+<%@page import="com.mycompany.nasipadang.wsdl.Question"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,7 +18,7 @@
         <%
             String id = request.getParameter("id");
             StackExchangeImplService stackExchangeService = new StackExchangeImplService();
-            org.wsdl.StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
+            StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
             int i = Integer.parseInt(id);
             String token = (String) session.getAttribute("token");
             String name = (String) session.getAttribute("name");

@@ -4,10 +4,11 @@
     Author     : user
 --%>
 
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchange"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
+<%@page import="com.mycompany.nasipadang.wsdl.QuestionArray"%>
+<%@page import="com.mycompany.nasipadang.wsdl.Question"%>
 <%@page import="java.util.List"%>
-<%@page import="org.wsdl.Question"%>
-<%@page import="org.wsdl.QuestionArray"%>
-<%@page import="org.wsdl.StackExchangeImplService"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
@@ -18,7 +19,7 @@
     <script src="js/delete_question.js"></script>
     <%
         StackExchangeImplService stackExchangeService = new StackExchangeImplService();
-        org.wsdl.StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
+        StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
         QuestionArray allQuestion = stackExchange.getAllQuestion("");
         List<Question> items = allQuestion.getItem();
         String name = "";

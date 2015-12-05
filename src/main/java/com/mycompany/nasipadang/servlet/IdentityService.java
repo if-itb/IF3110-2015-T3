@@ -110,6 +110,7 @@ public class IdentityService extends HttpServlet {
         }
         else{
             json.put("status", "invalid");
+            json.put("detail", "not a valid token");
         }
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {

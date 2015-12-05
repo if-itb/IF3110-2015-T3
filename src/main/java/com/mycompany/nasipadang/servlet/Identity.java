@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.nasipadang.servlet;
+package org.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.UUID;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -137,7 +138,7 @@ public class Identity extends HttpServlet {
             System.out.println("token : " + token);
             session.setAttribute("token", token);
             session.setAttribute("id_user", user.id_user);
-            session.setMaxInactiveInterval(43200);
+            session.setMaxInactiveInterval(30);
             sessions.add(session);
             request.setAttribute("token", token);
             request.setAttribute("name", user.name);

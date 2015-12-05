@@ -9,8 +9,8 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
-import org.data.Answer;
-import org.data.Question;
+import com.mycompany.nasipadang.data.Answer;
+import com.mycompany.nasipadang.data.Question;
 
 /**
  *

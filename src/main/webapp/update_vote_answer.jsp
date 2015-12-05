@@ -4,10 +4,11 @@
     Author     : user
 --%>
 
-<%@page import="org.wsdl.StackExchangeImplService"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchange"%>
+<%@page import="com.mycompany.nasipadang.wsdl.StackExchangeImplService"%>
 <%
     StackExchangeImplService stackExchangeService = new StackExchangeImplService();
-    org.wsdl.StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
+    StackExchange stackExchange = stackExchangeService.getStackExchangeImplPort();
     int id = Integer.parseInt(request.getParameter("id"));
     int id_answer = Integer.parseInt(request.getParameter("id_answer"));
     int vote = Integer.parseInt(request.getParameter("vote"));
