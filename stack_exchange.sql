@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 06:52 AM
+-- Generation Time: Dec 05, 2015 at 07:07 AM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -128,11 +128,11 @@ INSERT INTO `question_vote` (`user_id`, `question_id`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `token` (
-  `user_id` int(11) NOT NULL,
   `uuid` varchar(100) NOT NULL,
-  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_id` int(11) NOT NULL,
+  `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_agent` varchar(100) NOT NULL,
-  `ip_address` varchar(40) NOT NULL
+  `ip_address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -191,7 +191,7 @@ ALTER TABLE `question_vote`
 -- Indexes for table `token`
 --
 ALTER TABLE `token`
- ADD PRIMARY KEY (`user_id`);
+ ADD PRIMARY KEY (`uuid`);
 
 --
 -- Indexes for table `user`
