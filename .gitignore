@@ -1,0 +1,9 @@
+.DS*
+*~
+*.class
+build
+dist
+nbproject
+test
+build.xml
+node_modules
