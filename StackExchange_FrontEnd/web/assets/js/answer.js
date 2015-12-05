@@ -31,6 +31,50 @@ angular.module("stackexchangeApp", [])
             });
         };
     })
+    .service("commentService", function($http, parameterService, voteAndCommentHost){
+        this.addComment = function(type, id, content, successCallback, errorCallback){
+            if (parameterService.getParameter("token") == ""){
+                window.location.href = "/login";
+            }
+
+            return $http({
+                method: 'POST',
+                url: voteAndCommentHost + '/' + type + '/' + id + '/comment?token=' + parameterService.getParameter("token"),
+                data: {
+                    content : content
+                }
+            });
+        }
+
+        this.getComment = function(type, id, successCallback, errorCallback){
+            return $http({
+                method: 'GET',
+                url: voteAndCommentHost + '/' + type + '/' + id + '/comment'
+            });
+        }
+
+        this.upvote = function(type, id, successCallback, errorCallback){
+            if (parameterService.getParameter("token") == ""){
+                window.location.href = "/login";
+            }
+
+            return $http({
+                method: 'POST',
+                url: voteAndCommentHost + '/' + type + '/comment/' + id + '/upvote?token=' + parameterService.getParameter("token")
+            }).then(successCallback, errorCallback);
+        };
+
+        this.downvote = function(type, id, successCallback, errorCallback){
+            if (parameterService.getParameter("token") == ""){
+                window.location.href = "/login";
+            }
+
+            return $http({
+                method: 'POST',
+                url: voteAndCommentHost + '/' + type + '/comment/' + id + '/downvote?token=' + parameterService.getParameter("token")
+            }).then(successCallback, errorCallback);
+        };
+    })
     
 
 
