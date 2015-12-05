@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+  <endpoint implementation="AnswerModel.AnswerWS2" name="AnswerWS2" url-pattern="/AnswerWS2"/>
+  <endpoint implementation="org.stackexchange.webservice.service.AnswerWS" name="AnswerWS" url-pattern="/AnswerWS"/>
+  <endpoint implementation="org.stackexchange.webservice.service.QuestionWS" name="QuestionWS" url-pattern="/QuestionWS"/>
+  <endpoint implementation="AnswerModel.AnswerWS2" name="AnswerWS2" url-pattern="/AnswerWS2"/>
+  <endpoint implementation="org.stackexchange.webservice.service.AnswerWS" name="AnswerWS" url-pattern="/AnswerWS"/>
+  <endpoint implementation="org.stackexchange.webservice.service.QuestionWS" name="QuestionWS" url-pattern="/QuestionWS"/>
+</endpoints>
