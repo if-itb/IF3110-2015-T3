@@ -1,3 +1,16 @@
+angular.module("stackexchangeApp", [])
+    .constant("voteAndCommentHost", "http://localhost:5555")
+    .service("parameterService", function(){
+        this.getParameter = function(name){
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    })
+    
+
+
 (function($){
     $(function(){
 
@@ -16,7 +29,7 @@
 
         setTimeout(function(){
             $('#question .card, #answer .card').find('.fixed-action-btn > .btn-floating').click();
-        }, 200)
+        }, 200);
 
         var save_mode = false;
 
@@ -56,30 +69,6 @@
         } else {
             $('#add-answer-form').attr('action', '/answer/add');
         }
-
-        $('.question-upvote-btn').click(function(){
-            var id = $(this).closest('.card').attr('data-id')
-            $('<form action="/question/upvote?token=' + getParameterByName('token') + '" method="POST">' +
-            '<input type="hidden" name="id" value="' + id + '"/></form>').appendTo('body').submit();
-        })
-
-        $('.question-downvote-btn').click(function(){
-            var id = $(this).closest('.card').attr('data-id')
-            $('<form action="/question/downvote?token=' + getParameterByName('token') + '" method="POST">' +
-            '<input type="hidden" name="id" value="' + id + '"/></form>').appendTo('body').submit();
-        })
-
-        $('.answer-upvote-btn').click(function(){
-            var id = $(this).closest('.card').attr('data-id')
-            $('<form action="/answer/upvote?token=' + getParameterByName('token') + '" method="POST">' +
-            '<input type="hidden" name="id" value="' + id + '"/></form>').appendTo('body').submit();
-        })
-
-        $('.answer-downvote-btn').click(function(){
-            var id = $(this).closest('.card').attr('data-id')
-            $('<form action="/answer/downvote?token=' + getParameterByName('token') + '" method="POST">' +
-            '<input type="hidden" name="id" value="' + id + '"/></form>').appendTo('body').submit();
-        })
 
         $('.question-close').click(function(){
             var id = $(this).closest('.card').attr('data-id')
