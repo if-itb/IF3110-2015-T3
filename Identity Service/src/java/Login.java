@@ -63,23 +63,37 @@ public class Login extends HttpServlet {
                     &&tokens.containsKey(access_token)){
                 AccessToken checkAccessToken = tokens.get(access_token);
                                 
-                if (Calendar.getInstance().before(expirations.get(access_token))
-                        &&request.getParameter("user_agent").equals(checkAccessToken.getUser_agent())
-                        &&request.getParameter("user_ip").equals(checkAccessToken.getUser_ip())){
-                    response.setContentType("application/xml");
-                    PrintWriter writer=response.getWriter();
-                    writer.println("<?xml version=\"1.0\"?>");
-                    writer.println("<Email>"+emails.get(access_token)+"</Email>");
+                if (Calendar.getInstance().before(expirations.get(access_token))){
+                    if(request.getParameter("user_agent").equals(checkAccessToken.getUser_agent())){
+                        if(request.getParameter("user_ip").equals(checkAccessToken.getUser_ip())){
+                            response.setContentType("application/xml");
+                            PrintWriter writer=response.getWriter();
+                            writer.println("<?xml version=\"1.0\"?>");
+                            writer.println("<Email>"+emails.get(access_token)+"</Email>");
+                        }else{
+                            response.getWriter().println("DIFFERENT USER IP");
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            return;
+                            
+                        }
+                    }else{
+                        response.getWriter().println("DIFFERENT USER AGENT");
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
+                    }
                 }else{
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().println("EXPIRED ACCESS TOKEN");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
             }else{
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().println("INVALID ACCESS TOKEN");
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
             }
         }else{
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("UNSUPPLIED PARAMETER");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         

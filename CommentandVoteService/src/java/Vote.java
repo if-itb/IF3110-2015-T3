@@ -103,8 +103,10 @@ public class Vote extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (!request.getParameterMap().containsKey("qid") ||
+                !request.getParameterMap().containsKey("access_token") ||
                 !request.getParameterMap().containsKey("up")){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().println("Unsupplied parameter qid, access_token or up");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }else{
             SecurityParameters sp = SecurityParameters.getSecurityParameters(request);
             String Email = sp.getEmail();
@@ -123,7 +125,9 @@ public class Vote extends HttpServlet {
                     );
                 }
             }else{
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().print(sp.getEmailError());
+                System.out.println(sp.getEmailError());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
         
