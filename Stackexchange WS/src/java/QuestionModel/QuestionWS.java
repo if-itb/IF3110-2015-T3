@@ -161,12 +161,23 @@ public class QuestionWS {
         // Menjalankan query
         String query1 = "DELETE FROM question WHERE id_question = ?";
         String query2 = "DELETE FROM answer WHERE id_question = ?";
+        String query3 = "DELETE FROM comment WHERE id_question = ?";
+        String query4 = "DELETE FROM vote WHERE id_question = ?";
+        
         PreparedStatement databaseStatement1 = connection.prepareStatement(query1);
         PreparedStatement databaseStatement2 = connection.prepareStatement(query2);
+        PreparedStatement databaseStatement3 = connection.prepareStatement(query3);
+        PreparedStatement databaseStatement4 = connection.prepareStatement(query4);
+        
         databaseStatement1.setInt(1, idQuestion);
         databaseStatement2.setInt(1, idQuestion);
+        databaseStatement3.setInt(1, idQuestion);
+        databaseStatement4.setInt(1, idQuestion);
+        
         databaseStatement1.executeUpdate();
         databaseStatement2.executeUpdate();
+        databaseStatement3.executeUpdate();
+        databaseStatement4.executeUpdate();
 
         statement.close();
         questionDeleted = true;
