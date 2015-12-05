@@ -5,7 +5,8 @@
         <group>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Token/ValidateToken.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Login/LoginServlet.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Database/DatabaseConnect.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Login/GetIDServlet.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Login/UserService.java</file>
             <file>file:/C:/Users/user/Documents/NetBeansProjects/IdentityService/src/java/Token/Token.java</file>
         </group>
     </open-files>

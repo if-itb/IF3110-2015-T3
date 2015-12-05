@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String browser = request.getHeader("User-Agent");
+        String browser = request.getHeader("User-Agent").toLowerCase();
         String address = request.getRemoteAddr(); 
         PrintWriter out = response.getWriter();
         out.println(email);

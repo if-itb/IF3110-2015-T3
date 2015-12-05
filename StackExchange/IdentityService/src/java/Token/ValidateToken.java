@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author user
- */
 @WebServlet(name = "ValidateToken", urlPatterns = {"/ValidateToken"})
 public class ValidateToken extends HttpServlet {
 
@@ -33,12 +29,25 @@ public class ValidateToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String tokenValue = (String)request.getParameter("token");
+            String browser = request.getHeader("User-Agent").toLowerCase();
+            String address = request.getRemoteAddr();
+            String err = "";
             Token token = new Token(tokenValue);
+            
             if(!token.isTokenValid()){
-                out.print("false");
+                err = "Token expired";
+                out.print("false,"+err);
+            }
+            else if(!token.getAddress().equals(address)){
+                err = "Sent from different internet connection";
+                out.print("false,"+err);
+            }
+            else if(!token.generateBrowser(browser).equals(token.getBrowser())){
+                err = "Sent from different browser";
+                out.print("false,"+err);
             }
             else {
-                out.print("true");
+                out.print("true,"+err);
             }
         }
     }

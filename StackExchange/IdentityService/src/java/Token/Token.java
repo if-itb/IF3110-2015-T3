@@ -13,17 +13,17 @@ import java.util.Calendar;
  * and open the template in the editor.
  */
 
-/**
- *
- * @author user
- */
 public class Token {
     private String access_token;
     private String lifetime;
+    private String address;
+    private String browser;
     
     public Token(String ac_token){
         access_token = ac_token;
         String query = "SELECT * FROM token WHERE value='"+ ac_token +"'";
+        setAddress(ac_token);
+        browser = generateBrowser(ac_token);
         PreparedStatement statement;
         DatabaseConnect dbc = new DatabaseConnect();
         try{
@@ -61,8 +61,55 @@ public class Token {
         return valid;
         
     }
+    
+    public void setAddress(String ac_token){
+        String[] splitted = ac_token.split("#");
+        address =  splitted[2];
+    }
+    
+    public String generateBrowser(String ac_token){
+        String[] splitted = ac_token.split("#");
+        String browser = "";
+        if (splitted[1].contains("msie"))
+        {
+            String substring=splitted[1].substring(splitted[1].indexOf("msie")).split(";")[0];
+            browser=substring.split(" ")[0].replace("msie", "IE")+"-"+substring.split(" ")[1];
+        } else if (splitted[1].contains("safari") && splitted[1].contains("version"))
+        {
+            browser=(splitted[1].substring(splitted[1].indexOf("Safari")).split(" ")[0]).split("/")[0]+"-"+(splitted[1].substring(splitted[1].indexOf("Version")).split(" ")[0]).split("/")[1];
+        } else if ( splitted[1].contains("opr") || splitted[1].contains("opera"))
+        {
+            if(splitted[1].contains("opera"))
+                browser=(splitted[1].substring(splitted[1].indexOf("Opera")).split(" ")[0]).split("/")[0]+"-"+(splitted[1].substring(splitted[1].indexOf("Version")).split(" ")[0]).split("/")[1];
+            else if(splitted[1].contains("opr"))
+                browser=((splitted[1].substring(splitted[1].indexOf("OPR")).split(" ")[0]).replace("/", "-")).replace("OPR", "Opera");
+        } else if (splitted[1].contains("chrome"))
+        {
+            browser=(splitted[1].substring(splitted[1].indexOf("Chrome")).split(" ")[0]).replace("/", "-");
+        } else if ((splitted[1].indexOf("mozilla/7.0") > -1) || (splitted[1].indexOf("netscape6") != -1)  || (splitted[1].indexOf("mozilla/4.7") != -1) || (splitted[1].indexOf("mozilla/4.78") != -1) || (splitted[1].indexOf("mozilla/4.08") != -1) || (splitted[1].indexOf("mozilla/3") != -1) )
+        {
+            //browser=(userAgent.substring(userAgent.indexOf("MSIE")).split(" ")[0]).replace("/", "-");
+            browser = "Netscape-?";
 
+        } else if (splitted[1].contains("firefox"))
+        {
+            browser=(splitted[1].substring(splitted[1].indexOf("Firefox")).split(" ")[0]).replace("/", "-");
+        } else if(splitted[1].contains("rv"))
+        {
+            browser="IE";
+        } else
+        {
+            browser = "UnKnown, More-Info: "+splitted[1];
+        }
+        return browser;
+    }
     public String getLifetime() {
         return lifetime;
+    }
+    public String getBrowser(){
+        return browser;
+    }
+    public String getAddress(){
+        return address;
     }
 }
