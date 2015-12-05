@@ -12,6 +12,14 @@
         <servlet-name>Coba</servlet-name>
         <servlet-class>Answer.Coba</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginAuth</servlet-name>
+        <servlet-class>LoginAuth</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>Register</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>java</servlet-name>
         <url-pattern>/java</url-pattern>
@@ -23,6 +31,14 @@
     <servlet-mapping>
         <servlet-name>Coba</servlet-name>
         <url-pattern>/Coba</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAuth</servlet-name>
+        <url-pattern>/LoginAuth</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -29,7 +29,7 @@
       <p>Fill in the form to register into Overflow 48.</p><br>
         <div class="small_container">
           <h5>Register in Overflow 48</h5><br>
-          <form id="login" action="../controller/register.jsp" method="POST">
+          <form id="login" action="../Register" method="POST">
           <input id="name" placeholder="Name" class="form" type="text" name="name" value="">
           <input id="email" placeholder="Email" class="form" type="text" name="email" value="">
           <input id="pass" placeholder="Password" class="form" type="password" name="pass" value="">

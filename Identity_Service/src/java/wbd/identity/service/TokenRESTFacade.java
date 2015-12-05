@@ -5,6 +5,7 @@
  */
 package wbd.identity.service;
 
+import java.math.BigInteger;
 import javax.naming.NamingException;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
@@ -12,6 +13,7 @@ import javax.naming.InitialContext;
 import wbd.identity.controller.TokenJpaController;
 import wbd.identity.Token;
 import java.net.URI;
+import java.security.SecureRandom;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -49,14 +51,27 @@ public class TokenRESTFacade {
 
   @POST
   @Consumes({MediaType.APPLICATION_JSON})
-  public Response create(Token entity) {
+  public String create(Token entity) {
+    String ss="asdsas";
+//        try {
+          SecureRandom random = new SecureRandom();
+          ss = new BigInteger(130, random).toString(32);
+//        } catch (NoSuchAlgorithmException ex) {
+//          ex.printStackTrace();
+//        }
+        
+        entity.setVal(ss);
+        long time = System.currentTimeMillis() / 1000;
+        entity.setExpires((int) time+5400);
+        
     try {
       getJpaController().create(entity);
-      return Response.created(URI.create(entity.getVal())).build();
+      return entity.getVal();
     } catch (Exception ex) {
-      return Response.notModified(ex.getMessage()).build();
+      return "fail";
     }
   }
+
 
   @PUT
   @Consumes({MediaType.APPLICATION_JSON})
