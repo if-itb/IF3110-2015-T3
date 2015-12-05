@@ -139,7 +139,7 @@ public class Comment extends HttpServlet {
           dbStatement.executeUpdate();
 
           stmt.close();
-          obj.put("error", "success");  
+          obj.put("error", "success"); 
           out.print(obj);       
 
         } catch (SQLException ex) {
