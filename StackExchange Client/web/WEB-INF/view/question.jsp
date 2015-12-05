@@ -37,6 +37,21 @@
                         <a class="delete" href="delete?id=${question.id}" onclick="return confirm('Are you sure you want to delete this question?');"><span class="glyphicon glyphicon-remove"></span> delete</a>
                     </c:if>
                 </div>
+                    
+                <div class="row">
+                    <div class="comment col-10 col-push-2">
+                        <div class="comment-item">
+                            <p>Lorem ipsum dolor sit amet<span class="author">username</span></p>
+                        </div>
+                        <div class="comment-item">
+                            <p>Lorem ipsum dolor sit<span class="author">username</span></p>
+                        </div>
+                        <div class="comment-item">
+                            <p>Lorem ipsum dolor<span class="author">username</span></p>
+                        </div>
+                    </div>
+                </div>
+                    
             </div>
         </div>
         <br>

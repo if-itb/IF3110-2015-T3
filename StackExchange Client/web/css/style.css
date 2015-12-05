@@ -228,6 +228,33 @@ textarea {
   margin-top: 20px;
 }
 
+.row {
+  margin-right: -15px;
+  margin-left: -15px; }
+
+.row:before,
+.row:after {
+  content: '';
+  display: table;
+  clear: both; }
+
+.comment {
+  margin-top: 20px; }
+
+.comment-item {
+  padding-top: 1em;
+  border-bottom: 1px solid #B8B8B8; }
+
+.comment-item:first-child {
+  border-top: 1px solid #B8B8B8; }
+
+.comment-item p {
+  font-size: 13px; }
+
+.comment-item .author {
+  font-size: 13px;
+  color: #0077CC; }
+
 ::-webkit-input-placeholder {
    font-style: italic;
 }
