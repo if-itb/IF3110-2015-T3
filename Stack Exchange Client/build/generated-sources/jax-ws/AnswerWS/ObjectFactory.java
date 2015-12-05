@@ -24,14 +24,14 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _VoteAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "voteAnswer");
-    private final static QName _InsertAnswerResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "insertAnswerResponse");
-    private final static QName _DeleteAnswerResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "deleteAnswerResponse");
-    private final static QName _DeleteAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "deleteAnswer");
-    private final static QName _GetAnswerById_QNAME = new QName("http://answer_package.dazzlesquad.com/", "getAnswerById");
     private final static QName _Answer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "Answer");
-    private final static QName _InsertAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "insertAnswer");
+    private final static QName _DeleteAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "deleteAnswer");
+    private final static QName _DeleteAnswerResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "deleteAnswerResponse");
+    private final static QName _GetAnswerById_QNAME = new QName("http://answer_package.dazzlesquad.com/", "getAnswerById");
     private final static QName _GetAnswerByIdResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "getAnswerByIdResponse");
+    private final static QName _InsertAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "insertAnswer");
+    private final static QName _InsertAnswerResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "insertAnswerResponse");
+    private final static QName _VoteAnswer_QNAME = new QName("http://answer_package.dazzlesquad.com/", "voteAnswer");
     private final static QName _VoteAnswerResponse_QNAME = new QName("http://answer_package.dazzlesquad.com/", "voteAnswerResponse");
 
     /**
@@ -39,14 +39,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link InsertAnswer }
-     * 
-     */
-    public InsertAnswer createInsertAnswer() {
-        return new InsertAnswer();
     }
 
     /**
@@ -58,6 +50,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DeleteAnswer }
+     * 
+     */
+    public DeleteAnswer createDeleteAnswer() {
+        return new DeleteAnswer();
+    }
+
+    /**
+     * Create an instance of {@link DeleteAnswerResponse }
+     * 
+     */
+    public DeleteAnswerResponse createDeleteAnswerResponse() {
+        return new DeleteAnswerResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAnswerById }
+     * 
+     */
+    public GetAnswerById createGetAnswerById() {
+        return new GetAnswerById();
+    }
+
+    /**
      * Create an instance of {@link GetAnswerByIdResponse }
      * 
      */
@@ -66,11 +82,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link VoteAnswerResponse }
+     * Create an instance of {@link InsertAnswer }
      * 
      */
-    public VoteAnswerResponse createVoteAnswerResponse() {
-        return new VoteAnswerResponse();
+    public InsertAnswer createInsertAnswer() {
+        return new InsertAnswer();
     }
 
     /**
@@ -90,72 +106,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DeleteAnswerResponse }
+     * Create an instance of {@link VoteAnswerResponse }
      * 
      */
-    public DeleteAnswerResponse createDeleteAnswerResponse() {
-        return new DeleteAnswerResponse();
-    }
-
-    /**
-     * Create an instance of {@link DeleteAnswer }
-     * 
-     */
-    public DeleteAnswer createDeleteAnswer() {
-        return new DeleteAnswer();
-    }
-
-    /**
-     * Create an instance of {@link GetAnswerById }
-     * 
-     */
-    public GetAnswerById createGetAnswerById() {
-        return new GetAnswerById();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "voteAnswer")
-    public JAXBElement<VoteAnswer> createVoteAnswer(VoteAnswer value) {
-        return new JAXBElement<VoteAnswer>(_VoteAnswer_QNAME, VoteAnswer.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswerResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "insertAnswerResponse")
-    public JAXBElement<InsertAnswerResponse> createInsertAnswerResponse(InsertAnswerResponse value) {
-        return new JAXBElement<InsertAnswerResponse>(_InsertAnswerResponse_QNAME, InsertAnswerResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswerResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "deleteAnswerResponse")
-    public JAXBElement<DeleteAnswerResponse> createDeleteAnswerResponse(DeleteAnswerResponse value) {
-        return new JAXBElement<DeleteAnswerResponse>(_DeleteAnswerResponse_QNAME, DeleteAnswerResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswer }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "deleteAnswer")
-    public JAXBElement<DeleteAnswer> createDeleteAnswer(DeleteAnswer value) {
-        return new JAXBElement<DeleteAnswer>(_DeleteAnswer_QNAME, DeleteAnswer.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswerById }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "getAnswerById")
-    public JAXBElement<GetAnswerById> createGetAnswerById(GetAnswerById value) {
-        return new JAXBElement<GetAnswerById>(_GetAnswerById_QNAME, GetAnswerById.class, null, value);
+    public VoteAnswerResponse createVoteAnswerResponse() {
+        return new VoteAnswerResponse();
     }
 
     /**
@@ -168,12 +123,30 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswer }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "insertAnswer")
-    public JAXBElement<InsertAnswer> createInsertAnswer(InsertAnswer value) {
-        return new JAXBElement<InsertAnswer>(_InsertAnswer_QNAME, InsertAnswer.class, null, value);
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "deleteAnswer")
+    public JAXBElement<DeleteAnswer> createDeleteAnswer(DeleteAnswer value) {
+        return new JAXBElement<DeleteAnswer>(_DeleteAnswer_QNAME, DeleteAnswer.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "deleteAnswerResponse")
+    public JAXBElement<DeleteAnswerResponse> createDeleteAnswerResponse(DeleteAnswerResponse value) {
+        return new JAXBElement<DeleteAnswerResponse>(_DeleteAnswerResponse_QNAME, DeleteAnswerResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswerById }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "getAnswerById")
+    public JAXBElement<GetAnswerById> createGetAnswerById(GetAnswerById value) {
+        return new JAXBElement<GetAnswerById>(_GetAnswerById_QNAME, GetAnswerById.class, null, value);
     }
 
     /**
@@ -183,6 +156,33 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "getAnswerByIdResponse")
     public JAXBElement<GetAnswerByIdResponse> createGetAnswerByIdResponse(GetAnswerByIdResponse value) {
         return new JAXBElement<GetAnswerByIdResponse>(_GetAnswerByIdResponse_QNAME, GetAnswerByIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "insertAnswer")
+    public JAXBElement<InsertAnswer> createInsertAnswer(InsertAnswer value) {
+        return new JAXBElement<InsertAnswer>(_InsertAnswer_QNAME, InsertAnswer.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InsertAnswerResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "insertAnswerResponse")
+    public JAXBElement<InsertAnswerResponse> createInsertAnswerResponse(InsertAnswerResponse value) {
+        return new JAXBElement<InsertAnswerResponse>(_InsertAnswerResponse_QNAME, InsertAnswerResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://answer_package.dazzlesquad.com/", name = "voteAnswer")
+    public JAXBElement<VoteAnswer> createVoteAnswer(VoteAnswer value) {
+        return new JAXBElement<VoteAnswer>(_VoteAnswer_QNAME, VoteAnswer.class, null, value);
     }
 
     /**

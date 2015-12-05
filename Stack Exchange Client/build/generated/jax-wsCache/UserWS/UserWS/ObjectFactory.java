@@ -24,13 +24,13 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _GetUserByToken_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserByToken");
-    private final static QName _RegisterUser_QNAME = new QName("http://user_package.dazzlesquad.com/", "registerUser");
-    private final static QName _RegisterUserResponse_QNAME = new QName("http://user_package.dazzlesquad.com/", "registerUserResponse");
     private final static QName _User_QNAME = new QName("http://user_package.dazzlesquad.com/", "User");
     private final static QName _GetUserById_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserById");
-    private final static QName _GetUserByTokenResponse_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserByTokenResponse");
     private final static QName _GetUserByIdResponse_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserByIdResponse");
+    private final static QName _GetUserByToken_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserByToken");
+    private final static QName _GetUserByTokenResponse_QNAME = new QName("http://user_package.dazzlesquad.com/", "getUserByTokenResponse");
+    private final static QName _RegisterUser_QNAME = new QName("http://user_package.dazzlesquad.com/", "registerUser");
+    private final static QName _RegisterUserResponse_QNAME = new QName("http://user_package.dazzlesquad.com/", "registerUserResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: UserWS
@@ -64,19 +64,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetUserByTokenResponse }
-     * 
-     */
-    public GetUserByTokenResponse createGetUserByTokenResponse() {
-        return new GetUserByTokenResponse();
-    }
-
-    /**
      * Create an instance of {@link GetUserByToken }
      * 
      */
     public GetUserByToken createGetUserByToken() {
         return new GetUserByToken();
+    }
+
+    /**
+     * Create an instance of {@link GetUserByTokenResponse }
+     * 
+     */
+    public GetUserByTokenResponse createGetUserByTokenResponse() {
+        return new GetUserByTokenResponse();
     }
 
     /**
@@ -93,33 +93,6 @@ public class ObjectFactory {
      */
     public RegisterUserResponse createRegisterUserResponse() {
         return new RegisterUserResponse();
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByToken }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "getUserByToken")
-    public JAXBElement<GetUserByToken> createGetUserByToken(GetUserByToken value) {
-        return new JAXBElement<GetUserByToken>(_GetUserByToken_QNAME, GetUserByToken.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUser }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "registerUser")
-    public JAXBElement<RegisterUser> createRegisterUser(RegisterUser value) {
-        return new JAXBElement<RegisterUser>(_RegisterUser_QNAME, RegisterUser.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUserResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "registerUserResponse")
-    public JAXBElement<RegisterUserResponse> createRegisterUserResponse(RegisterUserResponse value) {
-        return new JAXBElement<RegisterUserResponse>(_RegisterUserResponse_QNAME, RegisterUserResponse.class, null, value);
     }
 
     /**
@@ -141,6 +114,24 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByIdResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "getUserByIdResponse")
+    public JAXBElement<GetUserByIdResponse> createGetUserByIdResponse(GetUserByIdResponse value) {
+        return new JAXBElement<GetUserByIdResponse>(_GetUserByIdResponse_QNAME, GetUserByIdResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByToken }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "getUserByToken")
+    public JAXBElement<GetUserByToken> createGetUserByToken(GetUserByToken value) {
+        return new JAXBElement<GetUserByToken>(_GetUserByToken_QNAME, GetUserByToken.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByTokenResponse }{@code >}}
      * 
      */
@@ -150,12 +141,21 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByIdResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUser }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "getUserByIdResponse")
-    public JAXBElement<GetUserByIdResponse> createGetUserByIdResponse(GetUserByIdResponse value) {
-        return new JAXBElement<GetUserByIdResponse>(_GetUserByIdResponse_QNAME, GetUserByIdResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "registerUser")
+    public JAXBElement<RegisterUser> createRegisterUser(RegisterUser value) {
+        return new JAXBElement<RegisterUser>(_RegisterUser_QNAME, RegisterUser.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link RegisterUserResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://user_package.dazzlesquad.com/", name = "registerUserResponse")
+    public JAXBElement<RegisterUserResponse> createRegisterUserResponse(RegisterUserResponse value) {
+        return new JAXBElement<RegisterUserResponse>(_RegisterUserResponse_QNAME, RegisterUserResponse.class, null, value);
     }
 
 }

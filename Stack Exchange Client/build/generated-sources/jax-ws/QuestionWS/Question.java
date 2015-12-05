@@ -13,22 +13,22 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="question">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="user_id" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="topic" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="content" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="vote" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="countAnswer" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType name="question"&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="user_id" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="topic" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="content" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="vote" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="countAnswer" type="{http://www.w3.org/2001/XMLSchema}int"/&gt;
+ *         &lt;element name="username" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 

@@ -8,6 +8,7 @@ package ReSTful;
 import DBConnect.DBConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +55,15 @@ public class Login extends HttpServlet {
       
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-      
+            
+            String user_agent = request.getHeader("User-Agent");
+            String ip_address = request.getHeader("X-FORWARDED-FOR");
+            if (ip_address == null){
+                ip_address = request.getRemoteAddr();
+            }
+            
+            System.out.println(user_agent);
+            System.out.println(ip_address);
             try {      
                 Statement statement = conn.createStatement();
                 String select_user;
@@ -74,13 +83,18 @@ public class Login extends HttpServlet {
 
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    
-                    String token = email + exp_date.toString();
+                    String token = URLEncoder.encode("ryanokebanget#" + user_agent + "#" + ip_address);
 
-                    String sql = "REPLACE INTO tokenlist (user_id, token, exp_date) VALUES (?, ?, ?)";
+                    String sql = "REPLACE INTO tokenlist (user_id, token, user_agent, ip_address, exp_date) VALUES (?, ?, ?, ?, ?)";
+                    
                     dbStatement = conn.prepareStatement(sql);
                     dbStatement.setInt(1, result.getInt("id"));
                     dbStatement.setString(2, token);
-                    dbStatement.setString(3, df.format(exp_date));
+                    dbStatement.setString(3, user_agent);
+                    dbStatement.setString(4, ip_address);
+                    dbStatement.setString(5, df.format(exp_date));
+                    
+                    System.out.println(token);
 
                     dbStatement.executeUpdate();
 
@@ -90,7 +104,7 @@ public class Login extends HttpServlet {
                     obj.put("exp_date", df.format(exp_date));
 
                     out.print(obj);
-                    Cookie cookie = new Cookie("token",token);
+                    Cookie cookie = new Cookie("token", token);
                     cookie.setMaxAge(60*5); //5 minutes
                     cookie.setPath("/Stack_Exchange_Client");
                     response.addCookie(cookie);
