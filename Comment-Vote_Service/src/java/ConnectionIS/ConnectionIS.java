@@ -26,7 +26,7 @@ import org.json.simple.parser.ParseException;
 public class ConnectionIS {
     private static final String CONTEXT_PATH = "http://localhost:8082/Identity_Service";
 
-    private static JSONObject request(String servletPath, byte[] query) {
+    private static JSONObject request(String servletPath, byte[] query) throws ParseException {
         JSONObject jo = null;
         try {
             if (servletPath != null && !servletPath.startsWith("/"))
