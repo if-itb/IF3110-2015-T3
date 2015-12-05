@@ -26,6 +26,14 @@
         <servlet-name>voteServiceQuestion</servlet-name>
         <servlet-class>com.wbd.service.voteServiceQuestion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>commentService</servlet-name>
+        <servlet-class>com.wbd.service.commentService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>allComments</servlet-name>
+        <servlet-class>com.wbd.service.allComments</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ValidateUser</servlet-name>
         <url-pattern>/ValidateUser</url-pattern>
@@ -37,6 +45,14 @@
     <servlet-mapping>
         <servlet-name>voteServiceQuestion</servlet-name>
         <url-pattern>/voteServiceQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>commentService</servlet-name>
+        <url-pattern>/commentService</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>allComments</servlet-name>
+        <url-pattern>/allComments</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

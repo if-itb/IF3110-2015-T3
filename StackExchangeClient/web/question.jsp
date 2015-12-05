@@ -119,16 +119,17 @@
 	    		+"</div>"
 	    	+"</div>";
                 
+                
                 String question_comment = 
-                "<div class='block-comment'>"
+                "<div ng-controller='commentController'><div ng-repeat='comment in comments' class='block-comment'>"
                     +"<div class='bc-content'>"
-                        +"ini komen"
+                        +"{{comment.content}}"
                         +" - "
                         +"<a id='color-blue'>"
-                            +"penanya"
-                        +"</a>"
+                            +"{{comment.author}}"
+                        +"</a>" +"- {{comment.timestamp}}"
                     +"</div>"
-	    	+"</div>";
+	    	+"</div></div>";
                 
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
@@ -191,23 +192,12 @@
                             +result2
                             +"</a>"
                         +"</div>"
-                    +"</div>"
-                ;
-                String answer_comment = 
-                "<div class='block-comment'>"
-                    +"<div class='bc-content'>"
-                        +"ini komen"
-                        +" - "
-                        +"<a id='color-blue'>"
-                            +"penanya"
-                        +"</a>"
-                    +"</div>"
-	    	+"</div>"           
-                ;
+                    +"</div>";
+                
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
 
-            out.write(start + answer + answer_comment + end);
+            out.write(start + answer + end);
                 
             }
             out.write("</ul>");
@@ -243,6 +233,38 @@
 
     <script>
         var app = angular.module('voteApp',[]);
+        
+        console.log("Start");
+        app.controller('commentController', function($scope, $http) {
+            var commentUrl = "http://localhost:8082/StackExchange_IS/allComments"; 
+            var q_id = "<%= request.getParameter("id") %>";
+            var access_token = "<%= request.getParameter("token") %>";
+            console.log(q_id);
+            var commentParameter = {question_id: q_id, access_token: access_token};
+            console.log(JSON.stringify(commentParameter));
+               $http({
+                        url: commentUrl,
+                        data: JSON.stringify(commentParameter),
+                        method: 'POST',
+                        dataType: "json",
+                        crossDomain: true
+                    })
+                    .then(function (response){
+                        console.log("Success");
+                        $scope.comments = response.data.comments;;
+                        console.log(response.data.comments[0]);
+                        /*if ($scope.message == 1 || $scope.message == -5){
+
+                        } else {
+                            window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
+                        }*/
+                    },function (err){
+                        console.log("Error : " + err);
+                    });    
+        
+        $http.get(commentUrl)
+            .then(function(response) {$scope.comments = response.data.comments;});
+        });
 
         app.controller('voteQuestionController', function($scope,$http){
             var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceQuestion";
