@@ -50,7 +50,7 @@ public class CheckTokenValidity {
 				long isTokenValid_long = (long) jsonObject.get("valid");
 				isTokenValid = (int) isTokenValid_long;
 				
-				tv.setIsValid(1);
+				tv.setIsValid(isTokenValid);
 				
 				System.out.println("after JSON Parse 2");
 				long id_user_long = (long) jsonObject.get("id_user");
