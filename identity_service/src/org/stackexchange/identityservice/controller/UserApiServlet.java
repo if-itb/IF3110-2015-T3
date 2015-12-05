@@ -15,11 +15,13 @@ public class UserApiServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
         String token = request.getParameter("token");
+        String ip = request.getParameter("ip");
+        String user_agent = request.getParameter("user_agent");
         response.setContentType("application/json");
 
         TokenDao tokenDao = new TokenDao();
         UserDao userDao = new UserDao();
-        long userId = tokenDao.getFromToken(token).getUserId();
+        long userId = tokenDao.getFromToken(token,ip,user_agent).getUserId();
         User user = userDao.getById(userId);
 
         try {

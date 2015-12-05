@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class TokenDao extends MySQLDao {
 
-    public boolean existByToken(String token) {
-        String query = "SELECT * FROM `token` WHERE token='" + token + "'";
+    public boolean existByToken(String token, String ip, String user_agent) {
+        String query = "SELECT * FROM `token` WHERE token='" + token + "' && ip ='" + ip + "' && user_agent='" + user_agent + "'";
         Statement statement;
         boolean exist = false;
 
@@ -55,8 +55,8 @@ public class TokenDao extends MySQLDao {
         return exist;
     }
 
-    public Token getFromToken(String token) {
-        String query = "SELECT * FROM `token` WHERE token='" + token + "'";
+    public Token getFromToken(String token, String ip, String user_agent) {
+        String query = "SELECT * FROM `token` WHERE token='" + token + "' && ip ='" + ip + "' && user_agent='" + user_agent + "'";
         Statement statement;
 
         try {
@@ -77,7 +77,7 @@ public class TokenDao extends MySQLDao {
             statement.close();
             closeConnection();
             if (exist) {
-                return new Token(id, token, userId);
+                return new Token(id, token, userId, ip, user_agent);
             } else {
                 return null;
             }
@@ -87,10 +87,10 @@ public class TokenDao extends MySQLDao {
         }
     }
 
-    public Token insert(long userId, String token) {
-        String query = "INSERT INTO `token` (`user_id`, `token`) VALUES (" + userId + ", '" + token + "')";
+    public Token insert(long userId, String token, String ip, String user_agent) {
+        String query = "INSERT INTO `token` (`user_id`, `token`, `ip`, `user_agent`) VALUES (" + userId + ", '" + token + "', '" + ip + "', '" + user_agent + "')";
         Statement statement;
-
+        System.out.println(query);
         try {
             getConnection();
             statement = conn.createStatement();
@@ -102,7 +102,7 @@ public class TokenDao extends MySQLDao {
                 insertedId = rs.getInt(1);
             }
 
-            Token insertedToken = new Token(insertedId, token, userId);
+            Token insertedToken = new Token(insertedId, token, userId, ip, user_agent);
 
             rs.close();
             statement.close();

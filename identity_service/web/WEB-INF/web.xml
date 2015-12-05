@@ -58,7 +58,7 @@
     
     <servlet-mapping>
         <servlet-name>Check Token API</servlet-name>
-        <url-pattern>/api/token/check</url-pattern>
+        <giturl-pattern>/api/token/check</giturl-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
