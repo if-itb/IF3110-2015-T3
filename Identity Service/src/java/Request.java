@@ -31,9 +31,13 @@ import org.json.simple.parser.*;
 public class Request extends HttpServlet {
     
      //attr
-    private String token;
+    private String random_string;
+    private String user_agent;
+    private String ip_address;
     private String create_time;
     private String is_valid;
+    
+    private String token;
     
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
@@ -61,17 +65,7 @@ public class Request extends HttpServlet {
            ResultSet rs = stmt.executeQuery(sql);
            if(rs.next()){
                 int user_id = rs.getInt("user_id");
-                String new_token = getRandomToken();
-                
-                sql = "SELECT access_token FROM user_token WHERE access_token ='" + new_token + "'";
-                rs = stmt.executeQuery(sql);
-                
-                while(rs.next()){
-                    new_token = getRandomToken();
-                    sql = "SELECT access_token FROM user_token WHERE access_token ='" + new_token + "'";
-                    rs = stmt.executeQuery(sql);
-                }
-                token = new_token;
+                random_string = getRandomString();
                 
                 java.util.Date temp = new Date(); 
                 create_time = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(temp);
@@ -79,22 +73,24 @@ public class Request extends HttpServlet {
                 is_valid ="1";
                 
                 //check if current user_id has invalid token
-                sql = "SELECT user_id FROM user_token WHERE user_id=" + user_id;
+                sql = "SELECT * FROM user_token WHERE user_id=" + user_id +" AND user_agent='" + user_agent +"' AND ip_address='" + ip_address +"'";
                 rs = stmt.executeQuery(sql);
                  
-                if(!rs.next()){ //current user_id have no token
+                if(!rs.next()){ //current user_id have no token for current user agent and IP address
                     
-                    sql = "INSERT INTO user_token VALUES(" + user_id +",'" + new_token + "','" + create_time + "' )";
+                    sql = "INSERT INTO user_token VALUES(" + user_id +",'" + random_string + "','" + user_agent + "','" + ip_address + "','" + create_time + "' )";
                     int res = stmt.executeUpdate(sql);
                     System.out.println(res);
                 }
                 else{ // current user_id have invalid token
                 
-                    sql = "UPDATE user_token SET access_token='" + new_token + "', create_time='" + create_time + "' WHERE user_id=" + user_id;
+                    sql = "UPDATE user_token SET random_string='" + random_string + "',user_agent='" + user_agent + "', ip_address='" + ip_address + "', create_time='" + create_time + "' WHERE user_id=" + user_id + " AND user_agent='" + user_agent +"' AND ip_address='" + ip_address +"'";;
                     int res = stmt.executeUpdate(sql);
                     System.out.println(res);
                 }
                 
+                token = random_string + "#" + user_agent + "#" + ip_address;
+                System.out.println("OK 2");
            }
            else{ //INVALID email or password
                token = "";
@@ -131,6 +127,17 @@ public class Request extends HttpServlet {
     
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         
+        // get user agent (browser information)
+        user_agent = request.getHeader("User-Agent");
+        
+        // get IP address
+        //is client behind something?
+        ip_address = request.getHeader("X-FORWARDED-FOR");  
+        if (ip_address == null) {  
+                ip_address = request.getRemoteAddr();  
+        }
+        
+        // get input
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -167,8 +174,8 @@ public class Request extends HttpServlet {
         
     }
     
-    // randomize a token
-    public String getRandomToken(){
+    // get random string
+    public String getRandomString(){
         
         UUID uuid = UUID.randomUUID();
         String randomUUIDString = uuid.toString();
