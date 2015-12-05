@@ -4,6 +4,7 @@
 	
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
     <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/angular.min.js"></script>
     
     <!-- Favicon and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.png">
