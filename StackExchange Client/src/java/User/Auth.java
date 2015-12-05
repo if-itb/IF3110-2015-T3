@@ -56,8 +56,6 @@ public class Auth extends HttpServlet {
           userIP = request.getRemoteAddr();  
       }
       String userAgent = request.getHeader("User-Agent");
-      request.setAttribute("userIP", userIP);
-      request.setAttribute("userAgent", userAgent);
       
       URL url = new URL("http://localhost:8082/Identity_Service/login");
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();

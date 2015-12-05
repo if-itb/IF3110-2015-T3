@@ -36,17 +36,6 @@ public class Auth {
   
   private String ReST = "http://localhost:8082/Identity_Service/validation";
   
-  public boolean checkIPAgent( String token, String userIP, String userAgent ) {
-      boolean ret = false;
-      
-      String userIdentifier = userIP.toLowerCase() + userAgent.toLowerCase();
-      
-      if (!token.equals(null) && token.length() > userIdentifier.length())
-          ret = token.substring(userIdentifier.length()).toLowerCase().equals(userIdentifier);
-      
-      return ret;
-  }
-  
   public int check ( String token, String userIP, String userAgent ) {
     int ret = -1;
     JSONParser parser = new JSONParser();    

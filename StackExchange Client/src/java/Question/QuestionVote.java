@@ -88,7 +88,8 @@ public class QuestionVote extends HttpServlet {
     // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
     // If the calling of port operations may lead to race condition some synchronization is required.
     QuestionWS.QuestionWS port = service.getQuestionWSPort();
-    return port.voteQuestion(token, qid, value);
+    //return port.voteQuestion(token, qid, value);
+    return 0;
   }
 
 }

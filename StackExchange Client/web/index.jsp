@@ -14,6 +14,11 @@
     <%
         Cookie[] cookies = null;
         cookies = request.getCookies();
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
         String token = null;
         if (cookies != null) {
             for (Cookie cookie: cookies) {
@@ -30,7 +35,7 @@
 	UserWS.UserWS_Service service = new UserWS.UserWS_Service();
 	UserWS.UserWS port = service.getUserWSPort();
 	
-	user = port.getUserByToken(token);
+	user = port.getUserByToken(token,userIP,userAgent);
 	
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
