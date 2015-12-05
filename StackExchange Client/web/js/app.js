@@ -25,7 +25,9 @@
     app.controller('commentController', function() {
        this.comment = {}; 
        this.addComment = function(comments) {
+           console.log(this.comment);
            comments.push(this.comment);
+           this.comment = {};
        }
     });
 })();

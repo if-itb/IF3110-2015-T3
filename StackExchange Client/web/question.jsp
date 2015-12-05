@@ -111,11 +111,10 @@
                     </div>
                     <% if (user != null) { %>
                     <form name="commentForm" ng-controller="commentController as commentCtrl" ng-submit="commentCtrl.addComment(question.comments)">
-                        <p>{{ comment.content }}</p>
-                        <input ng-model="q_id" type="hidden" value="<%= question.getId() %>">
-                        <input ng-model="user" type="hidden" value="<%= user.getName() %>">
-                        <input ng-model="comment.content" type="text" placeholder="Your comment">
-                        <input type="submit" val    ue="Add comment">
+                        <input ng-model="commentCtrl.comment.q_id" ng-init="commentCtrl.comment.q_id=<%= question.getId() %>" type="hidden">
+                        <input ng-model="commentCtrl.comment.user" ng-init="commentCtrl.comment.user=<%= user.getName() %>" type="hidden"> 
+                        <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your comment">
+                        <input type="submit" value="Add comment">
                     </form>
                     <% } %>
                 </div>
