@@ -35,42 +35,44 @@ public class Auth {
   
   private String ReST = "http://localhost:8082/Identity_Service/validation";
   
-  public int check ( String token ) {
+  public int check ( String token, String userIP, String userAgent ) {
     int ret = -1;
     JSONParser parser = new JSONParser();    
     try {
       String charset = "UTF-8";
-      
+
       URL url = new URL(ReST);
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       conn.setDoOutput(true);
       conn.setRequestMethod("POST");
       conn.setRequestProperty("Accept-Charset", charset);
       conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-     
-      String query = String.format("token=%s", 
-                                    URLEncoder.encode(token, charset));
       
+      String query = String.format("token=%s&userIP=%s&userAgent=%s", 
+                                    URLEncoder.encode(token, charset),
+                                    URLEncoder.encode(userIP, charset),
+                                    URLEncoder.encode(userAgent, charset));
+
       try (OutputStream output = conn.getOutputStream()) {
           output.write(query.getBytes(charset));
       }
 
       InputStream res = conn.getInputStream();
       System.out.println(res);
-      
+
       BufferedReader br = new BufferedReader(new InputStreamReader(
           (conn.getInputStream())));
 
       String output;      
       Object obj;
       JSONObject jobj;
-      
+
       while ((output = br.readLine()) != null) {
         obj = parser.parse(output);
         jobj = (JSONObject) obj;
-        
+
         ret = -1;
-        
+
         if (((String)jobj.get("message")).equals("valid")) {
           ret = 1;
         } else if (((String)jobj.get("message")).equals("expired")) {
@@ -79,16 +81,16 @@ public class Auth {
           ret = -1;
         }
       }
-      
+
       conn.disconnect();
 
-	  } catch (MalformedURLException e) {
+          } catch (MalformedURLException e) {
 
-		e.printStackTrace();
+                e.printStackTrace();
 
-	  } catch (IOException e) {
+          } catch (IOException e) {
 
-		e.printStackTrace();
+                e.printStackTrace();
 
     } catch (ParseException ex) {
       Logger.getLogger(Auth.class.getName()).log(Level.SEVERE, null, ex);
@@ -96,5 +98,4 @@ public class Auth {
     
     return ret;
   }
-  
 }

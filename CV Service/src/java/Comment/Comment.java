@@ -119,9 +119,11 @@ public class Comment extends HttpServlet {
       String uid = request.getParameter("uid");
       String content = request.getParameter("content");
       String token = request.getParameter("token");
+      String userIP = request.getParameter("userIP");
+      String userAgent = request.getParameter("userAgent");
       
       Auth auth = new Auth();
-      int ret = auth.check(token);
+      int ret = auth.check(token,userIP,userAgent);
       
       if ( ret == 1 ) {
         try {      

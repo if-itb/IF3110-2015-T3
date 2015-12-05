@@ -109,11 +109,13 @@
                     <div class="comment-item" ng-repeat="comment in question.comments">
                         <p>{{ comment.content }} - <span class="author">{{ comment.user }}</span></p>
                     </div>
+                    
                     <% if (user != null) { %>
-                    <form name="commentForm" ng-controller="commentController as commentCtrl" ng-submit="commentCtrl.addComment(question.comments)">
+                    <form name="commentForm" ng-controller="commentController as commentCtrl" ng-submit="commentForm.$valid && commentCtrl.addComment(question.comments)" novalidate>
                         <input ng-model="commentCtrl.comment.q_id" ng-init="commentCtrl.comment.q_id=<%= question.getId() %>" type="hidden">
-                        <input ng-model="commentCtrl.comment.user" ng-init="commentCtrl.comment.user=<%= user.getName() %>" type="hidden"> 
-                        <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your comment">
+                        <input ng-model="commentCtrl.comment.u_id" ng-init="commentCtrl.comment.u_id=<%= user.getId() %>" type="hidden">
+                        <input ng-model="commentCtrl.comment.user" ng-init="commentCtrl.comment.user=<%= user.getName() %>" type="hidden">
+                        <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your comment" required>
                         <input type="submit" value="Add comment">
                     </form>
                     <% } %>

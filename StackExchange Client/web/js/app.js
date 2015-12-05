@@ -22,12 +22,25 @@
         });
     }]);
 
-    app.controller('commentController', function() {
+    app.controller('commentController', [ '$http', function($http) {
        this.comment = {}; 
        this.addComment = function(comments) {
-           console.log(this.comment);
-           comments.push(this.comment);
+           var comment = this.comment;
+           console.log(comment);
+           comments.push(comment);
            this.comment = {};
+           
+           $http({
+               url: "http://localhost:8080/StackExchange_Client/QuestionAddComment",
+               method: "POST",
+               params: {
+                   qid: comment.q_id,
+                   uid: comment.u_id,
+                   content: comment.content
+                }
+            }).success(function(data) {
+                console.log(data);
+            });
        }
-    });
+    }]);
 })();
