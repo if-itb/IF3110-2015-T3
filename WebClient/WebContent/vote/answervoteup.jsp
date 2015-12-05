@@ -8,35 +8,39 @@
 <%@ page import = "org.tusiri.ws.answer.AnswerVoteUp" %>
 <%@ page import = "org.tusiri.ws.answer.AnswerVoteDown" %>
 
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/angular.min.js"></script>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>VoteUp answer</title>
+	<script>
+		function VoteUp(cookie,id){
+			alert(cookie)
+			var voteUpUrl = "http://localhost:8081/Comment_Vote-WS/rest/voteanswer/voteup";
+			var tokenData = {access_token:cookie, id_answer:id}
+			$.ajax({
+		        url: voteUpUrl,
+		        data: tokenData,
+		        dataType: "json",
+		        type: "POST",
+		        success: function(data) {
+		        	var vote_value = data;
+		            document.getElementById("nilai_vote").innerHTML = data;
+		        }
+		    });
+			
+		}
+			
+	</script>
 </head>
 <body>
-<% 
-	Cookie cookie = null;
-	Cookie[] cookies = null;
-	String access_token = null;
-	// Get an array of Cookies associated with this domain
-	cookies = request.getCookies();
-	if( cookies != null ){
-		for (int i = 0; i < cookies.length; i++){
-			cookie = cookies[i];
-			if(cookie.getName().equals("access_token")){
-				access_token = cookie.getValue();
-				break;
-			}
-		}
-	} else {
-		//Redirect to signin
-	}
-	
-	AnswerService qservice = new AnswerService();
-	Answer a = qservice.getAnswerPort();
-	int id = Integer.parseInt(request.getParameter("id"));
-	int vote_now = a.answerVoteUp(id,access_token);
-%>
-	<% out.println(vote_now); %>
+	<script>
+		VoteUp("<%=request.getParameter("cookie")%>", <%=request.getParameter("id")%>);
+		document.write(<span id = nilai_vote>0</span>);
+	</script>
 </body>
 </html>

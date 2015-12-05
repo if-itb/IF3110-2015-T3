@@ -59,7 +59,7 @@ public class TokenValidity {
 			if(rs.next()){
 				//cek tanngal expire
 				java.util.Date date = rs.getTimestamp("timestamp");
-				Date expire = new Date(date.getTime() + TimeUnit.MINUTES.toMillis( 1 ));//2 minutes validity
+				Date expire = new Date(date.getTime() + TimeUnit.MINUTES.toMillis( 5 ));//2 minutes validity
 				long expire_ms = expire.getTime();
 				Date cur_date = new Date();
 				long cur_date_ms = cur_date.getTime();
