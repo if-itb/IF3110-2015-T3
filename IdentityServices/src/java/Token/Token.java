@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Token", urlPatterns = {"/Token"})
 public class Token extends HttpServlet {
-    public static int lifetime = 100; //100 seconds
+    public static int lifetime = 1000; //100 seconds
     private String token = "";
     private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
     
@@ -36,7 +36,6 @@ public class Token extends HttpServlet {
     
     public boolean isInDB(String username, String password){
         //query for database
-        System.out.println("masuk");
         final String query = "SELECT COUNT(*) FROM user WHERE email = '" + username + "' AND password = '" + password + "'";
         Database database = new Database();
         database.connect(path);
@@ -49,7 +48,6 @@ public class Token extends HttpServlet {
             rs.close();
         } catch (SQLException ex) {
         }
-        System.out.println("keluar");
         database.closeDatabase();
         return (result == 1);
     }
@@ -75,10 +73,10 @@ public class Token extends HttpServlet {
     
     public void generateToken(String username, int user_id, String user_agent, String ip_address){
         token = UUID.randomUUID().toString();
-        Date now = new Date(System.currentTimeMillis() + lifetime);
+        Date now = new Date(System.currentTimeMillis() + lifetime*1000);
         String expires = new Timestamp(now.getTime()).toString();
-        String query = "INSERT INTO token (user_id, uuid, expires, user_agent, ip_address) "
-                + "VALUES (" + user_id + ", '" + token + "', '" + expires + "', " + user_agent + "', '" + ip_address + "')";
+        String query = "INSERT INTO token (uuid, user_id, expires, user_agent, ip_address) "
+                + "VALUES ('" + token + "', " + user_id + ", '" + expires + "', '" + user_agent + "', '" + ip_address + "')";
         Database database = new Database();
         database.connect(path);
         database.changeData(query);
@@ -96,27 +94,24 @@ public class Token extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             //Variable
             String username = request.getParameter("uname");
             String password = request.getParameter("pword");
             String user_agent = request.getHeader("User-Agent");
             String ip_address = request.getRemoteHost();
-            out.println(ip_address);
             if(isInDB(username,password)){
-                out.println("A" + username);
                 int user_id = getUserID(username, password);
                 generateToken(username, user_id, user_agent, ip_address);
-                Cookie cookie = new Cookie("token", token);
-                cookie.setMaxAge(lifetime);
-                response.addCookie(cookie);
-                response.sendRedirect("http://localhost:8080/StackExchange_Client/index.jsp");
+                Cookie cookie_token = new Cookie("token", token);
+                cookie_token.setMaxAge(lifetime);
+                cookie_token.setPath("/");
+                response.addCookie(cookie_token);
+                response.sendRedirect("http://localhost:8080/StackExchange_Client/index.jsp?id=" + user_id);
             } else {
-                out.println("C");
                 token = "";
-                response.sendError(1, "Login error!");
-                response.sendRedirect("http://localhost:8080/StackExchange_Client/login.jsp");
+                response.sendRedirect("http://localhost:8080/StackExchange_Client/login.jsp?ef=1");
             }
         }
     }

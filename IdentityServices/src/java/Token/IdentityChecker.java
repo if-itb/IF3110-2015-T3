@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author acel
  */
+@WebServlet(name = "IdentityChecker", urlPatterns = {"/IdentityChecker"})
 public class IdentityChecker extends HttpServlet {
     private String token = "";
     private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
@@ -42,14 +44,14 @@ public class IdentityChecker extends HttpServlet {
         return (result == 1);
     }
     
-    public String deleteToken(){
+    public String deleteToken(String uuid){
         //query for database
-        final String query = "DELETE FROM token WHERE id = '" + token + "'";
+        final String query = "DELETE FROM token WHERE uuid = '" + uuid + "'";
         Database database = new Database();
         database.connect(path);
         database.changeData(query);
         database.closeDatabase();
-        return "executed";
+        return "Token deleted";
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,19 +68,22 @@ public class IdentityChecker extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Cookie[] cookies = request.getCookies();
-            int expiry = -999;
             for(Cookie temp : cookies){
                 if(temp.getName().equals("token")){
                     token = temp.getValue();
-                    expiry = temp.getMaxAge();
                 }
             }
-            
-            if(isTokenValid() && expiry != 0){
-                out.println("Successful");
-            } else {
-                out.println("Failed");
+            if(request.getParameter("action").isEmpty()){
+                if(isTokenValid()){
+                    out.println("Successful");
+                } else {
+                    out.println("Failed");
+                }
+            } else if(request.getParameter("action").equals("logout")){
+                out.println(deleteToken(token));
+                response.sendRedirect("http://localhost:8080/StackExchange_Client/login.jsp");
             }
+            
         }
     }
     

@@ -21,7 +21,7 @@
     %>
 
     <div id="wrapper">
-      <h1 class = "center"> <a href="index.jsp">Simple StackExchange</a></h1>
+      <jsp:include page="header.jsp" />
       <h2 class ="underline"> What's your question? </h2>
       <form action="editQuestion.jsp" method="POST" class="block">
         <input type="text" placeholder="Question Topic" name="topic" value="<%=question.getTopic()%>" />

@@ -17,30 +17,19 @@
     </head>
     <body>
         <%
+            String token = "";
             Cookie[] cookies = request.getCookies();
             for(Cookie temp : cookies){
-                out.println(temp.getName() + " " + temp.getValue());
+                if(temp.getName().equals("token")){
+                    token = temp.getValue();
+                }
             }
         %>
 	<div id="wrapper">
-            <%
-            if(request.getParameter("token") != null && request.getParameter("id") != null){
-            %>
-            <h1 class="center">
-                <a href="index.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>">Simple StackExchange</a>
-            </h1>
-            <%
-            } else {
-            %>
-            <h1 class="center">
-                <a href="index.jsp">Simple StackExchange</a>
-            </h1>
-            <%
-            }
-            %>
+            <jsp:include page="header.jsp" />
             <div class="row">
                 <%
-                if(request.getParameter("token") != null && request.getParameter("id") != null){
+                if(!token.isEmpty()){
                 %>
                   <%! String name = ""; %>
                   Welcome, 
@@ -51,13 +40,12 @@
                       int uid = Integer.parseInt(request.getParameter("id"));
                       userWebService.User result0 = port0.getUser(uid);
                       name = result0.getName();
-                      out.println(name);
+                      out.print(name);
                   } catch (Exception ex) {
                   }
-                  %>
-                  !
+                  %>!
                   <div class="right">
-                      <a href="login.jsp">Logout</a>
+                      <a href="http://localhost:8082/IdentityServices/IdentityChecker?action=logout"">Logout</a>
                   </div>
                 <%
                 } //bracket for if
@@ -66,9 +54,9 @@
             </div>
             <div id="main-search" class="center">
                     <%
-                    if(request.getParameter("token") != null && request.getParameter("id") != null){
+                    if(request.getParameter("id") != null){
                     %>
-                        <form action="index.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>" method="POST">
+                        <form action="index.jsp?id=<%=request.getParameter("id")%>" method="POST">
                     <%
                     } else {
                     %>
@@ -81,11 +69,11 @@
                     </form>
             </div>
             <%
-            if(request.getParameter("token") != null && request.getParameter("id") != null){
+            if(request.getParameter("id") != null){
             %>
                 <div class="center">
                     <h3>
-                        <a href="ask.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>">Ask a question!</a>
+                        <a href="ask.jsp?id=<%=request.getParameter("id")%>">Ask a question!</a>
                     </h3>    
                 </div>
             <%
@@ -122,7 +110,7 @@
                             String s = String.valueOf(id);
                     %>
                             <div class="col title">
-                                <a href="question.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a>
+                                <a href="question.jsp?id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a>
                             </div>
                             <div class="content">
                                 <br>
@@ -166,8 +154,8 @@
                                         if(name.equals(result.get(i).getAskerName())) { 
                                         %>
                                             |
-                                            <a href="editForm.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link edit"> edit </span></a> |
-                                            <a onclick="confirm('Are you sure to delete this question ?');" href="deleteQuestion.jsp?token=<%= request.getParameter("token")%>&id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link delete"> delete </span></a>
+                                            <a href="editForm.jsp?id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link edit"> edit </span></a> |
+                                            <a onclick="confirm('Are you sure to delete this question ?');" href="deleteQuestion.jsp?id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link delete"> delete </span></a>
                                         <%
                                         } 
                                         %>
