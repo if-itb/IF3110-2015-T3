@@ -2,6 +2,8 @@
 
 <xs:element name="Answer" type="tns:answer"/>
 
+<xs:element name="Comment" type="tns:comment"/>
+
 <xs:element name="ParseException" type="tns:ParseException"/>
 
 <xs:element name="Question" type="tns:question"/>
@@ -33,6 +35,10 @@
 <xs:element name="getAllAnswers" type="tns:getAllAnswers"/>
 
 <xs:element name="getAllAnswersResponse" type="tns:getAllAnswersResponse"/>
+
+<xs:element name="getAllComment" type="tns:getAllComment"/>
+
+<xs:element name="getAllCommentResponse" type="tns:getAllCommentResponse"/>
 
 <xs:element name="getAllQuestions" type="tns:getAllQuestions"/>
 
@@ -275,6 +281,28 @@
 <xs:complexType name="searchQuestionResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAllComment">
+<xs:sequence>
+<xs:element name="id_a" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAllCommentResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:comment" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comment">
+<xs:sequence>
+<xs:element name="id_c" type="xs:int"/>
+<xs:element name="q_id" type="xs:int"/>
+<xs:element name="content" type="xs:string"/>
+<xs:element name="date" type="xs:string"/>
+<xs:element name="username" type="xs:string"/>
 </xs:sequence>
 </xs:complexType>
 

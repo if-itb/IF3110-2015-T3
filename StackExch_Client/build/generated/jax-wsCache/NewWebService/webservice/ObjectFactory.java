@@ -31,10 +31,13 @@ public class ObjectFactory {
     private final static QName _UpdateQuestionResponse_QNAME = new QName("http://WebService/", "updateQuestionResponse");
     private final static QName _GetVote_QNAME = new QName("http://WebService/", "getVote");
     private final static QName _GetQuestions_QNAME = new QName("http://WebService/", "getQuestions");
+    private final static QName _GetAllComment_QNAME = new QName("http://WebService/", "getAllComment");
     private final static QName _SearchQuestion_QNAME = new QName("http://WebService/", "searchQuestion");
     private final static QName _StatusToken_QNAME = new QName("http://WebService/", "statusToken");
     private final static QName _DeleteTokenResponse_QNAME = new QName("http://WebService/", "deleteTokenResponse");
     private final static QName _GetAllAnswers_QNAME = new QName("http://WebService/", "getAllAnswers");
+    private final static QName _GetAllCommentResponse_QNAME = new QName("http://WebService/", "getAllCommentResponse");
+    private final static QName _Comment_QNAME = new QName("http://WebService/", "Comment");
     private final static QName _Register_QNAME = new QName("http://WebService/", "register");
     private final static QName _AddAnswer_QNAME = new QName("http://WebService/", "addAnswer");
     private final static QName _CountAnswer_QNAME = new QName("http://WebService/", "countAnswer");
@@ -180,6 +183,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Comment }
+     * 
+     */
+    public Comment createComment() {
+        return new Comment();
+    }
+
+    /**
      * Create an instance of {@link DeleteTokenResponse }
      * 
      */
@@ -196,11 +207,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetAllCommentResponse }
+     * 
+     */
+    public GetAllCommentResponse createGetAllCommentResponse() {
+        return new GetAllCommentResponse();
+    }
+
+    /**
      * Create an instance of {@link StatusToken }
      * 
      */
     public StatusToken createStatusToken() {
         return new StatusToken();
+    }
+
+    /**
+     * Create an instance of {@link GetAllComment }
+     * 
+     */
+    public GetAllComment createGetAllComment() {
+        return new GetAllComment();
     }
 
     /**
@@ -411,6 +438,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllComment }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://WebService/", name = "getAllComment")
+    public JAXBElement<GetAllComment> createGetAllComment(GetAllComment value) {
+        return new JAXBElement<GetAllComment>(_GetAllComment_QNAME, GetAllComment.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SearchQuestion }{@code >}}
      * 
      */
@@ -444,6 +480,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://WebService/", name = "getAllAnswers")
     public JAXBElement<GetAllAnswers> createGetAllAnswers(GetAllAnswers value) {
         return new JAXBElement<GetAllAnswers>(_GetAllAnswers_QNAME, GetAllAnswers.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllCommentResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://WebService/", name = "getAllCommentResponse")
+    public JAXBElement<GetAllCommentResponse> createGetAllCommentResponse(GetAllCommentResponse value) {
+        return new JAXBElement<GetAllCommentResponse>(_GetAllCommentResponse_QNAME, GetAllCommentResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Comment }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://WebService/", name = "Comment")
+    public JAXBElement<Comment> createComment(Comment value) {
+        return new JAXBElement<Comment>(_Comment_QNAME, Comment.class, null, value);
     }
 
     /**

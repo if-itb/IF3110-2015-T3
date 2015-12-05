@@ -35,8 +35,10 @@
            String content = "";
            int ca = Integer.valueOf(Q.getTanswer()) ;
            int z = (id*1000) + ca+1;
-          
-        %>
+          java.util.List<webservice.Comment> Cm = sws.getAllComment(id);
+          int csize = Cm.size() ;
+          int ccm = (id*1000) + csize+1;
+        %>;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
          <link rel="stylesheet" type="text/css" href="style/style.css">
         <title><% out.println(Q.getTitle()) ; %></title>
@@ -88,7 +90,23 @@
             <a href="askhere.jsp?id=<% out.println(Q.getIdQ()) ; %>"><span class="bb">edit</span></a> |
             <a onclick ="return confirm('Are you sure to delete this question ?')" href="process.jsp?action=del&id=<% out.println(id) ;%>&owner=<% out.println(Q.getUsername());%>"><span class="cc">delete</span></a>  
             </div>
+        </div><br><br>
+        <div class="separator2"></div>        
+         
+        <div class="commentbox">     
+            <% for (int i2=0;i2<csize;i2++) { %>
+         <% 
+         %> <div class="cmcontent"><% out.println(Cm.get(i2).getContent());  
+         %> | at <cmdate><%out.println(Cm.get(i2).getDate());%></cmdate> by <cmu> <%
+         out.println(Cm.get(i2).getUsername()); %></cmu></div>
+           <div class="separator3"></div>
+         <% } %>
+            <form>
+                 <input id="fcomment" type="text" name="ncomment" placeholder="Add a comment : "/><br>             
+                 <input id="fsubmit2" type="submit" value="Comment "><br>   
+            </form>     
         </div>
+        <div class="separator2"></div>
         <div id ="qans"><% out.println(Q.getTanswer()) ; %> Answers</div>
          <div class="separator"></div>
          

@@ -178,6 +178,39 @@ public class StackWebSevice {
             return ret ;
         }
         
+         @WebMethod(operationName="getAllComment")
+        public ArrayList<Comment> getAllComment(@WebParam(name="id_a") int id_a) {
+            Connection conn = null ; 
+            Statement stmt = null ;
+            ResultSet rs =null;
+            ArrayList<Comment> ret = new ArrayList<Comment>() ;
+            
+            try {
+                Class.forName("com.mysql.jdbc.Driver");                
+                conn = DriverManager.getConnection(DB_URL, USER,PASS);               
+                String sql = "SELECT * FROM comment WHERE q_id="+id_a;
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery(sql);                
+                while (rs.next()) {
+                    Comment C = new Comment();
+                    int aa = rs.getInt("id_c");
+                    int bb = rs.getInt("q_id");
+                    C.id_c = aa;
+                    C.q_id = bb;
+                    C.content = rs.getString("content");
+                    C.date = rs.getString("date");
+                    C.username = rs.getString("username");
+                    ret.add(C);
+                }
+                stmt.close();
+                conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace() ;
+            }
+            return ret ;
+        }
+        
         @WebMethod(operationName="register")
         public int register(String n,String e,String p) {
             int status = 0 ;

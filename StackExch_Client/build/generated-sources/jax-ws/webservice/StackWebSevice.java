@@ -343,4 +343,19 @@ public interface StackWebSevice {
         @WebParam(name = "arg5", targetNamespace = "")
         String arg5);
 
+    /**
+     * 
+     * @param idA
+     * @return
+     *     returns java.util.List<webservice.Comment>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getAllComment", targetNamespace = "http://WebService/", className = "webservice.GetAllComment")
+    @ResponseWrapper(localName = "getAllCommentResponse", targetNamespace = "http://WebService/", className = "webservice.GetAllCommentResponse")
+    @Action(input = "http://WebService/StackWebSevice/getAllCommentRequest", output = "http://WebService/StackWebSevice/getAllCommentResponse")
+    public List<Comment> getAllComment(
+        @WebParam(name = "id_a", targetNamespace = "")
+        int idA);
+
 }

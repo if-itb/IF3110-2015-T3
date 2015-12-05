@@ -103,6 +103,12 @@
 <message name="updateQuestionResponse">
 <part name="parameters" element="tns:updateQuestionResponse"/>
 </message>
+<message name="getAllComment">
+<part name="parameters" element="tns:getAllComment"/>
+</message>
+<message name="getAllCommentResponse">
+<part name="parameters" element="tns:getAllCommentResponse"/>
+</message>
 <portType name="StackWebSevice">
 <operation name="register">
 <input wsam:Action="http://WebService/StackWebSevice/registerRequest" message="tns:register"/>
@@ -168,6 +174,10 @@
 <operation name="updateQuestion">
 <input wsam:Action="http://WebService/StackWebSevice/updateQuestionRequest" message="tns:updateQuestion"/>
 <output wsam:Action="http://WebService/StackWebSevice/updateQuestionResponse" message="tns:updateQuestionResponse"/>
+</operation>
+<operation name="getAllComment">
+<input wsam:Action="http://WebService/StackWebSevice/getAllCommentRequest" message="tns:getAllComment"/>
+<output wsam:Action="http://WebService/StackWebSevice/getAllCommentResponse" message="tns:getAllCommentResponse"/>
 </operation>
 </portType>
 <binding name="StackWebSevicePortBinding" type="tns:StackWebSevice">
@@ -311,6 +321,15 @@
 </output>
 </operation>
 <operation name="updateQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getAllComment">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
