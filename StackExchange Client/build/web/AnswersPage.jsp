@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html ng-app="controller">
     <head>
         <title>StackExchange</title>
         <meta charset="UTF-8">
@@ -44,6 +44,19 @@
 		<div class="asked_email">
                     asked by <span>${asker}</span>|<!-- <a href="Edit.php?id=".$row["Q_id"]."\" class=\"color_yellow\">edit<a> | <a href=\"Delete.php?id=".$row["Q_id"]."\" class=\"delete\">delete<a> -->
 		</div>
+                <div>
+                    <div ng-controller="CommentController">
+                        <div ng-repeat="comment in comments">
+                            <p>{{ comment.comment }} - {{ comment.user }}</p>
+                        </div>
+                        <form name="commentForm" ng-submit="addcommentasync(comments)">
+                            <input ng-model="comment.qid" ng-init="comment.q_id=${question.id}" type="hidden">
+                            <input ng-model="comment.user"  type="hidden"> <!--ng-init="commentCtrl.comment.user= user.getName() %>"-->
+                            <input ng-model="comment.comment" type="text" placeholder="Your comment">
+                            <input type="submit" value="Add comment">
+                        </form>
+                    </div>
+                </div>
             </div>
         <h2 class="align">
             <div>   
@@ -120,6 +133,7 @@
                 else
                     response.sendRedirect(request.getContextPath() + "/SignUpPage.jsp");                         
             }
-         %>    
+         %>
+         <script src="controller.js"></script>
     </body>
 </html>
