@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWebService?wsdl" uri="wsdl/localhost_8081/StackExchange_WebService/QuestionWebService.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWebService?xsd=1" uri="wsdl/localhost_8081/StackExchange_WebService/QuestionWebService.xsd_1.xsd"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWebService?wsdl" uri="wsdl/localhost_8081/StackExchange_WebService/AnswerWebService.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWebService?xsd=1" uri="wsdl/localhost_8081/StackExchange_WebService/AnswerWebService.xsd_1.xsd"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/UserWebService?wsdl" uri="wsdl/localhost_8081/StackExchange_WebService/UserWebService.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/UserWebService?xsd=1" uri="wsdl/localhost_8081/StackExchange_WebService/UserWebService.xsd_1.xsd"/>
-</catalog>
