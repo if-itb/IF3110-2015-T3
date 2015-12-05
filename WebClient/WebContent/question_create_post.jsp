@@ -6,7 +6,7 @@
 <%@ page import = "org.tusiri.ws.question.QuestionItem" %>
 <html>
 <head>
-<title>Using GET and POST Method to Read Form Data</title>
+<title>Question Create Post</title>
 </head>
 <body>
 
