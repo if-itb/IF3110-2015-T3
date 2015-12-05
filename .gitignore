@@ -7,3 +7,4 @@ nbproject
 test
 build.xml
 node_modules
+*.orig
