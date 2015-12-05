@@ -44,6 +44,12 @@ public class ISAuth extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String token = request.getParameter("token");
             String sql = "SELECT * FROM token WHERE access_token = ?";
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
+            }
+            String userAgent = request.getHeader("User-Agent");
+            String[] parsedToken = token.split("[#]");
             
             JSONObject object = new JSONObject();
             
@@ -57,8 +63,14 @@ public class ISAuth extends HttpServlet {
                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    
                    try {
+                       
                        Date expiry_date = format.parse(result.getString("expiry_date"));
-                       if (now.after(expiry_date)){
+                       // Mengecek user agent dan ip address token
+                       if(!userAgent.equals(parsedToken[1]) || !ipAddress.equals(parsedToken[2])){
+                           object.put("error", "User agent and/or IP Address is incorrect");
+                       }
+                       //Mengecek apakah token masih berlaku
+                       else if (now.after(expiry_date)){
                            object.put("error", "Expired Token");
                            String deleteQuery = "DELETE FROM token WHERE access_token = ?";
                            try (PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery)){

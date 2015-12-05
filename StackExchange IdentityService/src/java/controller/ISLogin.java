@@ -47,6 +47,12 @@ public class ISLogin extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
+            }
+            String userAgent = request.getHeader("User-Agent");
+            
             JSONObject object = new JSONObject();
             
             if (email != null && password != null){
@@ -59,7 +65,7 @@ public class ISLogin extends HttpServlet {
                     if(result.next()){
                         int u_id = result.getInt("u_id");
                         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-                        
+                        String token = uuid + "#" + userAgent + "#" + ipAddress;
                         Calendar time = Calendar.getInstance();
                         time.setTime(new Date());
                         time.add(Calendar.HOUR, 2);
@@ -85,7 +91,7 @@ public class ISLogin extends HttpServlet {
                             deleteStatement.execute();
                             insertStatement.execute();
                             
-                            object.put("token", uuid);
+                            object.put("token", token);
                             object.put("expiry_date", timestamp.getTime());
                             conn.commit();
                         }   
