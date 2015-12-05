@@ -8,10 +8,16 @@ public class Token {
 
     private long userId;
 
-    public Token(long id, String token, long userId) {
+    private String ip;
+
+    private String user_agent;
+
+    public Token(long id, String token, long userId, String ip, String user_agent) {
         this.id = id;
         this.token = token;
         this.userId = userId;
+        this.ip = ip;
+        this.user_agent = user_agent;
     }
 
     public String getToken() {
@@ -20,5 +26,13 @@ public class Token {
 
     public long getUserId() {
         return userId;
+    }
+
+    public String getIp(){
+        return ip;
+    }
+
+    public String getUserAgent(){
+        return user_agent;
     }
 }

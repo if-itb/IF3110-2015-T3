@@ -38,7 +38,9 @@ public class LoginServlet extends HttpServlet{
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             User user = userDao.getByEmail(email);
-            Token token = identityService.generateToken(user.getId());
+            String ip = request.getRemoteAddr();
+            String user_agent = request.getHeader("User-Agent");
+            Token token = identityService.generateToken(user.getId(),ip,user_agent);
             response.sendRedirect("http://localhost:8080/stack_exchange_netbeans/index?token=" + token.getToken());
         }
     }
