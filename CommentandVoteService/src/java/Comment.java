@@ -96,7 +96,7 @@ public class Comment extends HttpServlet {
                         " AuthorName=\""+AuthorName+"\"" +
                         " created_at=\""+created_at+"\"" +
                         " >" +
-                        qcomment +
+                        xmlEscapeText(qcomment) +
                         "</comment>");
             }
             wr.println("</list>");
@@ -201,5 +201,25 @@ public class Comment extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    private String xmlEscapeText(String t) {
+   StringBuilder sb = new StringBuilder();
+   for(int i = 0; i < t.length(); i++){
+      char c = t.charAt(i);
+      switch(c){
+      case '<': sb.append("&lt;"); break;
+      case '>': sb.append("&gt;"); break;
+      case '\"': sb.append("&quot;"); break;
+      case '&': sb.append("&amp;"); break;
+      case '\'': sb.append("&apos;"); break;
+      default:
+         if(c>0x7e) {
+            sb.append("&#"+((int)c)+";");
+         }else
+            sb.append(c);
+      }
+   }
+   return sb.toString();
+}
 
 }
