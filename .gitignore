@@ -1,9 +1,6 @@
-/StackExchange WebService/nbproject/
-/StackExchange WebService/build/
-/StackExchange WebService/dist/
-/StackExchange Client/nbproject/
-/StackExchange Client/build/
-/StackExchange Client/dist/
-/StackExchange IdentityService/nbproject/
-/StackExchange IdentityService/build/
-/StackExchange IdentityService/dist/
+/StackExchange WebService/nbproject/build-impl.xml
+/StackExchange WebService/nbproject/build-impl.xml~
+/StackExchange Client/nbproject/build-impl.xml
+/StackExchange Client/nbproject/build-impl.xml~
+/StackExchange IdentityService/nbproject/build-impl.xml
+/StackExchange IdentityService/nbproject/build-impl.xml~
