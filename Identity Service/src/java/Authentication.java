@@ -22,25 +22,36 @@ import org.json.simple.parser.*;
  */
 public class Authentication extends HttpServlet {
    
-   //attr
+    //attr
     private String user_id;
     private String name; 
     private String email;
     private String create_time;
     private String is_valid;
     
-   //timeout constant
-    static final int timeout = 30; // timeout in seconds
+    // element of token
+    private String random_string;
+    private String user_agent;
+    private String ip_address;
     
-   // JDBC driver name and database URL
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/stackx";
+    private String token;
+    
+    //info of user agent and ip address from sender
+    private String realUserAgent;
+    private String realIpAddress;
+    
+    //timeout constant
+    static final int timeout = 45; // timeout in seconds
+    
+    // JDBC driver name and database URL
+    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+    static final String DB_URL = "jdbc:mysql://localhost/stackx";
 
-   //  Database credentials
-   static final String USER = "root";
-   static final String PASS = "";
+    //  Database credentials
+    static final String USER = "root";
+    static final String PASS = "";
    
-   public void getUser(String token){
+    public void getUser(){
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -53,10 +64,11 @@ public class Authentication extends HttpServlet {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT user.user_id, name, email, create_time FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE access_token ='" + token + "'";
+            sql = "SELECT user.user_id, name, email, create_time FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE random_string='" + random_string + "' AND user_agent='" + user_agent + "' AND ip_address='" + ip_address + "'";
             ResultSet rs = stmt.executeQuery(sql);
            
-            if(!rs.next()){ // not found, invalid email / passsword
+            if(!rs.next()){ //INVALID TOKEN
+                
                 name = "";
                 email = "";
                 user_id = "";
@@ -122,6 +134,18 @@ public class Authentication extends HttpServlet {
     }
     
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        
+        // get user agent (browser information)
+        realUserAgent = request.getHeader("User-Agent");
+        
+        // get IP address
+        //is client behind something?
+        realIpAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (realIpAddress == null) {  
+                realIpAddress = request.getRemoteAddr();  
+        }
+        
+        
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -131,13 +155,34 @@ public class Authentication extends HttpServlet {
           
             //parsing json input format
             JSONParser parser = new JSONParser();
-            String token;
             try {
                 Object obj = parser.parse(jb.toString());
                 JSONObject input = (JSONObject) obj;
-                token = (String) input.get("token");
-                getUser(token);
-
+                token = (String) input.get("token"); // full token
+                
+                // get info from given token
+                String[] temp = token.split("#");
+                random_string = temp[0];
+                user_agent = temp[1];
+                ip_address = temp[2];
+                
+                // check user agent and ip address in token is valid
+                if(!isUserAgentValid(realUserAgent, user_agent)){
+                    name = "";
+                    email = "";
+                    user_id = "";
+                    is_valid ="-3"; // diff user agent
+                }
+                else if(!isIpAddressValid(realIpAddress, ip_address)){
+                    name = "";
+                    email = "";
+                    user_id = "";
+                    is_valid ="-4"; // diff IP address
+                }
+                else{ // valid user agent and ip address
+                    getUser();
+                }
+                
                 response.setContentType("application/json;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
                     //out.println(date);
@@ -161,4 +206,11 @@ public class Authentication extends HttpServlet {
         
     }
     
+    public boolean isUserAgentValid(String realUserAgent, String user_agent){
+        return (realUserAgent.equals(user_agent));
+    }
+    
+    public boolean isIpAddressValid(String realIpAddress, String ip_address){
+        return(realIpAddress.equals(ip_address));
+    }
 }
