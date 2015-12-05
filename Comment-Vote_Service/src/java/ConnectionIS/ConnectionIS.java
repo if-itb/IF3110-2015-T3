@@ -46,9 +46,7 @@ public class ConnectionIS {
         }
         catch (IOException ex) {
             System.err.println(ex.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(ConnectionIS.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }    
         return jo;
     }
 
