@@ -137,6 +137,59 @@ angular.module("stackexchangeApp", [])
             })
         };
     }])
+    .controller("QuestionCommentController", ["commentService", "$scope", function(commentService, $scope){
+        $scope.comments = [];
+        $scope.newComment = "";
+
+        this.getComments = function(questionId){
+            console.log("**IN");
+            commentService.getComment("question", questionId).then(function(data){
+                console.log("****");
+                console.log(data);
+                $scope.comments = data.data.data;
+                console.log($scope.comments);
+            })
+        };
+
+        this.addComment = function(id){
+            commentService.addComment("question", id, $scope.newComment).then(function(response){
+                $scope.comments.push({"comment_id": response.data.data.insertId, "content" : $scope.newComment, "vote": 0, "user_name": "Not Available", "create_date": new Date()});
+                $scope.newComment = "";
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        }
+
+        this.upvote = function(commentId){
+            commentService.upvote("question", commentId).then(function(response){
+                for (var i=0;i<$scope.comments.length;i++){
+                    if ($scope.comments[i].comment_id == commentId){
+                        $scope.comments[i].vote++;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        }
+
+        this.downvote = function(commentId){
+            commentService.downvote("question", commentId).then(function(response){
+                for (var i=0;i<$scope.comments.length;i++){
+                    if ($scope.comments[i].comment_id == commentId){
+                        $scope.comments[i].vote--;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        }
+    }])
     
 
 
