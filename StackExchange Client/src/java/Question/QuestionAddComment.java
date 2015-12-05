@@ -59,8 +59,8 @@ public class QuestionAddComment extends HttpServlet {
             String userAgent = request.getHeader("User-Agent");
             
             String charset = "UTF-8";
-            String uid = request.getParameter("qid");
-            String qid = request.getParameter("uid");
+            String uid = request.getParameter("uid");
+            String qid = request.getParameter("qid");
             String content = request.getParameter("content");
                    
             URL url = new URL("http://localhost:8083/CV_Service/comment");
