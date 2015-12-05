@@ -75,6 +75,68 @@ angular.module("stackexchangeApp", [])
             }).then(successCallback, errorCallback);
         };
     })
+    .controller("AnswerCommentController", ["commentService", "$scope", function(commentService, $scope){
+        $scope.comments = {};
+        $scope.newComment = "";
+
+        this.getComments = function(answerId){
+            if ($scope.comments[answerId]){
+                return $scope.comments[answerId];
+            }
+
+            commentService.getComment("answer", answerId).then(function(data){
+                $scope.comments[answerId] = data.data.data;
+            })
+        };
+
+        this.addComment = function(id){
+            commentService.addComment("answer", id, $scope.newComment).then(function(response){
+                if ($scope.comments[id].length == 0){
+                    $scope.comments[id] = [];
+                }
+                $scope.comments[id].push({"comment_id": response.data.data.insertId, "content" : $scope.newComment, "vote": 0, "user_name": "Not Available", "create_date": new Date()});
+                $scope.newComment = "";
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        };
+
+        this.upvote = function(answerId, commentId){
+            commentService.upvote("answer", commentId).then(function(response){
+                console.log("--RESPONSE");
+                console.log(response);
+
+                for (var i=0;i<$scope.comments[answerId].length;i++){
+                    if ($scope.comments[answerId][i].comment_id == commentId){
+                        $scope.comments[answerId][i].vote++;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        };
+
+        this.downvote = function(answerId, commentId){
+            commentService.downvote("answer", commentId).then(function(response){
+                console.log("--RESPONSE");
+                console.log(response);
+
+                for (var i=0;i<$scope.comments[answerId].length;i++){
+                    if ($scope.comments[answerId][i].comment_id == commentId){
+                        $scope.comments[answerId][i].vote--;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        };
+    }])
     
 
 
