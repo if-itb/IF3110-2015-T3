@@ -2,10 +2,10 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
-    <client name="AnswerWS">
-      <wsdl-url>http://localhost:8081/StxWS/AnswerWS?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8081/StxWS/AnswerWS.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">AnswerWS</package-name>
+    <client name="QuestionWS">
+      <wsdl-url>http://localhost:8081/StxWS/QuestionWS?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8081/StxWS/QuestionWS.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">QuestionWS</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8081/StxWS/AnswerWS?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8081/StxWS/QuestionWS?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -34,7 +34,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>AnswerWS</wsimport-option-value>
+          <wsimport-option-value>QuestionWS</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>
@@ -74,10 +74,10 @@
         </wsimport-option>
       </wsimport-options>
     </client>
-    <client name="QuestionWS">
-      <wsdl-url>http://localhost:8081/StxWS/QuestionWS?wsdl</wsdl-url>
-      <local-wsdl-file>localhost_8081/StxWS/QuestionWS.wsdl</local-wsdl-file>
-      <package-name forceReplace="true">QuestionWS</package-name>
+    <client name="AnswerWS">
+      <wsdl-url>http://localhost:8081/StxWS/AnswerWS?wsdl</wsdl-url>
+      <local-wsdl-file>localhost_8081/StxWS/AnswerWS.wsdl</local-wsdl-file>
+      <package-name forceReplace="true">AnswerWS</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
         <wsimport-option>
@@ -94,7 +94,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>http://localhost:8081/StxWS/QuestionWS?wsdl</wsimport-option-value>
+          <wsimport-option-value>http://localhost:8081/StxWS/AnswerWS?wsdl</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>
@@ -106,7 +106,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>package</wsimport-option-name>
-          <wsimport-option-value>QuestionWS</wsimport-option-value>
+          <wsimport-option-value>AnswerWS</wsimport-option-value>
         </wsimport-option>
       </wsimport-options>
     </client>

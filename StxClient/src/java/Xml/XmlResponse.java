@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
@@ -60,10 +61,11 @@ public class XmlResponse {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
+        byte[] postData = POST_PARAMS.getBytes( StandardCharsets.UTF_8);
         // For POST only - START
         con.setDoOutput(true);
         OutputStream os = con.getOutputStream();
-        os.write(POST_PARAMS.getBytes());
+        os.write(POST_PARAMS.getBytes(StandardCharsets.UTF_8));
         os.flush();
         os.close();
         // For POST only - END

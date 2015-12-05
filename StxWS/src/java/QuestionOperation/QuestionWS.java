@@ -149,33 +149,37 @@ public class QuestionWS {
         PreparedStatement ps = null;
         InformationToken it = new InformationToken();
         String email = it.getEmail(token);
-        int res = -1;
-        try {
-                //new com.mysql.jdbc.Driver();
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/databasename?user=username&password=password");
-                String connectionUrl = "jdbc:mysql://localhost:3306/stackexchange";
-                String connectionUser = "root";
-                String connectionPassword = "";
-                conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
-                ps = conn.prepareStatement("select name from user where email = ?");
-                ps.setString(1, email);
-                ResultSet rs = ps.executeQuery();
-                rs.next();
-                String name = rs.getString("name");
-                ps = conn.prepareStatement("insert into question values(0,?,?,?,?,0)");
-                ps.setString(1, name);
-                ps.setString(2, email);
-                ps.setString(3, topic);
-                ps.setString(4, content);
-               
-                res = ps.executeUpdate();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
-        } finally {
-                try { if (ps != null) ps.close(); } catch (SQLException e) {}
-                try { if (conn != null) conn.close(); } catch (SQLException e) {}
+        if(it.getStatus() != 200) {
+            return -1*it.getStatus();
+        } else {
+            int res = -1;
+            try {
+                    //new com.mysql.jdbc.Driver();
+                    Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/databasename?user=username&password=password");
+                    String connectionUrl = "jdbc:mysql://localhost:3306/stackexchange";
+                    String connectionUser = "root";
+                    String connectionPassword = "";
+                    conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+                    ps = conn.prepareStatement("select name from user where email = ?");
+                    ps.setString(1, email);
+                    ResultSet rs = ps.executeQuery();
+                    rs.next();
+                    String name = rs.getString("name");
+                    ps = conn.prepareStatement("insert into question values(0,?,?,?,?,0)");
+                    ps.setString(1, name);
+                    ps.setString(2, email);
+                    ps.setString(3, topic);
+                    ps.setString(4, content);
+
+                    res = ps.executeUpdate();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
+            } finally {
+                    try { if (ps != null) ps.close(); } catch (SQLException e) {}
+                    try { if (conn != null) conn.close(); } catch (SQLException e) {}
+            }
+            return res;
         }
-        return res;
     }
     
     @WebMethod(operationName = "update")
@@ -186,6 +190,9 @@ public class QuestionWS {
         int res = -1;
         InformationToken it = new InformationToken();
         String email = it.getEmail(token);
+        if(it.getStatus() != 200) {
+            return -1*it.getStatus();
+        } else {
         try {
                 //new com.mysql.jdbc.Driver();
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -213,6 +220,7 @@ public class QuestionWS {
                 try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return res;
+        }
     }
     @WebMethod(operationName = "vote")
     public int vote(@WebParam(name = "id") int id, @WebParam(name = "token") String token, @WebParam(name = "value") int val) {
@@ -221,6 +229,9 @@ public class QuestionWS {
         int executeUpdate = -2;
         InformationToken it = new InformationToken();
         String mail = it.getEmail(token);
+        if(it.getStatus() != 200) {
+            return -1*it.getStatus();
+        }
         try {
                 //new com.mysql.jdbc.Driver();
                 Class.forName("com.mysql.jdbc.Driver").newInstance();

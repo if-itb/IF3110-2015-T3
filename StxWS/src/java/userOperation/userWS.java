@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -62,5 +64,36 @@ public class userWS {
                 try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return executeUpdate;
+    }
+    @WebMethod(operationName = "getName")
+    public String getName(@WebParam(name = "email") String email) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String name = "";
+        try {
+                //new com.mysql.jdbc.Driver();
+                Class.forName("com.mysql.jdbc.Driver").newInstance();
+                //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/databasename?user=username&password=password");
+                String connectionUrl = "jdbc:mysql://localhost:3306/stackexchange";
+                String connectionUser = "root";
+                String connectionPassword = "";
+                conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+                ps = conn.prepareStatement("select name from answer user where email = ?");
+                ps.setString(1, email);
+                rs = ps.executeQuery();
+                rs.next();
+                name = rs.getString("name");
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException e) {
+        } finally {
+            try {
+                if(rs!= null) rs.close();
+                if(ps!= null) ps.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(userWS.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return name;
+     
     }
 }

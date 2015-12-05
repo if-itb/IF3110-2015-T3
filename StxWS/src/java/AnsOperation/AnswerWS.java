@@ -64,6 +64,9 @@ public class AnswerWS {
         PreparedStatement ps = null;
         InformationToken it = new InformationToken();
         String email = it.getEmail(token);
+        if(it.getStatus() != 200) {
+            return -1*it.getStatus();
+        }
         try {
                 //new com.mysql.jdbc.Driver();
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -96,15 +99,18 @@ public class AnswerWS {
         Connection conn = null;
         PreparedStatement ps = null;
         int executeUpdate = -1;
+        String connectionPassword = "";
+        InformationToken it = new InformationToken();
+        String mail = it.getEmail(token);
+        if(it.getStatus() != 200) {
+            return -1*it.getStatus();
+        }        
         try {
                 //new com.mysql.jdbc.Driver();
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
                 //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/databasename?user=username&password=password");
                 String connectionUrl = "jdbc:mysql://localhost:3306/stackexchange";
                 String connectionUser = "root";
-                String connectionPassword = "";
-                InformationToken it = new InformationToken();
-                String mail = it.getEmail(token);
                 conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
                 
                 ps = conn.prepareStatement("select * from uservote where id_mail = ? and category = 'a' and id = ?");

@@ -12,15 +12,18 @@ import java.io.IOException;
  * @author Muhtar H
  */
 public class InformationToken {
-    
+    private boolean status;
     public InformationToken() {
-        
+        status = false;
     }
     public String getToken(String url, String urlpost) {
         String token = "";
         try {
             XmlResponse xr = new XmlResponse(url);
-            xr.sendPOST(urlpost);
+            int res = xr.sendPOST(urlpost);
+            if(res == 200) {
+                status = true;
+            }
             System.out.println(xr);
             XmlParser xp = new XmlParser(xr.toString());
             xp.parse();
@@ -29,5 +32,8 @@ public class InformationToken {
             
         }
         return token;
+    }
+    public boolean getStatus() {
+        return status;
     }
 }
