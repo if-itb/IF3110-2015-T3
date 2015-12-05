@@ -7,11 +7,23 @@ package org.mypackage.testrestservlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import static org.mypackage.testrestservlet.testrestservlet.access_token;
+import org.json.simple.*;
 
 /**
  *
@@ -58,7 +70,7 @@ public class comment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println("Masuk Get");
     }
 
     /**
@@ -72,7 +84,45 @@ public class comment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getParameter("komentar");
+        JSONObject obj = new JSONObject();
+        obj.put("name","Steven");
+        obj.put("age","20");
+        obj.put("comment","KOMENTAR");
+        System.out.println("HALO");
+        System.out.println(obj);
+    
+        /*request.getParameter("komentar");
+                    System.out.println("MASUK do POST comment");
+        //processRequest(request, response);
+      final PrintWriter out = response.getWriter();
+      ArrayList<String> user = new ArrayList<String>();
+      String userid;
+      String MyURL = "jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull";
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String userName = "root";
+            String password = "";
+            Connection conn = DriverManager.getConnection(MyURL,userName,password);
+                   access_token= UUID.randomUUID().toString();
+                    HttpSession session = request.getSession();                   
+                    String query = "REPLACE into comment (q_id,u_id,comment) VALUES ( ?, ?, ?)";                   
+                    PreparedStatement preparedStmt = conn.prepareStatement(query);
+                    preparedStmt = conn.prepareStatement(query);
+                    preparedStmt.setInt(1, 1);
+                    preparedStmt.setInt(2, 1);
+                    preparedStmt.setString(3,"Ben");
+                    
+                    //response.sendRedirect("http://localhost:8080/StackExchangeFE/homepagelogin.jsp?token="+access_token);
+            
+            
+            //execute prepared statement
+            preparedStmt.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(testrestservlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(testrestservlet.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 
     /**

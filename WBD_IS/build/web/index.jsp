@@ -8,15 +8,16 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>TEST ANGULAR JS</title>
     </head>
     <body>
         <h1>Entry Form</h1>
-        <form name="Name Input Form" action="response.jsp">
-            Enter your name:
-            <input type="text" name="nama"/>
-            <input type="submit" value="OK" />
-        </form>
+      <div ng-app="">
+          <p><input type="button" ng-model="comment" placeholder="" action="http://localhost:8082/WBD_IS/comment"></p>
+ 	<p>Name: <input type="text" ng-model="name"></p>
+ 	<p ng-bind="name"></p>
+    </div>
     </body>
 </html>

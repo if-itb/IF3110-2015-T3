@@ -48,8 +48,11 @@ public class testrestservlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private HttpServletRequest req;
     static String access_token = "";
-    
+    static String access_ua = "";
+    static String access_ip = "";
+    static String browser = "";
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -146,7 +149,30 @@ public class testrestservlet extends HttpServlet {
                    user.add(result.getString("name"));
                    user.add(result.getString("email"));
                    user.add(result.getString("password"));
+                  // token_ip=request.getRemoteAddr();
                    access_token= UUID.randomUUID().toString();
+                   access_ua=request.getHeader("user-agent");
+                   if(access_ua.contains("chrome")){
+                   browser = (access_ua.substring(access_ua.indexOf("Chrome")).split(" ")[0].replace("/", "-"));
+                   }
+                   else if(access_ua.contains("Mozilla/5.0"))
+                   access_ip=request.getHeader("X-FORWARDED-FOR");
+                    if (access_ip == null || access_ip.length() == 0 || "unknown".equalsIgnoreCase(access_ip)){
+                        access_ip = request.getHeader("Proxy-Client-IP");
+                    }
+                    if (access_ip == null || access_ip.length() == 0 || "unknown".equalsIgnoreCase(access_ip)){
+                        access_ip = request.getHeader("WL-Proxy-Client-IP");
+                    }
+                    if (access_ip == null || access_ip.length() == 0 || "unknown".equalsIgnoreCase(access_ip)){
+                        access_ip = request.getHeader("HTTP_Client_IP");
+                    }
+                    if (access_ip == null || access_ip.length() == 0 || "unknown".equalsIgnoreCase(access_ip)){
+                        access_ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+                    }
+                    if (access_ip == null || access_ip.length() == 0 || "unknown".equalsIgnoreCase(access_ip)){
+                        access_ip = request.getRemoteAddr();
+                    }
+                    access_token = access_token + "#" + access_ua + "#" + access_ip;
                     HttpSession session = request.getSession();
                     query = "REPLACE into token (u_id,t_token,t_time) VALUES (? , ?, now() + INTERVAL 1 MINUTE) ";
                     preparedStmt = conn.prepareStatement(query);
