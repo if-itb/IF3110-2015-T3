@@ -7,13 +7,13 @@ html,body{
 }
 
 @font-face {
-    font-family: "LakkyReddy";
-    src: url('/assets/font/LakkiReddy-Regular.ttf')  format('truetype'); /* Safari, Android, iOS */
+    font-family: "DroidSans";
+    src: url('/assets/font/DroidSans.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 
 #logo-container {
     padding: 0 1em;
-    font-family: "LakkyReddy";
+    font-family: "DroidSans";
     transition: all .2s ease-out;
 }
 
