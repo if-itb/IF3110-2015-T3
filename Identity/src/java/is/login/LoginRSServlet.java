@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,9 +46,17 @@ public class LoginRSServlet extends HttpServlet {
             String sql = "DELETE FROM sessions WHERE AccessToken = ?"; // Login query validation
 
             PreparedStatement dbStatement = conn.prepareStatement(sql);
-            out.println(request.getParameter("token"));
-            dbStatement.setString(1, request.getParameter("token"));
-            dbStatement.executeUpdate();
+            out.println(URLEncoder.encode(request.getParameter("token"), "UTF-8"));
+            String finalToken = URLEncoder.encode(request.getParameter("token"), "UTF-8");
+            dbStatement.setString(1, finalToken);
+            int res = dbStatement.executeUpdate();
+            out.println(res);
+            Cookie ctoken = new Cookie("access_token","");
+            Cookie cfrontend = new Cookie("access_token_frontend","");
+            ctoken.setPath("/Identity/");
+            cfrontend.setPath("/FrontEnd/");
+            response.addCookie(ctoken);
+            response.addCookie(cfrontend);
             if (request.getParameter("logout") == null)
                 response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?relog=1");
             else
@@ -91,8 +100,6 @@ public class LoginRSServlet extends HttpServlet {
                 String uAgent = request.getHeader("User-Agent");
                 System.out.println(uAgent);
                 //String userAgent = uAgent.replaceAll(";", "%3B");
-                String userAgent = URLEncoder.encode(uAgent, "UTF-8");
-                System.out.println(userAgent);
 //            ctoken.setPath("/Identity/");
 //            response.addCookie(ctoken);
 //                Cookie cookies[] = request.getCookies();
@@ -107,7 +114,8 @@ public class LoginRSServlet extends HttpServlet {
 //                        }
 //                    }
                 token = UUID.randomUUID().toString(); 
-                String finalToken = token + "#"+userAgent+"#"+request.getRemoteAddr(); //generate token
+                String finalToken = token + "#"+uAgent+"#"+request.getRemoteAddr(); //generate token
+                finalToken = URLEncoder.encode(finalToken, "UTF-8");
                 
                 Cookie ctoken = new Cookie("access_token",finalToken);
                 Cookie cfrontend = new Cookie("access_token_frontend",finalToken);

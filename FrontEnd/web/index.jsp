@@ -40,9 +40,9 @@
                 Timestamp ts = new Timestamp(System.currentTimeMillis());
                 /*out.println(ts);
                 out.println(result);*/
-
+                System.out.println(result);
                 if (ts.after(result)) {
-                    String site = "http://localhost:8001/Identity/LoginRSServlet";
+                    String site = "http://localhost:8001/Identity/LoginRSServlet?token="+token;
                     response.setStatus(response.SC_MOVED_TEMPORARILY);
                     response.setHeader("Location", site);
                 }
@@ -53,7 +53,12 @@
         %>
         <div class="header">
             <%
-                out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + token + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
+                if (!token.equals("")) {
+                    out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + token + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
+                }
+                else {
+                    out.println("<a href=\"login.jsp\" style=\"margin-left: 72%;\">Login</a>");
+                }
             %>
             <div class="container">
                 <p><a href="index.jsp">Simple StackExchange</a></p> 
@@ -64,9 +69,7 @@
             <div class="container">
 
                 <%
-                    if (!token.equals("")) {
                         out.println("<form name='search' action='index.jsp' method='post' class='search'>");
-                    }
 
                 %>
                     <input type="text" maxlength="50" name="key">
