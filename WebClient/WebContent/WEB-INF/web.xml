@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+<servlet>
+	<servlet-name>/index.jsp</servlet-name>
+	<jsp-file>/index.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/index.jsp</servlet-name>
+	<url-pattern>/index</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/question.jsp</servlet-name>
+	<jsp-file>/question.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/question.jsp</servlet-name>
+	<url-pattern>/question</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/question_create.jsp</servlet-name>
+	<jsp-file>/question_create.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/question_create.jsp</servlet-name>
+	<url-pattern>/question/create</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/question_create_post.jsp</servlet-name>
+	<jsp-file>/question_create_post.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/question_create_post.jsp</servlet-name>
+	<url-pattern>/question/create_post</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/question_edit.jsp</servlet-name>
+	<jsp-file>/question_edit.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/question_edit.jsp</servlet-name>
+	<url-pattern>/question/edit</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/question_edit_post.jsp</servlet-name>
+	<jsp-file>/question_edit_post.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/question_edit_post.jsp</servlet-name>
+	<url-pattern>/question/edit_post</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/answer_create_post.jsp</servlet-name>
+	<jsp-file>/answer_create_post.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/answer_create_post.jsp</servlet-name>
+	<url-pattern>/answer/create_post</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/Header.jsp</servlet-name>
+	<jsp-file>/Header.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/Header.jsp</servlet-name>
+	<url-pattern>/question/Header.jsp</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/navigationbar.jsp</servlet-name>
+	<jsp-file>/navigationbar.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/navigationbar.jsp</servlet-name>
+	<url-pattern>/question/navigationbar.jsp</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/register.jsp</servlet-name>
+	<jsp-file>/register.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/register.jsp</servlet-name>
+	<url-pattern>/register</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/register_post.jsp</servlet-name>
+	<jsp-file>/register_post.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/register_post.jsp</servlet-name>
+	<url-pattern>/register_post</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/signin.jsp</servlet-name>
+	<jsp-file>/signin.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/signin.jsp</servlet-name>
+	<url-pattern>/signin</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/signout.jsp</servlet-name>
+	<jsp-file>/signout.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/signout.jsp</servlet-name>
+	<url-pattern>/signout</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>/User.jsp</servlet-name>
+	<jsp-file>/User.jsp</jsp-file>
+</servlet>
+<servlet-mapping>
+	<servlet-name>/User.jsp</servlet-name>
+	<url-pattern>/user</url-pattern>
+</servlet-mapping>
+</web-app>
