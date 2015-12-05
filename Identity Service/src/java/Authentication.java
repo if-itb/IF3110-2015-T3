@@ -33,8 +33,7 @@ public class Authentication extends HttpServlet {
     private String random_string;
     private String user_agent;
     private String ip_address;
-   //timeout constant
-    static final int timeout = 180000; // timeout in seconds
+   
     
     private String token;
     
@@ -43,7 +42,7 @@ public class Authentication extends HttpServlet {
     private String realIpAddress;
     
     //timeout constant
-    static final int timeout = 45; // timeout in seconds
+    static final int timeout = 60; // timeout in seconds
     
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
