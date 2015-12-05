@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 07:07 AM
--- Server version: 5.5.39
--- PHP Version: 5.4.31
+-- Generation Time: Dec 05, 2015 at 07:41 AM
+-- Server version: 5.6.16
+-- PHP Version: 5.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -27,13 +27,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `answer` (
-`answer_id` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL AUTO_INCREMENT,
   `answerer_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `answerer_email` varchar(100) NOT NULL,
   `answer_content` text NOT NULL,
   `answer_vote` int(11) NOT NULL DEFAULT '0',
   `question_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`answer_id`),
+  KEY `question_id_index` (`question_id`),
+  KEY `answer_id` (`answer_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
@@ -58,7 +61,11 @@ INSERT INTO `answer` (`answer_id`, `answerer_name`, `answerer_email`, `answer_co
 CREATE TABLE IF NOT EXISTS `answer_vote` (
   `user_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
-  `answer_id` int(11) NOT NULL
+  `answer_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`question_id`,`answer_id`),
+  KEY `user_id` (`user_id`,`question_id`,`answer_id`),
+  KEY `question_id` (`question_id`),
+  KEY `answer_id` (`answer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -76,17 +83,33 @@ INSERT INTO `answer_vote` (`user_id`, `question_id`, `answer_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `comment`
+--
+
+CREATE TABLE IF NOT EXISTS `comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_content` text NOT NULL,
+  `user_name` int(11) NOT NULL,
+  `answer_id` int(11) NOT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `question`
 --
 
 CREATE TABLE IF NOT EXISTS `question` (
-`question_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL AUTO_INCREMENT,
   `asker_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `asker_email` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `question_topic` varchar(400) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `question_content` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `question_vote` int(11) NOT NULL DEFAULT '0',
-  `user_id` int(11) NOT NULL
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`question_id`),
+  KEY `question_id` (`question_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
@@ -107,7 +130,10 @@ INSERT INTO `question` (`question_id`, `asker_name`, `asker_email`, `question_to
 
 CREATE TABLE IF NOT EXISTS `question_vote` (
   `user_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL
+  `question_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`question_id`),
+  KEY `user_id` (`user_id`,`question_id`),
+  KEY `question_vote_ibfk_2` (`question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -132,7 +158,8 @@ CREATE TABLE IF NOT EXISTS `token` (
   `user_id` int(11) NOT NULL,
   `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_agent` varchar(100) NOT NULL,
-  `ip_address` varchar(100) NOT NULL
+  `ip_address` varchar(100) NOT NULL,
+  PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -142,10 +169,11 @@ CREATE TABLE IF NOT EXISTS `token` (
 --
 
 CREATE TABLE IF NOT EXISTS `user` (
-`user_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(200) NOT NULL,
   `nama` varchar(200) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(30) NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
@@ -159,65 +187,6 @@ INSERT INTO `user` (`user_id`, `email`, `nama`, `password`) VALUES
 (4, 'admin@gmail.com', 'admin', 'admin'),
 (5, 'ken@mail.com', 'ken', 'ken');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `answer`
---
-ALTER TABLE `answer`
- ADD PRIMARY KEY (`answer_id`), ADD KEY `question_id_index` (`question_id`), ADD KEY `answer_id` (`answer_id`);
-
---
--- Indexes for table `answer_vote`
---
-ALTER TABLE `answer_vote`
- ADD PRIMARY KEY (`user_id`,`question_id`,`answer_id`), ADD KEY `user_id` (`user_id`,`question_id`,`answer_id`), ADD KEY `question_id` (`question_id`), ADD KEY `answer_id` (`answer_id`);
-
---
--- Indexes for table `question`
---
-ALTER TABLE `question`
- ADD PRIMARY KEY (`question_id`), ADD KEY `question_id` (`question_id`);
-
---
--- Indexes for table `question_vote`
---
-ALTER TABLE `question_vote`
- ADD PRIMARY KEY (`user_id`,`question_id`), ADD KEY `user_id` (`user_id`,`question_id`), ADD KEY `question_vote_ibfk_2` (`question_id`);
-
---
--- Indexes for table `token`
---
-ALTER TABLE `token`
- ADD PRIMARY KEY (`uuid`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
- ADD PRIMARY KEY (`user_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `answer`
---
-ALTER TABLE `answer`
-MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=22;
---
--- AUTO_INCREMENT for table `question`
---
-ALTER TABLE `question`
-MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
