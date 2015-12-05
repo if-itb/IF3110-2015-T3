@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8082/SimpleStackExchange_WebService/service?wsdl" uri="wsdl/localhost_8082/SimpleStackExchange_WebService/service.wsdl"/>
+    <system systemId="http://localhost:8082/SimpleStackExchange_WebService/service?xsd=1" uri="wsdl/localhost_8082/SimpleStackExchange_WebService/service.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/SimpleStackExchange_WebService?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/SimpleStackExchange_WebService.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/SimpleStackExchange_WebService?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/SimpleStackExchange_WebService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/webService?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/webService.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/webService?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/webService.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/SimpleStackExchange_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/SimpleStackExchange_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/SimpleStackExchange_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/SimpleStackExchange_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/Answer_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Answer_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/Answer_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Answer_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/Question_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Question_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/Question_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Question_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/User_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/User_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_WebService/User_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/User_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/User_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_Webservice/User_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/User_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_Webservice/User_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/Answer_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Answer_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/Answer_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Answer_WS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/Question_WS?wsdl" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Question_WS.wsdl"/>
+    <system systemId="http://localhost:8081/SimpleStackExchange_Webservice/Question_WS?xsd=1" uri="wsdl/localhost_8081/SimpleStackExchange_WebService/Question_WS.xsd_1.xsd"/>
+</catalog>

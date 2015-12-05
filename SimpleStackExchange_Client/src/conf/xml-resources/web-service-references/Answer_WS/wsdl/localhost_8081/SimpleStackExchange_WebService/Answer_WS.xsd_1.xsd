@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://webservice/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://webservice/">
+
+<xs:element name="answer" type="tns:answer"/>
+
+<xs:element name="createAnswer" type="tns:createAnswer"/>
+
+<xs:element name="createAnswerResponse" type="tns:createAnswerResponse"/>
+
+<xs:element name="deleteAllVoteAnswer" type="tns:deleteAllVoteAnswer"/>
+
+<xs:element name="deleteAllVoteAnswerResponse" type="tns:deleteAllVoteAnswerResponse"/>
+
+<xs:element name="getAnswers" type="tns:getAnswers"/>
+
+<xs:element name="getAnswersResponse" type="tns:getAnswersResponse"/>
+
+<xs:element name="getCountAnswer" type="tns:getCountAnswer"/>
+
+<xs:element name="getCountAnswerResponse" type="tns:getCountAnswerResponse"/>
+
+<xs:element name="getVotesAnswer" type="tns:getVotesAnswer"/>
+
+<xs:element name="getVotesAnswerResponse" type="tns:getVotesAnswerResponse"/>
+
+<xs:element name="hasVotedAnswer" type="tns:hasVotedAnswer"/>
+
+<xs:element name="hasVotedAnswerResponse" type="tns:hasVotedAnswerResponse"/>
+
+<xs:element name="voteAnswer" type="tns:voteAnswer"/>
+
+<xs:element name="voteAnswerResponse" type="tns:voteAnswerResponse"/>
+
+<xs:complexType name="deleteAllVoteAnswer">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="aid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteAllVoteAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteAnswer">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="aid" type="xs:int"/>
+<xs:element name="value" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVotesAnswer">
+<xs:sequence>
+<xs:element name="aid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getVotesAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCountAnswer">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getCountAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedAnswer">
+<xs:sequence>
+<xs:element name="aid" type="xs:int"/>
+<xs:element name="uid" type="xs:int"/>
+<xs:element name="status" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createAnswer">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="answer" type="tns:answer" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answer">
+<xs:sequence>
+<xs:element name="aid" type="xs:int" minOccurs="0"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="countvotes" type="xs:int"/>
+<xs:element name="createdtime" type="xs:dateTime" minOccurs="0"/>
+<xs:element name="qid" type="xs:int"/>
+<xs:element name="uid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswers">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:answer" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
