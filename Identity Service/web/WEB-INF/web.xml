@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>NewToken</servlet-name>
+        <servlet-class>com.token.validation.NewToken</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckToken</servlet-name>
+        <servlet-class>com.token.validation.CheckToken</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PrintCookies</servlet-name>
+        <servlet-class>com.token.validation.PrintCookies</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewToken</servlet-name>
+        <url-pattern>/NewToken</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckToken</servlet-name>
+        <url-pattern>/CheckToken</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrintCookies</servlet-name>
+        <url-pattern>/PrintCookies</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
