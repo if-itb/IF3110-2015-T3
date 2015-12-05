@@ -95,14 +95,21 @@
 			              	</span>
 		              	</div>
 					</div>
-					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-		<ul>
-  			<li ng-repeat="x in comments">
-    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-  			</li>
-		</ul>
-		</div>
+					<div ng-app="commentShowApp" ng-controller="commentShowCtrl"> 
+						<ul>
+				  			<li ng-repeat="x in comments">
+				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+				  			</li>
+						</ul>
+					</div>
+					<form ng-submit="myFunc()" ng-app="commentAddApp" ng-controller="commentAddCtrl">
+					   <input type="text" ng-model="comment" />
+					    <br />
+					</form>
 				</div>
+				
+				
+				
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
 				<% for (int i = 0; i < a.size(); i++) { %>
@@ -144,8 +151,8 @@
 	</div>
 	
 	<script>
-var app = angular.module('commentApp', []);
-app.controller('commentCtrl', function($scope, $http) {
+var app = angular.module('commentShowApp', []);
+app.controller('commentShowCtrl', function($scope, $http) {
     $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
     .then(function(response) {$scope.comments = response.data;});
 });
