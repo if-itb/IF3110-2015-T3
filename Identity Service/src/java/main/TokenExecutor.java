@@ -10,6 +10,8 @@
 package main;
 
 import database.Database;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Kelas untuk melakukan validasi terhadap token pada basis data
+ * Kelas untuk melakukan validasi terhadap token pada basis data.
  */
 public class TokenExecutor {
   // Atribut
@@ -39,7 +41,9 @@ public class TokenExecutor {
       connection = database.connectDatabase();
         getIdUser(email, password);
         if (idUser != -999999) {
-          token = new Token(email, password, userAgent, ipAddress);
+          // Email dan password pengguna benar
+          String browserName = getBrowserName(userAgent);
+          token = new Token(email, password, browserName, ipAddress);
           isValid = true;
           LogIn();
         } else {
@@ -54,16 +58,17 @@ public class TokenExecutor {
   }
   
   // Konstruktor untuk validasi pada saat pengguna ingin melakukan suatu operasi pada web
-  public TokenExecutor(String accessToken) {
+  public TokenExecutor(String accessToken, String userAgent, String ipAddress) {
     token = new Token();
     token.setAccessToken(accessToken);
     if (token.isValid()) {
     // Format token valid, maka periksa apakah token ada di basis data
       try {
+        String browserName = getBrowserName(userAgent);
         // Connect database
         Database database = new Database();
         connection = database.connectDatabase();
-        checkTokenValid();
+        checkTokenValid(browserName, ipAddress);
       } catch (SQLException ex) {
         System.out.println(ex.getMessage());
       }
@@ -87,7 +92,7 @@ public class TokenExecutor {
     // Menjalankan query
     try (Statement statement = connection.createStatement()) {
       // Menjalankan query
-      String query = "UPDATE user SET token = '" + token.getAccessToken() + "', lifetime = '" + token.getLifetime() + "' WHERE id_user = " + idUser;
+      String query = "UPDATE user SET token = '" + token.getRandomString() + "', lifetime = '" + token.getLifetime() + "' WHERE id_user = " + idUser;
       statement.executeUpdate(query);
       statement.close();
     }
@@ -111,10 +116,11 @@ public class TokenExecutor {
   
   // Memeriksa apakah sebuah token terdapat di basis data dan
   // memiliki lifetime yang masih berlaku
-  private void checkTokenValid() throws SQLException {
+  private void checkTokenValid(String browserName, String ipAddress) throws SQLException {
     try (Statement statement = connection.createStatement()) {
+      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT id_user, lifetime FROM user WHERE token = '" + token.getAccessToken() + "'";
+      String query = "SELECT id_user, lifetime FROM user WHERE token = '" + realToken + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Token ada, periksa lifetime
@@ -138,11 +144,13 @@ public class TokenExecutor {
   }
   
   // Mendapatkan nama pengguna untuk ditampilkan pada setiap halaman web dari basis data
-  public String getUserName() {
+  public String getUserName(String userAgent, String ipAddress) {
     String name = "not-valid";
     try (Statement statement = connection.createStatement()) {
+      String browserName = getBrowserName(userAgent);
+      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT name FROM user WHERE token = '" + token.getAccessToken() + "'";
+      String query = "SELECT name FROM user WHERE token = '" + realToken + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Nama user ditemukan
@@ -157,11 +165,13 @@ public class TokenExecutor {
   }
   
   // Mendapatkan nama dan email pengguna untuk ditampilkan pada form menjawab dan bertanya pada basis data
-  public ArrayList<String> getUserIdentity() {
+  public ArrayList<String> getUserIdentity(String userAgent, String ipAddress) {
     ArrayList<String> identity = new ArrayList<String>();
     try (Statement statement = connection.createStatement()) {
+      String browserName = getBrowserName(userAgent);
+      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT name, email FROM user WHERE token = '" + token.getAccessToken() + "'";
+      String query = "SELECT name, email FROM user WHERE token = '" + realToken + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Nama user ditemukan
@@ -174,6 +184,13 @@ public class TokenExecutor {
       System.out.println(ex.getMessage());
     }
     return identity;
+  }
+  
+  // Melakukan parsing pada user agent untuk mendapatkan nama browser
+  public String getBrowserName(String userAgent) {
+    UserAgent agent = UserAgent.parseUserAgentString(userAgent);
+    Browser browser = agent.getBrowser();
+    return browser.getName();
   }
   
   // Menutup koneksi pada basis data

@@ -49,8 +49,7 @@ public class UserIdentityController extends HttpServlet {
     String token = request.getParameter("token");
     try (PrintWriter out = response.getWriter()) {
       // Mendapatkan user agent browser
-      //String userAgent = request.getHeader("User-Agent");
-      String userAgent = "test";
+      String userAgent = request.getHeader("User-Agent");
       
       // Mendapatkan IP Address
       // Memeriksa apakah client terhubung melalui proxy atau load balancer
@@ -58,9 +57,9 @@ public class UserIdentityController extends HttpServlet {
       if (ipAddress == null) {  
         ipAddress = request.getRemoteAddr();
       }
-      TokenExecutor executor = new TokenExecutor(token);
+      TokenExecutor executor = new TokenExecutor(token, userAgent, ipAddress);
       ArrayList<String> identity = new ArrayList<String>();
-      identity = executor.getUserIdentity();
+      identity = executor.getUserIdentity(userAgent, ipAddress);
       
       JSONObject obj = new JSONObject();
       obj.put("user_name", identity.get(0));

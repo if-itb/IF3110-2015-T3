@@ -47,8 +47,7 @@ public class FrontEndTokenController extends HttpServlet {
     String password = request.getParameter("password");
     try (PrintWriter out = response.getWriter()) {
       // Mendapatkan user agent browser
-      //String userAgent = request.getHeader("User-Agent");
-      String userAgent = "test";
+      String userAgent = request.getHeader("User-Agent");
       
       // Mendapatkan IP Address
       // Memeriksa apakah client terhubung melalui proxy atau load balancer
@@ -59,7 +58,7 @@ public class FrontEndTokenController extends HttpServlet {
       TokenExecutor executor = new TokenExecutor(email, password, userAgent, ipAddress);
       
       JSONObject obj = new JSONObject();
-      obj.put("access_token", executor.getToken().getAccessToken());
+      obj.put("access_token", executor.getToken().getRandomString());
       out.print(obj);
       out.close();
     }

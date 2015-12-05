@@ -52,9 +52,19 @@ public class TokenController extends HttpServlet {
       
       response.setContentType("application/json; charset=UTF-8");
       PrintWriter writer = response.getWriter();
-      JSONObject resp = new JSONObject();
-      TokenExecutor executor = new TokenExecutor(token);
+      // Mendapatkan user agent browser
+      String userAgent = request.getHeader("User-Agent");
+      
+      // Mendapatkan IP Address
+      // Memeriksa apakah client terhubung melalui proxy atau load balancer
+      String ipAddress = request.getHeader("X-FORWARDED-FOR");
+      if (ipAddress == null) {  
+        ipAddress = request.getRemoteAddr();
+      }
+      TokenExecutor executor = new TokenExecutor(token, userAgent, ipAddress);
       executor.closeConnection();
+      
+      JSONObject resp = new JSONObject();
       resp.put("is_valid", executor.getIsValid());
       resp.put("id_user", executor.getIdUser());
       writer.println(resp);
