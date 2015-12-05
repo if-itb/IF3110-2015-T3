@@ -26,6 +26,12 @@
                 }
             }
         }
+        
+        String userIP = request.getHeader("X-FORWARDED-FOR");  
+        if (userIP == null) {  
+            userIP = request.getRemoteAddr();  
+        }
+        String userAgent = request.getHeader("User-Agent");
     %>
     <%-- start web service invocation --%>
     <%
@@ -34,7 +40,7 @@
 	UserWS.UserWS_Service service = new UserWS.UserWS_Service();
 	UserWS.UserWS port = service.getUserWSPort();
 	
-	user = port.getUserByToken(token);
+	user = port.getUserByToken(token,userIP,userAgent);
 	
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
