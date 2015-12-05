@@ -14,7 +14,17 @@
     </head>
     <body>
         <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                }
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
 
@@ -42,12 +52,9 @@
             <div class="container">
                <%
                    
-                    if (token != null) {
-                        out.println("<p><a href='index.jsp?token="+token+"'>Simple StackExchange</a></p> ");
-                    }
-                    else
+                    if (!token.equals("")) {
                         out.println("<p><a href='index.jsp'>Simple StackExchange</a></p> ");
-
+                    }
                 %>
             </div>
         </div>
@@ -66,7 +73,7 @@
                         // TODO process result here
                         java.util.List<questionmodel.Question> result = port.getQuestionbyID(id);
                         for (int i = 0; i < result.size(); i++) {
-                            out.println("<form name='question' action='updatequestion.jsp?id="+qid+"&token="+token+"' method='post' class='form'>");
+                            out.println("<form name='question' action='updatequestion.jsp' method='post' class='form'>");
                             out.println("<input type='text' maxlength='30' name='topic' placeholder='Question Topic' value='"+result.get(i).getTopic()+"'><br>");
                             out.println("<textarea name='content' placeholder='Content' maxlength='1500'>"+result.get(i).getQuestion()+"</textarea>");
                             out.println("<input type='submit' value='Post'>");

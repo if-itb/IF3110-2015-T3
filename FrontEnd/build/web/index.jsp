@@ -30,15 +30,13 @@
                             break;
                         }
                     }
-                    out.println("FINISHED");
                 }
-            String[] tableToken = token.split("#");
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
             
             try {
 
-                Timestamp result = new Timestamp(port.getExpiredDate(tableToken[0]));
+                Timestamp result = new Timestamp(port.getExpiredDate(token));
                 Timestamp ts = new Timestamp(System.currentTimeMillis());
                 /*out.println(ts);
                 out.println(result);*/
@@ -55,16 +53,10 @@
         %>
         <div class="header">
             <%
-                out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + tableToken[0] + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
+                out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + token + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
             %>
             <div class="container">
-
-                <%
-                    if (tableToken[0] != null) {
-                        out.println("<p><a href='index.jsp'>Simple StackExchange</a></p> ");
-                    }
-
-                %>
+                <p><a href="index.jsp">Simple StackExchange</a></p> 
             </div>
         </div>
 
@@ -72,7 +64,7 @@
             <div class="container">
 
                 <%
-                    if (tableToken[0] != null) {
+                    if (!token.equals("")) {
                         out.println("<form name='search' action='index.jsp' method='post' class='search'>");
                     }
 
@@ -80,7 +72,7 @@
                     <input type="text" maxlength="50" name="key">
                     <input type="submit" value="Search">
                 </form>
-                <%if (tableToken != null) {
+                <%if (!token.equals("")) {
                         out.println("<h6>Cannot find what you are looking for? <a href='newquestion.jsp'>Ask here</a></h6>");
                     } else {
                         out.println("<h6>Cannot find what you are looking for? <a href='login.jsp'>Login to ask here</a></h6>");
@@ -93,7 +85,7 @@
                 <div class="listquestion">
 
                     <%  String search = request.getParameter("key");
-                        java.lang.String check = port.getName(tableToken[0]);
+                        java.lang.String check = port.getName(token);
                         if (search == null) {
                             try {
 
@@ -106,11 +98,11 @@
                                     out.println("<div class='columnsmall left'> <p>" + result.get(i).getAnswers()
                                             + "</p> <p>Answers</p></div>");
 
-                                    if (tableToken[0] != null) {
+                                    if (!token.equals("")) {
                                         if (result.get(i).getQuestion().length() > 30) {
-                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
+                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
                                         } else {
-                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion() + "</p></div>");
+                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion() + "</p></div>");
                                         }
                                     } else {
                                         if (result.get(i).getQuestion().length() > 30) {
@@ -123,7 +115,7 @@
                                     if (result.get(i).getName().equals(check)) {
                                         out.println("<div class='columnlarge right'>'<p>asked by <span class='name'>"
                                                 + result.get(i).getName() + "</span>|<a class='edit' href='question.jsp?id="
-                                                + result.get(i).getQuestionID() + "&token=" + token + "'>edit</a> | <a class='delete' href='delete.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'>delete</a></p></div></div>");
+                                                + result.get(i).getQuestionID() + "'>edit</a> | <a class='delete' href='delete.jsp?id=" + result.get(i).getQuestionID() + "'>delete</a></p></div></div>");
                                     } else {
                                         out.println("<div class='columnlarge right'>'<p>asked by <span class='name'>"
                                                 + result.get(i).getName() + "</span></p></div></div>");
@@ -146,11 +138,11 @@
                                             + "</p> <p>Votes</p></div>");
                                     out.println("<div class='columnsmall left'> <p>" + result.get(i).getAnswers()
                                             + "</p> <p>Answers</p></div>");
-                                    if (tableToken[0] != null) {
+                                    if (!token.equals("")) {
                                         if (result.get(i).getQuestion().length() > 30) {
-                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
+                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
                                         } else {
-                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion() + "</p></div>");
+                                            out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion() + "</p></div>");
                                         }
                                     } else {
                                         if (result.get(i).getQuestion().length() > 30) {
@@ -163,7 +155,7 @@
                                     if (result.get(i).getName().equals(check)) {
                                         out.println("<div class='columnlarge right'>'<p>asked by <span class='name'>"
                                                 + result.get(i).getName() + "</span>|<a class='edit' href='question.jsp?id="
-                                                + result.get(i).getQuestionID() + "&token=" + token + "'>edit</a> | <a class='delete' href='delete.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'>delete</a></p></div></div>");
+                                                + result.get(i).getQuestionID() +  "'>edit</a> | <a class='delete' href='delete.jsp?id=" + result.get(i).getQuestionID() + "'>delete</a></p></div></div>");
                                     } else {
                                         out.println("<div class='columnlarge right'>'<p>asked by <span class='name'>"
                                                 + result.get(i).getName() + "</span></p></div></div>");

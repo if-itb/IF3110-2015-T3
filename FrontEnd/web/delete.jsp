@@ -10,7 +10,17 @@
 <%@page import="java.io.IOException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                }
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
 
@@ -44,7 +54,7 @@
 	// TODO handle custom exceptions here
     }
     
-    String site = "index.jsp?token=" + token;
+    String site = "index.jsp";
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", site); 
 %>
