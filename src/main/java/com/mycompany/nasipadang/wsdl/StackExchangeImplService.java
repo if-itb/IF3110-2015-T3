@@ -17,14 +17,14 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "StackExchangeImplService", targetNamespace = "http://jaxws.org/", wsdlLocation = "http://localhost:8001/ws/stackexchange?wsdl")
+@WebServiceClient(name = "StackExchangeImplService", targetNamespace = "http://jaxws.nasipadang.mycompany.com/", wsdlLocation = "http://localhost:8001/ws/stackexchange?wsdl")
 public class StackExchangeImplService
     extends Service
 {
 
     private final static URL STACKEXCHANGEIMPLSERVICE_WSDL_LOCATION;
     private final static WebServiceException STACKEXCHANGEIMPLSERVICE_EXCEPTION;
-    private final static QName STACKEXCHANGEIMPLSERVICE_QNAME = new QName("http://jaxws.org/", "StackExchangeImplService");
+    private final static QName STACKEXCHANGEIMPLSERVICE_QNAME = new QName("http://jaxws.nasipadang.mycompany.com/", "StackExchangeImplService");
 
     static {
         URL url = null;
@@ -69,7 +69,7 @@ public class StackExchangeImplService
      */
     @WebEndpoint(name = "StackExchangeImplPort")
     public StackExchange getStackExchangeImplPort() {
-        return super.getPort(new QName("http://jaxws.org/", "StackExchangeImplPort"), StackExchange.class);
+        return super.getPort(new QName("http://jaxws.nasipadang.mycompany.com/", "StackExchangeImplPort"), StackExchange.class);
     }
 
     /**
@@ -81,7 +81,7 @@ public class StackExchangeImplService
      */
     @WebEndpoint(name = "StackExchangeImplPort")
     public StackExchange getStackExchangeImplPort(WebServiceFeature... features) {
-        return super.getPort(new QName("http://jaxws.org/", "StackExchangeImplPort"), StackExchange.class, features);
+        return super.getPort(new QName("http://jaxws.nasipadang.mycompany.com/", "StackExchangeImplPort"), StackExchange.class, features);
     }
 
     private static URL __getWsdlLocation() {

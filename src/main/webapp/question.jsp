@@ -22,6 +22,7 @@
 	<script src="js/validation.js"></script>
 	<script src="js/delete_question.js"></script>
 	<script src="js/ajax.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <%
             String name = (String) session.getAttribute("name");
             String token = (String) session.getAttribute("token");
