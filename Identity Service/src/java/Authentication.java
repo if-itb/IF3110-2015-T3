@@ -136,17 +136,6 @@ public class Authentication extends HttpServlet {
     
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         
-        // get user agent (browser information)
-        realUserAgent = request.getHeader("User-Agent");
-        
-        // get IP address
-        //is client behind something?
-        realIpAddress = request.getHeader("X-FORWARDED-FOR");  
-        if (realIpAddress == null) {  
-                realIpAddress = request.getRemoteAddr();  
-        }
-        
-        
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -160,6 +149,8 @@ public class Authentication extends HttpServlet {
                 Object obj = parser.parse(jb.toString());
                 JSONObject input = (JSONObject) obj;
                 token = (String) input.get("token"); // full token
+                realUserAgent = (String) input.get("user_agent"); // real user agent
+                realIpAddress = (String) input.get("ip_address"); // real ip address
                 
                 // get info from given token
                 String[] temp = token.split("#");
