@@ -3,5 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group/>
+        <group name="stack-clone-service-advanced">
+            <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/EditQuestion.java</file>
+            <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddAnswer.java</file>
+            <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/QuestionServlet.java</file>
+        </group>
     </open-files>
 </project-private>
