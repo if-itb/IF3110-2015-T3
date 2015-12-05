@@ -40,4 +40,13 @@ tempat: http://localhost:8082/CommentandVoteService
 
 					<comment cid="5" Email="apa" AuthorName="terserah" created_at="2015-12-05 11:21:03.0" >wolajkd</comment>
 				</list>
+	POST
+		parameters:
+			qid
+			access_token
+			qcontent
+		response:
+			201 CREATED jika sukses
+			401 UNAUTHORIZED dan bodi detail error jika menerima error dari Identity_Service
+			404 NOT FOUND jika tidak ditemukan pertanyaan dengan qid tersebut
 ----------------------------------------------------
