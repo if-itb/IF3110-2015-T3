@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <servlet>
+        <servlet-name>Vote</servlet-name>
+        <servlet-class>Post.VoteQuestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoteAnswers</servlet-name>
+        <servlet-class>Post.VoteAnswers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Comment</servlet-name>
+        <servlet-class>Post.Comment</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Vote</servlet-name>
+        <url-pattern>/Vote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteAnswers</servlet-name>
+        <url-pattern>/VoteAnswers</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Comment</servlet-name>
+        <url-pattern>/Comment</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>
