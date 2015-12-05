@@ -9,6 +9,6 @@
     <system systemId="http://localhost:8080/StackExchange_WS/StackExchange?xsd=1" uri="src/conf/xml-resources/web-service-references/StackExchange/wsdl/localhost_8080/StackExchange_WS/StackExchange.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/ws/StackExchange?wsdl" uri="src/conf/xml-resources/web-service-references/StackExchange/wsdl/localhost_8081/ws/StackExchange.wsdl"/>
     <system systemId="http://localhost:8081/ws/StackExchange?xsd=1" uri="src/conf/xml-resources/web-service-references/StackExchange/wsdl/localhost_8081/ws/StackExchange.xsd_1.xsd"/>
-    <system systemId="http://localhost:8081/StackExchange?wsdl" uri="src/conf/xml-resources/web-service-references/StackExchange/wsdl/localhost_8081/StackExchange.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange?xsd=1" uri="src/conf/xml-resources/web-service-references/StackExchange/wsdl/localhost_8081/StackExchange.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange?wsdl" uri="src/conf/xml-resources/web-services/StackExchange/wsdl/localhost_8081/StackExchange.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange?xsd=1" uri="src/conf/xml-resources/web-services/StackExchange/wsdl/localhost_8081/StackExchange.xsd_1.xsd"/>
 </catalog>

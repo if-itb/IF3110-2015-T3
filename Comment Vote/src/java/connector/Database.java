@@ -33,7 +33,7 @@ public class Database {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {            
             System.out.println(ex.getMessage());
         }
 

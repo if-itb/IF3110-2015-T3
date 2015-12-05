@@ -177,7 +177,31 @@ public class StackExchange {
         }        
         return success;        
     }
-    
+
+    /**
+     * Get vote state from a question
+     * @param idUser
+     * @param idQuestion
+     * @return
+     */
+    public int getQuestionVoteState (int idUser, int idQuestion) {
+        int state = 0;
+        try {
+            String query = "SELECT vote_up FROM vote_question WHERE id_user = ? AND id_question = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, idUser);
+                statement.setInt(2, idQuestion);
+                try (ResultSet result = statement.executeQuery()) {
+                    if (result.next())
+                        state = result.getBoolean(1) ? 1 : -1;
+                }
+            }
+        }
+        catch(SQLException ex){
+            System.err.println(ex.getMessage());
+        }
+        return state;
+    }
     
     /**
      * Web service operation
@@ -416,5 +440,5 @@ public class StackExchange {
             Logger.getLogger(StackExchange.class.getName()).log(Level.SEVERE, null, ex);
         }
         return question;
-    }
+    }        
 }

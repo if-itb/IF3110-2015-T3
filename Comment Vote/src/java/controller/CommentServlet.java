@@ -11,11 +11,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Comment;
 import org.json.simple.JSONObject;
 
 /**
@@ -25,18 +29,50 @@ import org.json.simple.JSONObject;
 public class CommentServlet extends HttpServlet {
 
     private final Connection conn = Database.connection();
+        
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String sIdQuestion = request.getParameter("id");
+        
+        if (sIdQuestion == null)
+            return;
 
+        int idQuestion;
+        try {
+            idQuestion = Integer.parseInt(sIdQuestion);
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        JSONObject result = new JSONObject();
+        result.put("comments", getComments(idQuestion));
+
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            out.print(result.toString());
+        }
+    }
+
+    /**
+     * Method to handle comment post
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String token = request.getParameter("auth");
         String content = request.getParameter("content");
         String sIdQuestion = request.getParameter("id_question");
@@ -91,36 +127,26 @@ public class CommentServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
                 out.println(result.toString());
             }
-        }        
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+    private List<Comment> getComments(int idQuestion) {
+        List<Comment> comments = new LinkedList<>();
+        String query = "SELECT * FROM comment WHERE id_question = ?";
+        try (PreparedStatement statement = conn.prepareStatement(query)) {
+            statement.setInt(1, idQuestion);
+            ResultSet result = statement.executeQuery();
+            while (result.next()) {
+                comments.add(new Comment(
+                        result.getInt("id"),
+                        result.getInt("id_question"),
+                        result.getInt("id_user"),
+                        result.getString("content")));
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return comments;
     }
 
     /**

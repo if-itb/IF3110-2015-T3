@@ -26,18 +26,63 @@ import org.json.simple.JSONObject;
 public class VoteServlet extends HttpServlet {
 
     private final Connection connection = Database.connection();
+    
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String sId = request.getParameter("id");
+        String type = request.getParameter("type");
 
+        if (sId == null || type == null)
+            return;
+
+        int id;
+        try {
+            id = Integer.parseInt(sId);
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        type = type.toLowerCase();
+
+        JSONObject result = new JSONObject();
+        switch (type) {
+            case "question":
+                result.put("votes", getQuestionVotes(id));
+                break;
+            case "answer":
+                result.put("votes", getAnswerVotes(id));
+                break;
+            default:
+                return;
+        }
+
+        try (PrintWriter out = response.getWriter()) {
+            response.setContentType("application/json");
+            out.println(result.toString());
+        }
+
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String token = request.getParameter("auth");
         String sId = request.getParameter("id");
         String type = request.getParameter("type");
@@ -100,8 +145,9 @@ public class VoteServlet extends HttpServlet {
                 result.put("status", -1);
                 result.put("detail", "Invalid token");
             }
-            response.setContentType("application/json");
+
             try (PrintWriter out = response.getWriter()) {
+                response.setContentType("application/json");
                 out.println(result.toString());
             }
         }
@@ -126,13 +172,13 @@ public class VoteServlet extends HttpServlet {
         return state;
     }
 
-    private int getAnswerVoteState (int idUser, int idQuestion) {
+    private int getAnswerVoteState (int idUser, int idAnswer) {
         int state = 0;
         try {
             String query = "SELECT vote_up FROM vote_answer WHERE id_user = ? AND id_answer = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setInt(1, idUser);
-                statement.setInt(2, idQuestion);
+                statement.setInt(2, idAnswer);
                 try (ResultSet result = statement.executeQuery()) {
                     if (result.next())
                         state = result.getBoolean(1) ? 1 : -1;
@@ -271,36 +317,7 @@ public class VoteServlet extends HttpServlet {
             System.err.println(e.getMessage());
         }
         return votes;
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+    }     
 
     /**
      * Returns a short description of the servlet.
