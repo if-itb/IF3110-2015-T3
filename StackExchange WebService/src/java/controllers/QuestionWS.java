@@ -17,7 +17,7 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
-import model.Question;
+import models.Question;
 //import sun.util.logging.PlatformLogger;
 
 /**
