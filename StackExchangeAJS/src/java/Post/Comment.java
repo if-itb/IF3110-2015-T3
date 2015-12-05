@@ -6,12 +6,15 @@
 package Post;
 
 import Database.DB;
+import Validation.Validation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -66,8 +69,8 @@ public class Comment extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int res = 0;
+        ArrayList<JSONObject> comments = new ArrayList<>();
         JSONObject obj = new JSONObject();
-        
         try (PrintWriter out = response.getWriter()) { 
             
             int qid = Integer.parseInt(request.getParameter("qid"));
@@ -79,18 +82,20 @@ public class Comment extends HttpServlet {
                 // execuResultSette select
                 ResultSet ret = pst.executeQuery();
                 while (ret.next()) {
-                    obj.put("id", ret.getInt("id"));
-                    obj.put("uid", ret.getInt("uid"));
-                    obj.put("content", ret.getString("content"));
-                    obj.put("timestamp", ret.getString("timestamp"));
-                    
+                    JSONObject comment = new JSONObject();
+                    comment.put("id", ret.getInt("id"));
+                    comment.put("uid", ret.getInt("uid"));
+                    comment.put("content", ret.getString("content"));
+                    comment.put("timestamp", ret.getString("timestamp"));
+                    comments.add(comment);
                 }
+                 
             }
             
             // put the results
             obj.put("success", 1);
             obj.put("qid", qid);
-            obj.put("value", res);
+            obj.put("comments", comments);
             
             out.print(obj);
                 
@@ -110,7 +115,47 @@ public class Comment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //TODO write your implementation code here:
+        String token = request.getParameter("token");
+        int qid = Integer.parseInt(request.getParameter("qid"));
+        int content = Integer.parseInt(request.getParameter("content"));
+        
+        JSONObject obj = new JSONObject();
+        
+        int res = Validation.AUTH_ERROR;       // initialize result with error first (assumption)
+        long user_id = Validation.validateToken(token); // validate token and get the user id
+        
+        try (PrintWriter out = response.getWriter()) {
+            // token is valid if user_id value is not -1
+            if (user_id != -1) {
+
+                try (Statement st = conn.createStatement()) {
+                    
+                    String query = "INSERT INTO `comments` (uid, qid, content) VALUES (?, ?, ?)";
+
+                    // set the prepared statement by the query and enter the value of where clause
+                    try (PreparedStatement pst = conn.prepareStatement(query)) {
+                        pst.setLong(1, user_id);
+                        pst.setInt(2, qid);
+                        pst.setInt(3, content);
+                        // execute update
+                        res = pst.executeUpdate();
+                        if (res > 0)
+                            res = Validation.AUTH_VALID;
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                // else: token is invalid, deny request
+                res = Validation.AUTH_INVALID;
+            }
+            
+            obj.put("success", res);
+            out.print(obj);
+               
+        }
     }
 
     /**
