@@ -8,6 +8,29 @@ angular.module("stackexchangeApp", [])
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
     })
+    .service("voteService", function($http, parameterService, voteAndCommentHost){
+        this.upvote = function(type, id, successCallback, errorCallback){
+            if (parameterService.getParameter("token") == ""){
+                window.location.href = "/login";
+            }
+
+            return $http({
+                method: 'POST',
+                url: voteAndCommentHost + '/' + type + '/' + id + '/upvote?token=' + parameterService.getParameter("token")
+            })
+        };
+
+        this.downvote = function(type, id, successCallback, errorCallback){
+            if (parameterService.getParameter("token") == ""){
+                window.location.href = "/login";
+            }
+
+            return $http({
+                method: 'POST',
+                url: voteAndCommentHost + '/' + type + '/' + id + '/downvote?token=' + parameterService.getParameter("token")
+            });
+        };
+    })
     
 
 
