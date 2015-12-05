@@ -1,0 +1,15 @@
+Frontend WebApp/build
+Frontend WebApp/dist
+Frontend WebApp/nbproject
+Frontend WebApp/build.xml
+Frontend WebApp/catalog.xml
+Identity Service/build
+Identity Service/dist
+Identity Service/lib
+Identity Service/nbproject
+Identity Service/setup
+Identity Service/build.xml
+Stackexchange WS/build
+Stackexchange WS/dist
+Stackexchange WS/nbproject
+Stackexchange WS/build.xml

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://UserModel/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://UserModel/">
+
+<xs:element name="User" type="tns:user"/>
+
+<xs:element name="addUser" type="tns:addUser"/>
+
+<xs:element name="addUserResponse" type="tns:addUserResponse"/>
+
+<xs:element name="getUserByIdAnswer" type="tns:getUserByIdAnswer"/>
+
+<xs:element name="getUserByIdAnswerResponse" type="tns:getUserByIdAnswerResponse"/>
+
+<xs:element name="getUserByIdQuestion" type="tns:getUserByIdQuestion"/>
+
+<xs:element name="getUserByIdQuestionResponse" type="tns:getUserByIdQuestionResponse"/>
+
+<xs:element name="getUserByToken" type="tns:getUserByToken"/>
+
+<xs:element name="getUserByTokenResponse" type="tns:getUserByTokenResponse"/>
+
+<xs:complexType name="getUserByIdAnswer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByIdAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="user">
+<xs:sequence>
+<xs:element name="id_user" type="xs:int"/>
+<xs:element name="name" type="xs:string"/>
+<xs:element name="email" type="xs:string"/>
+<xs:element name="token" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByIdQuestion">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByIdQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:user" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByToken">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="urlString" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUserByTokenResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addUser">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addUserResponse">
+<xs:sequence>
+<xs:element name="User" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
