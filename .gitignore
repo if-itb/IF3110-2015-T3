@@ -1,10 +1,17 @@
 /StackExchange WebService/nbproject/build-impl.xml
 /StackExchange WebService/nbproject/build-impl.xml~
+/StackExchange WebService/nbproject/genfiles.properties
 /StackExchange WebService/dist/
 /StackExchange WebService/build/
 /StackExchange Client/nbproject/build-impl.xml
 /StackExchange Client/nbproject/build-impl.xml~
+/StackExchange Client/nbproject/genfiles.properties
 /StackExchange Client/nbproject/private/
+/StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/javaee-doc-api.jar
+/StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/jaxb-api-osgi.jar
+/StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/webservices-api-osgi.jar
+/StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/javax.annotation.jar
+/StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/nblibraries.properties
 /StackExchange Client/dist/
 /StackExchange Client/build/
 /StackExchange IdentityService/nbproject/build-impl.xml
@@ -17,5 +24,3 @@
 /StackExchange VoteCommentService/nbproject/private/
 /StackExchange VoteCommentService/dist/
 /StackExchange VoteCommentService/build/
-
-StackExchange IdentityService/dist/StackExchange_IdentityService.war

@@ -105,7 +105,7 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "addNewQuestion")
-    public int addNewQuestion(@WebParam(name = "u_id") int u_id, @WebParam(name = "topic") String topic,  @WebParam(name = "content") String content) {
+    public int addNewQuestion(@WebParam(name = "token") int token, @WebParam(name = "topic") String topic,  @WebParam(name = "content") String content) {
         try {
                 String sql = "INSERT INTO question(u_id,topic,content,date_created) VALUE (?,?,?,now())";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
