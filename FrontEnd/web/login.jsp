@@ -126,10 +126,8 @@
                             out.println("<br>Login unsuccessful. Username and password combination is incorrect.");
                         }
                         else {
-                            String token = request.getParameter("token");
-                            response.setHeader("access_token", token);
-                            out.println(token);
-                            response.sendRedirect("index.jsp?token="+token);
+                            out.println("SDKLF");
+                            response.sendRedirect("http://localhost:8000/FrontEnd/index.jsp");
                         }
                         
                     } catch (Exception ex) {

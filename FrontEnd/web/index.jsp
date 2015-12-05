@@ -20,22 +20,31 @@
     <body>
         
         <%
-            String token = request.getParameter("token");
+            String token = new String();
+            Cookie cookies[] = request.getCookies();
+                if (cookies != null) {
+                    
+                    for (int i=0;i<cookies.length;i++) {
+                        if (cookies[i].getName().toString().equals("access_token_frontend")) {
+                            token = cookies[i].getValue();
+                            break;
+                        }
+                    }
+                    out.println("FINISHED");
+                }
+            String[] tableToken = token.split("#");
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
-            String StrBrowser = "<script type='text/javascript'> var parser = new UAParser(); var result = parser.getResult(); document.write (result.browser.name +' '+result.browser.major);</script>";
-            Cookie ctoken = new Cookie("access_token",StrBrowser+"#"+request.getRemoteAddr());
-            ctoken.setPath("/");
-            response.addCookie(ctoken);
+            
             try {
 
-                Timestamp result = new Timestamp(port.getExpiredDate(token));
+                Timestamp result = new Timestamp(port.getExpiredDate(tableToken[0]));
                 Timestamp ts = new Timestamp(System.currentTimeMillis());
                 /*out.println(ts);
                 out.println(result);*/
 
                 if (ts.after(result)) {
-                    String site = "http://localhost:8001/Identity/LoginRSServlet?token="+request.getParameter("token");
+                    String site = "http://localhost:8001/Identity/LoginRSServlet";
                     response.setStatus(response.SC_MOVED_TEMPORARILY);
                     response.setHeader("Location", site);
                 }
@@ -46,14 +55,12 @@
         %>
         <div class="header">
             <%
-                out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + request.getParameter("token") + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
+                out.println("<a href=\"http://localhost:8001/Identity/LoginRSServlet?token=" + tableToken[0] + "&logout=true\" style=\"margin-left: 72%;\">Logout</a>");
             %>
             <div class="container">
 
                 <%
-                    if (token != null) {
-                        out.println("<p><a href='index.jsp?token=" + token + "'>Simple StackExchange</a></p> ");
-                    } else {
+                    if (tableToken[0] != null) {
                         out.println("<p><a href='index.jsp'>Simple StackExchange</a></p> ");
                     }
 
@@ -64,9 +71,8 @@
         <div class="main">
             <div class="container">
 
-                <%                    if (token != null) {
-                        out.println("<form name='search' action='index.jsp?token=" + token + "' method='post' class='search'>");
-                    } else {
+                <%
+                    if (tableToken[0] != null) {
                         out.println("<form name='search' action='index.jsp' method='post' class='search'>");
                     }
 
@@ -74,8 +80,8 @@
                     <input type="text" maxlength="50" name="key">
                     <input type="submit" value="Search">
                 </form>
-                <%                    if (token != null) {
-                        out.println("<h6>Cannot find what you are looking for? <a href='newquestion.jsp?token=" + token + "'>Ask here</a></h6>");
+                <%if (tableToken != null) {
+                        out.println("<h6>Cannot find what you are looking for? <a href='newquestion.jsp'>Ask here</a></h6>");
                     } else {
                         out.println("<h6>Cannot find what you are looking for? <a href='login.jsp'>Login to ask here</a></h6>");
                     }
@@ -86,8 +92,8 @@
                 <h5>Recently Asked Questions</h5>
                 <div class="listquestion">
 
-                    <%                        String search = request.getParameter("key");
-                        java.lang.String check = port.getName(token);
+                    <%  String search = request.getParameter("key");
+                        java.lang.String check = port.getName(tableToken[0]);
                         if (search == null) {
                             try {
 
@@ -100,7 +106,7 @@
                                     out.println("<div class='columnsmall left'> <p>" + result.get(i).getAnswers()
                                             + "</p> <p>Answers</p></div>");
 
-                                    if (token != null) {
+                                    if (tableToken[0] != null) {
                                         if (result.get(i).getQuestion().length() > 30) {
                                             out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
                                         } else {
@@ -140,7 +146,7 @@
                                             + "</p> <p>Votes</p></div>");
                                     out.println("<div class='columnsmall left'> <p>" + result.get(i).getAnswers()
                                             + "</p> <p>Answers</p></div>");
-                                    if (token != null) {
+                                    if (tableToken[0] != null) {
                                         if (result.get(i).getQuestion().length() > 30) {
                                             out.println("<div class='columnlarge center'><a href='answer.jsp?id=" + result.get(i).getQuestionID() + "&token=" + token + "'><h4>" + result.get(i).getTopic() + "</h4></a><p>" + result.get(i).getQuestion().substring(0, 30) + ". . .</p></div>");
                                         } else {

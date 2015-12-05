@@ -37,15 +37,6 @@ public class LoginRSServlet extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
         try {
 
-            /*final PrintWriter out = response.getWriter();
-             StringBuffer jb = new StringBuffer();
-             String line = null;
-             try {
-             BufferedReader reader = request.getReader();
-             while ((line = reader.readLine()) != null)
-             jb.append(line);
-             } catch (Exception e) {}
-             out.println(jb.toString());*/
             response.setContentType("text/html");
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
@@ -53,6 +44,7 @@ public class LoginRSServlet extends HttpServlet {
             String sql = "DELETE FROM sessions WHERE AccessToken = ?"; // Login query validation
 
             PreparedStatement dbStatement = conn.prepareStatement(sql);
+            out.println(request.getParameter("token"));
             dbStatement.setString(1, request.getParameter("token"));
             dbStatement.executeUpdate();
             if (request.getParameter("logout") == null)
@@ -95,24 +87,43 @@ public class LoginRSServlet extends HttpServlet {
             ResultSet rs = dbStatement.executeQuery();
             if (rs.next()) { // If the query returns a row (login succeeded)
                 String token = null;
-                out.println(token);
-                token = UUID.randomUUID().toString(); //generate token
+                String uAgent = request.getHeader("User-Agent");
+                System.out.println(uAgent);
+                String userAgent = uAgent.replaceAll(";", "%3B");
+                System.out.println(userAgent);
+//            ctoken.setPath("/Identity/");
+//            response.addCookie(ctoken);
+//                Cookie cookies[] = request.getCookies();
+//                    if (cookies != null) {
+//                        out.println(cookies.length);
+//                        for (int i=0;i<cookies.length;i++) {
+//                            if (cookies[i].getName().equals("access_token")) {
+//                                lastToken = cookies[i].getValue();
+//                                out.println(cookies[i].getName() + " " + token);
+//                                break;
+//                            }
+//                        }
+//                    }
+                token = UUID.randomUUID().toString(); 
+                String finalToken = token + "#"+userAgent+"#"+request.getRemoteAddr(); //generate token
                 
-                out.println(token);
-
+                out.println(finalToken);
+                Cookie ctoken = new Cookie("access_token",finalToken);
+                Cookie cfrontend = new Cookie("access_token_frontend",finalToken);
+                ctoken.setPath("/Identity/");
+                cfrontend.setPath("/FrontEnd/");
+                
                 sql = "INSERT INTO sessions (Email, AccessToken,ExpiredDate) VALUES (?,?,NOW()+INTERVAL 5 MINUTE)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, request.getParameter("email"));
                 dbStatement.setString(2, token);
                 dbStatement.executeUpdate();
 
-                    //Cookie c = new Cookie("access_token", token);
-                //c.setPath("/FrontEnd/");
-                //response.addCookie(c);
+                response.addCookie(ctoken);
+                response.addCookie(cfrontend);
                 //response.setHeader("access_token", token);
                 //response.addHeader("token", token);
-                response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?token=" + token + "&valid=1");
-
+                response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?valid=1");
             } else {
                 response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?valid=0&isi=" + request.getParameter("Email"));
             }
