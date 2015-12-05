@@ -139,13 +139,9 @@ public class Vote extends HttpServlet {
         JSONObject json = new JSONObject();
         try (PrintWriter out = response.getWriter()) {
             String target = request.getParameter("target");
-            out.println(target);
             String action = request.getParameter("action");
-            out.println(action);
             int id = Integer.parseInt(request.getParameter("id"));
-            out.println(id);
             int userId = Integer.parseInt(request.getParameter("userId"));
-            out.println(userId);
             try {
                 if(target.compareTo("answer") == 0) {
                     switch (action) {
@@ -170,16 +166,13 @@ public class Vote extends HttpServlet {
                         default :
                             response.sendError(1, "Action not valid");
                     }
-                    out.println("Test2");
                     json.put("question_vote", this.getQuestionVoteCount(id));
                 } else {
                     response.sendError(1, "Target not valid");
                 }
             } catch (SQLException ex) {
-                out.println("gagal");
                 Logger.getLogger(Vote.class.getName()).log(Level.SEVERE, null, ex);
             } catch (JSONException ex) {
-                out.println("Gagal");
                 Logger.getLogger(Vote.class.getName()).log(Level.SEVERE, null, ex);
             }
             response.getWriter().write(json.toString());
