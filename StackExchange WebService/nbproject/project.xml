@@ -9,6 +9,7 @@
             <name>StackExchange WebService</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <web-module-libraries>
                 <library dirs="200">
                     <file>${libs.JSON_Simple.classpath}</file>
@@ -19,6 +20,9 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
+=======
+            <web-module-libraries/>
+>>>>>>> origin/master
 =======
             <web-module-libraries/>
 >>>>>>> origin/master

@@ -1,12 +1,16 @@
 /StackExchange WebService/nbproject/build-impl.xml
 /StackExchange WebService/nbproject/build-impl.xml~
+<<<<<<< HEAD
 /StackExchange WebService/nbproject/genfiles.properties
 /StackExchange WebService/dist/
 /StackExchange WebService/build/
+=======
+>>>>>>> origin/master
 /StackExchange Client/nbproject/build-impl.xml
 /StackExchange Client/nbproject/build-impl.xml~
 /StackExchange Client/nbproject/genfiles.properties
 /StackExchange Client/nbproject/private/
+<<<<<<< HEAD
 /StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/javaee-doc-api.jar
 /StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/jaxb-api-osgi.jar
 /StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/webservices-api-osgi.jar
@@ -24,3 +28,24 @@
 /StackExchange VoteCommentService/nbproject/private/
 /StackExchange VoteCommentService/dist/
 /StackExchange VoteCommentService/build/
+=======
+/StackExchange IdentityService/nbproject/build-impl.xml
+/StackExchange IdentityService/nbproject/build-impl.xml~
+/StackExchange IdentityService/nbproject/private/
+/StackExchange VoteComment/nbproject/private/
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/javaee-doc-api.jar
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/jaxb-api-osgi.jar
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/webservices-api-osgi.jar
+StackExchange Client/build/web/WEB-INF/lib/javax.annotation.jar
+StackExchange Client/nbproject/genfiles.properties
+StackExchange Client/nbproject/genfiles.properties
+StackExchange Client/build/web/WEB-INF/lib/jaxb-api-osgi.jar
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/javaee-endorsed-api-6.0/javax.annotation.jar
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/nblibraries.properties
+StackExchange WebService/nbproject/genfiles.properties
+StackExchange Client/nbproject/genfiles.properties
+StackExchange Client/build/web/WEB-INF/lib/webservices-api-osgi.jar
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/nblibraries.properties
+StackExchange Client/nbproject/genfiles.properties
+StackExchange Client/Applications/NetBeans/glassfish-4.1/glassfish/modules/nblibraries.properties
+>>>>>>> origin/master
