@@ -17,7 +17,7 @@ import mysql.ConnectDb;
 
 // ACCESS_TOKEN OBJECT
 @XmlRootElement(name = "accessToken")
-@XmlType(propOrder = { "id", "token","username" })
+@XmlType(propOrder = { "id", "token", "username" })
 public final class AccessToken {
     private String token;
     private long expirationDate;
@@ -75,12 +75,13 @@ public final class AccessToken {
 	try {
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt = null;
-	    String sql = "insert into access_token(access_token, expiration_date)"
-		       + "values (?, ?)";
+	    String sql = "insert into access_token(access_token, expiration_date, user_id)"
+		       + "values (?, ?, ?)";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, this.getToken());
 	    dbStatement.setInt(2, (int) (long) this.getExpirationDate());
+            dbStatement.setLong(3, this.getId());
 	    int rs = dbStatement.executeUpdate();
 	} catch (Exception ex) {
 	    System.out.println("Error add Token : " + ex);
