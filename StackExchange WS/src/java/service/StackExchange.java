@@ -178,81 +178,6 @@ public class StackExchange {
         return success;        
     }
     
-    /**
-     * Web service operation
-     * @param idQuestion
-     * @param idUser
-     * @return Return 0 if user hasn't vote, 1 if vote up, -1 if vote down
-     */
-    @WebMethod(operationName = "getQuestionVoteState")
-    public int getQuestionVoteState (
-            @WebParam(name = "idUser") int idUser,
-            @WebParam(name = "idQuestion") int idQuestion) {
-        int state = 0;
-        try {
-            String query = "SELECT vote_up FROM vote_question WHERE id_user = ? AND id_question = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, idUser);
-                statement.setInt(2, idQuestion);                
-                try (ResultSet result = statement.executeQuery()) {
-                    if (result.next())
-                        state = result.getBoolean(1) ? 1 : -1;
-                }
-            }
-        }
-        catch(SQLException ex){
-            Logger.getLogger(StackExchange.class.getName()).log(Level.SEVERE, null, ex);
-        }                        
-        return state;
-    }
-        
-    private boolean voteQuestion(int idUser, int idQuestion, boolean voteUp) {
-        boolean success = false;                
-        try {
-            if (getQuestion(idQuestion) != null && getQuestionVoteState(idUser, idQuestion) == 0) {
-                String updateQuery = "UPDATE question SET votes = votes " + (voteUp? "+" : "-")  + " 1 WHERE id = ?";
-                String insertQuery = "INSERT INTO vote_question (id_user, id_question, vote_up) VALUES (?, ?, ?)";
-                connection.setAutoCommit(false);
-                try (
-                    PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-                    PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                    updateStatement.setInt(1, idQuestion);
-                    insertStatement.setInt(1, idUser);
-                    insertStatement.setInt(2, idQuestion);
-                    insertStatement.setBoolean(3, voteUp);
-                    success = updateStatement.executeUpdate() > 0 && insertStatement.executeUpdate() > 0;
-                    connection.commit();
-                }
-                finally {
-                    connection.setAutoCommit(true);
-                }                                    
-            }                
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(StackExchange.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        return success;        
-    }
-    
-    /**
-     *
-     * @param idUser
-     * @param idQuestion
-     * @return
-     */
-    @WebMethod(operationName = "voteQuestionUp")
-    public boolean voteQuestionUp(
-            @WebParam(name = "idUser") int idUser,
-            @WebParam(name = "idQuestion") int idQuestion) {
-        return voteQuestion(idUser, idQuestion, true);
-    }
-    
-    @WebMethod(operationName = "voteQuestionDown")
-    public boolean voteQuestionDown(
-            @WebParam(name = "idUser") int idUser,
-            @WebParam(name = "idQuestion") int idQuestion) {
-        return voteQuestion(idUser, idQuestion, false);
-    }
     
     /**
      * Web service operation
@@ -352,63 +277,7 @@ public class StackExchange {
             Logger.getLogger(StackExchange.class.getName()).log(Level.SEVERE, null, ex);
         }        
         return answer;
-    }
-
-    private boolean voteAnswer(int idUser, int idAnswer, boolean voteUp) {
-        boolean success = false;                
-        try {
-            if (getAnswer(idAnswer) != null && getAnswerVoteState(idUser, idAnswer) == 0) {
-                String updateQuery = "UPDATE answer SET votes = votes " + (voteUp? "+" : "-")  + " 1 WHERE id = ?";
-                String insertQuery = "INSERT INTO vote_answer (id_user, id_answer, vote_up) VALUES (?, ?, ?)";
-                connection.setAutoCommit(false);
-                try (
-                    PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-                    PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                    updateStatement.setInt(1, idAnswer);
-                    insertStatement.setInt(1, idUser);
-                    insertStatement.setInt(2, idAnswer);
-                    insertStatement.setBoolean(3, voteUp);
-                    success = updateStatement.executeUpdate() > 0 && insertStatement.executeUpdate() > 0;
-                    connection.commit();
-                }
-                finally {
-                    connection.setAutoCommit(true);
-                }                                    
-            }                
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(StackExchange.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        return success;        
-    }
-    
-    /**
-     * Web service operation
-     * @param idUser
-     * @param idAnswer     
-     * @return      
-     */
-    @WebMethod(operationName = "voteAnswerUp")
-    @WebResult(name = "Answer")
-    public boolean voteAnswerUp(
-            @WebParam(name = "idUser") int idUser,
-            @WebParam(name = "idAnswer") int idAnswer) {
-        return voteAnswer(idUser, idAnswer, true);        
-    }
-    
-    /**
-     * Web service operation
-     * @param idUser
-     * @param idAnswer     
-     * @return      
-     */
-    @WebMethod(operationName = "voteAnswerDown")
-    @WebResult(name = "Answer")
-    public boolean voteAnswerDown(
-            @WebParam(name = "idUser") int idUser,
-            @WebParam(name = "idAnswer") int idAnswer) {
-        return voteAnswer(idUser, idAnswer, false);        
-    }
+    }    
     
     /**
      * Get answer vote state from a user
@@ -487,6 +356,8 @@ public class StackExchange {
 
     /**
      * Web service operation
+     * @param id
+     * @return
      */
     @WebMethod(operationName = "getUser")
     @WebResult(name = "User")
@@ -515,6 +386,8 @@ public class StackExchange {
 
     /**
      * Web service operation
+     * @param key
+     * @return
      */
     @WebMethod(operationName = "search")
     public List<Question> search(@WebParam(name = "query")

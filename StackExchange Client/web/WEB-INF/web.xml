@@ -41,10 +41,6 @@
         <servlet-class>controller.DeleteServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>VoteServlet</servlet-name>
-        <servlet-class>controller.VoteServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>controller.SearchServlet</servlet-class>
     </servlet>
@@ -79,10 +75,6 @@
     <servlet-mapping>
         <servlet-name>EditServlet</servlet-name>
         <url-pattern>/edit</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>VoteServlet</servlet-name>
-        <url-pattern>/vote</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>

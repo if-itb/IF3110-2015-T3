@@ -4,9 +4,17 @@
         <servlet-name>CommentServlet</servlet-name>
         <servlet-class>controller.CommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VoteServlet</servlet-name>
+        <servlet-class>controller.VoteServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommentServlet</servlet-name>
         <url-pattern>/comment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteServlet</servlet-name>
+        <url-pattern>/vote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
