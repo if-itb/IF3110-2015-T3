@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<% 
 		Cookie cookie = null;
 		Cookie[] cookies = null;
@@ -61,18 +61,18 @@
 <body class="contact">
 	
 	
+		<article id="main">
+			<header class="special container">
+				<span class="icon fa-github-alt"></span>
+				<strong><h2>Question</h2></strong>
+			</header>
+			
 	<div id="page-wrapper">
 		<!-- Header -->
 		<header id="header">
 			<h1 id="logo"><a href="index.jsp">Stack Exchange <span>| by Tusiri</span></a></h1>
 			<jsp:include page="navigationbar.jsp" flush ="true"/>
 		</header>
-		
-		<article id="main">
-			<header class="special container">
-				<span class="icon fa-github-alt"></span>
-				<strong><h2>Question</h2></strong>
-			</header>
 			<div class = 'container wrapper style1'>
 				<h2><%= q.getTopic() %></h2>
 				<div class = 'q_details'>
@@ -95,6 +95,13 @@
 			              	</span>
 		              	</div>
 					</div>
+					<div ng-app="commentApp" ng-controller="commentCtrl"> 
+		<ul>
+  			<li ng-repeat="x in comments">
+    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+  			</li>
+		</ul>
+		</div>
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -133,7 +140,16 @@
 			</div>
 		</article>
 		<%@include file="footer.jsp" %>
+		
 	</div>
+	
+	<script>
+var app = angular.module('commentApp', []);
+app.controller('commentCtrl', function($scope, $http) {
+    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
+    .then(function(response) {$scope.comments = response.data;});
+});
+</script>
 </body>
 	<% 	} else {
 			%>
