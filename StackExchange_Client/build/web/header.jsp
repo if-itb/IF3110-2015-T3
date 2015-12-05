@@ -14,7 +14,7 @@
         <link href="style.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Dosis:500' rel='stylesheet' type='text/css'>
     </head>
-    <body>
+    <body ng-app="stackExchange">
         <div class="container">
         	<div class="userinfo">
                     <c:choose>
