@@ -27,13 +27,15 @@ public class Auth extends HttpServlet {
 	
 	// Get the tken
 	String token = request.getParameter("token");
-	
+	String useragent = request.getParameter("user_agent");
+        String ip = request.getParameter("ip");
+        System.out.println("Auth: " + token + " " + useragent + " " + ip);
 	try {
 	    Connection conn = ConnectDb.connect();
 	    
 	    // Try to get the token from the database
 	    Statement stmt = null;
-	    String sql = "select * from access_token where access_token=?";
+	    String sql = "select * from access_token where access_token=? and user_agent = ? and ip = ?";
 	    PreparedStatement dbStatement;
 	    try {
 		dbStatement = conn.prepareStatement(sql);
@@ -42,6 +44,8 @@ public class Auth extends HttpServlet {
 	    }
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, token);
+            dbStatement.setString(2, useragent);
+            dbStatement.setString(3, ip);
 	    ResultSet rs = dbStatement.executeQuery();
 	    
 	    
@@ -59,9 +63,11 @@ public class Auth extends HttpServlet {
 			// Token expired
 			
 			// Delete the expired token from database
-			sql = "delete  from access_token where access_token=?";
+			sql = "delete from access_token where access_token=? and user_agent=? and ip=?";
 			dbStatement = conn.prepareStatement(sql);
 			dbStatement.setString(1, token);
+                        dbStatement.setString(2, useragent);
+                        dbStatement.setString(3, ip);
 			dbStatement.executeUpdate();
 			out.println("expired");
 		    }

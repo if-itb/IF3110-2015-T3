@@ -97,7 +97,6 @@ public class StackExchangeService {
 		ResultSet res = dbStatement.executeQuery();
 		
 		String email = null;
-                String useragent = null;
 		if(res.next()){
 		    email = res.getString("email");
 		}
@@ -514,6 +513,8 @@ public class StackExchangeService {
     private String isValidToken(String token) {
 	Form form = new Form();
 	form.param("token", token);
+        form.param("user_agent", this.getUserAgent());
+        form.param("ip", this.getIP());
 
 	Client client = ClientBuilder.newClient();
 	String url = "http://localhost:8080/IdentityService/Auth";

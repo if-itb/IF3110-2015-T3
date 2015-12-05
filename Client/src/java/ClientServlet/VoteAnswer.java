@@ -21,6 +21,8 @@ public class VoteAnswer extends HttpServlet {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
+    private String useragent;
+    private String ip;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
@@ -35,6 +37,9 @@ public class VoteAnswer extends HttpServlet {
 	
 	// Check if the request has Token cookie
         if(rh.isHasToken()) {
+            this.useragent = request.getHeader("User-Agent");
+            this.ip = request.getRemoteAddr();
+            
 	    
 	    // Call the web service
             int newVote = voteAnswer(aid, operation, rh.getToken(),rh.getId());
@@ -115,6 +120,7 @@ public class VoteAnswer extends HttpServlet {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
+        SOAPHeaderHandler.registerHeader(port, this.useragent, this.ip);
 	return port.voteAnswer(aid, operation, token, id);
     }
 

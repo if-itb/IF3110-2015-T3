@@ -24,6 +24,9 @@ public class CreateAnswer extends HttpServlet {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
     
+    private String useragent;
+    private String ip;
+    
     // Servlet for Creating Answer
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
@@ -35,7 +38,10 @@ public class CreateAnswer extends HttpServlet {
 	if(rh.isHasToken()){
 	    // Request Has token cookie
 	    // Get request parameters
-	    String content = request.getParameter("content");
+	    this.useragent = request.getHeader("User-Agent");
+            this.ip = request.getRemoteAddr();
+            
+            String content = request.getParameter("content");
 	    int qid = Integer.parseInt(request.getParameter("qid"));
 	    
 	    // Call the createAnswer WebService
@@ -114,6 +120,7 @@ public class CreateAnswer extends HttpServlet {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
+        SOAPHeaderHandler.registerHeader(port, this.useragent, this.ip);
 	return port.createAnswer(qid, name, content, token);
     }
 

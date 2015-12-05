@@ -21,6 +21,9 @@ public class GetEditedQuestion extends HttpServlet {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8082/StackExchangeService/StackExchangeService.wsdl")
     private StackExchangeService_Service service;
 
+    private String useragent;
+    private String ip;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception_Exception {
         response.setContentType("text/html;charset=UTF-8");
@@ -30,6 +33,9 @@ public class GetEditedQuestion extends HttpServlet {
 	
 	// Check if the request has token cookie
 	if (rh.isHasToken()) {
+            this.useragent = request.getHeader("User-Agent");
+            this.ip = request.getRemoteAddr();
+            
 	    // Call the webservice
 	    Question question = getQuestion(rh.getToken(),Integer.parseInt(request.getParameter("idEdited")));
 	    
@@ -97,6 +103,7 @@ public class GetEditedQuestion extends HttpServlet {
 	// Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
 	// If the calling of port operations may lead to race condition some synchronization is required.
 	service.StackExchangeService port = service.getStackExchangeServicePort();
+        SOAPHeaderHandler.registerHeader(port, this.useragent, this.ip);
 	return port.getQuestion(token, qid);
     }
 
