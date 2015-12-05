@@ -53,42 +53,58 @@ public class Handler extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-          String tokenStr = request.getParameter("token");
+        String tokenStr = request.getParameter("token");
+        String userAgent = request.getHeader("user-agent");
+        String userIP = request.getRemoteAddr();
 
-          Token token= new Token();
-          TokenAdapter tadb = new TokenAdapter();
+        TokenExtractor TokExt= new TokenExtractor();
 
-          try {
-              token = tadb.getTokenToken(tokenStr);
-              if((token.getEmail()).isEmpty()){//token tidak ditemukan
-                  response.sendError(404, "token is invalid");
-              } else {//token ditemukan
+        String[] tokenData = TokExt.getParams(tokenStr, 2);
+        String tokenAgent = tokenData[0];
+        String tokenIP = tokenData[1];
 
-                  Date current = new Date();
-                  Date expired = new Date((token.getExpired()).getTime());
-                  if(current.after(expired)){//token kadaluarsa
-                      response.sendError(404, "token is expired");
-                  } else {//token masih available
-                      response.setContentType("application/xml");
-                      PrintWriter printWriter;
-                      try {
-                          printWriter = response.getWriter();
-                          printWriter.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-                          printWriter.println("<root>");
-                          printWriter.print("<email>");
-                          printWriter.print(token.getEmail());
-                          printWriter.println("</email>");
-                          printWriter.println("</root>");
-                          printWriter.flush();
-                      } catch (IOException e) {
 
-                      }
-                  }
-              }
-          } catch (Exception ex) {
-              Logger.getLogger(Handler.class.getName()).log(Level.SEVERE, null, ex);
-          }
+        if(!userIP.equals(tokenIP)){
+            response.sendError(402, "IP is different ");
+        } else {
+            if(!userAgent.equals(tokenAgent)){
+                response.sendError(402, "User-agent is different");
+            } else{
+                Token token= new Token();
+                TokenAdapter tadb = new TokenAdapter();
 
+                try {
+                    token = tadb.getTokenToken(tokenStr);
+                    if((token.getEmail()).isEmpty()){//token tidak ditemukan
+                        response.sendError(404, "token is invalid");
+                    } else {//token ditemukan
+
+                        Date current = new Date();
+                        Date expired = new Date((token.getExpired()).getTime());
+                        if(current.after(expired)){//token kadaluarsa
+                            response.sendError(404, "token is expired");
+                        } else {//token masih available
+                            response.setContentType("application/xml");
+                            PrintWriter printWriter;
+                            try {
+                                printWriter = response.getWriter();
+                                printWriter.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                                printWriter.println("<root>");
+                                printWriter.print("<email>");
+                                printWriter.print(token.getEmail());
+                                printWriter.println("</email>");
+                                printWriter.println("</root>");
+                                printWriter.flush();
+                            } catch (IOException e) {
+
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(Handler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+       }
     }
 
     /**
