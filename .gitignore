@@ -15,6 +15,7 @@
 *.MF
 *.xsd
 *.wsdl
+*.class
 IdentityServices/nbproject/ant-deploy.xml
 IdentityServices/nbproject/build-impl.xml
 IdentityServices/nbproject/project.xml
@@ -32,3 +33,7 @@ StackExchange WebService/nbproject/jaxws-build.xml
 StackExchange WebService/nbproject/jax-ws.xml
 StackExchange WebService/nbproject/ant-deploy.xml
 StackExchange WebService/nbproject/build-impl.xml
+*.dpf
+*.dpf
+VoteAndCommand Service/build/web/gfv3ee6.dpf
+VoteAndCommand Service/build/web/gfv3ee6.dpf

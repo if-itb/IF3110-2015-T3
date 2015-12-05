@@ -5,21 +5,58 @@
  */
 package comment;
 
+import database.Database;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
  * @author William Sentosa
  */
-@WebServlet(name = "Comment", urlPatterns = {"/Comment"})
-public class Comment extends HttpServlet {
-
+@WebServlet(name = "GetComment", urlPatterns = {"/GetComment"})
+public class GetComment extends HttpServlet {
+    private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
+    
+    private String getCommentByAnswerId(int id) {
+        String result = null;
+        String query = "SELECT * FROM comment WHERE answer_id = " + id;
+        JSONObject json = new JSONObject();
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        Database database = new Database();
+        database.connect(path);
+        ResultSet rs = database.fetchData(query);
+        try {
+            while(rs.next()) {
+                JSONObject temp = new JSONObject();
+                temp.put("content", rs.getString("comment_content"));
+                temp.put("user_name",rs.getString("user_name"));
+                list.add(temp);
+            }
+            rs.close();
+            json.put("comment", list);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddComment.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetComment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database.closeDatabase();
+        result = json.toString();
+        return result;
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,9 +68,12 @@ public class Comment extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+            int id = Integer.parseInt(request.getParameter("id"));
+            String result = getCommentByAnswerId(id);
+            response.getWriter().write(result);
         }
     }
 
