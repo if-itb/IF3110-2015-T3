@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 package com.dazzlesquad.user_package;
-
-import javax.xml.bind.*;
+import org.apache.commons.codec.binary.Hex;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.annotation.*;
+import org.apache.commons.codec.digest.DigestUtils;
 
 @XmlRootElement(name="User")
 /**
@@ -37,7 +39,8 @@ public class User {
         this.id= nid;
         this.name = nname;
         this.email = nemail;
-        this.password = npass;
+        this.password = DigestUtils.sha1Hex(npass);
+        //this.password = npass;
     }
     
     public int getUserId() {
@@ -65,7 +68,8 @@ public class User {
     }
     
     public void setUserPassword(String password){
-        this.password = password;
+        this.password = DigestUtils.sha1Hex(password);
+        //this.password = password;
     }
     
 }

@@ -62,21 +62,19 @@ public class Login extends HttpServlet {
                 ip_address = request.getRemoteAddr();
             }
             
-            System.out.println(user_agent);
             System.out.println(ip_address);
             try {      
                 Statement statement = conn.createStatement();
                 String select_user;
 
-                select_user = "SELECT * FROM user WHERE email = ? AND password = ?";
+                select_user = "SELECT * FROM user WHERE email = ? AND password = SHA1(?)";
                 PreparedStatement dbStatement = conn.prepareStatement(select_user);
                 dbStatement.setString(1, email);
                 dbStatement.setString(2, password);
 
                 ResultSet result = dbStatement.executeQuery();
                 if(result.next()){
-                    //String token = email + 'a';
-
+                    
                     Calendar date = Calendar.getInstance();
                     long delta = date.getTimeInMillis();
                     Date exp_date = new Date(delta + (3 * 60000));

@@ -5,6 +5,7 @@
         <group/>
         <group name="stack-clone-service-advanced">
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/EditQuestion.java</file>
+            <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddQuestion.java</file>
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddAnswer.java</file>
             <file>file:/D:/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/QuestionServlet.java</file>
         </group>

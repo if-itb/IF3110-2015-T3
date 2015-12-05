@@ -7,6 +7,7 @@ package com.dazzlesquad.user_package;
 
 import com.dazzlesquad.database_console.DBConnect;
 import com.dazzlesquad.answer_package.Answer;
+import java.security.MessageDigest;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -49,7 +50,7 @@ public class UserWS {
             ResultSet result = dbStatement.executeQuery();
             
             if (result.next())
-            {
+            {  
                userResult = new User(result.getInt("id"), result.getString("name"), result.getString("email"), result.getString("password")); 
             }
             else {
@@ -91,7 +92,7 @@ public class UserWS {
             if (insertsuccessful == 1) {
                 Statement statement2 = conn.createStatement();
                 String sql2;
-                sql2 = "INSERT INTO User (name, email, password) VALUES (?,?,?)";
+                sql2 = "INSERT INTO User (name, email, password) VALUES (?, ?, SHA1(?))";
 
                 PreparedStatement dbStatement2 = conn.prepareStatement(sql2);
                 dbStatement2.setString(1, user.getUserName());
