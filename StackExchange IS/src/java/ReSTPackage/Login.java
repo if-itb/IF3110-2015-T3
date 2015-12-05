@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import org.json.simple.JSONObject;
  * @author adar
  */
 public class Login extends HttpServlet {
+    
     DB db = new DB();
     Connection conn = DB.connect();
     /**
@@ -62,8 +64,13 @@ public class Login extends HttpServlet {
             if (rs.next()) {
                 //Generate Token
                 Random rand = new Random();
-                rand.nextInt(1000);
-                String token = rand.toString() + rs.getString("username");
+                int randnum = rand.nextInt(1000);
+                String useragent = request.getHeader("user-agent");
+                String address = request.getHeader("X-Forwarded-For");
+                if (address == null) {
+                    address = request.getRemoteAddr();
+                }
+                String token = randnum + "#" + useragent + "#" + address;
                 
                 //Generate Expired Time
                 Calendar nowTime = Calendar.getInstance();

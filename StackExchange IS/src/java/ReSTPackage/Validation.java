@@ -74,16 +74,43 @@ public class Validation extends HttpServlet {
                     DateFormat dForm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date expiredTime = dForm.parse(rs.getString("time_expire"));
                     Date nowTime = new Date();
-              
+
+                    String useragent = request.getHeader("user-agent");
+                    String address = request.getHeader("X-Forwarded-For");
+                    if (address == null) {
+                        address = request.getRemoteAddr();
+                    }
+                    
+                    String tokenReal = rs.getString("token");
+                    String[] tokenParse = tokenReal.split("#");
+                    
+                    // Cek Expired Token
                     if (nowTime.after(expiredTime)) {
-                        obj.put("message", "expired");
+                        obj.put("time", "expired");
                     } else {
-                        obj.put("message", "valid");
+                        obj.put("time", "valid");
                     }
               
+
+                    // Cek User Agent
+                    if (!tokenParse[1].equals(useragent)) {
+                        obj.put("useragent", "invalid");
+                    }
+                    else {
+                        obj.put("useragent", "valid");
+                    }
+                    
+                    // Cek IP Address
+                    if (!tokenParse[2].equals(address)) {
+                        obj.put("address", "invalid");
+                    }
+                    else {
+                        obj.put("address", "valid");
+                    }
+                    
                     out.print(obj);
                 } else {
-                    obj.put("message", "invalid");
+                    obj.put("token", "invalid");
                     out.print(obj);
                 }
           
