@@ -23,9 +23,9 @@
                         $scope.comment = "";
                         var ahttp = $http;
                         
-                        $scope.submitComment = function(comment, ahttp) {
-                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment})).then(function(response) {
-                                return response;
+                        $scope.submitComment = function(comment, qid, ahttp) {
+                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment, qid:qid})).then(function(response) {
+                                $scope.comments.push(response.data.name + " " + response.data.comment + " " + response.data.time);
                             });
                             //$scope.comments.push(comment);
                             $scope.content = "";
@@ -122,7 +122,7 @@
                             out.println("{{comment}}");
                             out.println("</div>");
                             out.println("<div>");
-                            out.println("<input type='text' placeholder='Add a comment' ng-model='content' ng-keypress='$event.keyCode==13 && submitComment(content)' ><br><span style='font-size:8pt;'>Press Enter to submit</span>");
+                            out.println("<input type='text' placeholder='Add a comment' ng-model='content' ng-keypress='$event.keyCode==13 && submitComment(content, "+qidFromURL+")' ><br><span style='font-size:8pt;'>Press Enter to submit</span>");
                             out.println("</form>");
                             out.println("</div>");
                             out.println("</div>");

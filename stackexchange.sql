@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 11:44 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Generation Time: Dec 05, 2015 at 03:20 PM
+-- Server version: 5.6.21
+-- PHP Version: 5.5.19
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -27,18 +27,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `answers` (
-  `AnswerID` int(11) NOT NULL AUTO_INCREMENT,
+`AnswerID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
   `Votes` int(11) NOT NULL,
   `Answer` varchar(9999) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Datetime` datetime NOT NULL,
-  PRIMARY KEY (`AnswerID`),
-  UNIQUE KEY `AnswerID` (`AnswerID`),
-  KEY `QuestionID` (`QuestionID`),
-  KEY `AnswerID_2` (`AnswerID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+  `Datetime` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `answers`
@@ -64,13 +60,27 @@ INSERT INTO `answers` (`AnswerID`, `QuestionID`, `Votes`, `Answer`, `Name`, `Ema
 --
 
 CREATE TABLE IF NOT EXISTS `comments` (
-  `CommentID` int(11) NOT NULL AUTO_INCREMENT,
+`CommentID` int(11) NOT NULL,
   `QuestionID` int(11) NOT NULL,
   `Name` varchar(20) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Datetime` datetime NOT NULL,
-  PRIMARY KEY (`CommentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `Content` varchar(9999) NOT NULL,
+  `Datetime` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `comments`
+--
+
+INSERT INTO `comments` (`CommentID`, `QuestionID`, `Name`, `Content`, `Datetime`) VALUES
+(1, 37, 'Cliff', 'asdf', '2015-12-05 22:03:03'),
+(2, 37, 'Cliff', 'asdf', '2015-12-05 22:03:37'),
+(3, 37, 'Cliff', 'asdf', '2015-12-05 22:04:24'),
+(4, 37, 'Cliff', 'dssfsf', '2015-12-05 22:05:32'),
+(5, 37, 'Cliff', 'asdf', '2015-12-05 22:08:03'),
+(6, 37, 'Cliff', 'asdf', '2015-12-05 22:08:23'),
+(7, 37, 'Cliff', 'asdf', '2015-12-05 22:18:42'),
+(8, 37, 'Cliff', 'ggg', '2015-12-05 22:18:48'),
+(9, 37, 'Cliff', 'gggggg my friend', '2015-12-05 22:18:52');
 
 -- --------------------------------------------------------
 
@@ -79,17 +89,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
 --
 
 CREATE TABLE IF NOT EXISTS `questions` (
-  `QuestionID` int(11) NOT NULL AUTO_INCREMENT,
+`QuestionID` int(11) NOT NULL,
   `Votes` int(11) NOT NULL,
   `Answers` int(11) NOT NULL,
   `Topic` varchar(25) NOT NULL,
   `Question` varchar(9999) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Datetime` datetime NOT NULL,
-  PRIMARY KEY (`QuestionID`),
-  UNIQUE KEY `QuestionID` (`QuestionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=45 ;
+  `Datetime` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `questions`
@@ -110,13 +118,11 @@ INSERT INTO `questions` (`QuestionID`, `Votes`, `Answers`, `Topic`, `Question`, 
 --
 
 CREATE TABLE IF NOT EXISTS `sessions` (
-  `SessionID` int(11) NOT NULL AUTO_INCREMENT,
+`SessionID` int(11) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `AccessToken` varchar(500) NOT NULL,
-  `ExpiredDate` datetime NOT NULL,
-  PRIMARY KEY (`SessionID`),
-  UNIQUE KEY `SessionID` (`SessionID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=44 ;
+  `ExpiredDate` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sessions`
@@ -159,7 +165,8 @@ INSERT INTO `sessions` (`SessionID`, `Email`, `AccessToken`, `ExpiredDate`) VALU
 (37, 'tio', 'a8e9dc9d-145e-4be8-b1e3-b19181174931', '2015-12-05 15:31:54'),
 (41, 'tio', '845a7e5e-1a94-488f-9470-f6821ed1b99e', '2015-12-05 15:51:55'),
 (42, 'tio', '7d08fd10-5c6d-4662-8b0a-42cf85e41ae6', '2015-12-05 15:55:41'),
-(43, 'tio', 'cbd1d4a7-24c1-4338-82a3-1eadbf41496f', '2015-12-05 15:58:01');
+(43, 'tio', 'cbd1d4a7-24c1-4338-82a3-1eadbf41496f', '2015-12-05 15:58:01'),
+(46, 'cliffsantoso@gmail.com', '7ef676df-d27f-4cd2-91c1-e1d0919c6522', '2015-12-05 20:12:05');
 
 -- --------------------------------------------------------
 
@@ -170,9 +177,7 @@ INSERT INTO `sessions` (`SessionID`, `Email`, `AccessToken`, `ExpiredDate`) VALU
 CREATE TABLE IF NOT EXISTS `upanswer` (
   `email` varchar(50) DEFAULT NULL,
   `IDAns` int(11) DEFAULT NULL,
-  `totalVote` int(11) DEFAULT NULL,
-  KEY `IDAns` (`IDAns`),
-  KEY `email` (`email`)
+  `totalVote` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -197,9 +202,7 @@ INSERT INTO `upanswer` (`email`, `IDAns`, `totalVote`) VALUES
 CREATE TABLE IF NOT EXISTS `upquestion` (
   `email` varchar(50) NOT NULL,
   `IDQuestion` int(11) DEFAULT NULL,
-  `totalVote` int(11) DEFAULT NULL,
-  KEY `IDQuestion` (`IDQuestion`),
-  KEY `email` (`email`)
+  `totalVote` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -223,15 +226,11 @@ INSERT INTO `upquestion` (`email`, `IDQuestion`, `totalVote`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `UserID` int(11) NOT NULL AUTO_INCREMENT,
+`UserID` int(11) NOT NULL,
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Password` varchar(20) NOT NULL,
-  PRIMARY KEY (`UserID`),
-  UNIQUE KEY `UserID` (`UserID`),
-  KEY `UserID_2` (`UserID`),
-  KEY `Email` (`Email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `Password` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
@@ -244,6 +243,81 @@ INSERT INTO `users` (`UserID`, `Name`, `Email`, `Password`) VALUES
 (5, 'tio', 'tio', 'tiotio');
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `answers`
+--
+ALTER TABLE `answers`
+ ADD PRIMARY KEY (`AnswerID`), ADD UNIQUE KEY `AnswerID` (`AnswerID`), ADD KEY `QuestionID` (`QuestionID`), ADD KEY `AnswerID_2` (`AnswerID`);
+
+--
+-- Indexes for table `comments`
+--
+ALTER TABLE `comments`
+ ADD PRIMARY KEY (`CommentID`);
+
+--
+-- Indexes for table `questions`
+--
+ALTER TABLE `questions`
+ ADD PRIMARY KEY (`QuestionID`), ADD UNIQUE KEY `QuestionID` (`QuestionID`);
+
+--
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+ ADD PRIMARY KEY (`SessionID`), ADD UNIQUE KEY `SessionID` (`SessionID`);
+
+--
+-- Indexes for table `upanswer`
+--
+ALTER TABLE `upanswer`
+ ADD KEY `IDAns` (`IDAns`), ADD KEY `email` (`email`);
+
+--
+-- Indexes for table `upquestion`
+--
+ALTER TABLE `upquestion`
+ ADD KEY `IDQuestion` (`IDQuestion`), ADD KEY `email` (`email`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+ ADD PRIMARY KEY (`UserID`), ADD UNIQUE KEY `UserID` (`UserID`), ADD KEY `UserID_2` (`UserID`), ADD KEY `Email` (`Email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `answers`
+--
+ALTER TABLE `answers`
+MODIFY `AnswerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `comments`
+--
+ALTER TABLE `comments`
+MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `questions`
+--
+ALTER TABLE `questions`
+MODIFY `QuestionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+--
+-- AUTO_INCREMENT for table `sessions`
+--
+ALTER TABLE `sessions`
+MODIFY `SessionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
 -- Constraints for dumped tables
 --
 
@@ -251,21 +325,21 @@ INSERT INTO `users` (`UserID`, `Name`, `Email`, `Password`) VALUES
 -- Constraints for table `answers`
 --
 ALTER TABLE `answers`
-  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`QuestionID`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`QuestionID`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `upanswer`
 --
 ALTER TABLE `upanswer`
-  ADD CONSTRAINT `upanswer_ibfk_1` FOREIGN KEY (`IDAns`) REFERENCES `answers` (`AnswerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `upanswer_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `upanswer_ibfk_1` FOREIGN KEY (`IDAns`) REFERENCES `answers` (`AnswerID`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `upanswer_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `upquestion`
 --
 ALTER TABLE `upquestion`
-  ADD CONSTRAINT `upquestion_ibfk_1` FOREIGN KEY (`IDQuestion`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `upquestion_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `upquestion_ibfk_1` FOREIGN KEY (`IDQuestion`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `upquestion_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
