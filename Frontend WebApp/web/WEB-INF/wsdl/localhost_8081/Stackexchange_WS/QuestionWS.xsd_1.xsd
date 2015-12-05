@@ -57,19 +57,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="hasUserVoteQuestion">
-<xs:sequence>
-<xs:element name="qid" type="xs:int"/>
-<xs:element name="uid" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="hasUserVoteQuestionResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:boolean"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getQuestions">
 <xs:sequence/>
 </xs:complexType>
@@ -88,6 +75,19 @@
 </xs:complexType>
 
 <xs:complexType name="deleteQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasUserVoteQuestion">
+<xs:sequence>
+<xs:element name="qid" type="xs:int"/>
+<xs:element name="uid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasUserVoteQuestionResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
