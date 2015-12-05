@@ -32,6 +32,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>Check Complete Token API</servlet-name>
+        <servlet-class>org.stackexchange.identityservice.controller.TokenCompleteCheckServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>Get User API</servlet-name>
         <servlet-class>org.stackexchange.identityservice.controller.UserApiServlet</servlet-class>
     </servlet>
@@ -58,7 +63,12 @@
     
     <servlet-mapping>
         <servlet-name>Check Token API</servlet-name>
-        <giturl-pattern>/api/token/check</giturl-pattern>
+        <url-pattern>/api/token/check</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Check Complete Token API</servlet-name>
+        <url-pattern>/api/token/all/check</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
