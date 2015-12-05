@@ -27,21 +27,24 @@ public interface AnswerWS {
 
     /**
      * 
-     * @param ansId
+     * @param qid
+     * @param content
      * @param token
      * @return
-     *     returns java.lang.String
+     *     returns int
      */
-    @WebMethod
+    @WebMethod(operationName = "InsertAnswer")
     @WebResult(name = "Answer", targetNamespace = "")
-    @RequestWrapper(localName = "downAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.DownAnswer")
-    @ResponseWrapper(localName = "downAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.DownAnswerResponse")
-    @Action(input = "http://AnswerModel/AnswerWS/downAnswerRequest", output = "http://AnswerModel/AnswerWS/downAnswerResponse")
-    public String downAnswer(
-        @WebParam(name = "AnsId", targetNamespace = "")
-        int ansId,
+    @RequestWrapper(localName = "InsertAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswer")
+    @ResponseWrapper(localName = "InsertAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswerResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/InsertAnswerRequest", output = "http://AnswerModel/AnswerWS/InsertAnswerResponse")
+    public int insertAnswer(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
         @WebParam(name = "token", targetNamespace = "")
-        String token);
+        String token,
+        @WebParam(name = "content", targetNamespace = "")
+        String content);
 
     /**
      * 
@@ -78,23 +81,20 @@ public interface AnswerWS {
 
     /**
      * 
-     * @param qid
-     * @param content
+     * @param ansId
      * @param token
      * @return
-     *     returns int
+     *     returns java.lang.String
      */
-    @WebMethod(operationName = "InsertAnswer")
+    @WebMethod
     @WebResult(name = "Answer", targetNamespace = "")
-    @RequestWrapper(localName = "InsertAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswer")
-    @ResponseWrapper(localName = "InsertAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.InsertAnswerResponse")
-    @Action(input = "http://AnswerModel/AnswerWS/InsertAnswerRequest", output = "http://AnswerModel/AnswerWS/InsertAnswerResponse")
-    public int insertAnswer(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
+    @RequestWrapper(localName = "downAnswer", targetNamespace = "http://AnswerModel/", className = "answermodel.DownAnswer")
+    @ResponseWrapper(localName = "downAnswerResponse", targetNamespace = "http://AnswerModel/", className = "answermodel.DownAnswerResponse")
+    @Action(input = "http://AnswerModel/AnswerWS/downAnswerRequest", output = "http://AnswerModel/AnswerWS/downAnswerResponse")
+    public String downAnswer(
+        @WebParam(name = "AnsId", targetNamespace = "")
+        int ansId,
         @WebParam(name = "token", targetNamespace = "")
-        String token,
-        @WebParam(name = "content", targetNamespace = "")
-        String content);
+        String token);
 
 }

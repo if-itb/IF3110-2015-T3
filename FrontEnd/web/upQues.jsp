@@ -12,6 +12,7 @@
     <BODY>
     <%-- start web service invocation --%><hr/>
     <%
+        int qid = Integer.parseInt(request.getParameter("id"));
             String token = request.getParameter("token");
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
@@ -24,7 +25,7 @@
                 out.println(result);*/
 
                 if (ts.after(result)) {
-                    String site = "http://localhost:8001/Identity/LoginRSServlet?token="+request.getParameter("token");
+                    String site = "http://localhost:8001//LoginRSServlet?token="+request.getParameter("token");
                     response.setStatus(response.SC_MOVED_TEMPORARILY);
                     response.setHeader("Location", site);
                 }
@@ -34,22 +35,16 @@
             }
         %>
     <%
-    try {
+
 	
 	 // TODO initialize WS operation arguments here
-	int qid = Integer.parseInt(request.getParameter("id"));
+	
         
 	// TODO process result here
-	String result = port.upQuestion(qid,token);
-	out.println("Result = "+result);
-        if (result.equals("0")){
-            out.println("<script>alert('you must login first to vote');</script>");
-        }
-    } catch (Exception ex) {
-	// TODO handle custom exceptions here
-    }
+	
+  
     
-    String site = "answer.jsp?id="+Integer.parseInt(request.getParameter("id")) +"&token=" + request.getParameter("token");
+    String site = "http://localhost:8001/VoteComment/VoteUpQuestionRSServlet?token="+request.getParameter("token")+"&qid="+qid;
     
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", site);

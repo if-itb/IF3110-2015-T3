@@ -16,23 +16,17 @@
 <message name="getQuestionSearchResponse">
 <part name="parameters" element="tns:getQuestionSearchResponse"/>
 </message>
+<message name="InsertQuestion">
+<part name="parameters" element="tns:InsertQuestion"/>
+</message>
+<message name="InsertQuestionResponse">
+<part name="parameters" element="tns:InsertQuestionResponse"/>
+</message>
 <message name="updateQuestion">
 <part name="parameters" element="tns:updateQuestion"/>
 </message>
 <message name="updateQuestionResponse">
 <part name="parameters" element="tns:updateQuestionResponse"/>
-</message>
-<message name="downQuestion">
-<part name="parameters" element="tns:downQuestion"/>
-</message>
-<message name="downQuestionResponse">
-<part name="parameters" element="tns:downQuestionResponse"/>
-</message>
-<message name="getExpiredDate">
-<part name="parameters" element="tns:getExpiredDate"/>
-</message>
-<message name="getExpiredDateResponse">
-<part name="parameters" element="tns:getExpiredDateResponse"/>
 </message>
 <message name="getallQuestions">
 <part name="parameters" element="tns:getallQuestions"/>
@@ -40,17 +34,11 @@
 <message name="getallQuestionsResponse">
 <part name="parameters" element="tns:getallQuestionsResponse"/>
 </message>
-<message name="getQuestionbyID">
-<part name="parameters" element="tns:getQuestionbyID"/>
+<message name="getExpiredDate">
+<part name="parameters" element="tns:getExpiredDate"/>
 </message>
-<message name="getQuestionbyIDResponse">
-<part name="parameters" element="tns:getQuestionbyIDResponse"/>
-</message>
-<message name="InsertQuestion">
-<part name="parameters" element="tns:InsertQuestion"/>
-</message>
-<message name="InsertQuestionResponse">
-<part name="parameters" element="tns:InsertQuestionResponse"/>
+<message name="getExpiredDateResponse">
+<part name="parameters" element="tns:getExpiredDateResponse"/>
 </message>
 <message name="deleteQuestion">
 <part name="parameters" element="tns:deleteQuestion"/>
@@ -64,11 +52,11 @@
 <message name="getEmailResponse">
 <part name="parameters" element="tns:getEmailResponse"/>
 </message>
-<message name="upQuestion">
-<part name="parameters" element="tns:upQuestion"/>
+<message name="getQuestionbyID">
+<part name="parameters" element="tns:getQuestionbyID"/>
 </message>
-<message name="upQuestionResponse">
-<part name="parameters" element="tns:upQuestionResponse"/>
+<message name="getQuestionbyIDResponse">
+<part name="parameters" element="tns:getQuestionbyIDResponse"/>
 </message>
 <portType name="QuestionWS">
 <operation name="getName">
@@ -79,29 +67,21 @@
 <input wsam:Action="http://QuestionModel/QuestionWS/getQuestionSearchRequest" message="tns:getQuestionSearch"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getQuestionSearchResponse" message="tns:getQuestionSearchResponse"/>
 </operation>
+<operation name="InsertQuestion">
+<input wsam:Action="http://QuestionModel/QuestionWS/InsertQuestionRequest" message="tns:InsertQuestion"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/InsertQuestionResponse" message="tns:InsertQuestionResponse"/>
+</operation>
 <operation name="updateQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/updateQuestionRequest" message="tns:updateQuestion"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/updateQuestionResponse" message="tns:updateQuestionResponse"/>
-</operation>
-<operation name="downQuestion">
-<input wsam:Action="http://QuestionModel/QuestionWS/downQuestionRequest" message="tns:downQuestion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/downQuestionResponse" message="tns:downQuestionResponse"/>
-</operation>
-<operation name="getExpiredDate">
-<input wsam:Action="http://QuestionModel/QuestionWS/getExpiredDateRequest" message="tns:getExpiredDate"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/getExpiredDateResponse" message="tns:getExpiredDateResponse"/>
 </operation>
 <operation name="getallQuestions">
 <input wsam:Action="http://QuestionModel/QuestionWS/getallQuestionsRequest" message="tns:getallQuestions"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getallQuestionsResponse" message="tns:getallQuestionsResponse"/>
 </operation>
-<operation name="getQuestionbyID">
-<input wsam:Action="http://QuestionModel/QuestionWS/getQuestionbyIDRequest" message="tns:getQuestionbyID"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/getQuestionbyIDResponse" message="tns:getQuestionbyIDResponse"/>
-</operation>
-<operation name="InsertQuestion">
-<input wsam:Action="http://QuestionModel/QuestionWS/InsertQuestionRequest" message="tns:InsertQuestion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/InsertQuestionResponse" message="tns:InsertQuestionResponse"/>
+<operation name="getExpiredDate">
+<input wsam:Action="http://QuestionModel/QuestionWS/getExpiredDateRequest" message="tns:getExpiredDate"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getExpiredDateResponse" message="tns:getExpiredDateResponse"/>
 </operation>
 <operation name="deleteQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionRequest" message="tns:deleteQuestion"/>
@@ -111,9 +91,9 @@
 <input wsam:Action="http://QuestionModel/QuestionWS/getEmailRequest" message="tns:getEmail"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getEmailResponse" message="tns:getEmailResponse"/>
 </operation>
-<operation name="upQuestion">
-<input wsam:Action="http://QuestionModel/QuestionWS/upQuestionRequest" message="tns:upQuestion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/upQuestionResponse" message="tns:upQuestionResponse"/>
+<operation name="getQuestionbyID">
+<input wsam:Action="http://QuestionModel/QuestionWS/getQuestionbyIDRequest" message="tns:getQuestionbyID"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/getQuestionbyIDResponse" message="tns:getQuestionbyIDResponse"/>
 </operation>
 </portType>
 <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
@@ -136,25 +116,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="InsertQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="updateQuestion">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="downQuestion">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getExpiredDate">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -172,16 +143,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getQuestionbyID">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="InsertQuestion">
+<operation name="getExpiredDate">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -208,7 +170,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="upQuestion">
+<operation name="getQuestionbyID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

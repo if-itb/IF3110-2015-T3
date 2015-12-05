@@ -29,8 +29,6 @@ public class ObjectFactory {
     private final static QName _GetEmail_QNAME = new QName("http://QuestionModel/", "getEmail");
     private final static QName _Question_QNAME = new QName("http://QuestionModel/", "Question");
     private final static QName _GetExpiredDateResponse_QNAME = new QName("http://QuestionModel/", "getExpiredDateResponse");
-    private final static QName _UpQuestion_QNAME = new QName("http://QuestionModel/", "upQuestion");
-    private final static QName _DownQuestion_QNAME = new QName("http://QuestionModel/", "downQuestion");
     private final static QName _GetQuestionSearch_QNAME = new QName("http://QuestionModel/", "getQuestionSearch");
     private final static QName _InsertQuestionResponse_QNAME = new QName("http://QuestionModel/", "InsertQuestionResponse");
     private final static QName _GetQuestionSearchResponse_QNAME = new QName("http://QuestionModel/", "getQuestionSearchResponse");
@@ -42,8 +40,6 @@ public class ObjectFactory {
     private final static QName _DeleteQuestionResponse_QNAME = new QName("http://QuestionModel/", "deleteQuestionResponse");
     private final static QName _GetQuestionbyIDResponse_QNAME = new QName("http://QuestionModel/", "getQuestionbyIDResponse");
     private final static QName _GetName_QNAME = new QName("http://QuestionModel/", "getName");
-    private final static QName _UpQuestionResponse_QNAME = new QName("http://QuestionModel/", "upQuestionResponse");
-    private final static QName _DownQuestionResponse_QNAME = new QName("http://QuestionModel/", "downQuestionResponse");
     private final static QName _GetNameResponse_QNAME = new QName("http://QuestionModel/", "getNameResponse");
     private final static QName _GetallQuestions_QNAME = new QName("http://QuestionModel/", "getallQuestions");
     private final static QName _GetallQuestionsResponse_QNAME = new QName("http://QuestionModel/", "getallQuestionsResponse");
@@ -69,22 +65,6 @@ public class ObjectFactory {
      */
     public GetName createGetName() {
         return new GetName();
-    }
-
-    /**
-     * Create an instance of {@link UpQuestionResponse }
-     * 
-     */
-    public UpQuestionResponse createUpQuestionResponse() {
-        return new UpQuestionResponse();
-    }
-
-    /**
-     * Create an instance of {@link DownQuestionResponse }
-     * 
-     */
-    public DownQuestionResponse createDownQuestionResponse() {
-        return new DownQuestionResponse();
     }
 
     /**
@@ -208,22 +188,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpQuestion }
-     * 
-     */
-    public UpQuestion createUpQuestion() {
-        return new UpQuestion();
-    }
-
-    /**
-     * Create an instance of {@link DownQuestion }
-     * 
-     */
-    public DownQuestion createDownQuestion() {
-        return new DownQuestion();
-    }
-
-    /**
      * Create an instance of {@link GetQuestionSearch }
      * 
      */
@@ -282,24 +246,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://QuestionModel/", name = "getExpiredDateResponse")
     public JAXBElement<GetExpiredDateResponse> createGetExpiredDateResponse(GetExpiredDateResponse value) {
         return new JAXBElement<GetExpiredDateResponse>(_GetExpiredDateResponse_QNAME, GetExpiredDateResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UpQuestion }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://QuestionModel/", name = "upQuestion")
-    public JAXBElement<UpQuestion> createUpQuestion(UpQuestion value) {
-        return new JAXBElement<UpQuestion>(_UpQuestion_QNAME, UpQuestion.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DownQuestion }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://QuestionModel/", name = "downQuestion")
-    public JAXBElement<DownQuestion> createDownQuestion(DownQuestion value) {
-        return new JAXBElement<DownQuestion>(_DownQuestion_QNAME, DownQuestion.class, null, value);
     }
 
     /**
@@ -399,24 +345,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://QuestionModel/", name = "getName")
     public JAXBElement<GetName> createGetName(GetName value) {
         return new JAXBElement<GetName>(_GetName_QNAME, GetName.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UpQuestionResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://QuestionModel/", name = "upQuestionResponse")
-    public JAXBElement<UpQuestionResponse> createUpQuestionResponse(UpQuestionResponse value) {
-        return new JAXBElement<UpQuestionResponse>(_UpQuestionResponse_QNAME, UpQuestionResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DownQuestionResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://QuestionModel/", name = "downQuestionResponse")
-    public JAXBElement<DownQuestionResponse> createDownQuestionResponse(DownQuestionResponse value) {
-        return new JAXBElement<DownQuestionResponse>(_DownQuestionResponse_QNAME, DownQuestionResponse.class, null, value);
     }
 
     /**

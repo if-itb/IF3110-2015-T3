@@ -58,6 +58,27 @@ public interface QuestionWS {
     /**
      * 
      * @param topic
+     * @param content
+     * @param token
+     * @return
+     *     returns int
+     */
+    @WebMethod(operationName = "InsertQuestion")
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "InsertQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.InsertQuestion")
+    @ResponseWrapper(localName = "InsertQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.InsertQuestionResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/InsertQuestionRequest", output = "http://QuestionModel/QuestionWS/InsertQuestionResponse")
+    public int insertQuestion(
+        @WebParam(name = "token", targetNamespace = "")
+        String token,
+        @WebParam(name = "topic", targetNamespace = "")
+        String topic,
+        @WebParam(name = "content", targetNamespace = "")
+        String content);
+
+    /**
+     * 
+     * @param topic
      * @param id
      * @param content
      * @return
@@ -78,21 +99,15 @@ public interface QuestionWS {
 
     /**
      * 
-     * @param qid
-     * @param token
      * @return
-     *     returns java.lang.String
+     *     returns java.util.List<questionmodel.Question>
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "downQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.DownQuestion")
-    @ResponseWrapper(localName = "downQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.DownQuestionResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/downQuestionRequest", output = "http://QuestionModel/QuestionWS/downQuestionResponse")
-    public String downQuestion(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
-        @WebParam(name = "token", targetNamespace = "")
-        String token);
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "getallQuestions", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetallQuestions")
+    @ResponseWrapper(localName = "getallQuestionsResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetallQuestionsResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getallQuestionsRequest", output = "http://QuestionModel/QuestionWS/getallQuestionsResponse")
+    public List<Question> getallQuestions();
 
     /**
      * 
@@ -108,54 +123,6 @@ public interface QuestionWS {
     public long getExpiredDate(
         @WebParam(name = "token", targetNamespace = "")
         String token);
-
-    /**
-     * 
-     * @return
-     *     returns java.util.List<questionmodel.Question>
-     */
-    @WebMethod
-    @WebResult(name = "Question", targetNamespace = "")
-    @RequestWrapper(localName = "getallQuestions", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetallQuestions")
-    @ResponseWrapper(localName = "getallQuestionsResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetallQuestionsResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/getallQuestionsRequest", output = "http://QuestionModel/QuestionWS/getallQuestionsResponse")
-    public List<Question> getallQuestions();
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns java.util.List<questionmodel.Question>
-     */
-    @WebMethod
-    @WebResult(name = "Question", targetNamespace = "")
-    @RequestWrapper(localName = "getQuestionbyID", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionbyID")
-    @ResponseWrapper(localName = "getQuestionbyIDResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionbyIDResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/getQuestionbyIDRequest", output = "http://QuestionModel/QuestionWS/getQuestionbyIDResponse")
-    public List<Question> getQuestionbyID(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
-
-    /**
-     * 
-     * @param topic
-     * @param content
-     * @param token
-     * @return
-     *     returns int
-     */
-    @WebMethod(operationName = "InsertQuestion")
-    @WebResult(name = "Question", targetNamespace = "")
-    @RequestWrapper(localName = "InsertQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.InsertQuestion")
-    @ResponseWrapper(localName = "InsertQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.InsertQuestionResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/InsertQuestionRequest", output = "http://QuestionModel/QuestionWS/InsertQuestionResponse")
-    public int insertQuestion(
-        @WebParam(name = "token", targetNamespace = "")
-        String token,
-        @WebParam(name = "topic", targetNamespace = "")
-        String topic,
-        @WebParam(name = "content", targetNamespace = "")
-        String content);
 
     /**
      * 
@@ -189,20 +156,17 @@ public interface QuestionWS {
 
     /**
      * 
-     * @param qid
-     * @param token
+     * @param id
      * @return
-     *     returns java.lang.String
+     *     returns java.util.List<questionmodel.Question>
      */
     @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "upQuestion", targetNamespace = "http://QuestionModel/", className = "questionmodel.UpQuestion")
-    @ResponseWrapper(localName = "upQuestionResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.UpQuestionResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/upQuestionRequest", output = "http://QuestionModel/QuestionWS/upQuestionResponse")
-    public String upQuestion(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
-        @WebParam(name = "token", targetNamespace = "")
-        String token);
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionbyID", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionbyID")
+    @ResponseWrapper(localName = "getQuestionbyIDResponse", targetNamespace = "http://QuestionModel/", className = "questionmodel.GetQuestionbyIDResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getQuestionbyIDRequest", output = "http://QuestionModel/QuestionWS/getQuestionbyIDResponse")
+    public List<Question> getQuestionbyID(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
 
 }
