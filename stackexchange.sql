@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.21, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.16, for Win32 (x86)
 --
 -- Host: localhost    Database: stackexchange
 -- ------------------------------------------------------
--- Server version	5.6.21
+-- Server version	5.6.16
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +32,7 @@ CREATE TABLE `answer` (
   PRIMARY KEY (`num_answer`),
   KEY `id_user` (`id_user`),
   CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,49,1,'JKT48','2015-11-17 22:01:27',0),(2,50,1,' kok bisa?','2015-11-22 21:28:47',1),(3,58,1,' Bukan ivan... Wilhelm','2015-11-23 21:12:45',0);
+INSERT INTO `answer` VALUES (1,49,1,'JKT48','2015-11-17 22:01:27',0),(2,50,1,' kok bisa?','2015-11-22 21:28:47',1),(3,58,1,' Bukan ivan... Wilhelm','2015-11-23 21:12:45',0),(6,47,1,'aaa','2015-12-05 13:08:07',0),(8,47,1,'bbb','2015-12-05 13:34:33',0),(10,47,1,'ccc','2015-12-05 13:50:03',0);
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +91,7 @@ CREATE TABLE `question` (
   PRIMARY KEY (`id_question`),
   KEY `id_user` (`id_user`),
   CONSTRAINT `question_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +100,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES (47,1,'Apakah CherryBelle itu unyu? Kalo iya kenapa?','2015-11-12 19:31:24','Keunyuan CherryBelle',1,0),(49,2,'Pilih CherryBelle atau JKT48?','2015-11-12 20:08:05','JKT48 vs CherryBelle',1,0),(50,1,'Gila','2015-11-16 04:42:44','Topik1',-1,1),(52,1,'halo apa kabar?','2015-11-16 12:38:44','kabar',1,0),(53,1,' test test','2015-11-22 11:14:52','Test',0,0),(56,1,'Apakah CherryBelle itu unyu? Kalo iya kenapa?','2015-11-22 20:41:07','',0,0),(57,10,' Apa itu Tusiri?','2015-11-23 11:42:18','Tusiri',0,0),(58,1,' Ivan','2015-11-23 21:12:16','Siapakah dia?',1,1);
+INSERT INTO `question` VALUES (47,1,'Apakah CherryBelle itu unyu? Kalo iya kenapa?','2015-11-12 19:31:24','Keunyuan CherryBelle',1,3),(49,2,'Pilih CherryBelle atau JKT48?','2015-11-12 20:08:05','JKT48 vs CherryBelle',1,0),(50,1,'Gila','2015-11-16 04:42:44','Topik1',-1,1),(52,1,'halo apa kabar?','2015-11-16 12:38:44','kabar',1,0),(53,1,' test test','2015-11-22 11:14:52','Test',0,0),(56,1,'Apakah CherryBelle itu unyu? Kalo iya kenapa?','2015-11-22 20:41:07','',0,0),(57,10,' Apa itu Tusiri?','2015-11-23 11:42:18','Tusiri',0,0),(58,1,' Ivan','2015-11-23 21:12:16','Siapakah dia?',1,1),(59,1,'Kon','2015-12-05 14:03:05','Gila',0,0);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +174,7 @@ CREATE TABLE `token` (
   `id_user` int(11) NOT NULL,
   `timestamp` datetime NOT NULL,
   `IP_Address` varchar(20) DEFAULT NULL,
-  `user_agent` varchar(50) DEFAULT NULL,
+  `user_agent` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`access_token`),
   UNIQUE KEY `access_token` (`access_token`),
   KEY `id_user` (`id_user`),
@@ -188,7 +188,7 @@ CREATE TABLE `token` (
 
 LOCK TABLES `token` WRITE;
 /*!40000 ALTER TABLE `token` DISABLE KEYS */;
-INSERT INTO `token` VALUES ('JdgmsAK8oE6UA6o3TDxc6ZnCsjP6TKQD7FNiuf1cRFOYnFad4o',1,'2015-11-24 13:58:11',NULL,NULL),('pOaTojbgCnl19Id7Eyvx1zM6XA0ikLJpfieEbJIdRLpS60wEZq',11,'2015-11-24 11:32:54',NULL,NULL);
+INSERT INTO `token` VALUES ('dywrXwpk5P10Uhs6o9GC6kjgnsTCG5zNPrDTxSqIIEMTlBdDEz',1,'2015-12-05 15:56:56','127.0.0.1','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'),('Fyu4MMh9ct3J48in7DuGKFVgkOxwKYlE2nFXrfrlCh1VKMxLPb',1,'2015-12-05 12:21:57','167.205.35.181','Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36'),('JdgmsAK8oE6UA6o3TDxc6ZnCsjP6TKQD7FNiuf1cRFOYnFad4o',1,'2015-11-24 13:58:11',NULL,NULL),('pOaTojbgCnl19Id7Eyvx1zM6XA0ikLJpfieEbJIdRLpS60wEZq',11,'2015-11-24 11:32:54',NULL,NULL);
 /*!40000 ALTER TABLE `token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,4 +229,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-12-05 10:50:30
+-- Dump completed on 2015-12-05 16:20:17
