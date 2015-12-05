@@ -1,7 +1,7 @@
 
 	<title><%= request.getParameter("pageTitle") %> | StackExchanges</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<base href="http://localhost:8082/WebClient/index.jsp"/>
+	
 	<script src="assets/js/jquery-1.11.3.min.js"></script>
     <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
     
@@ -48,6 +48,9 @@
 			}
 			
 			if((access_token != null) && (access_token.length()>0)){
+				String user_agent = request.getHeader("User-Agent");
+				String ip_adr = request.getRemoteAddr();
+				access_token += "#" + user_agent + "#" + ip_adr;
 				//check access_token validity to server
 				if((request.getParameter("needDeleteQuestion") != null) && (request.getParameter("needDeleteQuestion").equals("true"))){
 					%>

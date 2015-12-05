@@ -35,6 +35,9 @@
 
 		if((access_token != null) && (access_token.length()>0)){
 			//check access_token validity to server
+			String user_agent = request.getHeader("User-Agent");
+			String ip_adr = request.getRemoteAddr();
+			access_token += "#" + user_agent + "#" + ip_adr;
 %>
 		
 		<script>
@@ -94,12 +97,16 @@
       out.println("<h2>No cookies founds</h2>");
   }
 %>
+		<% String ip_adr = request.getRemoteAddr();
+		String user_agent = request.getHeader("User-Agent");
+		%>
         <script>
             $(document).ready(function(){
                 var url = "http://localhost:8081/REST-WS/rest/token";
                 $("#submitBtn").click(function(e) {
                     e.preventDefault();
-                    var formData = $("#loginForm").serialize();
+                    var tokenData = {ip_address:"<%=ip_adr%>",user_agent:"<%=user_agent%>"};
+                    var formData = $("#loginForm").serialize() + '&' + $.param(tokenData);
                     $.ajax({
                         url: url,
                         data: formData,

@@ -43,10 +43,17 @@ public class TokenValidity {
 		Connection conn = dbc.getConn();
 		try{
 			System.out.println(access_token);
-			String sql = "SELECT * FROM token WHERE access_token = ?";
-			
+			String[] token_data = access_token.split("#");
+			String token = token_data[0];
+			String user_agent = token_data[1];
+			String ip_address = token_data[2];
+			String sql = "SELECT * FROM token WHERE access_token = ? AND user_agent = ? AND ip_address = ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, access_token);
+			stmt.setString(1, token);
+			stmt.setString(2, user_agent);
+			stmt.setString(3, ip_address);
+			stmt.executeQuery();	
+			System.out.println("gila = " + stmt);
 	
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()){

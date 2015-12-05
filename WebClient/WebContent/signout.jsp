@@ -20,6 +20,9 @@
 			cookie = cookies[i];
 			if(cookie.getName().equals("access_token")){
 				access_token = cookie.getValue();
+				String user_agent = request.getHeader("User-Agent");
+				String ip_adr = request.getRemoteAddr();
+				access_token += "#" + user_agent + "#" + ip_adr;
 				break;
 			}
 		}
