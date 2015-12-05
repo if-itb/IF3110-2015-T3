@@ -52,14 +52,14 @@ public class AnswerModel {
                
                int affectedRows = stmt.executeUpdate();
                if (affectedRows == 0) {
-                   r = -3;
+                   r = -5;
                } else {
                     try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             r = generatedKeys.getInt(1);
                         }
                         else {
-                            r = -3;
+                            r = -5;
                         }
                     }
                }
@@ -67,11 +67,11 @@ public class AnswerModel {
                conn.close();
             } catch(SQLException se) {
                //Handle errors for JDBC
-               r = -3;
+               r = -5;
                se.printStackTrace();
             } catch(Exception e) {
                //Handle errors for Class.forName
-               r = -3;
+               r = -5;
                e.printStackTrace();
             } finally {
                //finally block used to close resources
@@ -115,7 +115,7 @@ public class AnswerModel {
                
                int affectedRows = stmt.executeUpdate();
                if (affectedRows == 0) {
-                   r = -3;
+                   r = -5;
                } else {
                    r = answerId;
                }
@@ -124,11 +124,11 @@ public class AnswerModel {
                conn.close();
             } catch(SQLException se) {
                //Handle errors for JDBC
-               r = -3;
+               r = -5;
                se.printStackTrace();
             } catch(Exception e) {
                //Handle errors for Class.forName
-               r = -3;
+               r = -5;
                e.printStackTrace();
             } finally {
                //finally block used to close resources
@@ -188,11 +188,11 @@ public class AnswerModel {
                 stmt.close();
                 conn.close();
             } catch(SQLException se) {
-               r = -3;
+               r = -5;
                //Handle errors for JDBC
                se.printStackTrace();
             } catch(Exception e) {
-               r = -3;
+               r = -5;
                //Handle errors for Class.forName
                e.printStackTrace();
             } finally {
@@ -217,6 +217,8 @@ public class AnswerModel {
     public static String delete(User user, int answerId) {
         String r = "ERROR";
         switch (user.isValid()) {
+            case -4: r = "DIFFERENT IP";
+            case -3: r = "DIFFERENT UA";
             case -2: r = "INVALID TOKEN";
             case -1: r = "EXPIRED TOKEN";
         }

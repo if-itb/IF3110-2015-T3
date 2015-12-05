@@ -1,5 +1,7 @@
 package models;
 
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -11,6 +13,7 @@ public class Question {
     private String content;
     private String createDate;
     private String title;
+    private String userName;
     private Integer userId;
     private Integer vote;
 
@@ -19,6 +22,7 @@ public class Question {
         this.content = data.get("content");
         this.createDate = data.get("createDate");
         this.title = data.get("title");
+        this.userName = data.get("userName");
         this.userId = Integer.parseInt(data.get("userId"));
         this.vote = Integer.parseInt(data.get("vote"));
     }
@@ -45,5 +49,24 @@ public class Question {
 
     public Integer getId(){
         return id;
+    }
+
+    @Override
+    public String toString() {
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject();
+            jsonObject.put("id", this.id);
+            jsonObject.put("content", this.content);
+            jsonObject.put("title", this.title);
+            jsonObject.put("author_id", this.userId);
+            jsonObject.put("vote", this.vote);
+            jsonObject.put("create_time", this.createDate);
+            jsonObject.put("author_name", this.userName);
+        } catch (Exception e){
+
+        }
+
+        return jsonObject.toString();
     }
 }

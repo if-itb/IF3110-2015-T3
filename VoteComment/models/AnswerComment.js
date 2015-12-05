@@ -14,7 +14,16 @@ connection.query('USE stackx');
 var answerComment = {};
 
 answerComment.getById = function(id, callback) {
-    connection.query('SELECT comment_id, answer_id, user_id, content, create_date FROM comment_answer WHERE comment_id=?', [id], function(err, results) {
+    var sql = 'SELECT comment_id, answer_id, a.user_id AS user_id, u.name AS user_name, content, a.create_date, SUM(vote) AS vote' +
+        ' FROM (' +
+            ' SELECT c.comment_id AS comment_id, c.answer_id AS answer_id, c.user_id AS user_id, content, create_date, IFNULL( v.value, 0 ) AS vote' +
+            ' FROM comment_answer AS c' +
+            ' LEFT OUTER JOIN vote_comment_answer AS v ON c.comment_id = v.comment_id' +
+        ' ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id' +
+        ' WHERE comment_id=?' +
+        ' GROUP BY comment_id';
+
+    connection.query(sql, [id], function(err, results) {
         var resp;
         if (err) {
             resp = Response(err.errno, err.message, {});
@@ -62,10 +71,13 @@ answerComment.vote = function(req, callback) {
                 var resp;
                 if (err) {
                     resp = Response(err.errno, err.message, {});
+                    callback(resp);
                 } else {
-                    resp = Response(Const.STATUS_OK, '', results);
+                    answerComment.getById(req.commentId, function(r) {
+                        resp = r;
+                        callback(resp);
+                    });
                 }
-                callback(resp);
             });
         } else {
             if (results[0].value !== req.value) {
@@ -74,13 +86,16 @@ answerComment.vote = function(req, callback) {
                     var resp;
                     if (err) {
                         resp = Response(err.errno, err.message, {});
+                        callback(resp);
                     } else {
-                        resp = Response(Const.STATUS_OK, '', results);
+                        answerComment.getById(req.commentId, function(r) {
+                            resp = r;
+                            callback(resp);
+                        });
                     }
-                    callback(resp);
                 });
             } else {
-                callback(Response(1, 'You can only vote once.', {}));
+                callback(Response(Const.STATUS_ALREADY_VOTED, 'You can only vote once.', {}));
             }
         }
     })
@@ -94,13 +109,14 @@ answerComment.create = function(req, callback) {
     connection.query(sql, [req.answerId, req.userId, req.content], function(err,results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.message, {});
+            resp = Response(err.errno, err.message);
+            callback(resp);
         } else {
-            resp = Response(Const.STATUS_OK, '', results);
+            answerComment.getById(results.insertId, function(r) {
+                resp = r;
+                callback(resp);
+            });
         }
-        callback(resp);
-
-        return results;
     })
 }
 

@@ -33,24 +33,35 @@ public class AnswerCreate extends HttpServlet {
         // Get soap response
         String responseCode = XmlParser.checkResponse(requestResponse);
 
+        System.out.println(responseCode);
+
         if (responseCode.equals("success")){
             response.setContentType("text/html;charset=UTF-8");
-            response.sendRedirect("/?token=" + request.getParameter("token"));
+//            response.sendRedirect("/?token=" + request.getParameter("token"));
 //            request.getRequestDispatcher("/views/index.jsp").forward(request, response);
             return;
         } else if (responseCode.equals("expired")){
-            response.sendRedirect("/login");
+            System.out.println("-- LOGIN");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("{\"expired\" : true}");
+//            response.sendRedirect("/login");
             return;
         }
 
         if (request.getParameter("token") != null && !request.getParameter("token").isEmpty()){
+            System.out.println("-- ERROR");
+            response.getWriter().write("{\"error\" : true}");
             response.setContentType("text/html;charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
-            request.setAttribute("error", "Internal Server Error");
-            request.getRequestDispatcher("/views/error.jsp").forward(request, response);
+//            request.setAttribute("error", "Internal Server Error");
+//            request.getRequestDispatcher("/views/error.jsp").forward(request, response);
         } else {
             response.setContentType("text/html;charset=UTF-8");
-            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            response.getWriter().write("{\"expired\" : true}");
+            System.out.println("-- LOGIN");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
         }
     }
 

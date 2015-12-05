@@ -21,7 +21,7 @@
     <%--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--%>
 </head>
 <body>
-<nav class="blue center-align" role="navigation">
+<nav class="red lighten-1 center-align" role="navigation">
     <a id="logo-container" href="/">Stack Exchange</a>
 </nav>
 
@@ -30,13 +30,13 @@
         <div class="row">
             <div class="col s12 m8 offset-m2">
                 <div class="card">
-                    <div class="card-content blue-text">
+                    <div class="card-content red-text">
                         <span class="card-title">Login</span>
                         <div class="row">
                             <div class="col s12">
                                 <div class="input-field">
                                     <input id="user-login-email" type="text" class="validate" name="email">
-                                    <label for="user-login-email">Email</label>
+                                    <label class="red-text" for="user-login-email">Email</label>
                                 </div>
                             </div>
                         </div>
@@ -44,13 +44,13 @@
                             <div class="col s12">
                                 <div class="input-field">
                                     <input id="user-register-pwd" type="password" class="validate" name="password">
-                                    <label for="user-register-pwd">Password</label>
+                                    <label class="red-text" for="user-register-pwd">Password</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-action center-align">
-                        <button type="submit" class="waves-effect btn blue">Login</button>
+                        <button type="submit" class="waves-effect btn red lighten-1">Login</button>
                     </div>
                 </div>
             </div>
