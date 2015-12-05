@@ -19,6 +19,7 @@
                         $scope.comments = [];
                         $scope.comment = "";
                         $scope.submitComment = function(comment) {
+                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet/", )
                             $scope.comments.push(comment);
                             $scope.content = "";
                         }

@@ -10,7 +10,7 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-                    <file>${libs.MySQLDriver.classpath}</file>
+                    <file>${file.reference.mysql-connector-java-5.1.23-bin.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -27,7 +27,7 @@
             </test-roots>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
-            <definitions>C:\Program Files\NetBeans 8.0.2\ide\modules\lib\nblibraries.properties</definitions>
+            <definitions>lib\nblibraries.properties</definitions>
         </libraries>
     </configuration>
 </project>
