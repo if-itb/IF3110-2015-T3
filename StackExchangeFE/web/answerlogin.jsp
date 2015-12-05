@@ -6,7 +6,31 @@
         <% String s = request.getParameter("id");%>
         
 	<head>
+                
 		<link rel="stylesheet" type="text/css" href="css/wbd.css">
+                <script src="angular.js" type="text/javascript"></script>
+                    <script>
+                        var app = angular.module('comment', []);
+                        app.config(function($httpProvider){
+                            $httpProvider.defaults.useXDomain = true;
+                        })
+                        app.controller('commentCtrl', function($scope,$http) {
+                            $scope.commentList=[];
+                            $scope.newComment="";
+                            $scope.myVar = true;
+                            $scope.toggle = function() {
+                                $scope.myVar = !$scope.myVar;
+                            };
+                            $scope.add = function(qid,uid,content,token) {
+                                var sendTo = "http://localhost:8082/StackExchangeREST/Comment"+"<%= request.getParameter("token") %>";
+                                var data = JSON.strigify({qid:qid,uid:uid,content:content,token:token});
+                                $http.post(sendTo,data).then(function(response){
+                                    $scope.commentList.push(response.data.error);
+                                });
+                                $scope.newComment="";
+                            };
+                        });
+                    </script>
 		<title>
 			answer - TuBes WBD
 		</title>
@@ -26,7 +50,7 @@
                                             StackExchange
                                     </a>
                                 <%}
-                                else
+                                else 
                                 {%>
                                     <a class="no-text-decoration" href="homepagelogin.jsp?token=<%=t%>">
                                             StackExchange
@@ -46,9 +70,10 @@
                         // TODO process result here
                         java.util.List<questionmodel.Question> result = port.getQuestion();
                         int id = port.getUserID(t);
+                        int qid = Integer.valueOf(s);
                         for (int i=0;i<result.size();i++) 
                         {
-                            if ( result.get(i).getQId() == Integer.valueOf(s))
+                            if ( result.get(i).getQId() == qid)
                             {      
                                 int count = port.getAnswerCount(result.get(i).getQId());
                                 out.println("<h1 class='text-left font30'>"+result.get(i).getQTopic()+"</h1>");
@@ -84,6 +109,21 @@
                                 out.println("</p>");
                                 out.println("<br><hr>");
                                 out.println("</tr>");
+                                out.println("<tr>");
+                                out.println("<td colspan='2'class='text-left'>");
+                                out.println("<div ng-app='comment' ng-controller='commentCtrl'>");
+                                out.println("<button class='button1' ng-click='toggle()'>Add Comment</button>");
+                                out.println("<p class='text-center' ng-hide='myVar'>");
+                                out.println("<input class='form-textbox2' type='text' Placeholder='Comment' ng-model='addComment'>");
+                                //out.println(id + " " + qid + " " + t);
+                                out.println("<input ng-model='content' ng-click='add("+qid+", "+id+", content, "+t+")' class='form-submit' type='submit' name='submit' value='Add'><br><br>");
+                                out.println("</p>");
+                                out.println("<div ng-repeat='newComment in commentList'>");
+                                out.println("{{newComment}}");
+                                out.println("</div>");
+                                out.println("</div>");
+                                out.println("</tr>");
+                                out.println("</table>");
                             }
                         }
                     }
@@ -92,6 +132,8 @@
                         // TODO handle custom exceptions here
                     }
                 %> 
+                
+                
                 
             <%-- end web service invocation --%>
                 
@@ -186,3 +228,4 @@
         </body>
         
 </html>
+
