@@ -1,0 +1,25 @@
+tempat: http://localhost:8082/CommentandVoteService
+
+----------------------------------------------------
+/Vote
+	GET:
+		parameters:
+			qid
+			aid (optional jika ingin lihat vote answer)
+		response:
+			status 200 OK. body sebaris integer jika berhasil.
+			status 400 BAD REQUEST bila ada parameter yang tidak ditemukan, body sebaris "UNSUPPLIED PARAMETER"
+			status 404 NOT FOUND bila question/answer tidak ditemukan
+
+	POST:
+		parameters:
+			qid
+			aid (optional (hanya untuk answer))
+			access_token
+			up     true/false
+		response:
+			status 201 CREATED jika berhasil.
+			status 400 BAD REQUEST bila ada parameter yang tidak ditemukan, body sebaris "UNSUPPLIED PARAMETER"
+			status 404 NOT FOUND bila question/answer tidak ditemukan
+			status 401 UNAUTHORIZED, body detail error, bila ada error dari identity service
+			
