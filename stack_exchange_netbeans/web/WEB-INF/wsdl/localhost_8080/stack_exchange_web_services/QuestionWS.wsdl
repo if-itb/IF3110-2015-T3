@@ -10,6 +10,12 @@
 <message name="updateResponse">
 <part name="parameters" element="tns:updateResponse"/>
 </message>
+<message name="delete">
+<part name="parameters" element="tns:delete"/>
+</message>
+<message name="deleteResponse">
+<part name="parameters" element="tns:deleteResponse"/>
+</message>
 <message name="insert">
 <part name="parameters" element="tns:insert"/>
 </message>
@@ -21,6 +27,12 @@
 </message>
 <message name="getAllResponse">
 <part name="parameters" element="tns:getAllResponse"/>
+</message>
+<message name="downvote">
+<part name="parameters" element="tns:downvote"/>
+</message>
+<message name="downvoteResponse">
+<part name="parameters" element="tns:downvoteResponse"/>
 </message>
 <message name="upvote">
 <part name="parameters" element="tns:upvote"/>
@@ -34,16 +46,14 @@
 <message name="getByIdResponse">
 <part name="parameters" element="tns:getByIdResponse"/>
 </message>
-<message name="downvote">
-<part name="parameters" element="tns:downvote"/>
-</message>
-<message name="downvoteResponse">
-<part name="parameters" element="tns:downvoteResponse"/>
-</message>
 <portType name="QuestionWS">
 <operation name="update">
 <input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/updateRequest" message="tns:update"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/updateResponse" message="tns:updateResponse"/>
+</operation>
+<operation name="delete">
+<input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/deleteRequest" message="tns:delete"/>
+<output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/deleteResponse" message="tns:deleteResponse"/>
 </operation>
 <operation name="insert">
 <input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/insertRequest" message="tns:insert"/>
@@ -53,6 +63,10 @@
 <input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/getAllRequest" message="tns:getAll"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/getAllResponse" message="tns:getAllResponse"/>
 </operation>
+<operation name="downvote">
+<input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/downvoteRequest" message="tns:downvote"/>
+<output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/downvoteResponse" message="tns:downvoteResponse"/>
+</operation>
 <operation name="upvote">
 <input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/upvoteRequest" message="tns:upvote"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/upvoteResponse" message="tns:upvoteResponse"/>
@@ -60,10 +74,6 @@
 <operation name="getById">
 <input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/getByIdRequest" message="tns:getById"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/getByIdResponse" message="tns:getByIdResponse"/>
-</operation>
-<operation name="downvote">
-<input wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/downvoteRequest" message="tns:downvote"/>
-<output wsam:Action="http://service.webservice.stackexchange.org/QuestionWS/downvoteResponse" message="tns:downvoteResponse"/>
 </operation>
 </portType>
 <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
@@ -77,6 +87,15 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="delete">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="insert">
 <soap:operation soapAction=""/>
 <input>
@@ -95,6 +114,15 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="downvote">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="upvote">
 <soap:operation soapAction=""/>
 <input>
@@ -105,15 +133,6 @@
 </output>
 </operation>
 <operation name="getById">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="downvote">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

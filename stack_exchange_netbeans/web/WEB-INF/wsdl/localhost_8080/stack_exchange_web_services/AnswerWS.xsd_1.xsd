@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://service.webservice.stackexchange.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://service.webservice.stackexchange.org/">
+
+<xs:element name="downvoteAnswer" type="tns:downvoteAnswer"/>
+
+<xs:element name="downvoteAnswerResponse" type="tns:downvoteAnswerResponse"/>
+
+<xs:element name="getByQuestionId" type="tns:getByQuestionId"/>
+
+<xs:element name="getByQuestionIdResponse" type="tns:getByQuestionIdResponse"/>
+
+<xs:element name="hello" type="tns:hello"/>
+
+<xs:element name="helloResponse" type="tns:helloResponse"/>
+
+<xs:element name="insertAnswer" type="tns:insertAnswer"/>
+
+<xs:element name="insertAnswerResponse" type="tns:insertAnswerResponse"/>
+
+<xs:element name="upvoteAnswer" type="tns:upvoteAnswer"/>
+
+<xs:element name="upvoteAnswerResponse" type="tns:upvoteAnswerResponse"/>
+
+<xs:complexType name="hello">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="helloResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getByQuestionId">
+<xs:sequence>
+<xs:element name="questionId" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getByQuestionIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertAnswer">
+<xs:sequence>
+<xs:element name="questionId" type="xs:long"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="upvoteAnswer">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="upvoteAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="downvoteAnswer">
+<xs:sequence>
+<xs:element name="id" type="xs:long"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="downvoteAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
