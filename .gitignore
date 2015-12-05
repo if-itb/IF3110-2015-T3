@@ -19,3 +19,5 @@ Frontend-WebApp/nbproject/project.properties
 Identity Service/nbproject/project.properties
 Stackexchange Webservice/nbproject/project.properties
 
+/CommentandVoteService/nbproject/private/
+/CommentandVoteService/build/
