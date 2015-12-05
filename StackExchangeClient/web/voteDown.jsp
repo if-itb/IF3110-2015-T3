@@ -15,7 +15,7 @@
             <%-- start web service invocation --%><hr/>
     <%
     try {
-	com.wbd.qst.QuestionWS_Service service = new com.wbd.qst.QuestionWS_Service();
+	/*com.wbd.qst.QuestionWS_Service service = new com.wbd.qst.QuestionWS_Service();
 	com.wbd.qst.QuestionWS port = service.getQuestionWSPort();
 	 // TODO initialize WS operation arguments here
 	java.lang.String accessToken = request.getParameter("token");
@@ -39,7 +39,7 @@
             String site = "error.jsp?id=3&token=" + accessToken;
             response.setStatus(response.SC_MOVED_TEMPORARILY);
             response.setHeader("Location", site);
-        }
+        }*/
     } catch (Exception ex) {
 	// TODO handle custom exceptions here
     }

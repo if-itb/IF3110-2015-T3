@@ -6,9 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html >
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -18,7 +18,8 @@
         <!-- Compiled and minified JavaScript -->
         
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script> 
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
                 
@@ -65,6 +66,7 @@
 </head>
 
     <body>
+        
         <%
         try {
             com.wbd.qst.QuestionWS_Service service = new com.wbd.qst.QuestionWS_Service();
@@ -83,13 +85,13 @@
             
             
                 String question = 
-                    
-                    "<div class='block-QA'>"
+ 
+                    "<div ng-app ='voteApp' ng-controller='voteController' class='block-QA'>"
 			+"<div class='bQA-vote'>"
                             +"<a href = voteUp.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
-                            +"<a class='vote-value' id='question_vote" + qid +"'>"
+                            +"<a class='vote-value' id='question_vote-" + qid +"'>"
 				+result.get(i).getVote()
                             +"</a>"
                             +"<br><br>"
@@ -115,8 +117,8 @@
                                 +"delete"
                             +"</a>"
 	    		+"</div>"
-	    	+"</div>"           
-                ;
+	    	+"</div>";
+                
                 String question_comment = 
                 "<div class='block-comment'>"
                     +"<div class='bc-content'>"
@@ -126,8 +128,8 @@
                             +"penanya"
                         +"</a>"
                     +"</div>"
-	    	+"</div>"           
-                ;
+	    	+"</div>";
+                
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
                 
@@ -138,7 +140,7 @@
             // TODO handle custom exceptions here
         }
         %>
-        
+   
         <%
         try {
             com.wbd.ans.AnswerWS_Service service = new com.wbd.ans.AnswerWS_Service();
@@ -173,7 +175,7 @@
                             +"<a href = voteUpAns.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "&ansid=" + result.get(i).getIDAns() + "><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
-                            +"<a class='vote-value' id='answer_vote" + "$row['answer_id']"+  "'>" + result.get(i).getVote()
+                            +"<a class='vote-value' id='answer_vote-"+ result.get(i).getIDAns() +"'>" + result.get(i).getVote()
                             +"</a>"
                             +"<br><br>"
                             +"<a href = voteDownAns.jsp?id=" + request.getParameter("id") + "&token=" + request.getParameter("token") + "&ansid=" + result.get(i).getIDAns() + "><div class='vote-down'>"
@@ -209,6 +211,8 @@
                 
             }
             out.write("</ul>");
+            
+            //out.write("<div ng-app='myApp' ng-controller='customersCtrl'> <ul><li ng-repeat='x in names'>{{ x.Name + ', ' + x.Country }}</li></ul></div>'");
         } catch (Exception ex) {
             // TODO handle custom exceptions here
         }
@@ -235,4 +239,48 @@
             </form>
           </div>
     </body>
+
+<div ng-app="myApp" ng-controller="customersCtrl"> 
+
+<ul>
+  <li ng-repeat="x in names">
+    {{ x.Name + ', ' + x.Country }}
+  </li>
+</ul>
+
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+  $http.get("http://www.w3schools.com/angular/customers.php")
+  .then(function (response) {$scope.names = response.data.records;});
+});
+</script>
+
+    <script>
+        var app = angular.module('voteApp',[]);
+        app.controller('voteController', function($scope,$http){
+            console.log("Luminto Homo");
+            var access_token = "<%= request.getParameter("token") %>";
+            var qid = "<%= request.getParameter("id") %>";
+            var data = {access_token: access_token ,question_id: qid , direction: 1  };
+            console.log("Access Token : " + access_token);
+            console.log("Question ID : " + qid);
+            console.log(data);
+            console.log(JSON.stringify(data));
+            $scope.voteUrl = "http://localhost:8082/StackExchange_IS/rest/voteQ";
+            
+            $http({
+                url: $scope.voteUrl,
+                data: data,
+                method: 'POST'
+            })
+            .then(function successCallback(response){
+                console.log("Success");
+            },function errorCallback(err){
+                console.log("Error : " + err);
+            });
+         
+        });
+    </script>
 </html>
