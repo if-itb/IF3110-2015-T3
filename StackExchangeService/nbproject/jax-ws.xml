@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services>
-    <service name="QuestionWS">
-      <implementation-class>QuestionModel.QuestionWS</implementation-class>
-    </service>
     <service name="AnswerWS">
       <implementation-class>AnswerModel.AnswerWS</implementation-class>
     </service>
-    <service name="UserWS">
-      <implementation-class>UserModel.UserWS</implementation-class>
+    <service name="QuestionWS">
+      <implementation-class>QuestionModel.QuestionWS</implementation-class>
+    </service>
+    <service name="UserWs">
+      <implementation-class>UserModel.UserWs</implementation-class>
     </service>
   </services>
   <clients/>

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package QuestionModel;
 
 
@@ -186,7 +191,6 @@ public class QuestionWS {
         
         return count;
     }
-    
     @WebMethod(operationName = "getAnswerById")
     public int getAnswerById(@WebParam(name = "qid") int qid) {
         int count= 0;
@@ -218,7 +222,6 @@ public class QuestionWS {
         
         return count;
     }
-    
     @WebMethod(operationName = "voteUp")
     public int voteUp(@WebParam(name = "qid") int qid,@WebParam(name = "token") String token ){
         int count;
@@ -261,7 +264,6 @@ public class QuestionWS {
         }
         return count;
     }
-    
     @WebMethod(operationName = "voteDown")
     public int voteDown(@WebParam(name = "qid") int qid,@WebParam(name = "token") String token ){
         int count;
@@ -333,7 +335,6 @@ public class QuestionWS {
         }
          return status;
     }
-    
     @WebMethod(operationName = "isVoted")
     public Boolean isVoted(@WebParam(name = "qid") int qid,@WebParam(name = "username") String username){
         Boolean status = false;
@@ -366,8 +367,7 @@ public class QuestionWS {
         }
         return status;
     }
-    
-    @WebMethod(operationName = "searchQuestion")
+     @WebMethod(operationName = "searchQuestion")
     public List<Question> searchQuestion(@WebParam(name = "keyword") String keyword){
         List<Question> questions = new ArrayList<Question>();
         conn = db.connect();
@@ -406,9 +406,8 @@ public class QuestionWS {
         }
         return questions;
     }
-    
     @WebMethod(operationName = "getUsernameByQid")
-    public String getUsernameByQid(@WebParam(name = "qid") int qid) {
+     public String getUsernameByQid(@WebParam(name = "qid") int qid) {
         conn = db.connect();
         String uname="";
         try {
@@ -438,7 +437,6 @@ public class QuestionWS {
         
         return uname;
     }
-    
     public Boolean isVoteUp(@WebParam(name = "qid") int qid,@WebParam(name = "username") String username){
         Boolean status = false;
         conn = db.connect();
