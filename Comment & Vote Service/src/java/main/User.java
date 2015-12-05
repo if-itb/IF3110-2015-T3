@@ -64,7 +64,7 @@ public class User {
   }
   
   // Method
-  User getUserFromIS(String token, String ipAddress, String userAgent, String urlString) {
+  public User getUserFromIS(String token, String ipAddress, String userAgent, String urlString) {
     User user = new User();
     
     try {
