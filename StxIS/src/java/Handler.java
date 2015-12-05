@@ -107,6 +107,15 @@ public class Handler extends HttpServlet {
         email = request.getParameter("email");
         pass = request.getParameter("pass");
 
+        String userAgent = request.getHeader("user-agent");
+        String userIP = request.getRemoteAddr();
+        String userData[]= {userAgent, userIP};
+
+
+
+        TokenGenerator tokGen = new TokenGenerator();
+        String tokenStr = tokGen.generateToken(userData);
+
         User clientUser = new User(email,pass);
         User dbUser = new User();
         UserAdapter uadb = new UserAdapter();
