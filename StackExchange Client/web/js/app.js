@@ -7,17 +7,25 @@
     }
     var app = angular.module('stackexchange', [ ]);
     
-    app.controller('commentController', [ '$http', function($http) {
-        var commentCtrl = this;
+    app.controller('questionController', [ '$http', function($http) {
+        var questionCtrl = this;
+        this.comments = [];
+        
         $http({
             url: "http://localhost:8080/StackExchange_Client/QuestionComment",
             method: "GET",
             params: {qid: getParameterByName("id")}
         }).success(function(data) {
-            if (!data.error) {
-                commentCtrl.commentItems = data;
+            if (!data[0].error) {
+                questionCtrl.comments = data;
             }
         });
-        
     }]);
+
+    app.controller('commentController', function() {
+       this.comment = {}; 
+       this.addComment = function(comments) {
+           comments.push(this.comment);
+       }
+    });
 })();

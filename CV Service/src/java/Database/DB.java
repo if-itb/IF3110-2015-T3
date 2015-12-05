@@ -20,7 +20,7 @@ public class DB {
 
   //  Database credentials
   static final String USER = "root";
-  static final String PASS = "default";
+  static final String PASS = "";
   
   public static Connection connect() {
     Connection ret = null;

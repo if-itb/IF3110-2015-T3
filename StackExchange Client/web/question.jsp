@@ -105,10 +105,19 @@
             </div> <!-- .row -->
             
             <div class="row">
-                <div class="comment col-10 col-push-2" ng-controller="commentController as comment">
-                    <div class="comment-item" ng-repeat="commentItem in comment.commentItems">
-                        <p>{{ commentItem.content }} - <span class="author">{{ commentItem.user }}</span></p>
+                <div class="comment col-10 col-push-2" ng-controller="questionController as question">
+                    <div class="comment-item" ng-repeat="comment in question.comments">
+                        <p>{{ comment.content }} - <span class="author">{{ comment.user }}</span></p>
                     </div>
+                    <% if (user != null) { %>
+                    <form name="commentForm" ng-controller="commentController as commentCtrl" ng-submit="commentCtrl.addComment(question.comments)">
+                        <p>{{ comment.content }}</p>
+                        <input ng-model="q_id" type="hidden" value="<%= question.getId() %>">
+                        <input ng-model="user" type="hidden" value="<%= user.getName() %>">
+                        <input ng-model="comment.content" type="text" placeholder="Your comment">
+                        <input type="submit" val    ue="Add comment">
+                    </form>
+                    <% } %>
                 </div>
             </div>
         </div> <!-- .question-item -->
