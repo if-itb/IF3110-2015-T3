@@ -26,18 +26,17 @@ public class Login extends HttpServlet {
 	    // Get the email, and password
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-	    
+            
             try (PrintWriter out = response.getWriter()) {
                 response.setContentType("application/xml;charset=UTF-8");
 		// Get user from database
                 User user = User.getUser(email, password);
-		
-		
+                
                 if (user !=null) {
 		    // User exist in database
 		    // Create new accessToken
                     AccessToken accessToken = new AccessToken(user.getEmail(), user.getName(), user.getId());
-		    
+                    
 		    // Return the XML of the access token object
 		    out.println(accessToken.toXML().trim());
 		    

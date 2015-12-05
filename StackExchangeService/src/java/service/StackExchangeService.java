@@ -19,6 +19,20 @@ import model.User;
 @WebService(serviceName = "StackExchangeService")
 public class StackExchangeService {
     
+    private int getUserId(String token) throws Exception {
+        Connection conn = ConnectDb.connect();
+        String sql = "select * from access_token where access_token = ? ";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setString(1, token);
+        ResultSet res = dbStatement.executeQuery();
+
+        int user_id = -1;
+        if (res.next()) {
+            user_id = res.getInt("user_id");
+        }
+        return user_id;
+    }
+    
     
     @WebMethod(operationName = "getAllQuestion")
     public ArrayList<Question> getAllQuestion() throws Exception {  
@@ -53,13 +67,13 @@ public class StackExchangeService {
             @WebParam(name = "qcontent") String qcontent,
             @WebParam(name = "token") String token
         ) throws Exception {
-	
 	String tokenStatus = isValidToken(token).trim();
 	if (null != tokenStatus) switch (tokenStatus) {
 	    case "valid":
-		Connection conn = ConnectDb.connect();
-		Statement stmt;
-		stmt = conn.createStatement();
+                int user_id = this.getUserId(token);
+                
+                Connection conn = ConnectDb.connect();
+		Statement stmt = conn.createStatement();
 		String sql = "select * from users where name = ? ";
 		PreparedStatement dbStatement = conn.prepareStatement(sql);
 		dbStatement.setString(1, name);
@@ -71,13 +85,14 @@ public class StackExchangeService {
 		}
 		
 		stmt = conn.createStatement();
-		sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at)" +
-			"values (null, ?,?,?,?,0,0,Now())";
+		sql = "insert into questions(qid, name, email, qtopic, qcontent, votes, answer_count, created_at, user_id)" +
+			"values (null, ?,?,?,?,0,0,Now(), ?)";
 		dbStatement = conn.prepareStatement(sql);
 		dbStatement.setString(1, name);
 		dbStatement.setString(2, email);
 		dbStatement.setString(3, qtopic);
 		dbStatement.setString(4, qcontent);
+                dbStatement.setInt(5, user_id);
 		int rs = dbStatement.executeUpdate();
 		return "success";
 	    case "invalid":
@@ -103,17 +118,15 @@ public class StackExchangeService {
 		Connection conn = ConnectDb.connect();
 		Statement stmt;
 		stmt = conn.createStatement();
+                
+                int user_id = this.getUserId(token);
 		
-		String sql = "delete from answers where qid = ?";
+		String sql = "delete from questions where qid = ? and user_id = ?";
 		PreparedStatement dbStatement = conn.prepareStatement(sql);
 		dbStatement.setInt(1, qid);
+                dbStatement.setInt(2, user_id);
+		
 		int rs = dbStatement.executeUpdate();
-		
-		sql = "delete from questions where qid = ?";
-		dbStatement = conn.prepareStatement(sql);
-		dbStatement.setInt(1, qid);
-		
-		rs = dbStatement.executeUpdate();
 		return "success";
 	    case "invalid":
 		System.out.println("INVALID TOKEN");
@@ -139,6 +152,8 @@ public class StackExchangeService {
         if (null != tokenStatus) switch (tokenStatus) {
 	    case "valid":
 		Connection conn = ConnectDb.connect();
+                int user_id = this.getUserId(token);
+                
 		Statement stmt;
 		stmt = conn.createStatement();
 		String sql = "select * from users where name = ? ";
@@ -154,7 +169,7 @@ public class StackExchangeService {
 		conn = ConnectDb.connect();
 		stmt = conn.createStatement();
 		sql = "UPDATE questions SET name = ?, email = ?, qtopic = ?, qcontent = ?" +
-			"WHERE qid = ?;";
+			"WHERE qid = ? and user_id = ?;";
 		
 		dbStatement = conn.prepareStatement(sql);
 		dbStatement.setString(1, name);
@@ -162,6 +177,7 @@ public class StackExchangeService {
 		dbStatement.setString(3, qtopic);
 		dbStatement.setString(4, qcontent);
 		dbStatement.setInt(5, qid);
+                dbStatement.setInt(6, user_id);
 		
 		int rs = dbStatement.executeUpdate();
 		
@@ -293,17 +309,18 @@ public class StackExchangeService {
 		}
 		
 		
-		
+		int user_id = this.getUserId(token);
 		
 		conn = ConnectDb.connect();
 		stmt = conn.createStatement();
-		sql = "insert into answers(aid, qid, name, email, content, votes, created_at)"
-			+ "values (null, ?, ?, ?, ?, 0, now())";
+		sql = "insert into answers(aid, qid, name, email, content, votes, created_at, user_id)"
+			+ "values (null, ?, ?, ?, ?, 0, now(), ?)";
 		dbStatement = conn.prepareStatement(sql);
 		dbStatement.setInt(1, qid);
 		dbStatement.setString(2, name);
 		dbStatement.setString(3, email);
 		dbStatement.setString(4, content);
+                dbStatement.setInt(5, user_id);
 		int rs = dbStatement.executeUpdate();
 		
 		sql = "UPDATE questions SET answer_count = answer_count + 1 WHERE qid = ?";

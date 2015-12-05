@@ -24,7 +24,7 @@ public final class AccessToken {
     private String username;
     private long id;
     
-    private final long lifetime = 15;
+    private final long lifetime = 15000;
     
     public AccessToken() {}
     
