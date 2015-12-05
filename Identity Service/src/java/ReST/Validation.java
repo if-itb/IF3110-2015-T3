@@ -47,45 +47,51 @@ public class Validation extends HttpServlet {
     
     try (PrintWriter out = response.getWriter()) {
       String token = request.getParameter("token");
+      String userIP = request.getParameter("userIP");
+      String userAgent = request.getParameter("userAgent");
       
-      try {
-          Statement stmt = conn.createStatement();
-          String sql;
-          
-          sql = "SELECT * FROM access_token WHERE token = ?";
-          PreparedStatement dbStatement = conn.prepareStatement(sql);
-          dbStatement.setString(1, token);
-          
-          ResultSet rs = dbStatement.executeQuery();
-          
-          if(rs.next()) {
-              Date expirationDate = null;
-              DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-              try{
-                  expirationDate = df.parse(rs.getString("expire_date"));
-              }
-              catch ( Exception ex ){
-                  System.out.println(ex);
-              }
-              
-              Date currentDate = new Date();
-              
-              if (currentDate.after(expirationDate)) {
-                  obj.put("message", "expired");
-              } else {
-                  obj.put("message", "valid");
-              }
-              
-              out.print(obj);
-          } else {
-              obj.put("message", "invalid");
-              out.print(obj);
-          }
-          
-      } catch(SQLException ex) {
-          obj.put("error", ex);  
-          out.print(obj);
-      }
+      String userIdentifier = userIP.toLowerCase() + userAgent.toLowerCase();
+      
+      if (!token.equals(null) && token.length() > userIdentifier.length())
+          if (token.substring(userIdentifier.length()).toLowerCase().equals(userIdentifier))
+            try {
+                Statement stmt = conn.createStatement();
+                String sql;
+
+                sql = "SELECT * FROM access_token WHERE token = ?";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setString(1, token);
+
+                ResultSet rs = dbStatement.executeQuery();
+
+                if(rs.next()) {
+                    Date expirationDate = null;
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try{
+                        expirationDate = df.parse(rs.getString("expire_date"));
+                    }
+                    catch ( Exception ex ){
+                        System.out.println(ex);
+                    }
+
+                    Date currentDate = new Date();
+
+                    if (currentDate.after(expirationDate)) {
+                        obj.put("message", "expired");
+                    } else {
+                        obj.put("message", "valid");
+                    }
+
+                    out.print(obj);
+                } else {
+                    obj.put("message", "invalid");
+                    out.print(obj);
+                }
+
+            } catch(SQLException ex) {
+                obj.put("error", ex);  
+                out.print(obj);
+            }
     }
   }
 
