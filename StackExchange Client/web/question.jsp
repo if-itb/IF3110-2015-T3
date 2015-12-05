@@ -10,13 +10,16 @@
 <head> 
 	<meta charset="UTF-8">
 	<title>Simple StackExchange</title>
-	<link rel="stylesheet" type="text/css" href="css/mainstyle.css">
+	<link rel="stylesheet" type="text/css" href="css/mainstyle.css">        
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
 </head>
 
 <body>
     
     <script>
     var vote = angular.module('voteup',[]);
+    app.controller('DemoController', function($scope) {
     $scope.counter = 0;
     $scope.add = function(amount) {    
     <%
