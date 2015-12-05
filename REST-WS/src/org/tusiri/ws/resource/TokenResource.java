@@ -93,7 +93,7 @@ public class TokenResource {
 	}
 	
 	
-	public static Token generateToken(String email, String password){
+	public static Token generateToken(String email, String password, String ip_address, String user_agent){
 		Token token = new Token();
 		//Check if email and password match
 		DBConnection dbc = new DBConnection();
@@ -127,12 +127,23 @@ public class TokenResource {
 				while(!(isTokenUnique(token))){
 					token.access_token=getRandomToken();
 				}
-				sql = "DELETE FROM token WHERE id_user = "+user_id;
-				stmt.executeUpdate(sql);
 				
-				sql = "INSERT INTO token(access_token,id_user,timestamp) " +
-						"VALUES('"+token.access_token+"',"+user_id+",'"+currentTime+"');";
-				stmt.executeUpdate(sql);
+				sql = "DELETE FROM token WHERE id_user = ? AND IP_Address = ? AND user_agent = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, user_id);
+				stmt.setString(2, ip_address);
+				stmt.setString(3, user_agent);
+				stmt.executeUpdate();
+				
+				sql = "INSERT INTO token(access_token,id_user,timestamp,IP_Address,user_agent) " +
+						"VALUES(?,?,?,?,?);";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, token.access_token);
+				stmt.setInt(2, user_id);
+				stmt.setString(3, currentTime);
+				stmt.setString(4, ip_address);
+				stmt.setString(5, user_agent);
+				stmt.executeUpdate();
 				
 			}
 			stmt.close();
@@ -166,11 +177,17 @@ public class TokenResource {
 		DBConnection dbc = new DBConnection();
 		PreparedStatement stmt = dbc.getDBStmt();
 		Connection conn = dbc.getConn();
+		String[] token_data = access_token.split("#");
+		String token_code = token_data[0];
+		String user_agent = token_data[1];
+		String ip_address = token_data[2];
 		try{
 			String sql = "SELECT * FROM token "
-					+ "WHERE access_token = ?";
+					+ "WHERE access_token = ? AND IP_Address = ? AND user_agent = ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, access_token);
+			stmt.setString(1, token_code);
+			stmt.setString(2, ip_address);
+			stmt.setString(3, user_agent);
 			System.out.println(stmt);
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()){
@@ -200,7 +217,7 @@ public class TokenResource {
 				stmt = conn.prepareStatement(sql);
 				stmt.setString(1, token.access_token);
 				stmt.setString(2, currentTime);
-				stmt.setString(3, access_token);
+				stmt.setString(3, token_code);
 				stmt.executeUpdate();
 				System.out.println("OK");
 				
@@ -234,8 +251,12 @@ public class TokenResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Token post(@FormParam("email") String email,
-	@FormParam("password") String password) {
-		Token token = generateToken(email,password);
+	@FormParam("password") String password,
+	@FormParam("ip_address") String ip_address,
+	@FormParam("user_agent") String user_agent) {
+		System.out.println("ip_address = " + ip_address);
+		System.out.println("user_agent = " + user_agent);
+		Token token = generateToken(email,password,ip_address,user_agent);
 		System.out.println(token.access_token);
 		return token;
 	}
