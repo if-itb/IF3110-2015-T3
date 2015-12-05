@@ -16,6 +16,10 @@
         <servlet-name>GetAllCommentsByQID</servlet-name>
         <servlet-class>com.dazzlesquad.comment.GetAllCommentsByQID</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetAllCommentsByQID</servlet-name>
+        <servlet-class>com.dazzlesquad.comment.GetAllCommentsByQID</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>VoteAnswer</servlet-name>
         <url-pattern>/VoteAnswer</url-pattern>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>InsertComment</servlet-name>
         <url-pattern>/InsertComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetAllCommentsByQID</servlet-name>
+        <url-pattern>/GetAllCommentsByQID</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GetAllCommentsByQID</servlet-name>
