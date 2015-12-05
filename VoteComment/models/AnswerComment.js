@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var Response = require('./Response');
+var Const = require('./Const');
 
 var connection = mysql.createConnection({
     host    : 'localhost',
@@ -16,9 +17,9 @@ answerComment.getById = function(id, callback) {
     connection.query('SELECT comment_id, answer_id, user_id, content, create_date FROM comment_answer WHERE comment_id=?', [id], function(err, results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results[0]);
+            resp = Response(Const.STATUS_OK, '', results[0]);
         }
         callback(resp);
 
@@ -40,9 +41,9 @@ answerComment.getByAnswerId = function(id, callback) {
     connection.query(sql, [id], function(err, results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results);
+            resp = Response(Const.STATUS_OK, '', results);
         }
         callback(resp);
 
@@ -60,9 +61,9 @@ answerComment.vote = function(req, callback) {
             connection.query(sql, [req.commentId, req.userId, req.value], function(err, results) {
                 var resp;
                 if (err) {
-                    resp = Response(err.errno, err.code, {});
+                    resp = Response(err.errno, err.message, {});
                 } else {
-                    resp = Response(0, '', results);
+                    resp = Response(Const.STATUS_OK, '', results);
                 }
                 callback(resp);
             });
@@ -72,9 +73,9 @@ answerComment.vote = function(req, callback) {
                 connection.query(sql, [req.value, req.commentId, req.userId], function(err, results) {
                     var resp;
                     if (err) {
-                        resp = Response(err.errno, err.code, {});
+                        resp = Response(err.errno, err.message, {});
                     } else {
-                        resp = Response(0, '', results);
+                        resp = Response(Const.STATUS_OK, '', results);
                     }
                     callback(resp);
                 });
@@ -93,9 +94,9 @@ answerComment.create = function(req, callback) {
     connection.query(sql, [req.answerId, req.userId, req.content], function(err,results) {
         var resp;
         if (err) {
-            resp = Response(err.errno, err.code, {});
+            resp = Response(err.errno, err.message, {});
         } else {
-            resp = Response(0, '', results);
+            resp = Response(Const.STATUS_OK, '', results);
         }
         callback(resp);
 
