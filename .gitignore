@@ -1,9 +1,3 @@
-/StackExchange WS/nbproject/
-/StackExchange Client/nbproject/
-/Identity Service/nbproject/
-/Identity Service/build/
-/Identity Service/dist/
-/StackExchange WS/build/
-/StackExchange WS/dist/
-/StackExchange Client/build/
-/StackExchange Client/dist/
+nbproject/
+build/
+dist/
