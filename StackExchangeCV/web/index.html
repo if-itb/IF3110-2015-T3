@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>REST Service</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Available resource</h1>
+        <ul>
+            <li><a href="http://localhost:8080/StackExchangeCV/comment/resource">/comment/resource</a></li>
+            <li><a href="http://localhost:8080/StackExchangeCV/comment/resource/3">/comment/resource/3</a></li>
+        </ul>
+        
+        <h1>Available service</h1>
+        <form action="/StackExchangeCV/addcomment" method="POST">
+            <input name="id_question" type="text" placeholder="id_question" />
+            <input name="content" type="text" placeholder="content" />
+            <input name="username" type="text" placeholder="username" />
+            <input name="submit" type="submit" value="submit" /> 
+        </form>
+
+    </body>
+</html>
