@@ -224,7 +224,69 @@ angular.module("stackexchangeApp", [])
             })
         }
     }])
+    .controller("QuestionController", ["$http", "voteService", "parameterService", function($http, voteService, parameterService){
+        this.question = ${question};
+        console.log(this.question);
 
+        this.newAnswer = "";
+        var newAnswer = this.newAnswer;
+
+        var question = this.question;
+
+        this.addAnswer = function(questionId){
+            var url = "";
+            var token = parameterService.getParameter('token');
+
+            if (token == ""){
+                window.location.href = "/login"
+            }
+
+            url = '/answer/add';
+
+            $http({
+                method: 'POST',
+                url: url,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {content: this.newAnswer, question_id: questionId, token:token}
+            }).then(function () {
+                window.location.href = "/answer?id=" + questionId + "&token=" + parameterService.getParameter('token');
+            }, function(response){
+                console.log(response);
+                if (response.status == 401){
+                    window.location.href = "/login";
+                } else {
+                    window.location.href = "/error"
+                }
+
+            });
+        };
+
+        this.upvote = function(questionId){
+            voteService.upvote("question", questionId).then(function(){
+                question.vote++;
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        };
+
+        this.downvote = function(questionId){
+            voteService.downvote("question", questionId).then(function(){
+                question.vote--;
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        }
+    }]);
 
 (function($){
     $(function(){
