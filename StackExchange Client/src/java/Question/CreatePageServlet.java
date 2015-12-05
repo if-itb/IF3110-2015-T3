@@ -43,11 +43,11 @@ public class CreatePageServlet extends HttpServlet {
         if (x < cookies.length) {
             accessToken = cookies[x].getValue();
             try (PrintWriter out = response.getWriter()) {
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <p class=\"white\">Hello, ");
-                out.println(getUser(getUserIDByToken(accessToken)).get(0).getNama());
-                out.println("</p> |\n"
+                out.print(getUser(getUserIDByToken(accessToken)).get(0).getNama());
+                out.print("</p> |\n"
                         + "                <a class=\"white\" href=\"LogoutServlet\">Logout</a>\n"
                         + "            </b>\n"
                         + "        </div>\n\n"

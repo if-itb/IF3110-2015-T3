@@ -57,63 +57,70 @@ public class QuestionByQIDServlet extends HttpServlet {
         if (x < cookies.length) {
             accessToken = cookies[x].getValue();
             try (PrintWriter out = response.getWriter()) {
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <p class=\"white\">Hello, ");
-                out.println(getUser(getUserIDByToken(accessToken)).get(0).getNama());
-                out.println("</p> |\n"
+                out.print(getUser(getUserIDByToken(accessToken)).get(0).getNama());
+                out.print("</p> |\n"
                         + "                <a class=\"white\" href=\"LogoutServlet\">Logout</a>\n"
                         + "            </b>\n"
                         + "        </div>\n\n"
-                        + "        <div class=\"main\">");
+                        + "        <div class=\"main\">\n");
                 List<Question> question = getQuestionByQID(qid);
                 for (Question question1 : question) {
-                    out.println("            <br>\n"
+                    out.print("            <br>\n"
                             + "            <h2>");
-                    out.println(question1.getTopic());
-                    out.println("</h2>\n"
+                    out.print(question1.getTopic());
+                    out.print("</h2>\n"
                             + "            <hr>\n"
                             + "            <table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"VotesQA\">\n"
                             + "                        <a href=\"VoteQuestionServlet?qid=");
-                    out.println(qid);
-                    out.println("&type=up\">\n"
+                    out.print(qid);
+                    out.print("&type=up\">\n"
                             + "                            <img src=\"img/vote-up.png\">\n"
                             + "                        </a>\n"
                             + "                        <div id=\"VotesQ\">");
-                    out.println(question1.getVotes());
-                    out.println("</div>\n"
+                    out.print(question1.getVotes());
+                    out.print("</div>\n"
                             + "                        <a href=\"VoteQuestionServlet?qid=");
-                    out.println(qid);
-                    out.println("&type=down\">\n"
+                    out.print(qid);
+                    out.print("&type=down\">\n"
                             + "                            <img src=\"img/vote-down.png\">\n"
                             + "                        </a>\n"
                             + "                    </td>\n"
                             + "                    <td>");
-                    out.println(question1.getContent());
-                    out.println("</td>\n"
+                    out.print(question1.getContent());
+                    out.print("</td>\n"
                             + "                </tr>\n"
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td class=\"Asker\">\n"
                             + "                        asked by ");
-                    out.println(getUser(question1.getUserID()).get(0).getEmail());
-                    out.println(" at ");
+                    out.print(getUser(question1.getUserID()).get(0).getEmail());
+                    out.print(" at ");
                     out.println(question1.getDateTime().substring(0, 19));
                     if (getUserIDByToken(accessToken) == question1.getUserID()) {
-                        out.println("                        | <a class=\"gold\" href=\"edit.jsp?qid=");
-                        out.println(question1.getQID());
-                        out.println("\">\n"
+                        out.print("                        | <a class=\"gold\" href=\"edit.jsp?qid=");
+                        out.print(question1.getQID());
+                        out.print("\">\n"
                                 + "                            edit\n"
                                 + "                        </a> | \n"
                                 + "                        <a class=\"red\" href=\"");
-                        out.println("DeleteQuestionServlet?qid=" + question1.getQID());
-                        out.println("\">\n"
+                        out.print("DeleteQuestionServlet?qid=" + question1.getQID());
+                        out.print("\">\n"
                                 + "                            delete\n"
                                 + "                        </a>\n");
                     }
-                    out.println("                    </td>\n"
+                    out.print("                    </td>\n"
+                            + "                </tr>\n"
+                            + "                <tr>\n"
+                            + "                    <td></td>\n"
+                            + "                    <td>\n"
+                            + "                        <hr>\n"
+                            + "                        Comment\n"
+                            + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "\n"
@@ -121,63 +128,70 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "            <h2>");
                     out.print(question1.getAnswers() + " Answer");
                     if (question1.getAnswers() != 1) {
-                        out.println("s");
+                        out.print("s");
                     }
-                    out.println("</h2>\n"
+                    out.print("</h2>\n"
                             + "            <hr>");
                 }
                 List<Answer> answers = getAnswerByQID(Integer.valueOf((String) request.getAttribute("qid")));
                 for (Answer answer : answers) {
-                    out.println("<table>\n"
+                    out.print("<table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"VotesQA\">\n"
                             + "                        <a href=\"VoteAnswerServlet?qid=");
-                    out.println(answer.getQID() + "&aid=" + answer.getAID());
-                    out.println("&type=up\">\n"
+                    out.print(answer.getQID() + "&aid=" + answer.getAID());
+                    out.print("&type=up\">\n"
                             + "                            <img src=\"img/vote-up.png\">\n"
                             + "                        </a>\n"
                             + "                        <br>\n"
                             + "                        <div class=\"VotesA\" id=\"\">");
-                    out.println(answer.getVotes());
-                    out.println("</div>\n"
+                    out.print(answer.getVotes());
+                    out.print("</div>\n"
                             + "                        <a href=\"VoteAnswerServlet?qid=");
-                    out.println(answer.getQID() + "&aid=" + answer.getAID());
-                    out.println("&type=down\">\n"
+                    out.print(answer.getQID() + "&aid=" + answer.getAID());
+                    out.print("&type=down\">\n"
                             + "                            <img src=\"img/vote-down.png\">\n"
                             + "                        </a>\n"
                             + "                    </td>\n"
                             + "                    <td>");
-                    out.println(answer.getContent());
-                    out.println("</td>\n"
+                    out.print(answer.getContent());
+                    out.print("</td>\n"
                             + "                </tr>\n"
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td class=\"Answerer\">\n"
                             + "                        answered by ");
-                    out.println(getUser(answer.getUserID()).get(0).getEmail());
-                    out.println(" at ");
-                    out.println(answer.getDateTime().substring(0, 19));
-                    out.println("</td>\n"
+                    out.print(getUser(answer.getUserID()).get(0).getEmail());
+                    out.print(" at ");
+                    out.print(answer.getDateTime().substring(0, 19));
+                    out.print("</td>\n"
+                            + "                </tr>\n"
+                            + "                <tr>\n"
+                            + "                    <td></td>\n"
+                            + "                    <td>\n"
+                            + "                        <hr>\n"
+                            + "                        Comment\n"
+                            + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "            <hr>");
                 }
-                out.println("<h2>\n"
+                out.print("<h2>\n"
                         + "                Your Answer\n"
                         + "            </h2>\n"
                         + "\n"
                         + "            <form name=\"answerForm\" action=\"CreateAnswerServlet\" method=\"post\" onsubmit=\"\">\n"
                         + "                <input name=\"qid\" type=\"hidden\" value=");
-                out.println(qid);
-                out.println(">\n"
+                out.print(qid);
+                out.print(">\n"
                         + "                <textarea name=\"content\" id=\"question\" placeholder=\"Content\"></textarea>\n"
                         + "                <input class=\"button\" type=\"submit\" value=\"Post\"><br>\n"
                         + "            </form>");
-                out.println("</div>");
+                out.print("</div>");
             }
         } else {
             try (PrintWriter out = response.getWriter()) {
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <a class=\"white\" href=\"register.jsp\">Register</a> |\n"
                         + "                <a class=\"white\" href=\"login.jsp\">Login</a>\n"
@@ -186,33 +200,39 @@ public class QuestionByQIDServlet extends HttpServlet {
                         + "<div class=\"main\">");
                 List<Question> question = getQuestionByQID(qid);
                 for (Question question1 : question) {
-                    out.println("            <br>\n"
+                    out.print("            <br>\n"
                             + "            <h2>");
-                    out.println(question1.getTopic());
-                    out.println("</h2>\n"
+                    out.print(question1.getTopic());
+                    out.print("</h2>\n"
                             + "            <hr>\n"
                             + "            <table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"VotesQA\">\n"
-                            + "                            <img src=\"img/vote-up.png\">\n"
+                            + "                        <img src=\"img/vote-up.png\">\n"
                             + "                        <div id=\"VotesQ\">");
-                    out.println(question1.getVotes());
-                    out.println("</div>\n"
-                            + "                            <img src=\"img/vote-down.png\">\n"
-                            + "                        </a>\n"
+                    out.print(question1.getVotes());
+                    out.print("</div>\n"
+                            + "                        <img src=\"img/vote-down.png\">\n"
                             + "                    </td>\n"
                             + "                    <td>");
-                    out.println(question1.getContent());
-                    out.println("</td>\n"
+                    out.print(question1.getContent());
+                    out.print("</td>\n"
                             + "                </tr>\n"
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td class=\"Asker\">\n"
                             + "                        asked by ");
-                    out.println(getUser(question1.getUserID()).get(0).getEmail());
-                    out.println(" at ");
-                    out.println(question1.getDateTime().substring(0, 19));
-                    out.println("                    </td>\n"
+                    out.print(getUser(question1.getUserID()).get(0).getEmail());
+                    out.print(" at ");
+                    out.print(question1.getDateTime().substring(0, 19));
+                    out.print("                    </td>\n"
+                            + "                </tr>\n"
+                            + "                <tr>\n"
+                            + "                    <td></td>\n"
+                            + "                    <td>\n"
+                            + "                        <hr>\n"
+                            + "                        Comment\n"
+                            + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "\n"
@@ -220,48 +240,55 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "            <h2>");
                     out.print(question1.getAnswers() + " Answer");
                     if (question1.getAnswers() != 1) {
-                        out.println("s");
+                        out.print("s");
                     }
-                    out.println("</h2>\n"
+                    out.print("</h2>\n"
                             + "            <hr>");
                 }
                 List<Answer> answers = getAnswerByQID(Integer.valueOf((String) request.getAttribute("qid")));
                 for (Answer answer : answers) {
-                    out.println("<table>\n"
+                    out.print("<table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"VotesQA\">\n"
                             + "                        <a href=\"VoteAnswerServlet?qid=");
-                    out.println(answer.getQID() + "&aid=" + answer.getAID());
-                    out.println("&type=up\">\n"
+                    out.print(answer.getQID() + "&aid=" + answer.getAID());
+                    out.print("&type=up\">\n"
                             + "                            <img src=\"img/vote-up.png\">\n"
                             + "                        </a>\n"
                             + "                        <br>\n"
                             + "                        <div class=\"VotesA\" id=\"\">");
-                    out.println(answer.getVotes());
-                    out.println("</div>\n"
+                    out.print(answer.getVotes());
+                    out.print("</div>\n"
                             + "                        <a href=\"VoteAnswerServlet?qid=");
-                    out.println(answer.getQID() + "&aid=" + answer.getAID());
-                    out.println("&type=down\">\n"
+                    out.print(answer.getQID() + "&aid=" + answer.getAID());
+                    out.print("&type=down\">\n"
                             + "                            <img src=\"img/vote-down.png\">\n"
                             + "                        </a>\n"
                             + "                    </td>\n"
                             + "                    <td>");
-                    out.println(answer.getContent());
-                    out.println("</td>\n"
+                    out.print(answer.getContent());
+                    out.print("</td>\n"
                             + "                </tr>\n"
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td class=\"Answerer\">\n"
                             + "                        answered by ");
-                    out.println(getUser(answer.getUserID()).get(0).getEmail());
-                    out.println(" at ");
-                    out.println(answer.getDateTime().substring(0, 19));
-                    out.println("</td>\n"
+                    out.print(getUser(answer.getUserID()).get(0).getEmail());
+                    out.print(" at ");
+                    out.print(answer.getDateTime().substring(0, 19));
+                    out.print("</td>\n"
+                            + "                </tr>\n"
+                            + "                <tr>\n"
+                            + "                    <td></td>\n"
+                            + "                    <td>\n"
+                            + "                        <hr>\n"
+                            + "                        Comment\n"
+                            + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "            <hr>");
                 }
-                out.println("</div>");
+                out.print("</div>");
             }
         }
     }

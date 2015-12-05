@@ -49,7 +49,7 @@ public class QuestionListServlet extends HttpServlet {
         }
         if (x == cookies.length) {
             try (PrintWriter out = response.getWriter()) {
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <a class=\"white\" href=\"register.jsp\">Register</a> |\n"
                         + "                <a class=\"white\" href=\"login.jsp\">Login</a>\n"
@@ -74,33 +74,33 @@ public class QuestionListServlet extends HttpServlet {
                         + "            <hr>\n");
                 List<Question> questions = getAllQuestion();
                 for (Question question : questions) {
-                    out.println("<table>\n"
+                    out.print("            <table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"Votes\" rowspan=\"2\">\n"
                             + "                        <b>");
-                    out.println(question.getVotes());
-                    out.println("<br>\n"
+                    out.print(question.getVotes());
+                    out.print("<br>\n"
                             + "                            Votes\n"
                             + "                        </b>\n"
                             + "                    </td>\n"
                             + "                    <td class=\"Answers\" rowspan=\"2\">\n"
                             + "                        <b>");
-                    out.println(question.getAnswers());
-                    out.println("<br>\n"
+                    out.print(question.getAnswers());
+                    out.print("<br>\n"
                             + "                            Answers\n"
                             + "                        </b>\n"
                             + "                    </td>\n"
                             + "                    <td>\n"
                             + "                        <p class=\"topic\">\n"
                             + "                            <a href=\"question.jsp?qid=");
-                    out.println(question.getQID());
-                    out.println("\">");
-                    out.println(question.getTopic());
-                    out.println("</a>\n"
+                    out.print(question.getQID());
+                    out.print("\">");
+                    out.print(question.getTopic());
+                    out.print("</a>\n"
                             + "                        </p>\n"
                             + "                        <p class=\"content\">");
-                    out.println(question.getContent());
-                    out.println("</p>\n"
+                    out.print(question.getContent());
+                    out.print("</p>\n"
                             + "                        <br>\n"
                             + "                    </td>\n"
                             + "                </tr>\n"
@@ -108,23 +108,23 @@ public class QuestionListServlet extends HttpServlet {
                             + "                    <td class=\"Asker\">\n"
                             + "                        asked by\n"
                             + "                        <p class=\"blue\">");
-                    out.println(getUser(question.getUserID()).get(0).getEmail());
-                    out.println("</p>\n"
+                    out.print(getUser(question.getUserID()).get(0).getEmail());
+                    out.print("</p>\n"
                             + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "            <hr>");
                 }
-                out.println("</div>");
+                out.print("</div>");
             }
         } else {
             accessToken = cookies[x].getValue();
             try (PrintWriter out = response.getWriter()) {
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <p class=\"white\">Hello, ");
-                out.println(getUser(getUserIDByToken(accessToken)).get(0).getNama());
-                out.println("</p> |\n"
+                out.print(getUser(getUserIDByToken(accessToken)).get(0).getNama());
+                out.print("</p> |\n"
                         + "                <a class=\"white\" href=\"LogoutServlet\">Logout</a>\n"
                         + "            </b>\n"
                         + "        </div>\n\n"
@@ -149,33 +149,33 @@ public class QuestionListServlet extends HttpServlet {
                         + "            <hr>\n");
                 List<Question> questions = getAllQuestion();
                 for (Question question : questions) {
-                    out.println("<table>\n"
+                    out.print("            <table>\n"
                             + "                <tr>\n"
                             + "                    <td class=\"Votes\" rowspan=\"2\">\n"
                             + "                        <b>");
-                    out.println(question.getVotes());
-                    out.println("<br>\n"
+                    out.print(question.getVotes());
+                    out.print("<br>\n"
                             + "                            Votes\n"
                             + "                        </b>\n"
                             + "                    </td>\n"
                             + "                    <td class=\"Answers\" rowspan=\"2\">\n"
                             + "                        <b>");
-                    out.println(question.getAnswers());
-                    out.println("<br>\n"
+                    out.print(question.getAnswers());
+                    out.print("<br>\n"
                             + "                            Answers\n"
                             + "                        </b>\n"
                             + "                    </td>\n"
                             + "                    <td>\n"
                             + "                        <p class=\"topic\">\n"
                             + "                            <a href=\"question.jsp?qid=");
-                    out.println(question.getQID());
-                    out.println("\">");
-                    out.println(question.getTopic());
-                    out.println("</a>\n"
+                    out.print(question.getQID());
+                    out.print("\">");
+                    out.print(question.getTopic());
+                    out.print("</a>\n"
                             + "                        </p>\n"
                             + "                        <p class=\"content\">");
-                    out.println(question.getContent());
-                    out.println("</p>\n"
+                    out.print(question.getContent());
+                    out.print("</p>\n"
                             + "                        <br>\n"
                             + "                    </td>\n"
                             + "                </tr>\n"
@@ -183,26 +183,26 @@ public class QuestionListServlet extends HttpServlet {
                             + "                    <td class=\"Asker\">\n"
                             + "                        asked by\n"
                             + "                        <p class=\"blue\">");
-                    out.println(getUser(question.getUserID()).get(0).getEmail());
-                    out.println("</p>\n");
+                    out.print(getUser(question.getUserID()).get(0).getEmail());
+                    out.print("</p>\n");
                     if (getUserIDByToken(accessToken) == question.getUserID()) {
-                        out.println("                        | <a class=\"gold\" href=\"edit.jsp?qid=");
-                        out.println(question.getQID());
-                        out.println("\">\n"
+                        out.print("                        | <a class=\"gold\" href=\"edit.jsp?qid=");
+                        out.print(question.getQID());
+                        out.print("\">\n"
                                 + "                            edit\n"
                                 + "                        </a> | \n"
                                 + "                        <a class=\"red\" href=\"");
-                        out.println("DeleteQuestionServlet?qid=" + question.getQID());
-                        out.println("\">\n"
+                        out.print("DeleteQuestionServlet?qid=" + question.getQID());
+                        out.print("\">\n"
                                 + "                            delete\n"
                                 + "                        </a>\n");
                     }
-                    out.println("                    </td>\n"
+                    out.print("                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "            <hr>");
                 }
-                out.println("</div>");
+                out.print("</div>");
             }
         }
     }

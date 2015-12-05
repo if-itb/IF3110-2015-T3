@@ -51,34 +51,34 @@ public class EditQuestionServlet extends HttpServlet {
             accessToken = cookies[x].getValue();
             try (PrintWriter out = response.getWriter()) {
                 int qid = Integer.parseInt(request.getParameter("qid"));
-                out.println("<div class=\"navbar-down\">\n"
+                out.print("<div class=\"navbar-down\">\n"
                         + "            <b class=\"navbar-down\">\n"
                         + "                <p class=\"white\">Hello, ");
-                out.println(getUser(getUserIDByToken(accessToken)).get(0).getNama());
-                out.println("</p> |\n"
+                out.print(getUser(getUserIDByToken(accessToken)).get(0).getNama());
+                out.print("</p> |\n"
                         + "                <a class=\"white\" href=\"LogoutServlet\">Logout</a>\n"
                         + "            </b>\n"
                         + "        </div>\n\n");
-                out.println("        <div class=\"main\">\n"
+                out.print("        <div class=\"main\">\n"
                         + "            <br>\n"
                         + "            <h2>Edit your question</h2>\n"
                         + "            <hr>");
                 List<Question> question = getQuestionByQID(qid);
                 for (Question question1 : question) {
-                    out.println("<form name=\"editForm\" action=\"EditServlet\" method=\"post\" onsubmit=\"\">\n"
+                    out.print("<form name=\"editForm\" action=\"EditServlet\" method=\"post\" onsubmit=\"\">\n"
                             + "                <input name=\"qid\" type=\"hidden\" value=");
-                    out.println(qid);
-                    out.println(">"
+                    out.print(qid);
+                    out.print(">\n"
                             + "                <input name=\"topic\" class=\"text\" type=\"text\" placeholder=\"Question Topic\" value=\"");
-                    out.println(question1.getTopic());
-                    out.println("\"><br>\n"
+                    out.print(question1.getTopic());
+                    out.print("\"><br>\n"
                             + "                <textarea name=\"content\" placeholder=\"Content\">");
-                    out.println(question1.getContent());
-                    out.println("</textarea>\n"
+                    out.print(question1.getContent());
+                    out.print("</textarea>\n"
                             + "                <input class=\"button\" type=\"submit\" value=\"Post\"><br>\n"
                             + "            </form>");
                 }
-                out.println("</div>");
+                out.print("</div>");
             }
         } else {
             response.sendRedirect("/StackExchange_Client/login.jsp");
