@@ -48,8 +48,8 @@ public interface AnswerWS {
      * @param content
      * @return
      *     returns java.lang.String
-     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -73,6 +73,7 @@ public interface AnswerWS {
      * 
      * @param voteUp
      * @param accessToken
+     * @param qid
      * @param aid
      * @return
      *     returns java.lang.String
@@ -85,6 +86,8 @@ public interface AnswerWS {
     public String voteAnswer(
         @WebParam(name = "access_token", targetNamespace = "")
         String accessToken,
+        @WebParam(name = "QID", targetNamespace = "")
+        int qid,
         @WebParam(name = "AID", targetNamespace = "")
         int aid,
         @WebParam(name = "voteUp", targetNamespace = "")

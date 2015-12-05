@@ -47,6 +47,7 @@
 <xs:complexType name="voteAnswer">
 <xs:sequence>
 <xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="QID" type="xs:int"/>
 <xs:element name="AID" type="xs:int"/>
 <xs:element name="voteUp" type="xs:boolean"/>
 </xs:sequence>

@@ -43,9 +43,9 @@ public class VoteAnswerServlet extends HttpServlet {
         if (x < cookies.length) {
             accessToken = cookies[x].getValue();
             if (type.equals("up")) {
-                result = voteAnswer(accessToken, aid, true);
+                result = voteAnswer(accessToken, qid, aid, true);
             } else {
-                result = voteAnswer(accessToken, aid, false);
+                result = voteAnswer(accessToken, qid, aid, false);
             }
             response.sendRedirect("/StackExchange_Client/question.jsp?qid=" + qid);
         } else {
@@ -92,11 +92,11 @@ public class VoteAnswerServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private String voteAnswer(java.lang.String accessToken, int aid, boolean voteUp) {
+    private String voteAnswer(java.lang.String accessToken, int qid, int aid, boolean voteUp) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         AnswerWS.AnswerWS port = service.getAnswerWSPort();
-        return port.voteAnswer(accessToken, aid, voteUp);
+        return port.voteAnswer(accessToken, qid, aid, voteUp);
     }
 
 }

@@ -114,12 +114,16 @@ public class QuestionWS {
                     stmt = conn.createStatement();
                     String sqlQ = "DELETE FROM question WHERE qid = ?";
                     String sqlA = "DELETE FROM answer WHERE qid = ?";
+                    String sqlVR = "DELETE FROM voterelation WHERE QID = ?";
                     PreparedStatement pstmtQ = conn.prepareStatement(sqlQ);
                     PreparedStatement pstmtA = conn.prepareStatement(sqlA);
+                    PreparedStatement pstmtVR = conn.prepareStatement(sqlVR);
                     pstmtQ.setInt(1, qid);
                     pstmtA.setInt(1, qid);
+                    pstmtVR.setInt(1, qid);
                     int a = pstmtQ.executeUpdate();
                     int b = pstmtA.executeUpdate();
+                    int c = pstmtVR.executeUpdate();
                     stmt.close();
                     return "Respons oke!";
                 } catch (SQLException se) {

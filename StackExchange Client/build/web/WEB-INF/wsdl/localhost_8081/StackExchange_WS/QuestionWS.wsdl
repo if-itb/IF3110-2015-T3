@@ -10,11 +10,11 @@
 <message name="editQuestionResponse">
 <part name="parameters" element="tns:editQuestionResponse"/>
 </message>
-<message name="voteQuestion">
-<part name="parameters" element="tns:voteQuestion"/>
+<message name="deleteQuestion">
+<part name="parameters" element="tns:deleteQuestion"/>
 </message>
-<message name="voteQuestionResponse">
-<part name="parameters" element="tns:voteQuestionResponse"/>
+<message name="deleteQuestionResponse">
+<part name="parameters" element="tns:deleteQuestionResponse"/>
 </message>
 <message name="getQuestionByQID">
 <part name="parameters" element="tns:getQuestionByQID"/>
@@ -22,17 +22,17 @@
 <message name="getQuestionByQIDResponse">
 <part name="parameters" element="tns:getQuestionByQIDResponse"/>
 </message>
-<message name="deleteQuestion">
-<part name="parameters" element="tns:deleteQuestion"/>
-</message>
-<message name="deleteQuestionResponse">
-<part name="parameters" element="tns:deleteQuestionResponse"/>
-</message>
 <message name="getAllQuestion">
 <part name="parameters" element="tns:getAllQuestion"/>
 </message>
 <message name="getAllQuestionResponse">
 <part name="parameters" element="tns:getAllQuestionResponse"/>
+</message>
+<message name="voteQuestion">
+<part name="parameters" element="tns:voteQuestion"/>
+</message>
+<message name="voteQuestionResponse">
+<part name="parameters" element="tns:voteQuestionResponse"/>
 </message>
 <message name="createQuestion">
 <part name="parameters" element="tns:createQuestion"/>
@@ -45,21 +45,21 @@
 <input wsam:Action="http://QuestionModel/QuestionWS/editQuestionRequest" message="tns:editQuestion"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/editQuestionResponse" message="tns:editQuestionResponse"/>
 </operation>
-<operation name="voteQuestion">
-<input wsam:Action="http://QuestionModel/QuestionWS/voteQuestionRequest" message="tns:voteQuestion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/voteQuestionResponse" message="tns:voteQuestionResponse"/>
+<operation name="deleteQuestion">
+<input wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionRequest" message="tns:deleteQuestion"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionResponse" message="tns:deleteQuestionResponse"/>
 </operation>
 <operation name="getQuestionByQID">
 <input wsam:Action="http://QuestionModel/QuestionWS/getQuestionByQIDRequest" message="tns:getQuestionByQID"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getQuestionByQIDResponse" message="tns:getQuestionByQIDResponse"/>
 </operation>
-<operation name="deleteQuestion">
-<input wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionRequest" message="tns:deleteQuestion"/>
-<output wsam:Action="http://QuestionModel/QuestionWS/deleteQuestionResponse" message="tns:deleteQuestionResponse"/>
-</operation>
 <operation name="getAllQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/getAllQuestionRequest" message="tns:getAllQuestion"/>
 <output wsam:Action="http://QuestionModel/QuestionWS/getAllQuestionResponse" message="tns:getAllQuestionResponse"/>
+</operation>
+<operation name="voteQuestion">
+<input wsam:Action="http://QuestionModel/QuestionWS/voteQuestionRequest" message="tns:voteQuestion"/>
+<output wsam:Action="http://QuestionModel/QuestionWS/voteQuestionResponse" message="tns:voteQuestionResponse"/>
 </operation>
 <operation name="createQuestion">
 <input wsam:Action="http://QuestionModel/QuestionWS/createQuestionRequest" message="tns:createQuestion"/>
@@ -77,7 +77,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="voteQuestion">
+<operation name="deleteQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -95,7 +95,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="deleteQuestion">
+<operation name="getAllQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -104,7 +104,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getAllQuestion">
+<operation name="voteQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

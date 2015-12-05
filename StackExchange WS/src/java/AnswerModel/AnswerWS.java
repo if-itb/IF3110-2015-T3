@@ -101,12 +101,13 @@ public class AnswerWS {
      * Web service operation
      *
      * @param access_token
+     * @param QID
      * @param AID
      * @param voteUp
      * @return
      */
     @WebMethod(operationName = "voteAnswer")
-    public String voteAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "AID") int AID, @WebParam(name = "voteUp") boolean voteUp) {
+    public String voteAnswer(@WebParam(name = "access_token") String access_token, @WebParam(name = "QID") int QID, @WebParam(name = "AID") int AID, @WebParam(name = "voteUp") boolean voteUp) {
         Connection conn = new Database().connect();
         Statement stmt;
         ResultSet rs;
@@ -138,12 +139,13 @@ public class AnswerWS {
                         } else {
                             sql = "UPDATE answer SET Votes=Votes-1 WHERE aid = ?";
                         }
-                        sql2 = "INSERT INTO voterelation VALUES (?,0,?)";
+                        sql2 = "INSERT INTO voterelation VALUES (?,?,?)";
                         PreparedStatement pstmt = conn.prepareStatement(sql);
                         PreparedStatement pstmt2 = conn.prepareStatement(sql2);
                         pstmt.setInt(1, AID);
                         pstmt2.setInt(1, userID);
-                        pstmt2.setInt(2, AID);
+                        pstmt2.setInt(2, QID);
+                        pstmt2.setInt(3, AID);
                         int a = pstmt.executeUpdate();
                         int b = pstmt2.executeUpdate();
                         return "Respons oke!";

@@ -51,42 +51,6 @@ public interface QuestionWS {
 
     /**
      * 
-     * @param voteUp
-     * @param accessToken
-     * @param qid
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "voteQuestion", targetNamespace = "http://QuestionModel/", className = "QuestionWS.VoteQuestion")
-    @ResponseWrapper(localName = "voteQuestionResponse", targetNamespace = "http://QuestionModel/", className = "QuestionWS.VoteQuestionResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/voteQuestionRequest", output = "http://QuestionModel/QuestionWS/voteQuestionResponse")
-    public String voteQuestion(
-        @WebParam(name = "access_token", targetNamespace = "")
-        String accessToken,
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
-        @WebParam(name = "voteUp", targetNamespace = "")
-        boolean voteUp);
-
-    /**
-     * 
-     * @param qid
-     * @return
-     *     returns java.util.List<QuestionWS.Question>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getQuestionByQID", targetNamespace = "http://QuestionModel/", className = "QuestionWS.GetQuestionByQID")
-    @ResponseWrapper(localName = "getQuestionByQIDResponse", targetNamespace = "http://QuestionModel/", className = "QuestionWS.GetQuestionByQIDResponse")
-    @Action(input = "http://QuestionModel/QuestionWS/getQuestionByQIDRequest", output = "http://QuestionModel/QuestionWS/getQuestionByQIDResponse")
-    public List<Question> getQuestionByQID(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid);
-
-    /**
-     * 
      * @param accessToken
      * @param qid
      * @return
@@ -105,6 +69,21 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param qid
+     * @return
+     *     returns java.util.List<QuestionWS.Question>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionByQID", targetNamespace = "http://QuestionModel/", className = "QuestionWS.GetQuestionByQID")
+    @ResponseWrapper(localName = "getQuestionByQIDResponse", targetNamespace = "http://QuestionModel/", className = "QuestionWS.GetQuestionByQIDResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/getQuestionByQIDRequest", output = "http://QuestionModel/QuestionWS/getQuestionByQIDResponse")
+    public List<Question> getQuestionByQID(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid);
+
+    /**
+     * 
      * @return
      *     returns java.util.List<QuestionWS.Question>
      */
@@ -114,6 +93,27 @@ public interface QuestionWS {
     @ResponseWrapper(localName = "getAllQuestionResponse", targetNamespace = "http://QuestionModel/", className = "QuestionWS.GetAllQuestionResponse")
     @Action(input = "http://QuestionModel/QuestionWS/getAllQuestionRequest", output = "http://QuestionModel/QuestionWS/getAllQuestionResponse")
     public List<Question> getAllQuestion();
+
+    /**
+     * 
+     * @param voteUp
+     * @param accessToken
+     * @param qid
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "voteQuestion", targetNamespace = "http://QuestionModel/", className = "QuestionWS.VoteQuestion")
+    @ResponseWrapper(localName = "voteQuestionResponse", targetNamespace = "http://QuestionModel/", className = "QuestionWS.VoteQuestionResponse")
+    @Action(input = "http://QuestionModel/QuestionWS/voteQuestionRequest", output = "http://QuestionModel/QuestionWS/voteQuestionResponse")
+    public String voteQuestion(
+        @WebParam(name = "access_token", targetNamespace = "")
+        String accessToken,
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
+        @WebParam(name = "voteUp", targetNamespace = "")
+        boolean voteUp);
 
     /**
      * 
