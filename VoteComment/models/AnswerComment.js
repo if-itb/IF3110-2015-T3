@@ -28,14 +28,14 @@ answerComment.getById = function(id, callback) {
 }
 
 answerComment.getByAnswerId = function(id, callback) {
-    var sql = 'SELECT comment_id, answer_id, user_id, content, create_date, SUM(vote) AS vote' +
+    var sql = 'SELECT comment_id, answer_id, a.user_id AS user_id, u.name AS user_name, content, a.create_date, SUM(vote) AS vote' +
         ' FROM (' +
             ' SELECT c.comment_id AS comment_id, c.answer_id AS answer_id, c.user_id AS user_id, content, create_date, IFNULL( v.value, 0 ) AS vote' +
             ' FROM comment_answer AS c' +
             ' LEFT OUTER JOIN vote_comment_answer AS v ON c.comment_id = v.comment_id' +
-        ' ) AS a' +
+        ' ) AS a LEFT OUTER JOIN user AS u ON u.user_id = a.user_id' +
         ' WHERE answer_id=?' +
-        ' GROUP BY answer_id' +
+        ' GROUP BY comment_id' +
         ' ORDER BY vote, create_date DESC';
 
     connection.query(sql, [id], function(err, results) {
