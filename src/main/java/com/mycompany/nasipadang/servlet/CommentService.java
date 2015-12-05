@@ -132,6 +132,7 @@ public class CommentService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("There it is, Jun!!");
         org.json.JSONObject json = new org.json.JSONObject();
         String token = request.getParameter("token");
         int id_user = whoIs(token);

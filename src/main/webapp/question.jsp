@@ -68,8 +68,8 @@
                 </tbody>
             </table>
 	<br>
-	<div class="answer">
-            <div class="title"><div id="count"><%=question.getCount()%> Answer</div>
+	<div class="answer" ng-app="answers" ng-controller="ajaxComment">
+            <div class="title" id="count"><%=question.getCount()%> Answer</div>
             <ul>
                 <%for(Answer answer : items){%>
                     <hr></hr>
@@ -95,17 +95,15 @@
                         </table>
                     </li><br>
                 <%}%>
-            </ul>
-            <ul>     
                 <li repeat="answer in answers">
                     <hr></hr>
                     <table>
                         <tbody>
                             <tr>
                                 <td>
-                                    <a class="vote-up" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id}}&vote=1">Up</a>
-                                    <div class="vote" id="votes{{answer.id}}">{{answer.vote}}</div>
-                                    <a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id}}&vote=-1">Down</a>
+                                    <a class="vote-up" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id_answer}}&vote=1">Up</a>
+                                    <div class="vote" id="votes{{answer.id_answer}}">{{answer.vote}}</div>
+                                    <a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id_answer}}&vote=-1">Down</a>
                                 </td>
                                 <td>
                                     <table>
@@ -119,49 +117,61 @@
                         </tbody>
                     </table>
                 </li><br>
+                <li>
+                    <hr></hr>
+                    <div class="new-answer">
+                        <div class="title">Your Answer</div>
+                        <%if (name != null) {%>
+                        <form name="answer" ng-submit="processForm()">
+                            <input type="hidden" name="token" ng-model="formData.token" value="<%=token%>"><br>
+                            <input type="hidden" name="id" ng-model="formData.id" value="<%=question.getId()%>">
+                            <textarea class="inputform" type="text" ng-model="formData.content" placeholder="Content"></textarea><br>
+                            <input class="button" type="submit" value="Post">
+                        </form>
+                        <%}else{%>
+                            <a href="login_form.jsp">log in</a>
+                            <a href="reg.jsp">register</a>
+                        <%}%>
+                    </div>
+                </li>
+                <li>
+                    <hr></hr>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                            <tr><td><p class="content">{{formData.content}}</p></td></tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li><br>
             </ul>
-	</div>
-
-	<hr></hr>
-        <div class="new-answer" ng-app="comment" ng-controller="commentController">
-		<div class="title">Your Answer</div>
-                <%if (name != null) {%>
-                <form name="answer" method="post" ng-submit="processForm()">
-                    <input type="hidden" name="token" value="<%=token%>"><br>
-                    <input type="hidden" name="id" value="<%=question.getId()%>">
-                    <textarea class="inputform" type="text" ng-model="content" placeholder="Content"></textarea><br>
-                    <input class="button" type="submit" value="Post">
-		</form>
-                <%}else{%>
-                    <a href="login_form.jsp">log in</a>
-                    <a href="reg.jsp">register</a>
-                <%}%>
-	</div>
-        <hr></hr>
-            <li>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <table>
-                                    <tbody>
-                                        <tr><td><p class="content">{{content}}</p></td></tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </li><br>
+        </div>
     </body>
     <script>
-        var app = angular.module('comment', []);
-        app.controller('commentController', function($scope) {
-            $scope.content = "";
-        });
-        function ajaxComment($scope, $http) {
+        var app1 = angular.module('answers',[]);
+        app1.controller('ajaxComment', function($scope, $http) {
+            $scope.answers = [];
             $scope.formData = {};
+            $scope.formData.content = "";
             $scope.processForm = function() {
+//                var data = $.param({
+//                    json: JSON.stringify({
+//                        id: $scope.formData.id,
+//                        token: $scope.formData.token,
+//                        content: $scope.formData.content
+//                    })
+//                });
+//                $http.post("rest/comment", data).success(function(data, status) {
+//                    $scope.answers = data;
+//                });
+//            };
+//                
                 $http({
                     method  : 'POST',
                     url     : 'rest/comment',
@@ -177,10 +187,10 @@
 //                        $scope.errorSuperhero = data.errors.superheroAlias;
                       } else {
                         // if successful, bind success message to message
-                        $scope.answers = data.message;
+                        $scope.answers = data;
                       }
                     });
-            };
-        }
+                };
+        });
     </script>
 </html>
