@@ -102,10 +102,12 @@ public class Vote extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!request.getParameterMap().containsKey("qid") ||
-                !request.getParameterMap().containsKey("access_token") ||
+        if (!request.getParameterMap().containsKey("access_token")){
+            response.getWriter().println("UNSUPPLIED ACCESS TOKEN");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }else if (!request.getParameterMap().containsKey("qid") ||
                 !request.getParameterMap().containsKey("up")){
-            response.getWriter().println("Unsupplied parameter qid, access_token or up");
+            response.getWriter().println("Unsupplied parameter qid or up");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }else{
             SecurityParameters sp = SecurityParameters.getSecurityParameters(request);

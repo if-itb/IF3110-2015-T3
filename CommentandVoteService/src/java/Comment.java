@@ -133,8 +133,12 @@ public class Comment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!request.getParameterMap().containsKey("access_token")){
+            response.getWriter().println("UNSUPPLIED ACCESS TOKEN");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
          if (!request.getParameterMap().containsKey("qid") ||
-                !request.getParameterMap().containsKey("access_token") ||
                 !request.getParameterMap().containsKey("qcomment")){
             response.getWriter().println("UNSUPPLIED PARAMETER");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
