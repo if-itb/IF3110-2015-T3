@@ -51,17 +51,26 @@ public class viewpost extends HttpServlet {
         boolean found = false;
         int j=0;
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            while (!found && j < cookies.length){
-                if (cookies[j].getName().equals("token_cookie")) {
-                    String token = cookies[j].getValue();
-                    User user = getUserByToken(token);
-                    request.setAttribute("name", user.getName());
-                    found = true;
-                }
-                j++;
+        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+            // ** Ambil IP Address Client
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
             }
-        }
+            
+            if (cookies != null) {
+                while (!found && j < cookies.length){
+                    String tokendicookie = cookies[j].getName(); //Ambil token yang ada di cookie milik client
+                    String[] parts = tokendicookie.split("#");
+                    if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
+                        String token = cookies[j].getValue();
+                        User user = getUserByToken(token);
+                        request.setAttribute("name", user.getName());
+                        found = true;
+                    }
+                j++;
+                }
+            }
         
        String paramqid = request.getParameter("qid");
        request.setAttribute("qid", Integer.parseInt(paramqid));       

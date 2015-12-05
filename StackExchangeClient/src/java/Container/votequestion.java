@@ -41,9 +41,18 @@ public class votequestion extends HttpServlet {
         int ins;
         Cookie[] cookies = null;
         cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+        // ** Ambil IP Address Client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (ipAddress == null) {  
+            ipAddress = request.getRemoteAddr();  
+        }
+            
         if (cookies != null) {
             while (!found && i < cookies.length){
-                if (cookies[i].getName().equals("token_cookie")) {
+                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
+                String[] parts = tokendicookie.split("#");
+                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
                     String token = cookies[i].getValue();
                     int value = Integer.parseInt(request.getParameter("jlhvote"));
                     ins = votequestion(token, qid ,value);
