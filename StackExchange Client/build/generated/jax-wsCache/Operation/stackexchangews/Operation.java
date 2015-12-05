@@ -243,8 +243,8 @@ public interface Operation {
      *     returns java.lang.String
      * @throws MalformedURLException_Exception
      * @throws UnsupportedEncodingException_Exception
-     * @throws IOException_Exception
      * @throws ParseException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod(operationName = "Auth")
     @WebResult(targetNamespace = "")
