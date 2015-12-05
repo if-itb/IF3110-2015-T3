@@ -123,9 +123,14 @@ public class QuestionWS {
      */
     @WebMethod(operationName = "UpdateQuestion")
     @WebResult(name="updQuestion")
-    public void updateQuestion(@WebParam(name = "id") int id,@WebParam(name = "topic") String topic,@WebParam(name = "content") String content) {
-      String query = "UPDATE question SET topic='" + topic + "', content='" + content + "' WHERE id = " + id + "";
-      database.executeQuery(query);
+    public void updateQuestion(@WebParam(name = "id") int id,@WebParam(name = "topic") String topic,@WebParam(name = "content") String content,@WebParam(name = "uid") int uid, @WebParam(name = "token") String token) {
+      if(TokenChecker.checkToken(token, uid)){
+        String query = "UPDATE question SET topic='" + topic + "', content='" + content + "' WHERE id = " + id + "";
+        database.executeQuery(query);
+      }
+      else{
+        
+      }
     }
     /**
      * Web service operation
@@ -133,9 +138,15 @@ public class QuestionWS {
      */
     @WebMethod(operationName = "deleteQuestion")
     @WebResult(name="delQuestion")
-    public void deleteQuestion(@WebParam(name = "qid") int qid) {
-      String query = "DELETE FROM question WHERE id = "+qid;
-      database.executeQuery(query);  
+    public void deleteQuestion(@WebParam(name = "qid") int qid, @WebParam(name = "uid") int uid, @WebParam(name = "token") String token) {
+      if(TokenChecker.checkToken(token, uid)){
+        String query = "DELETE FROM question WHERE id = "+qid;
+         database.executeQuery(query); 
+      }
+      else{
+        
+      }
+       
     }
     /**
      * Web service operation

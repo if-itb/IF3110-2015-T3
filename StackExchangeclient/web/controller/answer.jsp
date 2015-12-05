@@ -28,7 +28,7 @@
 
     AnswerWS.AnswerWS_Service aservice = new AnswerWS.AnswerWS_Service();
     AnswerWS.AnswerWS port = aservice.getAnswerWSPort();
-    port.insertAnswer(uid, qid, content);
+    port.insertAnswer(uid, qid, content, token);
 
     String url = "../view/question.jsp?id=" + qid;
     response.sendRedirect(url);

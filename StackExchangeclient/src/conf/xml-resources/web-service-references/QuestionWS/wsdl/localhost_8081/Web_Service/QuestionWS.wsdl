@@ -4,35 +4,11 @@
 <xsd:import namespace="http://jaxws/" schemaLocation="http://localhost:8081/Web_Service/QuestionWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getQuestionByQuery">
-<part name="parameters" element="tns:getQuestionByQuery"/>
+<message name="numVoteQuestion">
+<part name="parameters" element="tns:numVoteQuestion"/>
 </message>
-<message name="getQuestionByQueryResponse">
-<part name="parameters" element="tns:getQuestionByQueryResponse"/>
-</message>
-<message name="setQuestionVote">
-<part name="parameters" element="tns:setQuestionVote"/>
-</message>
-<message name="setQuestionVoteResponse">
-<part name="parameters" element="tns:setQuestionVoteResponse"/>
-</message>
-<message name="getQuestionVote">
-<part name="parameters" element="tns:getQuestionVote"/>
-</message>
-<message name="getQuestionVoteResponse">
-<part name="parameters" element="tns:getQuestionVoteResponse"/>
-</message>
-<message name="getQuestion">
-<part name="parameters" element="tns:getQuestion"/>
-</message>
-<message name="getQuestionResponse">
-<part name="parameters" element="tns:getQuestionResponse"/>
-</message>
-<message name="getQuestionByQID">
-<part name="parameters" element="tns:getQuestionByQID"/>
-</message>
-<message name="getQuestionByQIDResponse">
-<part name="parameters" element="tns:getQuestionByQIDResponse"/>
+<message name="numVoteQuestionResponse">
+<part name="parameters" element="tns:numVoteQuestionResponse"/>
 </message>
 <message name="insertQuestion">
 <part name="parameters" element="tns:insertQuestion"/>
@@ -40,11 +16,23 @@
 <message name="insertQuestionResponse">
 <part name="parameters" element="tns:insertQuestionResponse"/>
 </message>
+<message name="getQuestionByQID">
+<part name="parameters" element="tns:getQuestionByQID"/>
+</message>
+<message name="getQuestionByQIDResponse">
+<part name="parameters" element="tns:getQuestionByQIDResponse"/>
+</message>
 <message name="UpdateQuestion">
 <part name="parameters" element="tns:UpdateQuestion"/>
 </message>
 <message name="UpdateQuestionResponse">
 <part name="parameters" element="tns:UpdateQuestionResponse"/>
+</message>
+<message name="setQuestionVote">
+<part name="parameters" element="tns:setQuestionVote"/>
+</message>
+<message name="setQuestionVoteResponse">
+<part name="parameters" element="tns:setQuestionVoteResponse"/>
 </message>
 <message name="deleteQuestion">
 <part name="parameters" element="tns:deleteQuestion"/>
@@ -58,46 +46,50 @@
 <message name="voteQuestionResponse">
 <part name="parameters" element="tns:voteQuestionResponse"/>
 </message>
+<message name="getQuestion">
+<part name="parameters" element="tns:getQuestion"/>
+</message>
+<message name="getQuestionResponse">
+<part name="parameters" element="tns:getQuestionResponse"/>
+</message>
+<message name="getQuestionVote">
+<part name="parameters" element="tns:getQuestionVote"/>
+</message>
+<message name="getQuestionVoteResponse">
+<part name="parameters" element="tns:getQuestionVoteResponse"/>
+</message>
 <message name="getQuestionUID">
 <part name="parameters" element="tns:getQuestionUID"/>
 </message>
 <message name="getQuestionUIDResponse">
 <part name="parameters" element="tns:getQuestionUIDResponse"/>
 </message>
-<message name="numVoteQuestion">
-<part name="parameters" element="tns:numVoteQuestion"/>
+<message name="getQuestionByQuery">
+<part name="parameters" element="tns:getQuestionByQuery"/>
 </message>
-<message name="numVoteQuestionResponse">
-<part name="parameters" element="tns:numVoteQuestionResponse"/>
+<message name="getQuestionByQueryResponse">
+<part name="parameters" element="tns:getQuestionByQueryResponse"/>
 </message>
 <portType name="QuestionWS">
-<operation name="getQuestionByQuery">
-<input wsam:Action="http://jaxws/QuestionWS/getQuestionByQueryRequest" message="tns:getQuestionByQuery"/>
-<output wsam:Action="http://jaxws/QuestionWS/getQuestionByQueryResponse" message="tns:getQuestionByQueryResponse"/>
-</operation>
-<operation name="setQuestionVote">
-<input wsam:Action="http://jaxws/QuestionWS/setQuestionVoteRequest" message="tns:setQuestionVote"/>
-<output wsam:Action="http://jaxws/QuestionWS/setQuestionVoteResponse" message="tns:setQuestionVoteResponse"/>
-</operation>
-<operation name="getQuestionVote">
-<input wsam:Action="http://jaxws/QuestionWS/getQuestionVoteRequest" message="tns:getQuestionVote"/>
-<output wsam:Action="http://jaxws/QuestionWS/getQuestionVoteResponse" message="tns:getQuestionVoteResponse"/>
-</operation>
-<operation name="getQuestion">
-<input wsam:Action="http://jaxws/QuestionWS/getQuestionRequest" message="tns:getQuestion"/>
-<output wsam:Action="http://jaxws/QuestionWS/getQuestionResponse" message="tns:getQuestionResponse"/>
-</operation>
-<operation name="getQuestionByQID">
-<input wsam:Action="http://jaxws/QuestionWS/getQuestionByQIDRequest" message="tns:getQuestionByQID"/>
-<output wsam:Action="http://jaxws/QuestionWS/getQuestionByQIDResponse" message="tns:getQuestionByQIDResponse"/>
+<operation name="numVoteQuestion">
+<input wsam:Action="http://jaxws/QuestionWS/numVoteQuestionRequest" message="tns:numVoteQuestion"/>
+<output wsam:Action="http://jaxws/QuestionWS/numVoteQuestionResponse" message="tns:numVoteQuestionResponse"/>
 </operation>
 <operation name="insertQuestion">
 <input wsam:Action="http://jaxws/QuestionWS/insertQuestionRequest" message="tns:insertQuestion"/>
 <output wsam:Action="http://jaxws/QuestionWS/insertQuestionResponse" message="tns:insertQuestionResponse"/>
 </operation>
+<operation name="getQuestionByQID">
+<input wsam:Action="http://jaxws/QuestionWS/getQuestionByQIDRequest" message="tns:getQuestionByQID"/>
+<output wsam:Action="http://jaxws/QuestionWS/getQuestionByQIDResponse" message="tns:getQuestionByQIDResponse"/>
+</operation>
 <operation name="UpdateQuestion">
 <input wsam:Action="http://jaxws/QuestionWS/UpdateQuestionRequest" message="tns:UpdateQuestion"/>
 <output wsam:Action="http://jaxws/QuestionWS/UpdateQuestionResponse" message="tns:UpdateQuestionResponse"/>
+</operation>
+<operation name="setQuestionVote">
+<input wsam:Action="http://jaxws/QuestionWS/setQuestionVoteRequest" message="tns:setQuestionVote"/>
+<output wsam:Action="http://jaxws/QuestionWS/setQuestionVoteResponse" message="tns:setQuestionVoteResponse"/>
 </operation>
 <operation name="deleteQuestion">
 <input wsam:Action="http://jaxws/QuestionWS/deleteQuestionRequest" message="tns:deleteQuestion"/>
@@ -107,54 +99,26 @@
 <input wsam:Action="http://jaxws/QuestionWS/voteQuestionRequest" message="tns:voteQuestion"/>
 <output wsam:Action="http://jaxws/QuestionWS/voteQuestionResponse" message="tns:voteQuestionResponse"/>
 </operation>
+<operation name="getQuestion">
+<input wsam:Action="http://jaxws/QuestionWS/getQuestionRequest" message="tns:getQuestion"/>
+<output wsam:Action="http://jaxws/QuestionWS/getQuestionResponse" message="tns:getQuestionResponse"/>
+</operation>
+<operation name="getQuestionVote">
+<input wsam:Action="http://jaxws/QuestionWS/getQuestionVoteRequest" message="tns:getQuestionVote"/>
+<output wsam:Action="http://jaxws/QuestionWS/getQuestionVoteResponse" message="tns:getQuestionVoteResponse"/>
+</operation>
 <operation name="getQuestionUID">
 <input wsam:Action="http://jaxws/QuestionWS/getQuestionUIDRequest" message="tns:getQuestionUID"/>
 <output wsam:Action="http://jaxws/QuestionWS/getQuestionUIDResponse" message="tns:getQuestionUIDResponse"/>
 </operation>
-<operation name="numVoteQuestion">
-<input wsam:Action="http://jaxws/QuestionWS/numVoteQuestionRequest" message="tns:numVoteQuestion"/>
-<output wsam:Action="http://jaxws/QuestionWS/numVoteQuestionResponse" message="tns:numVoteQuestionResponse"/>
+<operation name="getQuestionByQuery">
+<input wsam:Action="http://jaxws/QuestionWS/getQuestionByQueryRequest" message="tns:getQuestionByQuery"/>
+<output wsam:Action="http://jaxws/QuestionWS/getQuestionByQueryResponse" message="tns:getQuestionByQueryResponse"/>
 </operation>
 </portType>
 <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getQuestionByQuery">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="setQuestionVote">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getQuestionVote">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getQuestion">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getQuestionByQID">
+<operation name="numVoteQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -172,7 +136,25 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getQuestionByQID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="UpdateQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="setQuestionVote">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -199,6 +181,24 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getQuestionVote">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getQuestionUID">
 <soap:operation soapAction=""/>
 <input>
@@ -208,7 +208,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="numVoteQuestion">
+<operation name="getQuestionByQuery">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

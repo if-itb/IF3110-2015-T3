@@ -31,8 +31,9 @@
 
     QuestionWS.QuestionWS_Service qservice = new QuestionWS.QuestionWS_Service();
     QuestionWS.QuestionWS port = qservice.getQuestionWSPort();
+    uid = port.getQuestionUID(qid);
     if(qid != 0) {     // update question (id question ada)
-      port.updateQuestion(qid, topic, content);
+      port.updateQuestion(qid, topic, content, uid, token);
     } else {
       port.insertQuestion(uid, topic, content);
     }

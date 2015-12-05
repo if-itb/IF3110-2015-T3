@@ -113,12 +113,6 @@ public class LoginAuth extends HttpServlet {
                 String url = "/StackExchangeclient";
                 response.sendRedirect(url);
               }
-              
-              
-//              request.setAttribute("strIS1", email );
-//              request.getRequestDispatcher("/controller/login.jsp").forward(request, response);
-//              response.sendRedirect("/StackExchangeclient/view/login.jsp");
-//              
               break;
             }
             else{

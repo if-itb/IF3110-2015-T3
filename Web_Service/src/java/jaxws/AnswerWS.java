@@ -94,9 +94,14 @@ public class AnswerWS {
      */
     @WebMethod(operationName = "insertAnswer")
     @WebResult(name="saveAnswer")
-    public void insertAnswer(@WebParam(name = "uid") int uid,@WebParam(name = "qid") int qid,@WebParam(name = "content") String content) {
-      String query = "INSERT INTO `answer` (`qid`, `uid`, `content`) VALUES ('"+qid+"','"+uid+"', '"+content+"')";
-      database.executeQuery(query);
+    public void insertAnswer(@WebParam(name = "uid") int uid,@WebParam(name = "qid") int qid,@WebParam(name = "content") String content, @WebParam(name = "token") String token ) {
+      if(TokenChecker.checkToken(token, uid)){
+        String query = "INSERT INTO `answer` (`qid`, `uid`, `content`) VALUES ('"+qid+"','"+uid+"', '"+content+"')";
+        database.executeQuery(query);
+      }
+      else{
+        
+      }
     }
     /**
      * Web service operation
