@@ -40,7 +40,7 @@
 <body>
 	<script>
 		VoteUp("<%=request.getParameter("cookie")%>", <%=request.getParameter("id")%>);
-		document.write("")
+		document.write(<span id = nilai_vote>0</span>);
 	</script>
 </body>
 </html>
