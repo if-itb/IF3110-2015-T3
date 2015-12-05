@@ -267,17 +267,21 @@ app.controller('customersCtrl', function($scope, $http) {
             console.log("Access Token : " + access_token);
             console.log("Question ID : " + qid);
             console.log(data);
-            console.log(JSON.stringify(data));
+ 
             $scope.voteUrl = "http://localhost:8082/StackExchange_IS/rest/voteQ";
             
             $http({
                 url: $scope.voteUrl,
                 data: data,
-                method: 'POST'
+                method: 'POST',
+                dataType: "json"
+//                headers: {
+//                    'Content-Type': 'application/json'
+//                }
             })
-            .then(function successCallback(response){
-                console.log("Success");
-            },function errorCallback(err){
+            .then(function (data){
+                console.log("Success : " + data);
+            },function (err){
                 console.log("Error : " + err);
             });
          

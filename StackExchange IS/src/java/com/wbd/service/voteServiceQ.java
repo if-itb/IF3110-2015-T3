@@ -172,10 +172,10 @@ public class voteServiceQ {
     }
     
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.TEXT_PLAIN)
+    //@Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public String post() throws ParseException{
-        String result = "Luminto";
+      String result = "Luminto";
         /*if (direction == 1){
             result = voteUp(access_token,qid);
         } else {
