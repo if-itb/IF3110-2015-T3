@@ -26,7 +26,7 @@ Author:
       <li><a href="register.jsp">Register</a></li>
     </ul>
     <% } else { %>
-      <!--User Identity-->
+      <!--User Name-->
       <div class="user-identity">
         Hi <span class="user-name blue"></span>
       </div>

@@ -1,7 +1,11 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
  */
 
 $(document).ready(function(){
@@ -40,12 +44,15 @@ $(document).ready(function(){
         $("#question-email").val(data.user_email);
         $("#question-name").prop("disabled", true);
         $("#question-email").prop("disabled", true);
+        $("#comment-name").val(data.user_name);
+        $("#comment-email").val(data.user_email);
+        $("#comment-name").prop("disabled", true);
+        $("#comment-email").prop("disabled", true);
         $(".user-name").append(data.user_name);
       },
       // Tidak ada response dari server
       error: function(jqXHR, textStatus, errorThrown) {
-        console.log("Something really bad happened " + textStatus + "<br>Please reload ths page");
-        alert(jqXHR.responseText);
+        alert("Something really bad happened " + textStatus + "<br>Please reload this page");
       }
     });
   }

@@ -1,9 +1,12 @@
-/* Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web
-Membuat website tanya jawab seperti Stack Exchange dengan REST dan SOAP dan arsitektur berorientasi servis.
-Author: 
-- Irene Wiliudarsan (13513002)
-- Angela Lynn       (13513002)
-- Devina Ekawati    (13513002) */
+/*
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework.
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
+ */
 /* File: main.css */
 
 html {
@@ -59,6 +62,10 @@ textarea {
   height: 35px;
   border: 2px solid #aaa;
 }
+.border-top {
+  border-top: 1px solid #aaa;
+  margin-top: 5px;
+}
 .border-bottom {
   border-bottom: 1px solid #aaa;
 }
@@ -83,7 +90,12 @@ textarea {
 }
 .answer-question-detail {
   margin: 0 10px 10px;
-  text-align: left;
+  text-align: justify;
+}
+.comment {
+  margin: 8px 0 0;
+  padding: 5px;
+  text-align: justify;
 }
 .full-length {
   width: 98%;

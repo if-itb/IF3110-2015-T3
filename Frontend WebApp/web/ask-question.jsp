@@ -1,4 +1,4 @@
-<!-- Tugas 2 IF3110 Pengembangan Aplikasi Berbasis Web
+<!-- Tugas 3 IF3110 Pengembangan Aplikasi Berbasis Web
 Membuat website tanya jawab seperti Stack Exchange dengan REST dan SOAP dan arsitektur berorientasi servis.
 Author: 
 - Irene Wiliudarsan (13513002)
@@ -6,6 +6,7 @@ Author:
 - Devina Ekawati    (13513002) -->
 <!-- File: ask-question.jsp  -->
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,7 +27,7 @@ Author:
       }
     %>
     <% if ((request.getParameter("token") != null) || (request.getParameter("token") != "not-valid")) { %>
-      <!--User Identity-->
+      <!--User Name-->
       <div class="user-identity">
         Hi <span class="user-name blue"></span>
       </div>

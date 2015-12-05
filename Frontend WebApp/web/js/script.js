@@ -1,7 +1,12 @@
-/* Tugas 1 IF3110 Pengembangan Aplikasi Berbasis Web
-Membuat website seperti Stack Exchange
-Author  : Irene Wiliudarsan (13513002)
-File    : script.js */
+/* 
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
+ */
 
 // Check whether search form is valid or not
 // A valid form can not contain empty field and containt a valid email address
@@ -76,26 +81,3 @@ function answerFormValidation(){
     return true;
   }
 };
-
-// Update votes using AJAX
-function updateVote(isQuestion, id, voteFactor) {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-      if (isQuestion) {
-        document.getElementById("question-" + id).innerHTML = xmlhttp.responseText;
-      } else {
-        document.getElementById("answer-" + id).innerHTML = xmlhttp.responseText;
-      }
-    }
-  }
-  var url = "update-vote.php?";
-  if (isQuestion) {
-    url += "id_question=";
-  } else {
-    url += "id_answer=";
-  }
-  url += id + "&vote_factor=" + voteFactor;
-  xmlhttp.open("GET", url, true);
-  xmlhttp.send();
-}

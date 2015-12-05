@@ -1,7 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tugas 3 IF3110 Pengembangan Aplikasi Web
+ * Website StackExchangeWS Sederhana
+ * dengan tambahan web security dan frontend framework.
+ * 
+ * @author Irene Wiliudarsan - 13513002
+ * @author Angela Lynn - 13513032
+ * @author Devina Ekawati - 13513088
  */
 package controller;
 
@@ -19,9 +23,8 @@ import org.json.simple.parser.*;
 import main.TokenExecutor;
 
 /**
- * @author Irene Wiliudarsan - 13513002
- * @author Angela Lynn - 13513032
- * @author Devina Ekawati - 13513088
+ * Kelas yang menghubungkan SOAP web service dengan Identity Service.
+ * Digunakan untuk melakukan validasi token.
  */
 public class TokenController extends HttpServlet {
 

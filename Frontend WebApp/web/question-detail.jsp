@@ -21,7 +21,7 @@ Author:
   </head>
   <body>
     <% if ((request.getParameter("token") != null) && (request.getParameter("token") != "not-valid")) { %>
-      <!--User Identity-->
+      <!--User Name-->
       <div class="user-identity">
         Hi <span class="user-name blue"></span>
       </div>
@@ -54,10 +54,10 @@ Author:
           
         </div>
         <!-- Questions Content -->
-        <div class="same-height-row border-bottom">
+        <div class="same-height-row">
           <div class="vote-number">
               <a href = 'VoteController?name=question-up&qid=<%= questions.get(i).getIdQuestion()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/up.png" name="question-up" /><br></a>
-            <div class="big-number" id="question-1">
+            <div class="big-number">
                 <%= questions.get(i).getVoteNum() %>
             </div>
               <a href = 'VoteController?name=question-down&qid=<%= questions.get(i).getIdQuestion()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/down.png" name="question-down"/><br></a>
@@ -95,7 +95,21 @@ Author:
             <%
             }
             %>
-            
+            <!-- Comments List -->
+            <div class="border-top">
+              <div class="comment stacked border-bottom">
+                That destroyed any confidence investors had in the stock market, which in those days was perceived to be the economy. Many had invested their life savings and were entirely wiped out.
+
+No wonder retailers wanted to make the name "Black Friday" mean something positive. And, to them, the Friday after Thanksgiving is a very profitable day. To compensate, they decided to follow the adage, "If you can't beat 'em, join 'em."
+                <div class="right">
+                  commented by Pak Yudis at 2015-11-30 11:27:23.0
+                </div>
+              </div>
+              <div class="comment stacked border-bottom">
+                <a class="blue" href="add-comment.jsp">Add a comment</a>
+              </div>
+              
+            </div>
           </div>
             <%
               }
