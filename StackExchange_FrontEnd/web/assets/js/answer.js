@@ -190,7 +190,40 @@ angular.module("stackexchangeApp", [])
             })
         }
     }])
-    
+    .controller("AnswerController", ["voteService", function(voteService){
+        this.answers = ${answers};
+        console.log(this.answers);
+
+        var answers = this.answers;
+
+        this.upvote = function(answerId){
+            voteService.upvote("answer", answerId).then(function(){
+                for (var i=0;i<answers.length;i++){
+                    if (answerId == answers[i].id){
+                        answers[i].vote++;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        };
+
+        this.downvote = function(answerId){
+            voteService.downvote("answer", answerId).then(function(){
+                for (var i=0;i<answers.length;i++){
+                    if (answerId == answers[i].id){
+                        answers[i].vote--;
+                    }
+                }
+            }, function(data){
+                if (data.status == 440){
+                    window.location.href = "/login";
+                }
+            })
+        }
+    }])
 
 
 (function($){
