@@ -10,6 +10,10 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <%
+            String token = new String();
+            int qidFromURL = Integer.parseInt(request.getParameter("id"));
+        %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style2.css">
         <script src="angular.js" type="text/javascript"></script>
@@ -20,11 +24,13 @@
             });
             app.controller('commentCtrl', function($scope, $http) {
                         $scope.comments = [];
+                        $http.get("http://localhost:8001/VoteComment/CommentRSServlet?qid=<%=qidFromURL%>").then(function(response) {
+                            $scope.comments = response.data.comments;
+                        });
                         $scope.comment = "";
-                        
-                        $scope.submitComment = function(comment, qid) {
-                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment, qid:qid})).then(function(response) {
-                                $scope.comments.push(response.data.name + " " + response.data.comment + " " + response.data.time);
+                        $scope.submitComment = function(token, comment, qid) {
+                            $http.post("http://localhost:8001/VoteComment/CommentRSServlet", JSON.stringify({comment:comment, qid:qid, access_token:token })).then(function(response) {
+                                $scope.comments.push(response.data);
                             });
                             //$scope.comments.push(comment);
                             $scope.content = "";
@@ -36,7 +42,6 @@
     </head>
     <body>
         <%
-            String token = new String();
             Cookie cookies[] = request.getCookies();
                 if (cookies != null) {
                     
@@ -78,7 +83,7 @@
             <div class="container">
                 <%-- start web service invocation --%><hr/>
                 <%                    
-                    int qidFromURL = Integer.parseInt(request.getParameter("id"));
+                    
 
                     //take the first question
                     try {
@@ -116,14 +121,15 @@
                                 out.println("<p>asked by" + result.get(i).getName() + " at " + result.get(i).getDatetime() + " </p>");
 
                             }
-                            out.println("<div ng-controller='commentCtrl' ng-app='comment'>");
-                            out.println("<div ng-repeat='comment in comments'>");
-                            out.println("{{comment}}");
+                            out.println("<div class='comment' ng-controller='commentCtrl' ng-app='comment'>");
+                            out.println("<div class='comments' ng-repeat='comment in comments'>");
+                            out.println("{{comment.name + ' - ' + comment.comment + ' at ' + comment.time}}");
                             out.println("</div>");
-                            out.println("<div>");
-                            out.println("<input type='text' placeholder='Add a comment' ng-model='content' ng-keypress='$event.keyCode==13 && submitComment(content, "+qidFromURL+")' ><br><span style='font-size:8pt;'>Press Enter to submit</span>");
-                            out.println("</form>");
-                            out.println("</div>");
+                            if (!token.equals("")) {
+                                out.println("<div><br>");
+                                out.println("<input type='text' style='width:100%' placeholder='Add a comment' ng-model='content' ng-keypress='$event.keyCode==13 && submitComment(\""+token+"\",content, "+qidFromURL+")' ><br><span style='font-size:8pt;'>Press Enter to submit</span>");
+                                out.println("</div>");
+                            }
                             out.println("</div>");
                             out.println("</div>");
                             out.println("<div>");

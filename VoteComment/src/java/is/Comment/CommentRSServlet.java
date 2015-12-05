@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.json.JSONArray;
 
 /**
  *
@@ -45,7 +46,39 @@ public class CommentRSServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
+        response.setContentType("application/json;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        Connection conn = null;
+        String Comment = null;
+        String Name = null;
+        try {
+            int qid = Integer.parseInt(request.getParameter("qid"));
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
+            Statement stmt = conn.createStatement();
+            String sql;
+            PreparedStatement dbStatement;
+            // getting the commenter's name
+            sql = "SELECT * FROM comments WHERE QuestionID = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            ResultSet rsComments = dbStatement.executeQuery();
+            JSONObject objOut = new JSONObject();
+            JSONArray jarr = new JSONArray();
+            
+            while(rsComments.next()) {
+                JSONObject jobj = new JSONObject(); 
+                jobj.put("name", rsComments.getString("Name"));
+                jobj.put("comment", rsComments.getString("Content"));
+                jobj.put("time", rsComments.getTimestamp("Datetime").toString());
+                jarr.put(jobj);
+            }
+            objOut.put("comments", jarr);
+            out.println(objOut);
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(CommentRSServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -62,6 +95,8 @@ public class CommentRSServlet extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
         PrintWriter out = response.getWriter();
         Connection conn = null;
+        String currentEmail = null;
+        String Name = null;
         StringBuffer jb = new StringBuffer();
         String line = null;
         try {
@@ -77,22 +112,42 @@ public class CommentRSServlet extends HttpServlet {
             JSONObject obj = (JSONObject) tempObj;
             String comment = (String) obj.get("comment");
             int qid = Integer.parseInt(obj.get("qid").toString());
+            String token = (String) obj.get("access_token");
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
             Statement stmt = conn.createStatement();
             String sql;
             PreparedStatement dbStatement;
-            //take the email from session asumsi bahwa token selalu bersama email
+            // getting the commenter's name
+            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, token);
+            ResultSet rsEmail = dbStatement.executeQuery();
+            //agar index berada di elemen pertama dan get email
+            if(rsEmail.next()) {
+                //returnExecution = returnExecution + 1;
+                currentEmail = rsEmail.getString("Email");
+            }
+            
+            sql = "SELECT Name FROM users WHERE Email = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, currentEmail);
+            ResultSet rsName = dbStatement.executeQuery();
+            if(rsName.next()) {
+                Name = rsName.getString("Name");
+            }
+            
+            
             sql = "INSERT INTO comments (QuestionID, Name, Content, Datetime) VALUES (?,?,?,NOW())";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, qid);
-            dbStatement.setString(2, "Cliff");
+            dbStatement.setString(2, Name);
             dbStatement.setString(3, comment);
             
             int res = dbStatement.executeUpdate();
             if (res == 1) {
                 JSONObject objOut = new JSONObject();
-                objOut.put("name", "Cliff");
+                objOut.put("name", Name);
                 objOut.put("comment", comment);
                 objOut.put("qid", qid);
                 Timestamp time = new Timestamp(System.currentTimeMillis());

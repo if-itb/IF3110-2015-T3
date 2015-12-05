@@ -165,3 +165,14 @@ a{
 .warp{
     text-wrap:break-word;
 }
+
+.comment{
+    width: 100%;
+    text-align:left;
+}
+
+.comments {
+    border-style: solid none none none;
+    border-width: 1px;
+    padding: 5px;
+}

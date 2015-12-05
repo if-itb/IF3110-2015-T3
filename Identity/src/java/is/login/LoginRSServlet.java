@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -89,7 +90,8 @@ public class LoginRSServlet extends HttpServlet {
                 String token = null;
                 String uAgent = request.getHeader("User-Agent");
                 System.out.println(uAgent);
-                String userAgent = uAgent.replaceAll(";", "%3B");
+                //String userAgent = uAgent.replaceAll(";", "%3B");
+                String userAgent = URLEncoder.encode(uAgent, "UTF-8");
                 System.out.println(userAgent);
 //            ctoken.setPath("/Identity/");
 //            response.addCookie(ctoken);
