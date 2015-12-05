@@ -14,7 +14,12 @@ router.route('/answer/comment/:id').get(function(req, res) {
 });
 
 router.route('/answer/comment/:id/upvote').post(function(req,res) {
-    var u = user.get(req.body.authentication, function(usr) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
             answerComment.vote({commentId: req.params.id, userId: usr.data.user_id, value: 1}, function(r) {
                 res.status(r.status + '');
@@ -28,7 +33,12 @@ router.route('/answer/comment/:id/upvote').post(function(req,res) {
 });
 
 router.route('/answer/comment/:id/downvote').post(function(req,res) {
-    var u = user.get(req.body.authentication, function(usr) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
             answerComment.vote({commentId: req.params.id, userId: usr.data.user_id, value: -1}, function(r) {
                 res.status(r.status + '');
@@ -50,7 +60,12 @@ router.route('/answer/:id/comment')
         });
     })
     .post(function(req,res) {
-        var u = user.get(req.body.authentication, function(usr) {
+        var auth = {
+            token: req.query.token,
+            user_agent: req['user-agent'],
+            ip_address: req.ip
+        }
+        var u = user.get(auth, function(usr) {
             if (usr.status === Const.STATUS_OK) {
                 answerComment.create({answerId: req.params.id, userId: usr.data.user_id, content: req.body.content}, function(r) {
                     res.status(r.status + '');

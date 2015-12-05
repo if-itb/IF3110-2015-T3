@@ -7,7 +7,12 @@ var express = require('express');
 var router = express.Router();
 
 router.route('/question/:id/upvote').post(function(req, res) {
-    var u = user.get(req.body.authentication, function(usr) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
             question.vote({questionId: req.params.id, userId: usr.data.user_id, value: 1}, function(r) {
                 res.status(r.status + '');
@@ -21,7 +26,12 @@ router.route('/question/:id/upvote').post(function(req, res) {
 });
 
 router.route('/question/:id/downvote').post(function(req, res) {
-    var u = user.get(req.body.authentication, function(usr) {
+    var auth = {
+        token: req.query.token,
+        user_agent: req['user-agent'],
+        ip_address: req.ip
+    }
+    var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
             question.vote({questionId: req.params.id, userId: usr.data.user_id, value: -1}, function(r) {
                 res.status(r.status + '');
