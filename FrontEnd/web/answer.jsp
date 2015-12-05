@@ -144,6 +144,7 @@
                         out.println("</div>");
                     } catch (Exception ex) {
                         // TODO handle custom exceptions here
+                        out.println("mama");
                     }
 
                 %>

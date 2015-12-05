@@ -30,20 +30,9 @@
             }
         %>
     <%
-    try {
-	answermodel.AnswerWS_Service service1 = new answermodel.AnswerWS_Service();
-	answermodel.AnswerWS port1 = service1.getAnswerWSPort();
-	 // TODO initialize WS operation arguments here
-	int ansId = Integer.parseInt(request.getParameter("id"));
-       
-	// TODO process result here
-	String result = port1.downAnswer(ansId,token);
-	out.println("Result = "+result);
-    } catch (Exception ex) {
-	// TODO handle custom exceptions here
-    }
+    int ansId = Integer.parseInt(request.getParameter("id"));
     
-    String site = "answer.jsp?id="+Integer.parseInt(request.getParameter("qid"))+"&token=" + request.getParameter("token");
+    String site = "http://localhost:8001/VoteComment/VoteDownAnswerRSServlet?token="+request.getParameter("token")+"&aid="+ansId;
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", site);
     %>

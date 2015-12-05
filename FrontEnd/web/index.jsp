@@ -14,14 +14,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel = "stylesheet" type = "text/css" href = "style2.css">
+        <script type="text/javascript" src="ua-parser.pack.js"></script>
         <title>Simple StackExchange</title>
     </head>
     <body>
+        
         <%
             String token = request.getParameter("token");
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
-
+            String StrBrowser = "<script type='text/javascript'> var parser = new UAParser(); var result = parser.getResult(); document.write (result.browser.name +' '+result.browser.major);</script>";
+            Cookie ctoken = new Cookie("access_token",StrBrowser+"#"+request.getRemoteAddr());
+            ctoken.setPath("/");
+            response.addCookie(ctoken);
             try {
 
                 Timestamp result = new Timestamp(port.getExpiredDate(token));

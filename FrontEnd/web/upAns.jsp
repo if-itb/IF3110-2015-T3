@@ -15,6 +15,7 @@
     <%-- start web service invocation --%><hr/>
     <%
             String token = request.getParameter("token");
+            int aid = Integer.parseInt(request.getParameter("id"));
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();
             questionmodel.QuestionWS port = service.getQuestionWSPort();
 
@@ -36,21 +37,8 @@
             }
         %>
     <%
-    try {
-	answermodel.AnswerWS_Service service1 = new answermodel.AnswerWS_Service();
-	answermodel.AnswerWS port1 = service1.getAnswerWSPort();
-	 // TODO initialize WS operation arguments here
-	int ansId = Integer.parseInt(request.getParameter("id"));
-        
-        
-	// TODO process result here
-	String result = port1.upAnswer(ansId,token);
-	out.println("Result = "+result);
-    } catch (Exception ex) {
-	// TODO handle custom exceptions here
-    }
     
-    String site = "answer.jsp?id="+Integer.parseInt(request.getParameter("qid")) +"&token=" + request.getParameter("token");
+    String site = "http://localhost:8001/VoteComment/VoteUpAnswerRSServlet?token="+request.getParameter("token")+"&aid="+aid;
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", site);
     %>
