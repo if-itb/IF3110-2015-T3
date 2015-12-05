@@ -88,7 +88,7 @@ public class Authentication extends HttpServlet {
                     name = "";
                     email = "";
                     user_id = "";
-                    is_valid ="-4"; // diff user agent
+                    is_valid ="-4"; // diff IP address
                 }
                 else{
                     create_time = rs.getString("create_time");
