@@ -36,14 +36,15 @@ public class IdentityChecker extends HttpServlet {
         database.connect(path);
 
         int result = 0;
-        String expires = "";
+        //just for initialization
+        Timestamp t = new Timestamp(System.currentTimeMillis());
         ResultSet rs = database.fetchData(query);
-        int uid = 0;
+        int userID = 0;
         try {
             rs.next();
             result = rs.getInt("COUNT(*)");
-            expires = rs.getString("expires");
-            uid = rs.getInt("user_id");
+            t = rs.getTimestamp("expires");
+            userID = rs.getInt("user_id");
             rs.close();
         } catch (SQLException ex) {
         }
@@ -51,8 +52,7 @@ public class IdentityChecker extends HttpServlet {
         
         //check expiry
         Date date = new Date(System.currentTimeMillis());
-        Timestamp t = Timestamp.valueOf(expires);
-        return (result == 1 && t.compareTo(date) > 0 && user_id == uid);
+        return ((result == 1) && (t.compareTo(date) > 0) && (user_id == userID));
     }
     
     public String deleteToken(String uuid){
@@ -78,16 +78,11 @@ public class IdentityChecker extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Cookie[] cookies = request.getCookies();
-            for(Cookie temp : cookies){
-                if(temp.getName().equals("token")){
-                    token = temp.getValue();
-                }
-            }
-            int uid = Integer.parseInt(request.getParameter("id"));
+            token = request.getParameter("token");
             String user_agent = request.getHeader("User-Agent");
-            String ip_address = request.getRemoteHost();
-            if(request.getParameter("action") == null   ){
+            String ip_address = request.getParameter("ip");
+            if(request.getParameter("action") == null  || request.getParameter("action").isEmpty()){
+                int uid = Integer.parseInt(request.getParameter("id"));
                 if(isTokenValid(uid, user_agent, ip_address)){
                     out.println("Successful");
                 } else {

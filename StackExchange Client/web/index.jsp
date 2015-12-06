@@ -45,7 +45,7 @@
                   }
                   %>!
                   <div class="right">
-                      <a href="http://localhost:8082/IdentityServices/IdentityChecker?action=logout">Logout</a>
+                      <a href="http://localhost:8082/IdentityServices/IdentityChecker?action=logout&token=<%= token %>">Logout</a>
                   </div>
                 <%
                 } //bracket for if
