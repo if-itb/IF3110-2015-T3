@@ -11,8 +11,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <link rel="StyleSheet" href="style.css" type="text/css">
         <script src="script.js"></script>
+        <script src="controller.js"></script>
         <title>Simple Stack Exchage</title>
     </head>
 
@@ -45,15 +47,14 @@
 	<div class="boxarea">
 		<h2><c:out value="${question.topic}"/><hr></h2>
 	
-		<div class="vote">
-                    <a href="http://localhost:8084/Stack%20Exchange%20VC/VoteQuestion?qid=${question.id}&flag=1">
-                        <div class="arrow-up"></div>
-                    </a>
-                    <h3> <div id="question-vote"><c:out value="${question.vote}"/></div></h3>
-                     <a href="http://localhost:8084/Stack%20Exchange%20VC/VoteQuestion?qid=${question.id}&flag=-1">
-                        <div class="arrow-down"></div>
-                    </a>
-		</div>
+		<div ng-app="stackexchange" ng-controller="voteQuestion" ng-init="init(${question.vote})"> 
+                    <div class="vote">
+                        
+                        <div class="arrow-up" ng-click="vote(${question.id},1)" ng-model="question_vote"></div>
+                        <h3> <span ng-bind="question_vote"></span> <span ng-bind="question_status"></span> <span ng-bind="question_error"></span></h3>
+                        <div class="arrow-down" ng-click="vote(${question.id},-1)"></div>
+                    </div>
+                </div>
 
 		<div class="question-page-content">
 			<p><c:out value="${question.content}"/></p>

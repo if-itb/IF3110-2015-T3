@@ -23,10 +23,10 @@ import javax.xml.ws.WebServiceRef;
  * @author zulvafachrina
  */
 public class QuestionPage extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8083/Stack_Exchange_WS/AnswerWS.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stack_Exchange_WS/AnswerWS.wsdl")
     private AnswerWS_Service service_1;
     
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stack_Exchange_WS/QuestionWS.wsdl")
     private QuestionWS_Service service;
 
     /**
@@ -140,5 +140,5 @@ public class QuestionPage extends HttpServlet {
         AnswerWS.AnswerWS port = service_1.getAnswerWSPort();
         return port.insertAnswer(answer, token);
     }   
-    
+
 }

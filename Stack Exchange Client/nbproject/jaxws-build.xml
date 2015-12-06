@@ -26,26 +26,10 @@
             <isset property="conf.dir"/>
         </condition>
     </target>
-    <target name="wsimport-client-QuestionWS" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/QuestionWS" destdir="${build.generated.dir}/jax-wsCache/QuestionWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/QuestionWS/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8083/Stack_Exchange_WS/QuestionWS?wsdl" xnocompile="true" xendorsed="true" package="QuestionWS" target="2.1">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/QuestionWS/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
-        </wsimport>
-        <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/QuestionWS">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-    </target>
-    <target name="wsimport-client-clean-QuestionWS" depends="-init-project">
-        <delete dir="${build.generated.sources.dir}/jax-ws/QuestionWS"/>
-        <delete dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
-    </target>
     <target name="wsimport-client-AnswerWS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AnswerWS" destdir="${build.generated.dir}/jax-wsCache/AnswerWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8083/Stack_Exchange_WS/AnswerWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8083/Stack_Exchange_WS/AnswerWS?wsdl" xnocompile="true" xendorsed="true" package="AnswerWS" target="2.1">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8083/Stack_Exchange_WS/AnswerWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/AnswerWS" destdir="${build.generated.dir}/jax-wsCache/AnswerWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/Stack_Exchange_WS/AnswerWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/Stack_Exchange_WS/AnswerWS?wsdl" xnocompile="true" xendorsed="true" package="AnswerWS" target="2.1">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/Stack_Exchange_WS/AnswerWS.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
@@ -58,10 +42,26 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/AnswerWS"/>
         <delete dir="${build.generated.dir}/jax-wsCache/AnswerWS"/>
     </target>
+    <target name="wsimport-client-QuestionWS" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/QuestionWS" destdir="${build.generated.dir}/jax-wsCache/QuestionWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/Stack_Exchange_WS/QuestionWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/Stack_Exchange_WS/QuestionWS?wsdl" xnocompile="true" xendorsed="true" package="QuestionWS" target="2.1">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/Stack_Exchange_WS/QuestionWS.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/QuestionWS">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-QuestionWS" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/QuestionWS"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/QuestionWS"/>
+    </target>
     <target name="wsimport-client-UserWS" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/UserWS"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWS" destdir="${build.generated.dir}/jax-wsCache/UserWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8083/Stack_Exchange_WS/UserWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8083/Stack_Exchange_WS/UserWS?wsdl" xnocompile="true" xendorsed="true" package="UserWS" target="2.1">
-            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8083/Stack_Exchange_WS/UserWS.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/UserWS" destdir="${build.generated.dir}/jax-wsCache/UserWS" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8081/Stack_Exchange_WS/UserWS.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8081/Stack_Exchange_WS/UserWS?wsdl" xnocompile="true" xendorsed="true" package="UserWS" target="2.1">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/UserWS/wsdl/localhost_8081/Stack_Exchange_WS/UserWS.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/UserWS"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
@@ -74,5 +74,5 @@
         <delete dir="${build.generated.sources.dir}/jax-ws/UserWS"/>
         <delete dir="${build.generated.dir}/jax-wsCache/UserWS"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-QuestionWS, wsimport-client-AnswerWS, wsimport-client-UserWS"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-AnswerWS, wsimport-client-QuestionWS, wsimport-client-UserWS"/>
 </project>

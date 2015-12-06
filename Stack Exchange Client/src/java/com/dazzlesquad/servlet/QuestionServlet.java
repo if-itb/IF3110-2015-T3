@@ -22,9 +22,11 @@ import javax.xml.ws.WebServiceRef;
  *
  * @author zulvafachrina
  */
+
 public class QuestionServlet extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl")
-    private QuestionWS_Service service_1;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stack_Exchange_WS/QuestionWS.wsdl")
+    private QuestionWS_Service service;
+    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -98,52 +100,12 @@ public class QuestionServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int countAnswer(int qid) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.countAnswer(qid);
-    }
-
-    private int deleteQuestion(int id, String token) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.deleteQuestion(id, token);
-    }
-
-    private int editQuestion(int id, java.lang.String topic, java.lang.String content, java.lang.String token) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.editQuestion(id, topic, content, token);
-    }
-
-    private java.util.List<QuestionWS.Answer> getAnswerByQuestionId(int id) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.getAnswerByQuestionId(id);
-    }
-
-    private Question getQuestionById(int id) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.getQuestionById(id);
-    }
-
-    private int insertQuestion(QuestionWS.Question question, String token) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
-        return port.insertQuestion(question, token);
-    }
-
     private java.util.List<QuestionWS.Question> showAllQuestion() {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service_1.getQuestionWSPort();
+        QuestionWS.QuestionWS port = service.getQuestionWSPort();
         return port.showAllQuestion();
-    }    
+    }
+
+ 
 }

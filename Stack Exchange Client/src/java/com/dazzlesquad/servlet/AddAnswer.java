@@ -21,7 +21,7 @@ import javax.xml.ws.WebServiceRef;
  * @author zulvafachrina
  */
 public class AddAnswer extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8083/Stack_Exchange_WS/AnswerWS.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stack_Exchange_WS/AnswerWS.wsdl")
     private AnswerWS_Service service;
 
     /**

@@ -20,7 +20,7 @@ import javax.xml.ws.WebServiceRef;
  * @author zulvafachrina
  */
 public class EditQuestion extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8083/Stack_Exchange_WS/QuestionWS.wsdl")
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/Stack_Exchange_WS/QuestionWS.wsdl")
     private QuestionWS_Service service;
 
     /**

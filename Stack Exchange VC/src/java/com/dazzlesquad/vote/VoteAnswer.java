@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -64,9 +65,11 @@ public class VoteAnswer extends HttpServlet {
                 }
             }
             
-            int vote = voteAnswer(answer_id, token, flag);
-            String location = "/Stack_Exchange_Client/QuestionPage?id=" + question_id;
-            response.sendRedirect(location);
+            JSONObject message = voteAnswer(answer_id, token, flag);
+            message.put("token", token);
+            
+            out.print(message);
+
             
         }
         }
@@ -111,7 +114,8 @@ public class VoteAnswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public int voteAnswer(int id, String token, int flag) {
+    public JSONObject voteAnswer(int id, String token, int flag) {
+        JSONObject message = new JSONObject();
         int votesuccessful = 0, AnswerUserId = 0, tokenUserId = 0, isvoted = 0;
         try {
             String sql;
@@ -126,6 +130,7 @@ public class VoteAnswer extends HttpServlet {
 
             if (result.next()) {
                 tokenUserId = result.getInt("user_id");
+                message.put("id", tokenUserId);
             }
 
             statement.close();
@@ -146,8 +151,12 @@ public class VoteAnswer extends HttpServlet {
             ResultSet result = dbStatement.executeQuery();
             statement.close();
 
+             //Kalau sudah ada di tabel vote question (sudah pernah vote)
             if (result.next()) {
-
+                message.put("status", "fail");  
+                message.put("error", "You have voted before");  
+            
+            //Belum pernah vote
             } else {
 
                 try {
@@ -161,6 +170,18 @@ public class VoteAnswer extends HttpServlet {
                     dbStatement.setInt(2, id);
                     dbStatement.executeUpdate();
 
+                    //ambil jumlah vote sekarang
+                    sql = "SELECT vote FROM answer WHERE id = ?";
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, id);
+                    result = dbStatement.executeQuery();
+                    
+                    if (result.next()) {
+                        int vote = result.getInt("vote");
+                        message.put("vote", vote);
+                        message.put("status", "success");
+                    }
+                    
                     sql = "INSERT INTO vote_answer (question_id, answer_id, user_id) VALUES (0, ?, ?)";
                     dbStatement = conn.prepareStatement(sql);
                     dbStatement.setInt(1, id);
@@ -171,15 +192,17 @@ public class VoteAnswer extends HttpServlet {
                     votesuccessful = 1;
 
                 } catch (SQLException ex) {
-                    Logger.getLogger(VoteAnswer.class.getName()).log(Level.SEVERE, null, ex);
+                    message.put("status", "fail");
+                    message.put("error", ex); 
                 }
 
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(VoteAnswer.class.getName()).log(Level.SEVERE, null, ex);
+            message.put("status", "fail");
+            message.put("error", ex); 
         }
 
-        return votesuccessful;
+        return message;
     }
 }
