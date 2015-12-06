@@ -48,6 +48,7 @@
                     com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
                     com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
                     java.lang.String accessToken = theCookie;
+                    //out.write("ACCESS TOKENNYA APA : " + accessToken);
                     java.lang.String result = port.getUsername(accessToken);
                     //out.println("COOKIENYAH: "+theCookie);
                     String border = "<ul class='right hide-on-med-and-down'>"

@@ -9,6 +9,7 @@ import MD5Hashing.MD5Hashing;
 import com.wbd.db.DBConnection;
 import com.wbd.rest.UserAgent;
 import com.wbd.rest.UserIP;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/token")
 public class tokenGenerate {
         
-	public static Token generateToken(String email, String password){
+	public static Token generateToken(String email, String password,String user_agent, String user_ipaddress){
 		Token token = new Token();
 
 		DBConnection dbc = new DBConnection();
@@ -61,7 +62,9 @@ public class tokenGenerate {
                 System.out.println(md5.Hash(password));
                 System.out.println(userip.getIPAddress());
                 System.out.println(useragent.getAgent());
-                token.access_token = "a" + md5.Hash(password);
+                //System.out.println("Sebelum encode : " + ("a" + md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress));
+                token.access_token = URLEncoder.encode( (md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress), "UTF-8");
+                
                 //token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
                 System.out.println("TOken : " + token.access_token);
                 
@@ -149,9 +152,8 @@ public class tokenGenerate {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Token post(@FormParam("email") String email,
-	@FormParam("password") String password) {
-		Token token = generateToken(email,password);
+	public Token post(@FormParam("email") String email,@FormParam("password") String password,@FormParam("user_agent") String user_agent,@FormParam("user_ipaddress") String user_ipaddress) {
+		Token token = generateToken(email,password,user_agent,user_ipaddress);
                 //System.out.println("Nino Homo" + token.access_token);
 		return token;
 	}

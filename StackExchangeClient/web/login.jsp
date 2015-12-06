@@ -62,6 +62,20 @@
                 out.println("COOKIE JSP: " + cookArray[i].getName());
             }*/
         %>
+        
+        <% 
+               String ip = request.getHeader("x-forwarded-for");      
+               if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {      
+                   ip = request.getHeader("Proxy-Client-IP");      
+               }      
+               if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {      
+                   ip = request.getHeader("WL-Proxy-Client-IP");      
+               }      
+               if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {      
+                   ip = request.getRemoteAddr();      
+               }      
+            
+        %>
         <div class="row">
             <form id="loginForm" class="col s12" name="loginForm" action="" onsubmit="" method="POST">
               <div class="row">
@@ -76,8 +90,8 @@
                   <label for="password">Password</label>
                 </div>
               </div>
-                  <input hidden name="user_agent" value="<%= request.getHeader("User-Agent") %>"> 
-                  <input hidden name="user_ipaddress" value =" <%= request.getHeader("X-FORWARDED-FOR") %>">
+                  <input type='hidden' name="user_agent" value="<%= request.getHeader("User-Agent") %>"> 
+                  <input type='hidden' name="user_ipaddress" value =" <%= ip %>">
               <button id = "button-post" class="btn waves-effect waves-light" type="submit" name="action">login
                 <i class="material-icons right">send</i>
             </button>
@@ -174,7 +188,7 @@
                     e.preventDefault();
                     
                     var data = $('#loginForm').serialize();
-                    console.log(data);
+                    console.log("Data : " + data);
                     $.ajax({
                         url: url,
                         data: data,

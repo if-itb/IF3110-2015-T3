@@ -108,6 +108,7 @@ public class RegisterWS {
             se.printStackTrace();
             hasil = "";
         }
+        System.out.println("Hasil : " + hasil);
         return hasil;
     }
 

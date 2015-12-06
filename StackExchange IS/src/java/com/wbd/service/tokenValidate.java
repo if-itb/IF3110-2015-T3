@@ -8,6 +8,8 @@ import com.wbd.db.DBConnection;
 import MD5Hashing.MD5Hashing;
 
 import com.wbd.db.DBConnection;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,7 +54,7 @@ public class tokenValidate{
 			String sql = "SELECT * FROM token NATURAL JOIN user WHERE access_token = ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, access_token);
-                        System.out.println("Token Validate access_token :" + access_token);
+                        System.out.println("Token Validate function getIdentity :" + access_token);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()){
 				//identity.valid = 1;
@@ -92,8 +94,9 @@ public class tokenValidate{
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Identity post(@FormParam("access_token") String access_token) {
-		Identity identity = getIdentity(access_token);
+	public Identity post(@FormParam("access_token") String access_token) throws UnsupportedEncodingException {
+                System.out.println("Access TOken in /tokenValidate : "+ URLEncoder.encode(access_token,"UTF-8"));
+		Identity identity = getIdentity(URLEncoder.encode(access_token,"UTF-8"));
 		return identity;
 	}
 

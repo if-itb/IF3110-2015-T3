@@ -4,6 +4,7 @@
     Author     : chairuniaulianusapati
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html ng-app ='voteApp'>
@@ -98,14 +99,14 @@
  
                     "<div  ng-controller='voteQuestionController' class='block-QA'>"
 			+"<div class='bQA-vote'>"
-                            +"<a ng-click='direction=1; voteQuestion( " + theCookie + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteQuestion( \"" + theCookie + "\"," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a ng-model='voteQuestionCounter' ng-init='loadInitial(" + request.getParameter("id") + ") ;' class='vote-value' id='question_vote-" + qid +"'>"
 				+ "{{voteQuestionCounter}}"
                             +"</a>"
                             +"<br><br>"
-                            +"<a ng-click='direction=0; voteQuestion( " + theCookie + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteQuestion( \"" + theCookie + "\"," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
                         +"</div>"
                         +"</a>"
 			+"</div>"
@@ -135,7 +136,7 @@
                         + "Add Comment"
                         + "<form >"
                             + "<textarea ng-model='comment_content' placeholder='Your Comment' style='width:550px'></textarea>"
-                            + "<button ng-click='addComment(" + theCookie + "," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
+                            + "<button ng-click='addComment(\"" + theCookie + "\"," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
                             + "<h4>Comments</h4>"
 
                             + "<div ng-repeat='comment in comments' class='block-comment'>"
@@ -192,13 +193,13 @@
                 String answer = 
                     "<div ng-app ='voteApp' ng-controller='voteAnswerController' class='block-QA'>"
                         +"<div class='bQA-vote'>"
-                            +"<a ng-click='direction=1; voteAnswer(" + theCookie + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteAnswer(\"" + theCookie + "\"," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a ng-init='voteAnswerCounter=" + result.get(i).getVote() + ";' ng-model='voteAnswerCounter' class='vote-value' id='answer_vote-"+ 
                             "'>{{voteAnswerCounter}}" + "</a>"
                             +"<br><br>"
-                            +"<a ng-click='direction=0; voteAnswer( " + theCookie + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteAnswer( \"" + theCookie + "\"," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
                             +"</div></a>"
 			+"</div>"
                         +"<div class='bQA-content'>"
@@ -256,10 +257,13 @@
         app.controller('commentController', function($scope, $http) {
             var commentUrl = "http://localhost:8082/StackExchange_IS/allComments"; 
             var q_id = "<%= request.getParameter("id") %>";
+
             var access_token = "<%= theCookie %>";
-            console.log(q_id);
+            console.log("AllComments" + access_token);
+            console.log("AllCommenet The Cookie : " + "<%= theCookie %>" );
+            //console.log(q_id);
             var commentParameter = {question_id: q_id, access_token: access_token};
-            console.log(JSON.stringify(commentParameter));
+            //console.log(JSON.stringify(commentParameter));
             $http({
                      url: commentUrl,
                      data: JSON.stringify(commentParameter),
@@ -268,11 +272,11 @@
                      crossDomain: true
                  })
                  .then(function (response){
-                     console.log("Success");
+                     //console.log("Success");
                      $scope.comments = [];
                      $scope.comments = response.data.comments;
-                     console.log(JSON.stringify($scope.comments));
-                     console.log(JSON.stringify($scope.message));
+                     //console.log(JSON.stringify($scope.comments));
+                     //console.log(JSON.stringify($scope.message));
                      /*if ($scope.message == 1 || $scope.message == -5){
 
                      } else {
@@ -284,16 +288,16 @@
                 
                 $scope.addComment = function(access_token, qid,comment_content) {
                     
-                    console.log("Luminto Homo");
+                    //console.log("Luminto Homo");
                     var addCommentUrl = "http://localhost:8082/StackExchange_IS/commentService";                                 
                     var access_token = "<%= theCookie %>";
                     var qid = "<%= request.getParameter("id") %>";
                     var content = $scope.comment_content;
                     var yourComment = {access_token: access_token ,question_id: qid, comment: content};
-                    console.log("Access Token : " + access_token);
-                    console.log("Question ID : " + qid);
-                    console.log("Comment Content : " + content);
-                    console.log(JSON.stringify(yourComment));
+                    console.log("commentService : " + access_token);
+                    //console.log("Question ID : " + qid);
+                    //console.log("Comment Content : " + content);
+                    //console.log(JSON.stringify(yourComment));
                     $http({
                         url: addCommentUrl,
                         data: JSON.stringify(yourComment),
@@ -302,13 +306,13 @@
                         crossDomain: true
                     })
                     .then(function (response){
-                        console.log("Success");
+                        //console.log("Success");
                         $scope.comments.push(response.data);
                         $scope.message = response.data.message;
                         $scope.coba = response.data;
-                        console.log(JSON.stringify(response));
-                        console.log("Message " + $scope.message);
-                        console.log("Cba" + JSON.stringify($scope.comments))
+                        //console.log(JSON.stringify(response));
+                        //console.log("Message " + $scope.message);
+                        //console.log("Cba" + JSON.stringify($scope.comments))
                         if ($scope.message == 1 || $scope.message == -5 || $scope.message == undefined){
 
                         } else {
@@ -328,13 +332,13 @@
             $scope.direction = -99;
 
             $scope.loadInitial = function(qid){
-                var access_token = "<%= request.getParameter("token") %>";
-
+            var access_token = "<%= theCookie %>";
+            console.log("initiateVote : " + access_token);
             var qid = "<%= request.getParameter("id") %>";
 
             var commentParameter = {question_id: qid};
-             console.log("Question ID - Quesr=tion: " + qid);
-             console.log(JSON.stringify(commentParameter));
+             //console.log("Question ID - Quesr=tion: " + qid);
+             //console.log(JSON.stringify(commentParameter));
              $http({
                  url: voteUrl,
                  data: JSON.stringify(commentParameter),

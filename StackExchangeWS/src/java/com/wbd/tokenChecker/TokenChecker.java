@@ -85,6 +85,7 @@ public class TokenChecker{
                 try {
                     //this.valid = -1;
                     String req = "access_token=" + access_token;
+                    System.out.println("Ben Lemuel Tanasale : " + access_token);
                     byte[] postData       = req.getBytes( StandardCharsets.UTF_8 );
                     int    postDataLength = postData.length;
                     String request        = "http://localhost:8082/StackExchange_IS/rest/tokenValidate";
