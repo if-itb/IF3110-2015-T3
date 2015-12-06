@@ -76,11 +76,23 @@ app.controller("voteController", function($scope, $http) {
 app.controller("commentController", function($scope, $http)) {
     $scope.comments = [];
     
+    $scope.init = function(idQuestion){
+        $http({
+            method  : "GET",
+            url     : "comment"
+            data    : "id=" + idQuestion,
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .success(function(data){
+            $scope.comments = data;
+        });
+    }
+    
     $scope.addComment = function(idQuestion, content){
         $http({
             method  : "POST",
             url     : "comment",
-            data    : "id=" + id + "&content=" + content,
+            data    : "id=" + idQuestion + "&content=" + content,
             headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .success(function(data){
