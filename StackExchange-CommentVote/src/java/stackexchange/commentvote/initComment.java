@@ -3,27 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package stackexchange.identity;
+package stackexchange.commentvote;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import stackexchange.identity.security.SessionIdentifierGenerator;
+import stackexchange.webservice.auth.Auth;
 import stackexchange.webservice.util.Database;
 
 /**
  *
  * @author fauzanrifqy
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "initComment", urlPatterns = {"/initComment"})
+public class initComment extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,49 +44,38 @@ public class Login extends HttpServlet {
         try {
             /* TODO output your page here. You may use following sample code. */
             response.setContentType("application/json");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            String browser = request.getParameter("browser");
-            
+            //Get Data
+            String qid = request.getParameter("qid");
             //Akses database menggunakan query DB
             Database db = new Database();
             Connection conn = db.getConnection();
             try{
-                String sql="select * from users where email='" + email + "' and password='" + password + "'";
+                String sql="select * from qcomments where questionId=" + qid;
+
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
-                if (rs.next()) {
-                    sql= "delete from tokens where email='" + email + "'";
-                    ps = conn.prepareStatement(sql);
-                    ps.executeUpdate();
-                    
-                    SessionIdentifierGenerator sig = new SessionIdentifierGenerator();
-                    String token = sig.nextSessionId();
-                    java.sql.Timestamp sqlDate = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-                    
-                    sql = "insert into tokens (email,token,expdate) values (?,?,? + interval '30' minute)"; 
-                    ps = conn.prepareStatement(sql);
-                    
-                    ps.setString(1, email);
-                    ps.setString(2, token);
-                    ps.setTimestamp(3, sqlDate);
-                    
-                    ps.executeUpdate();
-                    JSONObject json = new JSONObject();
-                    json.put("status", "success");
-                    json.put("token", token);
-                    out.print(json);
-                    out.flush();
-                }else{
-                    JSONObject json = new JSONObject();
-                    
-                    json.put("status", "denied");
-                    out.print(json);
-                    out.flush();
+
+                JSONObject json = new JSONObject();
+                JSONArray commentsJSON = new JSONArray();
+
+                while(rs.next()){
+                    JSONObject commentJSON = new JSONObject();
+
+                    commentJSON.put("id", rs.getInt("id"));
+                    commentJSON.put("name", rs.getString("name"));
+                    commentJSON.put("email", rs.getString("email"));
+                    commentJSON.put("content", rs.getString("content"));
+                    commentJSON.put("dateMade", "'"+rs.getTimestamp("dateMade")+"'");
+
+                    commentsJSON.add(commentJSON);
                 }
+                json.put("status", "success");
+                json.put("comments", commentsJSON);
+                out.print(json);
+                out.flush();
             }catch(Exception e){
                 JSONObject json = new JSONObject();
-                    
+
                 json.put("status", e.getMessage());
                 out.print(json);
                 out.flush();
@@ -90,7 +83,6 @@ public class Login extends HttpServlet {
                 db.closeConnection();
                 db = null;
             }
-            
         } finally {
             out.close();
         }

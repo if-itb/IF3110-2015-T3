@@ -1,8 +1,18 @@
 var app = angular.module("commentApp", ['ngCookies']);
 
-app.controller('voteCtrl',function($scope, $cookies, $http, $location){
+app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
     $scope.value = "-";
     $scope.id = 0;
+    
+    if($window.navigator.userAgent.indexOf("Chrome/") > -1){
+        $scope.browser = "chrome";
+    }else if($window.navigator.userAgent.indexOf("Firefox/") > -1){
+        $scope.browser = "firefox";
+    }else if($window.navigator.userAgent.indexOf("Safari/") > -1){
+        $scope.browser = "safari";
+    }else{
+        $scope.browser = "unknown";
+    }
     
     //hard code for get param
     if ($location.absUrl().indexOf("?") > -1){
@@ -22,6 +32,16 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location){
                         $scope.value = "-";
                     }
             });
+            
+    $scope.query = "qid="+$scope.id;
+    $scope.url = "http://localhost:8080/StackExchange-CommentVote/initComment?"+$scope.query;
+    $http.get($scope.url)
+            .then(function(response){
+                console.log(response.data);
+                    if(response.data.status === "success"){
+                        $scope.comments = response.data.comments;
+                    }
+            });
     
     $scope.email = $cookies.get('email');
     $scope.token = $cookies.get('token');
@@ -33,7 +53,7 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location){
         $http.get($scope.url)
                 .then(function(response){
                     console.log(response.data);
-                    if(response.data.status == "success"){
+                    if(response.data.status === "success"){
                         $scope.value = response.data.newVote;
                     }
                 });
@@ -47,9 +67,32 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location){
         $http.get($scope.url)
                 .then(function(response){
                     console.log(response.data);
-                    if(response.data.status == "success"){
+                    if(response.data.status === "success"){
                         $scope.value = response.data.newVote;
                     }
                 });
+    };
+    $scope.submitComment = function(){
+        
+        $scope.editing = false;
+        $scope.comMessage = "";
+        
+        $scope.query = "email="+$scope.email;
+        $scope.query += "&token="+$scope.token;
+        $scope.query += "&content="+$scope.comment.text;
+        $scope.query += "&qid="+$scope.id;
+        $scope.url = "http://localhost:8080/StackExchange-CommentVote/Comment?"+$scope.query;
+        $http.get($scope.url)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.status === "success"){
+                        $scope.comments = response.data.comments;
+                        $scope.comment.text = "";
+                    }else{
+                        $scope.comMessage = "You must login first";
+                        $scope.comment.text = "";
+                    }
+                });
+        
     };
 });

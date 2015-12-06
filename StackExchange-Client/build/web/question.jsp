@@ -32,11 +32,19 @@
                                     <% } %>
                                 </div>
                                 <div class="comment-container">
-                                    <p class="comment">
-                                        Give is more source code, it's not enough - <span class="userCom"> fauzan </span>
-                                    </p>
+                                    <div ng-repeat="comment in comments">
+                                        <p class="comment">
+                                            {{comment.content}} - <span class="userCom"> {{comment.name}} </span>
+                                        </p>
+                                    </div>
                                     <div class="addCom">
-                                        <span><a class="submitButton" href="#"> add comment </a></span>
+                                        <p>{{comMessage}}</p>
+                                        <form class="form makeQuestion" method="post" ng-submit="submitComment()">
+                                            <div class="innerForm">
+                                                <input class="textForm" type="text" placeholder="Comment" name="comment" ng-show="editing" ng-blur="editing = false" ng-model="comment.text">
+                                            </div>
+                                        </form>
+                                        <span><a class="submitButton" href="#" ng-click="editing = true; comMessage = ''" ng-hide="editing"> add comment </a></span>
                                     </div>
                                 </div>
 			</div>
