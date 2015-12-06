@@ -51,9 +51,11 @@ public class Comment extends HttpServlet {
 			System.out.println("VALID TOKEN");
 			CommentModel cm = new CommentModel(name, content);
 			out.println(cm.toXML());
+                        break;
 		    case "invalid":
 			System.out.println("INVALID TOKEN");
 			out.println("invalidtoken");
+                        break;
 		    default:
 			System.out.println("EXPIRED_TOKEN");
 			out.println("expiredtoken");
@@ -72,7 +74,7 @@ public class Comment extends HttpServlet {
     }
     
     public String getIP(HttpServletRequest request) {
-	return request.getHeader("Remote-Origin");
+	return request.getRemoteAddr();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -127,7 +129,7 @@ public class Comment extends HttpServlet {
 	form.param("token", token);
 	form.param("user_agent", useragent);
 	form.param("ip", ip);
-
+        
 	Client client = ClientBuilder.newClient();
 	String url = "http://localhost:8080/IdentityService/Auth";
 

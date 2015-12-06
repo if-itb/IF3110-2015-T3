@@ -72,7 +72,7 @@ public final class AccessToken {
         }
         catch (JAXBException exception) {
 	    System.out.println(exception);
-	    return "JANCUK";
+	    return "ADH";
         }
     }
     

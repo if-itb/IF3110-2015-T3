@@ -16,14 +16,16 @@ import mysql.ConnectDb;
 
 
 // ACCESS_TOKEN OBJECT
-@XmlRootElement(name = "accessToken")
-@XmlType(propOrder = { "name", "content", "created_at" })
+@XmlRootElement(name = "comment")
+@XmlType(propOrder = { "name", "content", "createdAt" })
 public final class CommentModel {
     private String name;
     private String content;
     private long created_at;
     
     private final long lifetime = 15000;
+    
+    public CommentModel() { }
         
     public CommentModel(String name, String content) throws SQLException {
         this.name = name;
@@ -37,12 +39,12 @@ public final class CommentModel {
     }
     
     @XmlElement
-    public String content() {
+    public String getContent() {
         return this.content;
     }
     
     @XmlElement
-    public long getCreataedAt() {
+    public long getCreatedAt() {
         return this.created_at;
     }
     

@@ -11,18 +11,26 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 
     
     $scope.comment = function() {
-	$log.log("WEWs");
+        console.log(JSON.stringify({
+		token: $cookies.get("token"),
+		name : $cookies.get("username"),
+		content : $scope.content
+	    }));
 	$http({
 	    url: "http://localhost:8083/CommentVoteService/comment",
 	    method: "POST",
-	    param: {
+	    data: {
 		token: $cookies.get("token"),
 		name : $cookies.get("username"),
 		content : $scope.content
 	    },
-	    headres : {
-		'Content-Type ': 'text/plain'
-	    }
+            transformRequest: function(obj) {
+                var str = [];
+                for(var p in obj)
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                return str.join("&");
+            },
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(response){
 	    $scope.comments.push(response);
 	});
