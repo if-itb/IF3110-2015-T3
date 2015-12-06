@@ -78,7 +78,7 @@ public class auth extends HttpServlet {
                     sql = "SELECT * FROM token WHERE token_id=?";
                     try (PreparedStatement stmt = conn.prepareStatement(sql))
                     {
-                        stmt.setString(1, tokeninfo[0]);
+                        stmt.setString(1, token);
                         result = stmt.executeQuery();
                         if (result.next())
                         {
