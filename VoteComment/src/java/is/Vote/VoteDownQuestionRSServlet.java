@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import ws.auth.Auth;
 
 
@@ -70,6 +71,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Integer Vote = null;
          try {
          /*final PrintWriter out = response.getWriter();
              StringBuffer jb = new StringBuffer();
@@ -144,6 +146,17 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
                     
                 }
             }
+            
+             sql = "SELECT * FROM questions WHERE IDQuestion = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            rs = dbStatement.executeQuery();
+            if (rs.next()) {
+                Vote=rs.getInt("Votes");
+            }
+            JSONObject objOut = new JSONObject();
+            objOut.put("Vote", Vote.toString());
+            out.println(objOut);
             //stmt.close();
         } catch (SQLException ex) {
 
@@ -165,9 +178,10 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-
-            /*final PrintWriter out = response.getWriter();
+        Integer Vote = null;
+        PrintWriter out = response.getWriter();
+         try {
+         /*final PrintWriter out = response.getWriter();
              StringBuffer jb = new StringBuffer();
              String line = null;
              try {
@@ -176,47 +190,89 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
              jb.append(line);
              } catch (Exception e) {}
              out.println(jb.toString());*/
+             int returnExecution = 0;
+             String token = request.getParameter("token");
+             int qid=Integer.parseInt(request.getParameter("qid"));
             response.setContentType("text/html");
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
+            
+             String currentEmail = new String("");
+       
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM users WHERE Email = ? AND Password = ?"; // Login query validation
+            String currentAccessToken = token;
+            String sql;
+            PreparedStatement dbStatement;
+            //take the email from session asumsi bahwa token selalu bersama email
+            Auth auth = new Auth();
+            currentEmail = auth.getEmail(token);
 
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setString(1, request.getParameter("email"));
-            dbStatement.setString(2, request.getParameter("password"));
-
+            //Melakukan pengecekan apakah sudah ada atau belum dalam database
+            sql = "SELECT * FROM upquestion WHERE IDQuestion = ? AND email = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            dbStatement.setString(2, currentEmail);
             ResultSet rs = dbStatement.executeQuery();
-            if (rs.next()) { // If the query returns a row (login succeeded)
-                String token = null;
-                //out.println(token);
-                token = UUID.randomUUID().toString()+"#"+"#"; //generate token
-                
-                out.println(token);
+            //agar index berada di elemen pertama dan jika belum ada insert terlebih dulu
+            if (!rs.next()) {
 
-                sql = "INSERT INTO sessions (Email, AccessToken,ExpiredDate) VALUES (?,?,NOW()+INTERVAL 5 MINUTE)";
+                //Up the the question table
+                sql = "INSERT INTO upquestion (Email,IDQuestion,totalVote) VALUES(?,?,0)";
                 dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, request.getParameter("email"));
-                dbStatement.setString(2, token);
+                dbStatement.setString(1, currentEmail);
+                dbStatement.setInt(2, qid);
                 dbStatement.executeUpdate();
-
-                    //Cookie c = new Cookie("access_token", token);
-                //c.setPath("/FrontEnd/");
-                //response.addCookie(c);
-                //response.setHeader("access_token", token);
-                //response.addHeader("token", token);
-                response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?token=" + token + "&valid=1");
-
-            } else {
-                response.sendRedirect("http://localhost:8000/FrontEnd/login.jsp?valid=0&isi=" + request.getParameter("Email"));
             }
+
+            //Melakukan pengecekan apakah sudah pernah di upvote atau tidak
+            sql = "SELECT * FROM upquestion WHERE IDQuestion = ? AND email = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            dbStatement.setString(2, currentEmail);
+            rs = dbStatement.executeQuery();
+
+            if (rs.next()) {
+                //jika sudah totalVote == 1 maka dilarang vote up lagi
+                returnExecution = rs.getInt("totalVote");
+                if (returnExecution == -1) {
+                    //do nothing because already upvote
+                } else { //total vote 0 atau -1
+                    //search apakah sudah pernah dilakukan vote up atau down sebelumnya 
+                    //Up the the question table
+                    sql = "UPDATE questions SET Votes = Votes - 1 WHERE QuestionID = ?";
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, qid);
+                    dbStatement.executeUpdate();
+                    //Up the the relation of email and question in table upquestion
+                    sql = "UPDATE upquestion SET totalVote = totalVote - 1 WHERE IDQuestion = ? AND email = ?";
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, qid);
+                    dbStatement.setString(2, currentEmail);
+                    dbStatement.executeUpdate();
+                    
+                }
+            }
+            
+             sql = "SELECT * FROM questions WHERE QuestionID = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);
+            rs = dbStatement.executeQuery();
+            if (rs.next()) {
+                Vote=rs.getInt("Votes");
+            }
+            JSONObject objOut = new JSONObject();
+            objOut.put("Vote", Vote);
+            out.println(objOut);
+            //stmt.close();
         } catch (SQLException ex) {
 
             Logger.getLogger(VoteUpQuestionRSServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
 
             Logger.getLogger(VoteUpQuestionRSServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (Exception ex) {}
     }
 
     /**

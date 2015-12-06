@@ -18,7 +18,7 @@
         <link rel = "stylesheet" type = "text/css" href = "style2.css">
         <script src="angular.js" type="text/javascript"></script>
         <script>
-            var app = angular.module('comment', []);
+            var app = angular.module('votecomment', []);
             app.config(function($httpProvider) {
                 $httpProvider.defaults.useXDomain = true;
             });
@@ -34,13 +34,66 @@
                             });
                             //$scope.comments.push(comment);
                             $scope.content = "";
-                        }
+                        };
             });
-            
+            app.controller('VoteCtrl', function($scope, $http){
+                $scope.vote2 = [];
+                $scope.voteupQuestion = function(id,str){
+                        str = "<%= request.getParameter("token") %>";
+                  
+                        $http({
+                                method:'POST',
+                                url: 'http://localhost:8001/VoteComment/VoteUpQuestionRSServlet?token='+ str + '&qid=' + id
+                        }).
+                        then(function(response){
+                             $scope.vote = response.data.Vote;
+                            
+                        });
+                };
+                
+                $scope.votedownQuestion = function(id,str){
+                        str = "<%= request.getParameter("token") %>";
+               
+                        $http({
+                                method:'POST',
+                                url: 'http://localhost:8001/VoteComment/VoteDownQuestionRSServlet?token='+ str + '&qid=' + id
+                        }).
+                        then(function(response){
+                             $scope.vote = response.data.Vote;
+                         
+                        });
+                };
+                
+                $scope.voteupAnswer = function(id,index,str){
+                        str = "<%= request.getParameter("token") %>";
+                     
+                        $http({
+                                method:'POST',
+                                url: 'http://localhost:8001/VoteComment/VoteUpAnswerRSServlet?token='+ str + '&id=' + id
+                        }).
+                        then(function(response){
+                             $scope.vote2[index] = response.data.Vote;
+                          
+                        });
+                };
+                
+                $scope.votedownAnswer = function(id,index,str){
+                        str = "<%= request.getParameter("token") %>";
+                    
+                        $http({
+                                method:'POST',
+                                url: 'http://localhost:8001/VoteComment/VoteDownAnswerRSServlet?token='+ str + '&id=' + id
+                        }).
+                        then(function(response){
+                             $scope.vote2[index] = response.data.Vote;
+                           
+                        });
+                };
+            });
         </script>
         <title>Simple StackExchange</title>
     </head>
-    <body>
+    <body ng-app="votecomment">
         <%
             Cookie cookies[] = request.getCookies();
                 if (cookies != null) {
@@ -85,7 +138,7 @@
         </div>
 
         <div class="main">
-            <div class="container">
+            <div class="container" ng-controller="VoteCtrl">
                 <%-- start web service invocation --%><hr/>
                 <%                    
                     
@@ -102,16 +155,12 @@
                             out.println("<div class='columnsmall left'>");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                                out.println("<a href='upQues.jsp?id=" + qidFromURL + "&token=" + token + "'>");
-                                out.println("<img src='up.png' alt='up' height='42' width='42' >");
-                                out.println("</a>");
+                               out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupQuestion("+result.get(i).getQuestionID()+","+request.getParameter(token)+")'>");
                             }
                             //print number of votes
-                            out.println("<p>" + result.get(i).getVotes() + "</p>");
+                            out.println("<p ng-bind='vote' ng-init='vote="+result.get(i).getVotes()+"'>" + result.get(i).getVotes() + "</p>");
                             if (!token.equals("")) {
-                                out.println("<a href='downQues.jsp?id=" + qidFromURL + "&token=" + token + "'>");
-                                out.println("<img src='down.png' alt='up' height='42' width='42' >");
-                                out.println("</a>");
+                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownQuestion("+result.get(i).getQuestionID()+","+request.getParameter(token)+")'>");
                             }
                             out.println("</div>");
 
@@ -157,16 +206,12 @@
                             out.println("<div class='columnsmall left' >");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                                out.println("<a href='upAns.jsp?id=" + result.get(i).getAnswerID() + "&qid=" + qidFromURL + "&token=" + token + "'>");
-                                out.println("<img src='up.png' alt='up' height='42' width='42' >");
-                                out.println("</a>");
+                                 out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupAnswer("+result.get(i).getAnswerID()+","+i+","+request.getParameter(token)+")'>");
                             }
-                            out.println("<p>" + result.get(i).getVotes() + "</p>");
+                            out.println("<p ng-bind='vote2["+i+"]' ng-init='vote2["+i+"]="+result.get(i).getVotes()+"'>" + result.get(i).getVotes() + "</p>");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                                out.println("<a href='downAns.jsp?id=" + result.get(i).getAnswerID() + "&qid=" + qidFromURL + "&token=" + token + "'>");
-                                out.println("<img src='down.png' alt='up' height='42' width='42' >");
-                                out.println("</a>");
+                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownAnswer("+result.get(i).getAnswerID()+","+i+","+request.getParameter(token)+")'>");
                             }
                             out.println("</div>");
 
