@@ -101,8 +101,9 @@
 				   			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
 				 			</li>
 						</ul>
-						<form ng-submit="submitComment()">
-							<input type="text" ng-model="comment" />
+						<input type="button" value="Add a comment" ng-click="ShowHide()" />
+						<form ng-show = "IsVisible" ng-submit="submitComment()">
+							<input type="text" ng-model="comment" required/>
 						  <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
 						  <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
 						</form>
@@ -159,6 +160,12 @@
 		   $scope.access_token = '<%=access_token %>';
 		}
 		
+		$scope.IsVisible = false;
+        $scope.ShowHide = function () {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+        }
+        
 	   $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
 	   .then(function(response) {$scope.comments = response.data;});
 	   
@@ -180,10 +187,14 @@
 
            $http.post('http://localhost:8081/Comment_Vote-WS/comment/question/add/', data, config)
            .success(function (data, status, headers, config) {
+        	   
                if(data.id_comment > 0){
             	  $scope.comments = $scope.comments.concat(data);
+            	  
                }
+               $scope.comment = null;
            })
+           
 	   };
 	});
 	var app2 = angular.module('commentAddApp', []);
