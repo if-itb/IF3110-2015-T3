@@ -23,9 +23,7 @@ public final class CommentModel {
     private String content;
     private long created_at;
     private int qid;
-    
-    private final long lifetime = 15000;
-    
+        
     public CommentModel() { }
     
     public CommentModel(String name, String content, int qid, long createdAt) throws SQLException {
