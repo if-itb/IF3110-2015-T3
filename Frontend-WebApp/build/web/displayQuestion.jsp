@@ -12,7 +12,7 @@
         <script src ="js/angular/angular.min.js"></script>
         <script src ="js/controllers/maincontroller.js"></script>
     </head>
-    <body>
+    <body ng-app="CommentAndVoteApp">
         
         <a href="index.jsp"><h1>Simple StackExchange</h1></a>
         
@@ -40,13 +40,12 @@
         <div class="garis"></div>
         <table >
 			<tr>
-				<td class="vote">
+				<td class="vote" ng-controller='voteCtrl'>
+                                    {{qid=<%=id%>;""}}
 					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=true">
 						<img src="image/Up.png" width="30" hight="30">
 					</a>
-					<h3>
-						<%= q.getQvote() %>
-					</h3>
+					<h3>{{votenum}}</h3>
 					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=false">
 						<img src="image/down.png"  width="30" hight="30">
 					</a>
@@ -71,7 +70,6 @@
 				</td>
 			</tr>
 		</table>
-        <div ng-app="CommentAndVoteApp"> 
             <div id="commentsContainer" ng-controller="commentCtrl">
                 {{qid = <%=id%>;""}}
                 <div ng-repeat="c in clist" class="comment" id="comment{{c.cid}}">
@@ -83,8 +81,7 @@
                     </span>
                 </div>
             </div>
-        </div>
-                
+                        
         <h2><%= na %> Answer</h2>
         
         <div class="garis"></div>
