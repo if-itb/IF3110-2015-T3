@@ -40,7 +40,8 @@ public class addanswer extends HttpServlet {
         String content = request.getParameter("content");
         
         // validate the tokens
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
         String ipAddress = request.getHeader("X-FORWARDED-FOR");  
         if (ipAddress == null)
             ipAddress = request.getRemoteAddr();  

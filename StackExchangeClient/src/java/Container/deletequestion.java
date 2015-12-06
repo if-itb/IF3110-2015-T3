@@ -44,7 +44,8 @@ public class deletequestion extends HttpServlet {
             throws ServletException, IOException {
         
         Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
         // ** Ambil IP Address Client
         String ipAddress = request.getHeader("X-FORWARDED-FOR");  
         if (ipAddress == null)

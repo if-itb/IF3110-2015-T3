@@ -20,12 +20,10 @@ public class ClientValidate {
         if (cookies != null) {
             while (!found && i < cookies.length) {
                 //Ambil token yang ada di cookie milik client
-                if (cookies[i].getName().equals("token_cookie")) {
-                    parts = cookies[i].getValue().split("#");
-                    if (parts[1].equals(uagent) && parts[2].equals(ip)) {
+                parts = cookies[i].getValue().split("#");
+                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ip) && parts[2].equals(uagent)) {
                         token = parts[0];
                         found = true;
-                    }
                 }
                 i++;
             }

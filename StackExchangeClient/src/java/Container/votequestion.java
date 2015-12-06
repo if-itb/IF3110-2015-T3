@@ -36,7 +36,8 @@ public class votequestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  

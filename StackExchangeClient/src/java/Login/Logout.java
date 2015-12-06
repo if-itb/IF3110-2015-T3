@@ -46,28 +46,9 @@ public class Logout extends HttpServlet {
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  
 //        
-//        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-//        
-//        if (token == null) {
-//            int res = logoutUser(token);
-//            if (res > 0) {
-//                Cookie cookie = new Cookie("token_cookie", null);
-//                cookie.setMaxAge(0);
-//                response.addCookie(cookie);
-//            }
-//        }
-        if (cookies != null) {
-            while (!found && i < cookies.length) {
-                String[] parts = cookies[i].getValue().split("#");
-                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ipAddress) && parts[2].equals(useragent)) {
-                    token = parts[0];
-                    found = true; 
-                } else
-                    i++;
-            }
-        }
+        token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
         
-        if (found) {
+        if (token != null) {
             int res = logoutUser(token);
             if (res > 0) {
                 Cookie cookie = new Cookie("token_cookie", null);
@@ -75,6 +56,25 @@ public class Logout extends HttpServlet {
                 response.addCookie(cookie);
             }
         }
+//        if (cookies != null) {
+//            while (!found && i < cookies.length) {
+//                String[] parts = cookies[i].getValue().split("#");
+//                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ipAddress) && parts[2].equals(useragent)) {
+//                    token = parts[0];
+//                    found = true; 
+//                } else
+//                    i++;
+//            }
+//        }
+//        
+//        if (found) {
+//            int res = logoutUser(token);
+//            if (res > 0) {
+//                Cookie cookie = new Cookie("token_cookie", null);
+//                cookie.setMaxAge(0);
+//                response.addCookie(cookie);
+//            }
+//        }
         // redirect user to home after logout
         response.sendRedirect("home");
     }
