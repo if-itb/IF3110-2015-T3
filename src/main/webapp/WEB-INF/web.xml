@@ -9,8 +9,12 @@
         <servlet-class>com.mycompany.nasipadang.servlet.CommentService</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>VoteService</servlet-name>
-        <servlet-class>com.mycompany.nasipadang.servlet.VoteService</servlet-class>
+        <servlet-name>VoteQuestionService</servlet-name>
+        <servlet-class>com.mycompany.nasipadang.servlet.VoteQuestionService</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoteAnswerService</servlet-name>
+        <servlet-class>com.mycompany.nasipadang.servlet.VoteAnswerService</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IdentityService</servlet-name>
@@ -21,8 +25,12 @@
         <url-pattern>/rest/comment</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>VoteService</servlet-name>
-        <url-pattern>/rest/vote</url-pattern>
+        <servlet-name>VoteQuestionService</servlet-name>
+        <url-pattern>/rest/vote_question</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteAnswerService</servlet-name>
+        <url-pattern>/rest/vote_answer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -33,7 +33,7 @@ import org.json.simple.parser.ParseException;
  *
  * @author user
  */
-public class VoteService extends HttpServlet {
+public class VoteQuestionService extends HttpServlet {
 
     private Connection connection;
     private void connectDB() throws SQLException{
@@ -121,6 +121,36 @@ public class VoteService extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        org.json.JSONObject json = new org.json.JSONObject();
+        String token = request.getParameter("token");
+        int id_user = whoIs(token);
+        int votes = 0;
+        if(id_user != 0){
+            try {
+                connectDB();
+                Statement st = connection.createStatement();
+                String sql = "INSERT INTO vote_question (id, id_user, value) VALUES ('"+ request.getParameter("id") +"', '"+ id_user +"', '"+ request.getParameter("vote") +"')";
+                st.execute(sql);
+                closeDB();
+                connectDB();
+                st = connection.createStatement();
+                sql = "SELECT SUM(vote_question.value) as votes FROM vote_question WHERE vote_question.id = '" + request.getParameter("id") + "'";
+                ResultSet rs = st.executeQuery(sql);
+                if(rs.next()) votes = rs.getInt("votes");
+                closeDB();
+            }catch(SQLException ex){
+                ex.printStackTrace();
+            }
+            json.put("status", "ok");
+            json.put("votes", votes);
+        }
+        else{
+            json.put("status", "invalid");
+        }
+        response.setContentType("application/json");
+        try (PrintWriter out = response.getWriter()) {
+            out.println(json.toString());
+        }
     }
 
     /**
@@ -134,28 +164,7 @@ public class VoteService extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        org.json.JSONObject json = new org.json.JSONObject();
-        String token = request.getParameter("token");
-        int id_user = whoIs(token);
-        if(id_user != 0){
-            try {
-                connectDB();
-                Statement st = connection.createStatement();
-                String sql = "INSERT INTO vote_question (id, id_user, value) VALUES ('"+ request.getParameter("id") +"', '"+ id_user +"', '"+ request.getParameter("vote") +"')";
-                st.execute(sql);
-                closeDB();
-            }catch(SQLException ex){
-                ex.printStackTrace();
-            }
-            json.put("status", "ok");
-        }
-        else{
-            json.put("status", "invalid");
-        }
-        response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            out.println(json.toString());
-        }
+        
     }
 
     /**

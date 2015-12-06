@@ -37,14 +37,19 @@
             List<Answer> items = allAnswer.getItem();
             Cookie c = new Cookie("token", token);
             Cookie c1 = new Cookie("id", id);
+            Cookie c2 = new Cookie("count", "" + question.getCount());
+            String hasVote = "true";
+            Cookie c4 = new Cookie("votes_question", "" + question.getVote());
             response.addCookie(c);
             response.addCookie(c1);
+            response.addCookie(c2);
+            response.addCookie(c4);
             String vote = "";
             if(name != null && !question.isHasVote()) vote = "enabled";
             else vote = "disabled";
         %>
     </head>
-    <body>
+    <body ng-app="answers" ng-controller="ajaxComment">
         <a href="index.jsp"><h1>Simple StackExchange</h1></a><br>
         <%if (name != null) { 
             out.println(name); %>
@@ -60,9 +65,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <a class="vote-up-<%=vote%>" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=1">Up</a>
-                            <div class="vote" id="votes"><%=question.getVote()%></div>
-                            <a class="vote-down-<%=vote%>" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=-1">Down</a>
+                            <%if((name != null) && !question.isHasVote()){%><a class="vote-up" href="" ng-click="upVoteQuestion()">Up</a><%}%>
+                            <div class="vote" id="votes">{{votes_question}}</div>
+                            <%if((name != null) && !question.isHasVote()){%><a class="vote-down" href="" ng-click="downVoteQuestion()">Down</a><%}%>
                         </td>
                         <td>
                             <table>
@@ -76,8 +81,9 @@
                 </tbody>
             </table>
 	<br>
-	<div class="answer" ng-app="answers" ng-controller="ajaxComment">
-            <div class="title" id="count"><%=question.getCount()%> Answer</div>
+        </div>
+	<div class="answer">
+            <div class="title" id="count">{{count}} Answer</div>
             <ul>
                 <%for(Answer answer : items){%>
                     <hr></hr>
@@ -86,9 +92,9 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <%if(name != null && !answer.isHasVote()){%><a class="vote-up" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer=<%=answer.getIdAnswer()%>&vote=1">Up</a><%}%>
+                                        <a class="vote-up" href="" ng-click="upVoteAnswer()">Up</a>
                                         <div class="vote" id="votes<%=answer.getIdAnswer()%>"><%=answer.getVote()%></div>
-                                        <%if(name != null && !answer.isHasVote()){%><a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer=<%=answer.getIdAnswer()%>&vote=-1">Down</a><%}%>
+                                        <a class="vote-down" href="" ng-click="downVoteAnswer()">Down</a>
                                     </td>
                                     <td>
                                         <table>
@@ -109,9 +115,9 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <a class="vote-up" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id_answer}}&vote=1">Up</a>
+                                    <a class="vote-up" ng-href="{{vote_question.up}}">Up</a>
                                     <div class="vote" id="votes{{answer.id_answer}}">{{answer.vote}}</div>
-                                    <a class="vote-down" href="update_vote_answer.jsp?id=<%=question.getId()%>&id_answer={{answer.id_answer}}&vote=-1">Down</a>
+                                    <a class="vote-down" ng-href="{{vote_question.up}}">Down</a>
                                 </td>
                                 <td>
                                     <table>
@@ -163,16 +169,65 @@
         var app1 = angular.module('answers',['ngCookies']);
         app1.controller('ajaxComment', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
             $scope.vote = "enabled";
+            $scope.count = $cookies.get("count");
+            $scope.votes_question = $cookies.get("votes_question");
             $scope.answers = [];
             $scope.formData = {};
             $scope.formData.content = "";
             $scope.error = "";
+            var token = $cookies.get("token");
+            var id = $cookies.get("id");
             $scope.processForm = function(){
-                var token = $cookies.get("token");
-                var id = $cookies.get("id");
                 $http.get("rest/comment?id=" + id + "&token=" + token + "&content=" + $scope.formData.content)
                     .then(function(response) {
-                        if(response.data.status === "ok") {$scope.answers = response.data.answers; $scope.formData.content = "";}
+                        if(response.data.status === "ok") {
+                            $scope.answers = response.data.answers;
+                            $scope.formData.content = "";
+                            $scope.count = parseInt($scope.count) + 1;
+                        }
+                        else{$scope.error = "Your session is invalid";}
+            });
+            };
+            
+            // for vote question
+            $scope.upVoteQuestion = function(){
+                $http.get("rest/vote_question?id=" + id + "&token=" + token + "&vote=1")
+                    .then(function(response) {
+                        if(response.data.status === "ok") {
+                            $scope.votes_question = response.data.votes;
+                        }
+                        else{$scope.error = "Your session is invalid";}
+            });
+            };
+            $scope.downVoteQuestion = function(){
+                $http.get("rest/vote_question?id=" + id + "&token=" + token + "&vote=-1")
+                    .then(function(response) {
+                        if(response.data.status === "ok") {
+                            $scope.votes_question = response.data.votes;
+                        }
+                        else{$scope.error = "Your session is invalid";}
+            });
+            };
+            
+            //for vote answer
+            $scope.vote_answer = {up : "upVoteAnswer({{answer.id_answer}})", down : "downVoteAnswer({{answer.id_answer}})"};
+            $scope.upVoteAnswer = function(id_answer){
+                $http.get("rest/vote_question?id_answer=" + id_answer + "&token=" + token + "&vote=1")
+                    .then(function(response) {
+                        if(response.data.status === "ok") {
+                            $scope.vote_answer.up = "";
+                            $scope.vote_answer.down = "";
+                        }
+                        else{$scope.error = "Your session is invalid";}
+            });
+            };
+            $scope.downVoteAnswer = function(id_answer){
+                $http.get("rest/vote_question?id_answer=" + id_answer + "&token=" + token + "&vote=-1")
+                    .then(function(response) {
+                        if(response.data.status === "ok") {
+                            $scope.vote_answer.up = "";
+                            $scope.vote_answer.down = "";
+                        }
                         else{$scope.error = "Your session is invalid";}
             });
             };
