@@ -84,6 +84,9 @@ public class Authentication extends HttpServlet {
                 user_agent = rs.getString("user_agent");
                 ip_address = rs.getString("ip_address");
                 
+                // For technical reasons
+                ip_address = "127.0.0.1";
+                
                 if(!isUserAgentValid(realUserAgent, user_agent)){
                     name = "";
                     email = "";
