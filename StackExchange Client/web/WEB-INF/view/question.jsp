@@ -5,6 +5,8 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<!DOCTYPE html>
+<html lang="en" ng-app="stackexchange"> </html>
 <jsp:include page="header.jsp" flush="true"/>    
     <h3 class="topic"><a class="topic" href="question?id=${question.id}"><c:out value="${question.topic}"/></a></h3>
     <hr class="heading">
@@ -38,18 +40,17 @@
                     </c:if>
                 </div>
                     
-                <div class="row">
-                    <div class="comment col-10 col-push-2">
-                        <div class="comment-item">
-                            <p>Lorem ipsum dolor sit amet<span class="author">username</span></p>
-                        </div>
-                        <div class="comment-item">
-                            <p>Lorem ipsum dolor sit<span class="author">username</span></p>
-                        </div>
-                        <div class="comment-item">
-                            <p>Lorem ipsum dolor<span class="author">username</span></p>
-                        </div>
+                <div class="comment" ng-controller="viewController as question">
+                    <div class="comment-item" ng-repeat="comment in question.comments">
+                        <p>{{comment.content}} - <span class="author">{{ comment.user }}</span></p>
                     </div>
+                    
+                    <form name="commentForm" ng-controller="aController as commentCtrl" ng-submit="commentForm.$valid && commentCtrl.addComment(question.comments)" novalidate>
+                        <input ng-model="commentCtrl.comment.question_id" ng-init="commentCtrl.comment.q_id=<%= "${question.id}" %>" type="hidden">
+                        <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your Comment" required>
+                        <input type="submit" class="btn btn-default" value="Add comment">
+                    </form>
+                   
                 </div>
                     
             </div>

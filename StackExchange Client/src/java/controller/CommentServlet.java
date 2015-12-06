@@ -23,28 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.parser.JSONParser;
 
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 /**
  *
  * @author Acer
@@ -80,8 +58,9 @@ public class CommentServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("question_id"));
+        System.out.println(id);
         try (PrintWriter out = response.getWriter()){
-            URL obj = new URL("http://localhost:8083/CV_Service/comment?id=" + id);
+            URL obj = new URL("http://localhost:8083/comment?id=" + id);
             HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
             connection.setRequestMethod("GET");
             

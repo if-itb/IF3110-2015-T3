@@ -13,6 +13,10 @@
         <servlet-class>controller.RootServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>CommentServlet</servlet-name>
+        <servlet-class>controller.CommentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>QuestionServlet</servlet-name>
         <servlet-class>controller.QuestionServlet</servlet-class>
     </servlet>
@@ -67,6 +71,10 @@
     <servlet-mapping>
         <servlet-name>SignOutServlet</servlet-name>
         <url-pattern>/signout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CommentServlet</servlet-name>
+        <url-pattern>/comment</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteServlet</servlet-name>
