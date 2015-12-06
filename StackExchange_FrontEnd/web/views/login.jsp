@@ -60,6 +60,18 @@
 <!--  Scripts-->
 <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/js/materialize.min.js"></script>
+<script>
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    if (getParameterByName("invalid") == "true"){
+        alert("Invalid email or password");
+    }
+</script>
 
 </body>
 </html>
