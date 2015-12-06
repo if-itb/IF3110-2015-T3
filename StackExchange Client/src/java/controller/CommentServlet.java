@@ -8,16 +8,42 @@ package controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.parser.JSONParser;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  *
@@ -53,15 +79,25 @@ public class CommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("question_id"));
         try (PrintWriter out = response.getWriter()){
-            String url = "http://localhost:8083/comment?id=" + id;
-            URL obj = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
-            //conn.setRequestMethod("GET");
+            URL obj = new URL("http://localhost:8083/CV_Service/comment?id=" + id);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("GET");
             
             //TRUS INI NGAPAIN LAGI HAHAHAHAHAHAH
             
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuffer responses = new StringBuffer();
+            String currentLine;
+
+            while ((currentLine = in.readLine()) != null) {
+                responses.append(currentLine);
+            }
+            in.close();
+
+            //print result
+            out.println(responses.toString());
            
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,34 +117,32 @@ public class CommentServlet extends HttpServlet {
             throws ServletException, IOException {
         JSONParser parser = new JSONParser();
         try (PrintWriter out = response.getWriter()) {
-            
-            //AMBIL COOKIE (??)
-
-            String user_IP = request.getHeader("X-FORWARDED-FOR");
-            if (user_IP == null) {
-                user_IP = request.getRemoteAddr();
-            }
-            String userAgent = request.getHeader("User-Agent");
-            
+            String auth=null; //INI DAPET DARI MANA???
             String charset = "UTF-8";
-            String uid = request.getParameter("uid");
-            String qid = request.getParameter("qid");
             String content = request.getParameter("content");
+            String id_question=request.getParameter("question_id"); //GIMANA CARA DAPETNYAA
                    
-            URL url = new URL("http://localhost:8083/CV_Service/comment");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Accept-Charset", charset);
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
+            URL url = new URL("http://localhost:8083/comment");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Accept-Charset", charset);
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
            
+            String query = String.format("auth=%s&id_question=%s&content=%s",
+                    URLEncoder.encode(auth, charset),
+                    URLEncoder.encode(id_question, charset),
+                    URLEncoder.encode(content, charset));
             
+            try (OutputStream output = connection.getOutputStream()) {
+                output.write(query.getBytes(charset));
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
             String output;
-            
-            
-            
-            conn.disconnect();
-            
+            while ((output = br.readLine()) != null) {
+                out.println(output);
+            }
+            connection.disconnect();
         }
     }
 
