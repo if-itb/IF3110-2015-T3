@@ -47,7 +47,7 @@
                 <div class="row">
                     <div class= "vote col" ng-controller = "voteController">
                         <img src="img/upvote.png" width ="35" height="35" ng-init = "questionVoteNumber = <%= result.getVote() %>" ng-click="voteClick('question','incr',<%= request.getParameter("qid") %>,<%= request.getParameter("id") %>)"><br>
-                        <span id="question-vote-count">{{ questionVoteNumber }}</span><br>
+                        <span id="question-vote-count">{{questionVoteNumber}}</span><br>
                         <img src="img/downvote.png" width="35" height="35" ng-click="voteClick('question','decr',<%= request.getParameter("qid") %>,<%= request.getParameter("id") %>)">
                         </a>
                     </div>
@@ -141,6 +141,42 @@
         </div>
     </div>
 </div>
-<script src="js/ajax.js"></script>
+<script>
+  
+var appName = angular.module("App", []);
+
+appName.controller("voteController", function($scope, $http) {
+      $scope.voteClick = function(target,action,id,userId) {
+          var responsePromise = $http.get("http://localhost:8080/VoteAndComment Service/Vote?target=" + target + "&action=" + action + "&id="+ id +"&userId=" + userId);
+          if(target == "answer") {
+            responsePromise.success(function(data, status, headers, config) {
+                $scope.(answerVoteNumber) = data.answer_vote;
+            });
+          } else if(target == "question") {
+            responsePromise.success(function(data, status, headers, config) {
+                $scope.questionVoteNumber = data.question_vote;
+            });
+          }
+          responsePromise.error(function(data, status, headers, config) {
+              alert("AJAX failed!");
+          });
+      }
+  } );
+
+  appName.controller("commentController", function($scope, $http) {
+      $scope.commentClick = function(id,target,content,userId) {
+          var responsePromise = $http.get("http://localhost:8080/VoteAndComment Service/Comment?id=" + id + "&target=" + target + "&content="+ content +"&userId=" + userId);
+          var responseGetComment = $http.get("http://localhost:8080/VoteAndComment Service/GetComment?id=" + id + "&target=" + target);
+
+          responseGetComment.success(function(data,status,headers,config) {
+            $scope.comment = data.comment;
+          });
+          responseGetComment.error(function(data,status,headers,config) {
+            alert("Ajax failed");
+          });
+      }
+  } );
+
+</script>
  </body>
  </html>
