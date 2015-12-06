@@ -6,39 +6,45 @@
 app.controller('questionVoteController', [ '$scope','$http','$location','$cookies', function($scope,$http,$location,$cookies)
     {
         var questionvotecontrol = this;
-        this.vote = 0;
+        $scope.vote = 0;
         var votedata = this.votedata;
         this.votedata = {};
-        this.getVote = function()
-        {    
-            var qid = $location.search()['id'];
+        var qid = $location.search()['id'];
             $http(
                 {
-                    url: "http://localhost:8080/Comment-Vote_Service/vote",
+                    url: "http://localhost:8080/StackExchange_Client/vote",
                     method: "GET",
                     params: {id: qid, db: "question"}
                 }).success(function(data)
                 {
                     if (data.vote !== null)
                     {
-                        questionvotecontrol.vote = data.vote;
+                        $scope.vote = data.vote;
                     }
                 }    
                     );
-        };
         this.addVote = function(x){
             this.votedata.token = $cookies.get("stackexchange_token");
             if (token!==null) {
                 this.votedata.sum = x;
                 $http({
-                    url: "http://localhost:8080/Comment-Vote_Service/addVote",
+                    url: "http://localhost:8080/StackExchange_Client/addVote",
                     method: "POST",
                     params: {
-                        id: this.votedata.qid,
+                        id: qid,
                         vote: this.votedata.sum,
                         db: "question",
                         token: this.votedata.token
-                    }
+                    },
+                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                  transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                  },
+                }).success(function(data){
+                    $scope.vote = data.vote;
                 });
             }
                 else {
@@ -47,6 +53,7 @@ app.controller('questionVoteController', [ '$scope','$http','$location','$cookie
         };
         this.init = function(qid)
         {
+            alert("tes");
             this.votedata.qid = qid;
         };
         

@@ -5,26 +5,59 @@
  */
 package Vote;
 
+import connection.DB;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceRef;
+import org.json.simple.JSONObject;
 
 /**
  *
- * @author ASUS X202E
+ * @author Venny
  */
 @WebServlet(name = "VoteServlet", urlPatterns = {"/vote"})
 public class VoteServlet extends HttpServlet {
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchange_WS/VoteWS.wsdl")
-    private model.vote.VoteWS_Service service;
+    Connection conn = DB.connect();
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        JSONObject jo = new JSONObject();
+        
+        int id = Integer.parseInt(request.getParameter("id")); //question_id atau answer_id
+        String db = request.getParameter("db"); //question atau answer
+        
+        try(PrintWriter out = response.getWriter()){
+            if (db.equals("question")){
+                int numvote = getQuestionVotes(id);
+                jo.put("vote", numvote);   
+            } else if (db.equals("answer")){
+                int numvote = getAnswerVotes(id);
+                jo.put("vote", numvote);
+            }
+            out.println(jo.toString());
+        }
+    }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -36,38 +69,7 @@ public class VoteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        Cookie cookies[] = request.getCookies();
-
-        String token_id="";
-        boolean found = false;
-        int i=0;
-        while (i<cookies.length && !found) {
-            if ("stackexchange_token".equals(cookies[i].getName())) {
-                token_id = cookies[i].getValue();
-                found = true;
-            } else {
-                i++;
-            }
-        }
-        
-        int success = -1;
-        if (found) {
-            try (PrintWriter out = response.getWriter()) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                int vote = Integer.parseInt(request.getParameter("vote"));
-                String db = request.getParameter("db");
-                if ("question".equals(db)) {
-                    success = voteQuestion(token_id,id,vote);
-                    if (success>0) out.print(getQuestionVotes(id)+"");
-                } else if ("answer".equals(db)) {
-                    success = voteAnswer(token_id,id,vote);
-                    if (success>0) out.print(getAnswerVotes(id)+"");
-                }
-            }
-        }
-       
+        processRequest(request, response);
     }
 
     /**
@@ -81,6 +83,7 @@ public class VoteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -92,34 +95,38 @@ public class VoteServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private int getQuestionVotes(int questionId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        model.vote.VoteWS port = service.getVoteWSPort();
-        return port.getQuestionVotes(questionId);
+    
+    private int getQuestionVotes(int question_id){
+        int votecount = 0;
+        try {
+            String sql = "SELECT vote FROM question WHERE question_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, question_id);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            votecount = rs.getInt("vote");
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddVoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return votecount;
     }
-
-
-    private int getAnswerVotes(int answerId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        model.vote.VoteWS port = service.getVoteWSPort();
-        return port.getAnswerVotes(answerId);
+    
+    private int getAnswerVotes(int answer_id){
+        int votecount = 0;
+        try {
+            String sql = "SELECT vote FROM answer WHERE answer_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, answer_id);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            votecount = rs.getInt("vote");
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddVoteServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return votecount;
     }
-
-    private int voteAnswer(java.lang.String token, int answerId, int vote) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        model.vote.VoteWS port = service.getVoteWSPort();
-        return port.voteAnswer(token, answerId, vote);
-    }
-
-    private int voteQuestion(java.lang.String token, int questionId, int vote) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        model.vote.VoteWS port = service.getVoteWSPort();
-        return port.voteQuestion(token, questionId, vote);
-    }
-
 }
