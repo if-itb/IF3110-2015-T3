@@ -9,6 +9,8 @@
     <head>
         <title>Simple StackExcahange | Question</title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <script src ="js/angular/angular.min.js"></script>
+        <script src ="js/controllers/maincontroller.js"></script>
     </head>
     <body>
         
@@ -69,8 +71,22 @@
 				</td>
 			</tr>
 		</table>
-        
+        <div ng-app="CommentAndVoteApp"> 
+            <div id="commentsContainer" ng-controller="commentCtrl">
+                {{qid = <%=id%>;""}}
+                <div ng-repeat="c in clist" class="comment" id="comment{{c.cid}}">
+                    <span class="commenttext">{{c.qcomment}}</span>
+                    <span class="commentattributes">
+                        —
+                        <span class="commentauthor">{{c.AuthorName}}</span>
+                        <span class="commenttime">{{c.created_at}}</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+                
         <h2><%= na %> Answer</h2>
+        
         <div class="garis"></div>
         <% for(Answer.Answer a : ans) { %>
         <table >
