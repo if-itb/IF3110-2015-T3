@@ -23,6 +23,7 @@
                 <input type="submit" value="Post" />
                 <input type="hidden" name="token" value="<%= token %>" />
                 <input type="hidden" name="uid" value="<%= request.getParameter("id")%>" />
+                <input type="hidden" name="ip" valu="<%= request.getRemoteHost() %>"/>
             </form>
         </div>
     </body>

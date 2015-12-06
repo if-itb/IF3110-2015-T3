@@ -12,6 +12,7 @@
 	<title>Simple StackExchange</title>
 	<link rel="stylesheet" type="text/css" href="css/mainstyle.css">        
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="js/function.js"></script>
 
 </head>
 
@@ -19,34 +20,13 @@
     
     <script>
     var vote = angular.module('voteup',[]);
-    app.controller('DemoController', function($scope) {
-    $scope.counter = 0;
+    app.controller('DemoController', function($scope,$http) {
     $scope.add = function(amount) {    
-    <%
-    try {
-	questionWebService.QuestionWebService_Service service = new questionWebService.QuestionWebService_Service();
-	questionWebService.QuestionWebService port = service.getQuestionWebServicePort();
-	            String token = "";
-            Cookie[] cookies = request.getCookies();
-            for(Cookie temp : cookies){
-                if(temp.getName().equals("token")){
-                    token = temp.getValue();
-                }
-            }
-        java.lang.String arg0 = token;
-	int arg1 = Integer.parseInt(request.getParameter("qid"));
-	int arg2 = Integer.parseInt(request.getParameter("id"));
-	java.lang.String result = port.incrVote(arg0, arg1, arg2);
-    } catch (Exception ex) {
-        
-    }
-    
-    %>
-  };
-  
-    $scope.subtract = function(amount) { $scope.counter -= amount; };
+      $http.get("Vote?id=13&user=3"); 
+    };
     });
     </script>
+    
 <script>
 var app = angular.module('myForm', []);
 app.controller('formCtrl', function($scope) {
@@ -166,19 +146,18 @@ app.controller('formCtrl', function($scope) {
                                     </div>
                                 </div>
                             </div>
-                            <ul>
-                              <li ng-app="getComment" ng-controller="commentCtrl">
-                                  <textarea ng-model="master.sesuatu"></textarea>
-                              </li>
-                            </ul>        
-                            <div class="comment" ng-app="myForm" ng-controller="formCtrl">
-                                <form novalidate>
+        
+                            <div id="abc" ng-app="myForm" ng-controller="formCtrl">
+                                <div id="popupContact">
+                                <form action='#' id="form" method="post" name="form" novalidate>
                                     Comment this<br>
                                     <textarea ng-model="user.lastName" placeholder="comment here"></textarea>
                                     <br><br>
-                                    <button ng-click="reset()">COMMENT</button>
+                                    <button ng-click="reset()" onclick ="div_hide()">COMMENT</button>
                                 </form>
-                            </div>        
+                                </div>
+                            </div>
+                                    <button id="popup" onclick="div_show()">Popup</button>
                             <% 
                             } //end for
                             %>

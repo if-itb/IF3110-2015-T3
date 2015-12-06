@@ -21,11 +21,12 @@
         String topic = request.getParameter("topic");
         String content = request.getParameter("content");
         String identification = request.getParameter("uid");
+        String ip = request.getParameter("ip");
         int id = Integer.parseInt(identification);
         userWebService.UserWebService_Service userService = new userWebService.UserWebService_Service();
         userWebService.UserWebService userPort = userService.getUserWebServicePort();
         User user = userPort.getUser(id);
-        String result = port.addQuestion(token, user.getName(), user.getEmail(), topic, content, id);
+        String result = port.addQuestion(token, user.getName(), user.getEmail(), topic, content, id, ip);
         if(result.equals("executed")) {
           response.sendRedirect("index.jsp?id=" + id);
         } else {
