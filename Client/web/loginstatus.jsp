@@ -17,11 +17,12 @@
 				<%@ page import="org.apache.http.entity.StringEntity" %>
 				<%@ page import="org.apache.http.HttpResponse" %>
 				<%@ page import="org.apache.http.client.HttpClient" %>
+				<%@ page import="org.apache.commons.codec.digest.DigestUtils" %>
 				<%
 
 					String email = request.getParameter("email");
 					String password = request.getParameter("password");
-					String userAgent= request.getHeader("User-Agent");
+					String userAgent = DigestUtils.md5Hex(request.getHeader("User-Agent"));
 					System.out.println(userAgent);
 					if ((email!=null)&&(password!=null))
 					{

@@ -3,8 +3,9 @@
 <%@page import= "com.yangnormal.sstackex.WebServiceInterface" %>
 <%@page import= "com.yangnormal.sstackex.WebServiceImplService" %>
 <%@page import= "com.yangnormal.sstackex.Question" %>
+<%@ page import="org.apache.commons.codec.digest.DigestUtils" %>
 
-    <%
+<%
 
         String qid = request.getParameter("id");
         String topic = request.getParameter("topic");
@@ -21,7 +22,7 @@
             QName qname = new QName("http://ws.sstackex.yangnormal.com/", "WebServiceImplService");
             WebServiceImplService webService = new WebServiceImplService(url, qname);
             WebServiceInterface ws = webService.getWebServiceImplPort();
-            String userAgent = request.getHeader("User-Agent");
+            String userAgent = DigestUtils.md5Hex(request.getHeader("User-Agent"));
             String ipAddress = request.getHeader("X-FORWARDED-FOR");
             if (ipAddress == null) {
                 ipAddress = request.getRemoteAddr();
