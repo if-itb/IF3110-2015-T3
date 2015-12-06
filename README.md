@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://www.dropbox.com/s/ljzb57fjmrwv98o/IF3110-Tugas3-13513002.pdf?dl=0
 
 ### Arsitektur Umum Server
 
