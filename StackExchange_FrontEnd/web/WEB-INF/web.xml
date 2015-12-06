@@ -148,13 +148,13 @@
         <url-pattern>/question/delete</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>Question-Add</servlet-name>
-        <servlet-class>stackexchange.QuestionCreate</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Question-Add</servlet-name>
-        <url-pattern>/question/add</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>Question-Add</servlet-name>-->
+        <!--<servlet-class>stackexchange.QuestionCreate</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Question-Add</servlet-name>-->
+        <!--<url-pattern>/question/add</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 </web-app>
