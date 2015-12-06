@@ -1,0 +1,71 @@
+var app = angular.module('simplestackexchange', []);
+
+app.controller('commentform', ['$scope', '$http', function($scope, $http) {
+      $scope.comment = '';
+      $scope.qid = 0;
+      $scope.uid = 0;
+
+      $scope.submit = function() {
+       
+        if ($scope.comment) {
+            $scope.test = $scope.comment;
+            $http({
+                url: 'http://localhost:8083/SimpleStackExchange_CommentVoteService/api/comment/create',
+                method: 'POST',
+                data: $.param({'content': $scope.comment, 'qid': $scope.qid, 'uid': $scope.uid}),
+                headers : {'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
+            });
+          $scope.comment= '';
+        }
+      };
+    }]);
+
+app.controller('VoteAnswerController', ['$scope', '$http', function($scope, $http) {
+  $scope.votesanswer = 0;
+  $scope.countVote = function($aid) {
+    $http({
+      method: 'GET',
+      url: 'http://localhost:8080/SimpleStackExchange_Client/AnswerCountVote?aid=' + $aid
+    }).success(function(data) {
+      if(data !== null) {
+        $scope.votesanswer = data;
+      }
+    });
+  };
+
+  $scope.updateVote = function($aid, $value, $token) {
+    $http({
+      method: 'GET',
+      url: 'http://localhost:8080/SimpleStackExchange_Client/AnswerVote?aid='+ $aid+'&value='+$value+'&token='+$token
+   }).success(function(data) {
+      if (data !== null) {
+        
+      }
+    });
+  };
+}]);
+
+app.controller('VoteQuestionController', ['$scope', '$http', function($scope, $http) {
+  $scope.votesquestion = 0;
+  $scope.countVote = function($qid) {
+    $http({
+      method: 'GET',
+      url: 'http://localhost:8080/SimpleStackExchange_Client/QuestionCountVote?qid=' + $qid 
+    }).success(function(data) {
+      if(data !== null) {
+        $scope.votesquestion = data;
+      }
+    });
+  };
+
+  $scope.updateVote = function($qid, $value, $token) {
+    $http({
+      method: 'GET',
+      url: 'http://localhost:8080/SimpleStackExchange_Client/QuestionVote?qid='+ $qid+'&value='+$value+'&token='+$token
+    }).success(function(data) {
+      if (data !== null) {
+        
+      }
+    });
+  };
+}]);
