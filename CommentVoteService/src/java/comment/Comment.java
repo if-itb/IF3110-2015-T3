@@ -28,14 +28,6 @@ public class Comment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException, SQLException {
 	
-
-	response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type");
-        response.addHeader("Access-Control-Expose-Headers", "Location, Content-Disposition");
-        response.addHeader("Access-Control-Allow-Methods", "POST, PUT, GET, DELETE, HEAD, OPTIONS");
-    
-
-	
 	try {
 	    
 	    PrintWriter out = response.getWriter();
@@ -44,7 +36,7 @@ public class Comment extends HttpServlet {
 	    String content = request.getParameter("content");
 	    String name = request.getParameter("name");
 	    
-	    String result = isValidToken(token);
+	    String result = isValidToken(token, this.getUserAgent(request), this.getIP(request));
 	    if ("UserNotFound".equals(result.trim())) {
 		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		// Redirect to the login page with error message
@@ -52,7 +44,7 @@ public class Comment extends HttpServlet {
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
 
-	    String tokenStatus = isValidToken(token).trim();
+	    String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
 	    if (null != tokenStatus) {
 		switch (tokenStatus) {
 		    case "valid":
@@ -74,17 +66,12 @@ public class Comment extends HttpServlet {
     }
     
 
-    @Resource
-    WebServiceContext wscontext;    
-    public String getUserAgent() {
-	MessageContext msgcontext = wscontext.getMessageContext();
-	HttpServletRequest request = (HttpServletRequest) msgcontext.get(MessageContext.SERVLET_REQUEST);
+    
+    public String getUserAgent(HttpServletRequest request) {
 	return request.getHeader("User-Agent");
     }
     
-    public String getIP() {
-	MessageContext msgcontext = wscontext.getMessageContext();
-	HttpServletRequest request = (HttpServletRequest) msgcontext.get(MessageContext.SERVLET_REQUEST);
+    public String getIP(HttpServletRequest request) {
 	return request.getHeader("Remote-Origin");
     }
 
@@ -135,11 +122,11 @@ public class Comment extends HttpServlet {
 	return "Short description";
     }// </editor-fold>
     
-    private String isValidToken(String token) {
+    private String isValidToken(String token, String useragent, String ip) {
 	Form form = new Form();
 	form.param("token", token);
-	form.param("user_agent", this.getUserAgent());
-	form.param("ip", this.getIP());
+	form.param("user_agent", useragent);
+	form.param("ip", ip);
 
 	Client client = ClientBuilder.newClient();
 	String url = "http://localhost:8080/IdentityService/Auth";

@@ -12,10 +12,9 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
     
     $scope.comment = function() {
 	$log.log("WEWs");
-	$http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 	$http({
 	    url: "http://localhost:8083/CommentVoteService/comment",
-	    method: "PUT",
+	    method: "POST",
 	    param: {
 		token: $cookies.get("token"),
 		name : $cookies.get("username"),
