@@ -82,150 +82,185 @@ public class AnswerWS {
     @WebMethod(operationName = "createAnswer")
     public Boolean createAnswer(@WebParam(name = "id_question") int id_question, 
             @WebParam(name = "content") String content,
-            @WebParam(name = "token") String token ) {
+            @WebParam(name = "token") String token,
+            
+            @WebParam(name = "userAgent") String userAgent,
+            @WebParam(name = "ip") String ip) {
         
         conn = db.connect();
         Boolean status = true;
-        String username = auth.checkToken(token);
+        String username = auth.checkToken(token,userAgent, ip);
         if(!username.equals("-999")){
-            try {
-            Statement stmt;
-                stmt = conn.createStatement();
+            if(!username.equals("-999")){
+                if(!username.equals("-998")){//user agent
+                    if(!username.equals("-997")){//ip
+                        try {
+                        Statement stmt;
+                            stmt = conn.createStatement();
 
-                String sql;
-                sql = "INSERT INTO answer(id_question, username, content, vote, date)"
-                        + " VALUES (?, ?, ?, 0, ?)";
+                            String sql;
+                            sql = "INSERT INTO answer(id_question, username, content, vote, date)"
+                                    + " VALUES (?, ?, ?, 0, ?)";
 
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, id_question);
-                dbStatement.setString(2, username);
-                dbStatement.setString(3, content);
-                dbStatement.setString(4, getCurrentTimeStamp());
+                            PreparedStatement dbStatement = conn.prepareStatement(sql);
+                            dbStatement.setInt(1, id_question);
+                            dbStatement.setString(2, username);
+                            dbStatement.setString(3, content);
+                            dbStatement.setString(4, getCurrentTimeStamp());
 
-                status = dbStatement.execute();
-                stmt.close();
-                conn.close();
-            } 
-            catch(SQLException ex) {
-               Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                            status = dbStatement.execute();
+                            stmt.close();
+                            conn.close();
+                        } 
+                        catch(SQLException ex) {
+                           Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                        }
+                    }
+                }
             }
         }
         return status;
     }
     @WebMethod(operationName = "voteUp")
-    public int voteUp(@WebParam(name = "qid") int qid,@WebParam(name = "token") String token ){
+    public int voteUp(@WebParam(name = "qid") int qid,@WebParam(name = "token") String token,
+            
+            @WebParam(name = "userAgent") String userAgent,
+            @WebParam(name = "ip") String ip){
         int count;
         count=getVoteById(qid);
-        String username= auth.checkToken(token);
+        String username= auth.checkToken(token, userAgent, ip);
         if((!username.equals("-999"))&&(!isVoteUp(qid, username))){
-            try {
-                conn = db.connect();
-                Statement stmt;
-                stmt = conn.createStatement();
-                //pernah vote down
-                if(isVoteDown(qid,username)){
-                    count+=2;
-                    String sql;
-                    sql="DELETE FROM vote_answer WHERE id_answer = ?";
-                    PreparedStatement dbStatement = conn.prepareStatement(sql);
-                    dbStatement.setInt(1, qid);
-                    dbStatement.execute();
+            if(!username.equals("-999")){
+                if(!username.equals("-998")){//user agent
+                    if(!username.equals("-997")){//ip
+                        try {
+                            conn = db.connect();
+                            Statement stmt;
+                            stmt = conn.createStatement();
+                            //pernah vote down
+                            if(isVoteDown(qid,username)){
+                                count+=2;
+                                String sql;
+                                sql="DELETE FROM vote_answer WHERE id_answer = ?";
+                                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                                dbStatement.setInt(1, qid);
+                                dbStatement.execute();
+                            }
+                            else{count+=1;}
+                            String sql, sql_select;
+                            sql="UPDATE answer SET vote = ? WHERE id_answer = ? ";
+
+                            PreparedStatement dbStatement = conn.prepareStatement(sql);
+                            dbStatement.setInt(1, count);
+                            dbStatement.setInt(2, qid);
+                            dbStatement.execute();
+                            sql="INSERT INTO vote_answer (id_answer, username,value) VALUES (?,?,1)";
+                            PreparedStatement dbStatement2 = conn.prepareStatement(sql);
+                            dbStatement2.setInt(1, qid);
+                            dbStatement2.setString(2, username);
+                            dbStatement2.executeUpdate();
+
+                            stmt.close();
+                            conn.close();
+                        }
+                        catch(SQLException ex) {
+                           Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                        }
+                    }
                 }
-                else{count+=1;}
-                String sql, sql_select;
-                sql="UPDATE answer SET vote = ? WHERE id_answer = ? ";
-
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, count);
-                dbStatement.setInt(2, qid);
-                dbStatement.execute();
-                sql="INSERT INTO vote_answer (id_answer, username,value) VALUES (?,?,1)";
-                PreparedStatement dbStatement2 = conn.prepareStatement(sql);
-                dbStatement2.setInt(1, qid);
-                dbStatement2.setString(2, username);
-                dbStatement2.executeUpdate();
-
-                stmt.close();
-                conn.close();
-            }
-            catch(SQLException ex) {
-               Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
             }
         }
         return count;
     }
     @WebMethod(operationName = "voteDown")
-    public int voteDown(@WebParam(name = "aid") int aid,@WebParam(name = "token") String token ){
+    public int voteDown(@WebParam(name = "aid") int aid,@WebParam(name = "token") String token,
+            @WebParam(name = "userAgent") String userAgent,
+            @WebParam(name = "ip") String ip){
         int count;
         count=getVoteById(aid);
-        String username= auth.checkToken(token);       
+        String username= auth.checkToken(token, userAgent, ip);       
         if((!username.equals("-999"))&&(!isVoteDown(aid, username))){
-            try {
-                conn = db.connect();
-                Statement stmt;
-                stmt = conn.createStatement();
-                if(isVoteUp(aid,username)){
-                    count-=2;
-                    String sql;
-                    sql="DELETE FROM vote_answer WHERE id_answer = ?";
-                    PreparedStatement dbStatement = conn.prepareStatement(sql);
-                    dbStatement.setInt(1, aid);
-                    dbStatement.execute();
-                }else{count-=1;}
-                String sql, sql_select;
-                sql="UPDATE answer SET vote = ? WHERE id_answer = ? ";
+            if(!username.equals("-999")){
+                if(!username.equals("-998")){//user agent
+                    if(!username.equals("-997")){//ip
+                        try {
+                            conn = db.connect();
+                            Statement stmt;
+                            stmt = conn.createStatement();
+                            if(isVoteUp(aid,username)){
+                                count-=2;
+                                String sql;
+                                sql="DELETE FROM vote_answer WHERE id_answer = ?";
+                                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                                dbStatement.setInt(1, aid);
+                                dbStatement.execute();
+                            }else{count-=1;}
+                            String sql, sql_select;
+                            sql="UPDATE answer SET vote = ? WHERE id_answer = ? ";
 
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, count);
-                dbStatement.setInt(2, aid);
-                dbStatement.execute();
+                            PreparedStatement dbStatement = conn.prepareStatement(sql);
+                            dbStatement.setInt(1, count);
+                            dbStatement.setInt(2, aid);
+                            dbStatement.execute();
 
-                sql="INSERT INTO vote_answer (id_answer, username,value) VALUES (?,?,-1)";
-                PreparedStatement dbStatement2 = conn.prepareStatement(sql);
-                dbStatement2.setInt(1, aid);
-                dbStatement2.setString(2, username);
-                dbStatement2.execute();
+                            sql="INSERT INTO vote_answer (id_answer, username,value) VALUES (?,?,-1)";
+                            PreparedStatement dbStatement2 = conn.prepareStatement(sql);
+                            dbStatement2.setInt(1, aid);
+                            dbStatement2.setString(2, username);
+                            dbStatement2.execute();
 
-                stmt.close();
-                conn.close();
-            }
-            catch(SQLException ex) {
-               Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                            stmt.close();
+                            conn.close();
+                        }
+                        catch(SQLException ex) {
+                           Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                        }
+                    }
+                }
             }
         }
         return count;
     }
     @WebMethod(operationName = "isVoted")
-    public Boolean isVoted(@WebParam(name = "aid") int aid,@WebParam(name = "token") String token){
+    public Boolean isVoted(@WebParam(name = "aid") int aid,@WebParam(name = "token") String token,
+            
+            @WebParam(name = "userAgent") String userAgent,
+            @WebParam(name = "ip") String ip){
         Boolean status = false;
         conn = db.connect();
         
-        String username = auth.checkToken(token);
+        String username = auth.checkToken(token,userAgent,ip);
         if(!username.equals("-999")){
-            try {
-               Statement stmt;
-               stmt = conn.createStatement();
+            if(!username.equals("-999")){
+                if(!username.equals("-998")){//user agent
+                    if(!username.equals("-997")){//ip
+                        try {
+                           Statement stmt;
+                           stmt = conn.createStatement();
 
-               String sql;
-               sql="Select * from vote_answer where id_answer = ? and username = ?";
+                           String sql;
+                           sql="Select * from vote_answer where id_answer = ? and username = ?";
 
-               PreparedStatement dbStatement = conn.prepareStatement(sql);
-               dbStatement.setInt(1, aid);
-               dbStatement.setString(2, username);
+                           PreparedStatement dbStatement = conn.prepareStatement(sql);
+                           dbStatement.setInt(1, aid);
+                           dbStatement.setString(2, username);
 
-               ResultSet rs;
-               rs = dbStatement.executeQuery();
+                           ResultSet rs;
+                           rs = dbStatement.executeQuery();
 
-               /* Get every data returned by SQLquery */
-               while(rs.next()) {
-                   status= true;
-               }
+                           /* Get every data returned by SQLquery */
+                           while(rs.next()) {
+                               status= true;
+                           }
 
-               stmt.close();
-               conn.close();
-            }
-            catch(SQLException ex) {
-               Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                           stmt.close();
+                           conn.close();
+                        }
+                        catch(SQLException ex) {
+                           Logger.getLogger(AnswerWS.class.getName()).log(Level.SEVERE, null, ex); 
+                        }
+                    }
+                }
             }
         }
         return status;
@@ -325,8 +360,11 @@ public class AnswerWS {
         return count;
     }
     
-    public Boolean isValidToken(@WebParam(name = "token") String token){
-        String username= auth.checkToken(token);
+    public Boolean isValidToken(@WebParam(name = "token") String token,
+            
+            @WebParam(name = "userAgent") String userAgent,
+            @WebParam(name = "ip") String ip){
+        String username= auth.checkToken(token,userAgent,ip);
         if(username.equals("-999"))
               return false; 
         else return true;

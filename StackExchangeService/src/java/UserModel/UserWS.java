@@ -13,7 +13,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 
-@WebService(serviceName = "UserWs")
+@WebService(serviceName = "UserWS")
 public class UserWS {
 
     private final DB db = new DB();
