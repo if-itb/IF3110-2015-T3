@@ -5,6 +5,7 @@
  */
 package org.stackexchange.controller;
 
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.jws.WebParam;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import model.Question;
+import org.json.JSONObject;
 import org.stackexchange.webservice.dao.QuestionDao;
 import org.stackexchange.webservice.dao.QuestionVoteDao;
 import org.stackexchange.webservice.service.TokenService;
@@ -90,7 +93,23 @@ public class UpVoteQuestionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        System.out.println(request.getParameter("id"));
+        System.out.println(request.getParameter("token"));
+        long id = Integer.valueOf(request.getParameter("id"));
+        QuestionDao questionDao = new QuestionDao();
+        String token = request.getParameter("token");
+        upvote(id, token);
+        
+        JSONObject object = new JSONObject();
+        PrintWriter out = response.getWriter();
+        try {
+            object.put("status", "OK");
+            Question question = questionDao.getById(id);
+            object.put("vote", question.getVote());
+            out.println(object.toString());
+        } catch (Exception e) {
+            
+        }
     }
 
     /**
@@ -127,6 +146,7 @@ public class UpVoteQuestionServlet extends HttpServlet {
             
             return true;
         } else {
+            System.out.println("invalid");
             return false;
         }
     }

@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import model.Answer;
+import model.Question;
+import org.json.JSONObject;
+import org.stackexchange.webservice.dao.AnswerDao;
 import org.stackexchange.webservice.dao.QuestionDao;
 import org.stackexchange.webservice.dao.QuestionVoteDao;
 import org.stackexchange.webservice.service.TokenService;
@@ -97,7 +101,21 @@ public class DownVoteQuestionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        long id = Integer.valueOf(request.getParameter("id"));
+        QuestionDao questionDao = new QuestionDao();
+        String token = request.getParameter("token");
+        downvote(id, token);
+        
+        JSONObject object = new JSONObject();
+        PrintWriter out = response.getWriter();
+        try {
+            object.put("status", "OK");
+            Question question = questionDao.getById(id);
+            object.put("vote", question.getVote());
+            out.println(object.toString());
+        } catch (Exception e) {
+            
+        }
     }
 
     /**

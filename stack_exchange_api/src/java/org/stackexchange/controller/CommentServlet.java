@@ -60,12 +60,11 @@ public class CommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String questionId = request.getParameter("question_id");
-        String token = request.getParameter("token");
         List<Comment> commentList = getByQuestionId(Long.valueOf(questionId));
        
-        request.setAttribute("CList",commentList);
-        request.setAttribute("token",token);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+       PrintWriter out = response.getWriter();
+       Gson gson = new Gson();
+       out.println(gson.toJson(commentList));
     }
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -85,7 +84,8 @@ public class CommentServlet extends HttpServlet {
         String token = request.getParameter("token");
         if (token != null && !token.isEmpty()) {
             insert(content,token,questionId);
-            response.sendRedirect("http://localhost:8080/stack_exchange_netbeans/index?token="+token);
+            PrintWriter out = response.getWriter();
+            out.println("{\"status\": \"OK\"}");
             //request.getRequestDispatcher("addQuestion.jsp").forward(request, response);
         } else {
             request.setAttribute("flash", "You Need To Login First");
@@ -120,17 +120,14 @@ public class CommentServlet extends HttpServlet {
         UserDao userDao = new UserDao();
 
         ArrayList<Comment> commentList = (ArrayList) commentDao.getByQuestionId(questionId);
+        if (commentList == null) {
+            System.out.println("null");
+        }
+        System.out.println("check");
         for (Comment comment: commentList) {
             comment.setName(userDao.getById(comment.getUserId()).getName());
         }
         
-        Gson gson = new Gson();
-        String json = gson.toJson(commentList);
-        
-        
-        Type listType = new TypeToken<List<Comment>>() {}.getType();
-        List<Comment> commentListFromJson = gson.fromJson(json, listType);
-        
-        return commentListFromJson;
+        return commentList;
     }
 }

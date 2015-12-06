@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import model.Answer;
 import model.Question;
+import org.json.JSONObject;
 import org.stackexchange.webservice.dao.AnswerDao;
 import org.stackexchange.webservice.dao.AnswerVoteDao;
 import org.stackexchange.webservice.dao.QuestionDao;
@@ -58,6 +59,25 @@ public class DownVoteAnswerServlet extends HttpServlet {
             response.sendRedirect("http://localhost:7000/login");
         }
        
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        long id = Integer.valueOf(request.getParameter("id"));
+        AnswerDao answerDao = new AnswerDao();
+        String token = request.getParameter("token");
+        downvoteAnswer(id, token);
+        
+        JSONObject object = new JSONObject();
+        PrintWriter out = response.getWriter();
+        try {
+            object.put("status", "OK");
+            Answer answer = answerDao.getById(id);
+            object.put("vote", answer.getVote());
+            out.println(object.toString());
+        } catch (Exception e) {
+            
+        }
     }
 
    

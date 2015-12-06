@@ -3,7 +3,7 @@
 
 
 <!DOCTYPE HTML>
-<html>
+<html ng-app="question">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
@@ -13,8 +13,12 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <script>
+    window.token = "<c:out value="${token}"/>";
+    window.question_id = <c:out value="${question.id}" />;
+  </script>
 </head>
-<body class="cyan lighten-2">
+<body class="cyan lighten-2" ng-controller="QuestionController">
 <nav class="white" role="navigation">
   <div class="nav-wrapper container">
     <c:choose>
@@ -51,7 +55,7 @@
           <div class="card-content white-text">
               <span class="card-title">${question.topic}</a></span>
               <div class="right">
-                   <p style="font-size: 35px;margin:20px 28px 0 0">${question.vote}</p>
+                   <p id="question-vote" style="font-size: 35px;margin:20px 28px 0 0">${question.vote}</p>
               </div>
             <p>${question.content}</p>
               <div class="right-align">
@@ -62,8 +66,8 @@
               <div class ="row" style="margin-bottom:0px">
                 <div class="col s6" >
             <div class="left">
-                <a href="http://localhost:8080/stack_exchange_netbeans/UpVoteQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>&from=question"><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
-                <a href="http://localhost:8080/stack_exchange_netbeans/DownVoteQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>&from=question"><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                <a ng-click="upvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                <a ng-click="downvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
             </div>
                 </div>
             <div class="right-align">
@@ -75,6 +79,27 @@
         </div>
       </div>
 </div>
+            
+            <div class="row">
+                <div class="col s8 offset-s1 l10">
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Comment</span>
+                            <div ng-repeat="comment in data.comments">
+                                <hr>
+                                <p>{{ comment.content }}</p>
+                                <small>{{ comment.name }} - {{comment.createdAt}}</small>
+                            </div>
+                            <hr>
+                            <div class="input-field col s12">
+                                <input id="comment" type="text" ng-model="form.comment">
+                                <label for="comment">Comment</label>
+                            </div>
+                            <button type="submit" class="btn waves-effect waves-light" type="button" name="action" ng-click="submitComment()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
        
     <c:set var="count" value="0" scope="page" />
@@ -91,7 +116,7 @@
         <div class="card blue-grey darken-1">
           <div class="card-content white-text">
               <div class="right">
-                   <p style="font-size: 35px;margin:20px 28px 0 0">${answers.vote}</p>
+                   <p id="answer-<c:out value="${answers.id}"/>" style="font-size: 35px;margin:20px 28px 0 0">${answers.vote}</p>
               </div>
             <p>${answers.content}</p>
               <div class="right-align">
@@ -103,8 +128,8 @@
               <div class="row" style="margin-bottom:0px">
                   <div class ="col s6">
             <div class="left">
-                <a href="http://localhost:8080/stack_exchange_netbeans/UpVoteAnswerServlet?answer_id=<c:out value="${answers.id}"/>&question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>&from=question"><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
-                <a href="http://localhost:8080/stack_exchange_netbeans/DownVoteAnswerServlet?answer_id=<c:out value="${answers.id}"/>&question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>&from=question"><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                <a ng-click="upvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                <a ng-click="downvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
             </div>
                   </div>
               </div>
@@ -145,6 +170,8 @@
 
 <!--  Scripts-->
 <script src="assets/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/angular.js" type="text/javascript"></script>
+<script src="assets/js/question.js" type="text/javascript"></script>
 <script src="assets/js/materialize.js"></script>
 <script src="assets/js/init.js"></script>
 <script type="text/javascript" src="/assets/js/home.js"></script>

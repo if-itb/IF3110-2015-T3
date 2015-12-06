@@ -34,6 +34,7 @@ public class TokenDao extends MySQLDao {
 
     public boolean existByToken(String token) {
         String query = "SELECT * FROM `token` WHERE token='" + token + "'";
+        System.out.println(query);
         Statement statement;
         boolean exist = false;
 
@@ -76,6 +77,42 @@ public class TokenDao extends MySQLDao {
         }
 
         return exist;
+    }
+
+    public Token getFromToken(String token) {
+        String query = "SELECT * FROM `token` WHERE token='" + token + "'";
+        Statement statement;
+
+        try {
+            getConnection();
+            statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+
+            boolean exist = false;
+            long id = 0;
+            long userId = 0;
+            String ip = "";
+            String user_agent = "";
+            while (rs.next()) {
+                id = rs.getInt("id");
+                userId = rs.getInt("user_id");
+                ip = rs.getString("ip");
+                user_agent = rs.getString("user_agent");
+                exist = true;
+            }
+
+            rs.close();
+            statement.close();
+            closeConnection();
+            if (exist) {
+                return new Token(id, token, userId, ip, user_agent);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Token getFromToken(String token, String ip, String user_agent) {

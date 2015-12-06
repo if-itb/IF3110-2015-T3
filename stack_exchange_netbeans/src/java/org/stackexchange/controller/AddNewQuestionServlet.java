@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import org.stackexchange.webservice.service.QuestionWS_Service;
+import org.stackexchange.webservice.service.TokenService;
 
 /**
  *
@@ -78,7 +79,8 @@ public class AddNewQuestionServlet extends HttpServlet {
         String topic = request.getParameter("Topic");
         String content = request.getParameter("Content");
         String token = request.getParameter("token");
-        if (token != null && !token.isEmpty()) {
+        TokenService tokenService = new TokenService();
+        if (token != null && !token.isEmpty() && tokenService.isCompleteTokenValid(token, request.getRemoteAddr(), request.getHeader("User-Agent"))) {
             insert(topic,content,token);
             response.sendRedirect("http://localhost:8080/stack_exchange_netbeans/index?token="+token);
             //request.getRequestDispatcher("addQuestion.jsp").forward(request, response);

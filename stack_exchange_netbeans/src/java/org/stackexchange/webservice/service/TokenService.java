@@ -25,6 +25,14 @@ public class TokenService {
             return false;
         }
     }
+    
+    public boolean isCompleteTokenValid(String token, String ip, String userAgent) {
+        try {
+            return Boolean.valueOf(connectionHelper.executeGET("http://localhost:7000/api/token/check?token=" + token + "&ip=" + ip + "&user_agent=" + userAgent));
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     public int getUserId(String token) {
         try {

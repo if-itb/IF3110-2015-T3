@@ -51,7 +51,7 @@ public class CommentDao extends MySQLDao {
     }
 
     public List<Comment> getByQuestionId(long questionId) {
-        String query = "SELECT * FROM `content` WHERE question_id=" + questionId;
+        String query = "SELECT * FROM `comment` WHERE question_id=" + questionId;
         Statement statement;
         List<Comment> commentList = new ArrayList<>();
 
