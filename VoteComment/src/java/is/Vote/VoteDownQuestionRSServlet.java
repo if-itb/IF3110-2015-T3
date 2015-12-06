@@ -8,6 +8,7 @@ package is.Vote;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -84,6 +85,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
              out.println(jb.toString());*/
              int returnExecution = 0;
              String token = request.getParameter("token");
+             token = URLEncoder.encode(token, "UTF-8");
              int qid=Integer.parseInt(request.getParameter("qid"));
             response.setContentType("application/json;charset=UTF-8");
             Class.forName("com.mysql.jdbc.Driver");
@@ -118,7 +120,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
             if (!rs.next()) {
 
                 //Up the the question table
-                sql = "INSERT INTO upquestion (Email,IDQuestion,totalVote) VALUES(?,?,0)";
+                sql = "INSERT INTO upquestion (email,IDQuestion,totalVote) VALUES(?,?,0)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, currentEmail);
                 dbStatement.setInt(2, qid);
@@ -233,7 +235,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
             if (!rs.next()) {
 
                 //Up the the question table
-                sql = "INSERT INTO upquestion (Email,IDQuestion,totalVote) VALUES(?,?,0)";
+                sql = "INSERT INTO upquestion (email,IDQuestion,totalVote) VALUES(?,?,0)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, currentEmail);
                 dbStatement.setInt(2, qid);

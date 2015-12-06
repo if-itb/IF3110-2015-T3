@@ -8,6 +8,7 @@ package is.Vote;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -80,6 +81,7 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
             Connection conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
             Statement stmt = conn.createStatement();
             String currentAccessToken = request.getParameter("token");
+            currentAccessToken = URLEncoder.encode(currentAccessToken, "UTF-8");
             String sql;
             PreparedStatement dbStatement;
             
@@ -103,7 +105,7 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
             if(!rs.next()){
                 if (!(currentEmail.equals(""))){
                     //Up the the question table
-                    sql = "INSERT INTO upanswer (Email,IDAns,totalVote) VALUES(?,?,0)";
+                    sql = "INSERT INTO upanswer (email,IDAns,totalVote) VALUES(?,?,0)";
                     dbStatement = conn.prepareStatement(sql);
                     dbStatement.setString(1, currentEmail);
                     dbStatement.setInt(2, AnsId);

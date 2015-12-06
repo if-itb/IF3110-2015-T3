@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 03:20 PM
+-- Generation Time: Dec 06, 2015 at 02:27 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -34,24 +34,27 @@ CREATE TABLE IF NOT EXISTS `answers` (
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Datetime` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `answers`
 --
 
 INSERT INTO `answers` (`AnswerID`, `QuestionID`, `Votes`, `Answer`, `Name`, `Email`, `Datetime`) VALUES
-(6, 38, 0, 'you cant', 'Cliff', 'cliffsantoso@gmail.com', '2015-10-10 17:11:48'),
-(7, 38, 1, 'get a boyfriend instead', 'Ben', 'benlemuel@gmail.com', '2015-10-10 17:15:21'),
+(6, 38, -1, 'you cant', 'Cliff', 'cliffsantoso@gmail.com', '2015-10-10 17:11:48'),
+(7, 38, 2, 'get a boyfriend instead', 'Ben', 'benlemuel@gmail.com', '2015-10-10 17:15:21'),
 (9, 38, 0, 'bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben bacot ben ', 'Cliff J', 'cliffsantoso@gmail.com', '2015-10-10 17:25:09'),
 (10, 38, 0, 'aadfafaf', 'fsfsdfs', 'fdfsfsf', '2015-10-10 19:00:18'),
 (11, 39, 7, '', 'sgsdgsdg', '', '2015-10-10 19:03:31'),
 (12, 38, 0, '', 'asd', '', '2015-10-10 19:06:28'),
 (13, 39, 3, 'fsfs', 'dsaad', 'sfsdfds@sggsg.asdfdf', '2015-10-10 21:09:42'),
 (14, 37, 3, 'fsfsfsfsfsf', 'Cliff', 'fasdfasfasf@gkajf.sjfds', '2015-10-10 21:26:04'),
-(15, 42, 5, 'YOU''RE FUCKING GAY', 'Cliff', '', '2015-10-15 15:22:29'),
+(15, 42, 6, 'YOU''RE FUCKING GAY', 'Cliff', '', '2015-10-15 15:22:29'),
 (16, 43, 1, 'asasadsadsa', 'Yoga', 'yoga@gmail.com', '2015-11-27 10:53:43'),
-(17, 38, -1, 'rwa', 'tio', 'tio', '2015-12-05 15:54:19');
+(17, 38, 0, 'rwa', 'tio', 'tio', '2015-12-05 15:54:19'),
+(18, 46, 0, 'BISA WOI', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 21:03:40'),
+(19, 45, -1, 'a', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 21:18:06'),
+(20, 47, -1, 'bisa kan', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 21:26:26');
 
 -- --------------------------------------------------------
 
@@ -65,22 +68,36 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `Name` varchar(20) NOT NULL,
   `Content` varchar(9999) NOT NULL,
   `Datetime` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `comments`
 --
 
 INSERT INTO `comments` (`CommentID`, `QuestionID`, `Name`, `Content`, `Datetime`) VALUES
-(1, 37, 'Cliff', 'asdf', '2015-12-05 22:03:03'),
-(2, 37, 'Cliff', 'asdf', '2015-12-05 22:03:37'),
-(3, 37, 'Cliff', 'asdf', '2015-12-05 22:04:24'),
-(4, 37, 'Cliff', 'dssfsf', '2015-12-05 22:05:32'),
-(5, 37, 'Cliff', 'asdf', '2015-12-05 22:08:03'),
-(6, 37, 'Cliff', 'asdf', '2015-12-05 22:08:23'),
-(7, 37, 'Cliff', 'asdf', '2015-12-05 22:18:42'),
-(8, 37, 'Cliff', 'ggg', '2015-12-05 22:18:48'),
-(9, 37, 'Cliff', 'gggggg my friend', '2015-12-05 22:18:52');
+(28, 37, 'Cliff', 'asdf', '2015-12-06 02:27:31'),
+(29, 37, 'Cliff', 'fdsfs', '2015-12-06 02:27:33'),
+(30, 37, 'Cliff', 'sdfaf', '2015-12-06 02:27:39'),
+(31, 37, 'Cliff', 'sfdfd', '2015-12-06 02:27:40'),
+(32, 37, 'Cliff', 'sfasfa', '2015-12-06 02:27:49'),
+(33, 37, 'Cliff', 'fdsfsf', '2015-12-06 02:27:51'),
+(34, 37, 'Cliff', 'hahaha', '2015-12-06 03:13:55'),
+(35, 37, 'Cliff', 'jkjkjkjk', '2015-12-06 03:13:56'),
+(36, 37, 'Cliff', 'nononononononon', '2015-12-06 03:14:18'),
+(37, 43, 'Cliff', 'bisa kan?', '2015-12-06 04:09:09'),
+(38, 43, 'Cliff', 'haha bener bisa', '2015-12-06 04:09:14'),
+(39, 42, 'Cliff', '...', '2015-12-06 19:01:11'),
+(40, 42, 'Cliff', 'asdf', '2015-12-06 19:01:13'),
+(41, 38, 'Yoga', 'cobain', '2015-12-06 19:08:44'),
+(42, 37, 'Yoga', 'bisa kok', '2015-12-06 19:08:51'),
+(43, 42, 'Cliff', '???', '2015-12-06 19:16:49'),
+(44, 37, 'Cliff', 'AKHIRNYA', '2015-12-06 20:02:39'),
+(45, 38, 'Cliff', 'ahahaha', '2015-12-06 21:02:52'),
+(46, 46, 'Cliff', 'bisa kan', '2015-12-06 21:03:36'),
+(47, 37, 'Cliff', 'asdf', '2015-12-06 21:10:40'),
+(48, 47, 'Cliff', 'hahahahah', '2015-12-06 21:23:48'),
+(49, 47, 'Cliff', 'asfd', '2015-12-06 21:26:31'),
+(50, 47, 'Cliff', 'gay', '2015-12-06 21:26:32');
 
 -- --------------------------------------------------------
 
@@ -97,19 +114,22 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Datetime` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `questions`
 --
 
 INSERT INTO `questions` (`QuestionID`, `Votes`, `Answers`, `Topic`, `Question`, `Name`, `Email`, `Datetime`) VALUES
-(37, 4, 1, 'asdf', 'fsfsfsfsf', 'fsdfsfsf', 'afasfaf@asdf.cg', '2015-10-10 17:19:54'),
-(38, 8, 7, 'How to get a gf?', 'im such a loser', 'fdsa', 'cliffsantoso@gmail.com', '2015-10-10 17:08:03'),
+(37, 6, 1, 'asdf', 'fsfsfsfsf', 'fsdfsfsf', 'afasfaf@asdf.cg', '2015-10-10 17:19:54'),
+(38, 9, 7, 'How to get a gf?', 'im such a loser', 'fdsa', 'cliffsantoso@gmail.com', '2015-10-10 17:08:03'),
 (39, 2, 2, 'asdasd', 'asdsdsd', 'adadasdsad', 'sfsfsf@sgsgsgs.sdf', '2015-10-10 19:03:24'),
-(42, -2, 1, 'ben???''', 'is ben gay?" i''m not!@#%^*()`~', 'Cliff', 'cliffsantoso@gmail.com', '2015-10-15 15:25:49'),
+(42, -1, 1, 'ben???''', 'is ben gay?" i''m not!@#%^*()`~', 'Cliff', 'cliffsantoso@gmail.com', '2015-10-15 15:25:49'),
 (43, 1, 1, 'asdad', 'sadasd', 'Yoga', 'yoga@gmail.com', '2015-11-27 10:53:16'),
-(44, 1, 0, 'asdad', 'sadasd', 'Yoga', 'yoga@gmail.com', '2015-11-27 10:53:16');
+(44, 1, 0, 'asdad', 'sadasd', 'Yoga', 'yoga@gmail.com', '2015-11-27 10:53:16'),
+(45, 0, 1, 'ahahaahaha', 'COBAIN', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 19:31:30'),
+(46, 1, 1, 'go', 'GOOOO', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 21:03:29'),
+(47, 1, 1, 'HARU', 'S BISA', 'Cliff', 'cliffsantoso@gmail.com', '2015-12-06 21:20:15');
 
 -- --------------------------------------------------------
 
@@ -122,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
   `Email` varchar(50) NOT NULL,
   `AccessToken` varchar(500) NOT NULL,
   `ExpiredDate` datetime NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sessions`
@@ -166,7 +186,18 @@ INSERT INTO `sessions` (`SessionID`, `Email`, `AccessToken`, `ExpiredDate`) VALU
 (41, 'tio', '845a7e5e-1a94-488f-9470-f6821ed1b99e', '2015-12-05 15:51:55'),
 (42, 'tio', '7d08fd10-5c6d-4662-8b0a-42cf85e41ae6', '2015-12-05 15:55:41'),
 (43, 'tio', 'cbd1d4a7-24c1-4338-82a3-1eadbf41496f', '2015-12-05 15:58:01'),
-(46, 'cliffsantoso@gmail.com', '7ef676df-d27f-4cd2-91c1-e1d0919c6522', '2015-12-05 20:12:05');
+(46, 'cliffsantoso@gmail.com', '7ef676df-d27f-4cd2-91c1-e1d0919c6522', '2015-12-05 20:12:05'),
+(49, 'cliffsantoso@gmail.com', '1f79d7d1-10f2-4ae3-aa84-4356d4f008d2#Mozilla/5.0 (Windows NT 6.1%3B WOW64%3B rv:42.0) Gecko/20100101 Firefox/42.0#0:0:0:0:0:0:0:1', '2015-12-06 01:51:52'),
+(50, 'cliffsantoso@gmail.com', '9f31a178-9ff3-48e2-9c53-da1253c4109b#Mozilla/5.0 (Windows NT 6.1%3B WOW64%3B rv:42.0) Gecko/20100101 Firefox/42.0#0:0:0:0:0:0:0:1', '2015-12-06 01:57:24'),
+(51, 'cliffsantoso@gmail.com', 'b850bcd7-f1a9-428e-96cb-60090fc76fba#Mozilla/5.0 (Windows NT 6.1%3B WOW64%3B rv:42.0) Gecko/20100101 Firefox/42.0#0:0:0:0:0:0:0:1', '2015-12-06 02:07:50'),
+(52, 'cliffsantoso@gmail.com', '30963735-235e-41db-b52c-155e8afacf06#Mozilla/5.0 (Windows NT 6.1%3B WOW64%3B rv:42.0) Gecko/20100101 Firefox/42.0#0:0:0:0:0:0:0:1', '2015-12-06 02:14:06'),
+(53, 'cliffsantoso@gmail.com', '7e49f872-48ff-4302-ac0c-2ac1e6bfed29#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 02:24:22'),
+(54, 'cliffsantoso@gmail.com', 'c1c3d45c-96a2-4483-8a6d-349db35dd1ce#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 02:29:06'),
+(55, 'cliffsantoso@gmail.com', 'e6c3030e-6388-476d-a6db-725e066f0817#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 03:08:38'),
+(56, 'cliffsantoso@gmail.com', '9460709b-cf91-4f41-a209-08851f306cc2#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 03:13:43'),
+(57, 'cliffsantoso@gmail.com', 'ae727330-bd1a-4a14-9b20-9c66a7372eb7#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 03:19:08'),
+(58, 'cliffsantoso@gmail.com', 'e6c52178-8dcd-4490-a6b8-e17e8e723d2a#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 03:25:02'),
+(59, 'cliffsantoso@gmail.com', '0217cad8-d623-4e24-8377-e6d7b380aead#Mozilla%2F5.0+%28Windows+NT+6.1%3B+WOW64%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 03:33:20');
 
 -- --------------------------------------------------------
 
@@ -191,7 +222,17 @@ INSERT INTO `upanswer` (`email`, `IDAns`, `totalVote`) VALUES
 ('yoga@gmail.com', 16, 1),
 ('tio', 9, 0),
 ('tio', 14, 1),
-('tio', 17, -1);
+('tio', 17, -1),
+(NULL, 15, 0),
+(NULL, 14, 0),
+('', 14, 0),
+('', 6, -1),
+('', 7, 1),
+('', 17, 1),
+('', 18, 0),
+('', 15, 1),
+('', 19, -1),
+('cliffsantoso@gmail.com', 20, -1);
 
 -- --------------------------------------------------------
 
@@ -217,7 +258,12 @@ INSERT INTO `upquestion` (`email`, `IDQuestion`, `totalVote`) VALUES
 ('yoga@gmail.com', 37, 1),
 ('yoga@gmail.com', 39, -1),
 ('yoga@gmail.com', 44, 1),
-('yoga@gmail.com', 42, 0);
+('yoga@gmail.com', 42, 0),
+('', 37, 1),
+('', 38, 1),
+('', 42, 1),
+('', 46, 1),
+('cliffsantoso@gmail.com', 47, 1);
 
 -- --------------------------------------------------------
 
@@ -296,22 +342,22 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-MODIFY `AnswerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
+MODIFY `AnswerID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+MODIFY `CommentID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-MODIFY `QuestionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=45;
+MODIFY `QuestionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=48;
 --
 -- AUTO_INCREMENT for table `sessions`
 --
 ALTER TABLE `sessions`
-MODIFY `SessionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+MODIFY `SessionID` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -331,15 +377,13 @@ ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`QuestionID`) REFERENCES `questions
 -- Constraints for table `upanswer`
 --
 ALTER TABLE `upanswer`
-ADD CONSTRAINT `upanswer_ibfk_1` FOREIGN KEY (`IDAns`) REFERENCES `answers` (`AnswerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `upanswer_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `upanswer_ibfk_1` FOREIGN KEY (`IDAns`) REFERENCES `answers` (`AnswerID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `upquestion`
 --
 ALTER TABLE `upquestion`
-ADD CONSTRAINT `upquestion_ibfk_1` FOREIGN KEY (`IDQuestion`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `upquestion_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`Email`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `upquestion_ibfk_1` FOREIGN KEY (`IDQuestion`) REFERENCES `questions` (`QuestionID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

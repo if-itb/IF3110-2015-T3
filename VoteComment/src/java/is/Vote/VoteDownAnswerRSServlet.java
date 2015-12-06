@@ -8,6 +8,7 @@ package is.Vote;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -74,6 +75,7 @@ public class VoteDownAnswerRSServlet extends HttpServlet {
         int AnsId = Integer.parseInt(request.getParameter("id"));
         PrintWriter out = response.getWriter();
         String currentAccessToken = request.getParameter("token");
+            currentAccessToken = URLEncoder.encode(currentAccessToken, "UTF-8");
         response.setCharacterEncoding("application/json;charset=UTF-8");
         String currentEmail = new String("");
         try {
@@ -103,7 +105,7 @@ public class VoteDownAnswerRSServlet extends HttpServlet {
             if(!rs.next()){
             
                 //Up the the question table
-                sql = "INSERT INTO upanswer (Email,IDAns,totalVote) VALUES(?,?,0)";
+                sql = "INSERT INTO upanswer (email,IDAns,totalVote) VALUES(?,?,0)";
                 dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, currentEmail);
                 dbStatement.setInt(2, AnsId);

@@ -122,6 +122,7 @@ public class CommentRSServlet extends HttpServlet {
             sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setString(1, token);
+            System.out.println(dbStatement.toString());
             ResultSet rsEmail = dbStatement.executeQuery();
             //agar index berada di elemen pertama dan get email
             if(rsEmail.next()) {
