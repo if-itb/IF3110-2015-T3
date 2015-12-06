@@ -37,7 +37,7 @@ GET:
 required parameters: access_token,user_agent,user_ip
 response:
 	404 if access token not found
-	401 UNAUTHORIZED if access token expired
+	401 UNAUTHORIZED and detail if access token expired or user_agent,user_ip is not same
 	if some required parameters aren't supplied: 400 - BAD REQUEST
 	Email on success
 	format:XMl
