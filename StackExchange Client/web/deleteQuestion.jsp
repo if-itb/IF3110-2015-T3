@@ -13,7 +13,9 @@
       String token = request.getParameter("token");
       int id = Integer.parseInt(request.getParameter("id"));
       int qid= Integer.parseInt(request.getParameter("qid"));
-      String result = port.deleteQuestion(token, qid, id);
+      String ip = request.getParameter("ip");
+      String ua = request.getHeader("User-Agent");
+      String result = port.deleteQuestion(token, qid, id, ip, ua);
       if(result.equals("executed")) {
           response.sendRedirect("index.jsp?token=" + token + "&id=" + id);
       } else {

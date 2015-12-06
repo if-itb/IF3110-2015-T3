@@ -14,7 +14,9 @@
 	int aid = Integer.parseInt(request.getParameter("aid"));
 	int qid = Integer.parseInt(request.getParameter("qid"));
         int uid = Integer.parseInt(request.getParameter("id"));
-	java.lang.String result = port.decrVote(token, aid, qid, uid);
+        String ip = request.getParameter("ip");
+        String ua = request.getHeader("User-Agent");
+	java.lang.String result = port.decrVote(token, aid, qid, uid, ip, ua);
 	out.println(token);
         out.println(aid);
         out.println(uid);

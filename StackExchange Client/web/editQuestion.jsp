@@ -17,7 +17,9 @@
       int qid= Integer.parseInt(request.getParameter("qid"));
       userWebService.UserWebService_Service userService = new userWebService.UserWebService_Service();
       userWebService.UserWebService userPort = userService.getUserWebServicePort();
-      String result = port.editQuestion(token, qid, topic, content, id);
+      String ip = request.getParameter("ip");
+      String ua = request.getHeader("User-Agent");
+      String result = port.editQuestion(token, qid, topic, content, id, ip, ua);
       if(result.equals("executed")) {
           response.sendRedirect("index.jsp?token=" + token + "&id=" + id);
       } else {

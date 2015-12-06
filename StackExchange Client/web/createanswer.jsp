@@ -18,7 +18,9 @@
 	java.lang.String content = request.getParameter("content");
         int id = Integer.parseInt(request.getParameter("uid"));
         User user = userPort.getUser(id);
-	java.lang.String result = port.addAnswer(token, qid, user.getName(), user.getEmail(), content, id);
+	String ip = request.getParameter("ip");
+        String ua = request.getHeader("User-Agent");
+        java.lang.String result = port.addAnswer(token, qid, user.getName(), user.getEmail(), content, id, ip, ua);
         if(result.equals("executed")) {
           response.sendRedirect("question.jsp?token=" + request.getParameter("token")
                                         + "&id=" + request.getParameter("uid") + "&qid=" + request.getParameter("qid"));

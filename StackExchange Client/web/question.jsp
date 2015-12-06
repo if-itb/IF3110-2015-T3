@@ -173,6 +173,7 @@ app.controller('formCtrl', function($scope) {
                                 <input type="submit" value="Post">
                                 <input type="hidden" name="qid" value="<%= request.getParameter("qid") %>">
                                 <input type="hidden" name="token" value="<%= token%>" />
+                                <input type="hidden" name="ip" value="<%= request.getRemoteHost()%>"/>
                                 <input type="hidden" name="uid" value="<%= request.getParameter("id")%>" />
                             </form>
                         </div>
