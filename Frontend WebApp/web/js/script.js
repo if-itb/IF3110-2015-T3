@@ -22,7 +22,7 @@ function searchFormValidation() {
 
 // Check whether question form is valid or not
 // A valid form can not contain empty field and contain a valid email address
-function questionFormValidation(){
+function answerFormValidation(){
   var formValues = document.forms[0];
   var isFieldEmpty = false;
   var numberOfInput = 3;
@@ -52,7 +52,7 @@ function questionFormValidation(){
 
 // Check whether answer form is valid or not
 // A valid form can not contain empty field and contain a valid email address
-function answerFormValidation(){
+function questionFormValidation(){
   var formValues = document.forms[0];
   var isFieldEmpty = false;
   var numberOfInput = 4;

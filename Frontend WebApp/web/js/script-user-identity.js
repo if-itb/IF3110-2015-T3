@@ -56,6 +56,16 @@ $(document).ready(function(){
       }
     });
   }
+  
+  $("#comment-part").hide();
+  $("#add-comment").click(function() {
+    $("#comment-part").toggle();
+    $("#add-comment").toogle();
+  });
+  $("#comment-form").submit(function() {
+    $("#comment-part").toggle();
+    $("#add-comment").toggle();
+  });
 });
 
 

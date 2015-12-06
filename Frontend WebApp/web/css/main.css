@@ -110,6 +110,13 @@ textarea {
   font-size: 140%;
   color: #aaa;
 }
+#comment-title {
+  font-size: 120%;
+  color: #aaa;
+}
+#add-comment {
+  cursor: pointer;
+}
 .same-height-row {
   padding: 10px;
   display: flex;

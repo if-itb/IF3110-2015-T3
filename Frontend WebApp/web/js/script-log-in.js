@@ -9,22 +9,13 @@
  */
 
 $(document).ready(function(){
-  // LOG IN FORM
-  // Menghentikan submit request
-  $("#log-in-form").submit(function(e) {
-    e.preventDefault(); 
-  });
-  
+  // LOG IN FORM 
   // Memeriksa tombol submit di log in page di klik
   $("#log-in-submit").click(function(e){
-    // Ambil form data secara serializable
-    dataString = $("#log-in-form").serialize();
 
     // Ambil form data
     var email = $("#log-in-email").val();
-    dataString = "email=" + email;
     var password = $("#log-in-password").val();
-    dataString += "&password=" + password;
 
     // Buat AJAX request
     $.ajax({

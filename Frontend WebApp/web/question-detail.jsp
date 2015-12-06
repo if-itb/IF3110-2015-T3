@@ -106,7 +106,19 @@ No wonder retailers wanted to make the name "Black Friday" mean something positi
                 </div>
               </div>
               <div class="comment stacked border-bottom">
-                <a class="blue" href="add-comment.jsp">Add a comment</a>
+                <div class="blue" id="add-comment">Add a comment</div>
+                <!-- Comment Form -->
+                <div id="comment-part">
+                  <div id="comment-title">
+                    What's your comment?
+                  </div>
+                  <form class="right" id="comment-form" action="" method="post" onsubmit="return answerFormValidation()">
+                    <input class="full-length" id="comment-name" name="comment-name" type="text" placeholder="Name">
+                    <input class="full-length" id="comment-email" name="comment-email" type="email" placeholder="Email">
+                    <textarea class="full-length" id="comment-content" name="comment-content" placeholder="Comment" rows="2" cols="50" required></textarea>
+                    <input class="button" id="comment-submit" name="comment-submit" type="submit" value="Post">
+                  </form>
+                </div>
               </div>
               
             </div>
@@ -181,7 +193,7 @@ No wonder retailers wanted to make the name "Black Friday" mean something positi
         <div id="answer-form-title">
           Your Answer
         </div>
-        <form class="right" id="answer-form" name="answer-form" action="AddAnswerController?token=<%= request.getParameter("token") %>&qid=<%= request.getParameter("qid") %>" method="post" onsubmit="return questionFormValidation()">
+        <form class="right" id="answer-form" name="answer-form" action="AddAnswerController?token=<%= request.getParameter("token") %>&qid=<%= request.getParameter("qid") %>" method="post" onsubmit="return answerFormValidation()">
           <input class="full-length" id="answer-name" name="answer-name" type="text" placeholder="Name">
           <input class="full-length" id="answer-email" name="answer-email" type="text" placeholder="Email">
           <textarea class="full-length" id="answer-content" name="answer-content" placeholder="Content" rows="10" cols="50"></textarea>
