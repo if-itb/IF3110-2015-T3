@@ -49,17 +49,16 @@ public class Validation extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             String token = request.getParameter("token");
+            String[] strSplit;
             
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
                 
                 // Prepare for SQL statement
-                sql = "SELECT * FROM tokenlist WHERE token = ? AND ipaddr = ? AND uagent=?";
+                sql = "SELECT * FROM tokenlist WHERE token = ?";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, token);
-                dbStatement.setString(2, request.getRemoteAddr());
-                dbStatement.setString(3, request.getHeader("user-agent"));
                 
                 // Execute the SQL
                 ResultSet rs = dbStatement.executeQuery();
@@ -78,7 +77,10 @@ public class Validation extends HttpServlet {
                     
                     Date currentDate = new Date();
                     
-                    if (currentDate.after(expDate)) {
+                    // Additional check for token
+                    strSplit = token.split("#");
+                    
+                    if (strSplit[1].equals(request.getRemoteAddr()) && strSplit[2].equals(request.getHeader("user-agent")) && currentDate.after(expDate)) {
                         obj.put("result", "expired");
                     }
                     else {

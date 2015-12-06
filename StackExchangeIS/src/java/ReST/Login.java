@@ -67,7 +67,7 @@ public class Login extends HttpServlet {
               Random rand = new Random();
               int randomNum = rand.nextInt((1000 - 1) + 1) + 1;
 
-              String token = email + Integer.toString(randomNum);
+              String token = email + Integer.toString(randomNum) + "#" + request.getRemoteAddr() + "#" + request.getHeader("user-agent");
 
               Calendar date = Calendar.getInstance();
               long t = date.getTimeInMillis();
@@ -75,13 +75,11 @@ public class Login extends HttpServlet {
 
               DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-              sql = "REPLACE INTO tokenlist (userId, token, expdate, ipaddr, uagent) VALUES (?, ?, ?, ?, ?)";
+              sql = "REPLACE INTO tokenlist (userId, token, expdate) VALUES (?, ?, ?)";
               dbStatement = conn.prepareStatement(sql);
               dbStatement.setInt(1, rs.getInt("userId"));
               dbStatement.setString(2, token);
               dbStatement.setString(3, df.format(expirationDate));
-              dbStatement.setString(4, request.getRemoteAddr());
-              dbStatement.setString(5, request.getHeader("user-agent"));
 
               dbStatement.executeUpdate();
 
