@@ -86,7 +86,11 @@ public class CommentServlet extends HttpServlet {
         }        
 
         JSONObject result = new JSONObject();
-        JSONObject identity = IdentityService.requestAuth(token);
+        String userAgent = request.getHeader("User-Agent");
+        String remoteAddr = request.getHeader("Remote-Address");
+        if (userAgent == null) userAgent = "";
+        if (remoteAddr == null) remoteAddr = "";
+        JSONObject identity = IdentityService.requestAuth(token, userAgent, remoteAddr);
         if (identity != null && identity.containsKey("status")) {
             Long status = (Long) identity.get("status");            
             // token has expired

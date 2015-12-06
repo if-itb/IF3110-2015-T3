@@ -117,9 +117,8 @@ public class VoteServlet extends HttpServlet {
                         String userAgent = request.getHeader("User-Agent");
                         String remoteAddr = request.getRemoteAddr();
                         if (userAgent == null) userAgent = "";
-                        if (remoteAddr == null) remoteAddr = "";
-                        auth = auth + "#" + userAgent + "#" + remoteAddr;
-                        jsonResponse = VCConnector.requestVote(auth, questionId, type, action);
+                        if (remoteAddr == null) remoteAddr = "";                        
+                        jsonResponse = VCConnector.requestVote(auth, questionId, type, action, userAgent, remoteAddr);
                     }
                 }
                 catch (NumberFormatException ex) {

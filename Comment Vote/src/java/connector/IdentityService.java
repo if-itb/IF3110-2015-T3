@@ -23,7 +23,7 @@ import org.json.simple.parser.ParseException;
 public class IdentityService {
     private static final String CONTEXT_PATH = "http://localhost:8082";
 
-    private static JSONObject request(String servletPath, byte[] query) {
+    private static JSONObject request(String servletPath, byte[] query, String userAgent, String remoteAddr) {
         JSONObject object = null;
         try {
             if (servletPath == null)
@@ -33,6 +33,8 @@ public class IdentityService {
             URLConnection connection = new URL(CONTEXT_PATH + servletPath).openConnection();
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("User-Agent", userAgent);
+            connection.setRequestProperty("Remote-Address", remoteAddr);
             try (OutputStream output = connection.getOutputStream()) {
                 output.write(query);
             }
@@ -49,14 +51,14 @@ public class IdentityService {
         return object;
     }
 
-    public static JSONObject requestAuth(String accessToken) {
+    public static JSONObject requestAuth(String accessToken, String userAgent, String remoteAddr) {
         JSONObject object = null;
         try {
             String charset = java.nio.charset.StandardCharsets.UTF_8.name();
             String query = String.format(
                     "auth=%s",
                     URLEncoder.encode(accessToken, charset));
-            object = request("/auth", query.getBytes());
+            object = request("/auth", query.getBytes(), userAgent, remoteAddr);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }

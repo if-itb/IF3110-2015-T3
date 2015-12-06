@@ -85,9 +85,8 @@ public class CommentServlet extends HttpServlet {
                         String remoteAddr = request.getRemoteAddr();
                         if (userAgent == null) userAgent = "";
                         if (remoteAddr == null) remoteAddr = "";
-                        content = content.toLowerCase();
-                        auth = auth + "#" + userAgent + "#" + remoteAddr;
-                        jsonResponse = VCConnector.requestComment(auth, questionId, content);
+                        content = content.toLowerCase();                        
+                        jsonResponse = VCConnector.requestComment(auth, questionId, content, userAgent, remoteAddr);
                     }
                 }
                 catch (NumberFormatException ex) {

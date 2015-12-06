@@ -27,7 +27,7 @@ import org.json.simple.parser.ParseException;
 public class VCConnector {
     public static final String CONTEXT_PATH = "http://localhost:8083";
 
-    private static JSONObject request(String servletPath, byte[] query) {
+    private static JSONObject request(String servletPath, byte[] query, String userAgent, String remoteAddr) {
         JSONObject object = new JSONObject();
         try {
             if (servletPath == null)
@@ -37,6 +37,8 @@ public class VCConnector {
             URLConnection connection = new URL(CONTEXT_PATH + servletPath).openConnection();
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("User-Agent", userAgent);
+            connection.setRequestProperty("Remote-Address", remoteAddr);
             try (OutputStream output = connection.getOutputStream()) {
                 output.write(query);
             }
@@ -67,7 +69,7 @@ public class VCConnector {
         return builder.toString();
     }
 
-    public static JSONObject requestVote(String auth, String id, String type, String action) {
+    public static JSONObject requestVote(String auth, String id, String type, String action, String userAgent, String remoteAddr) {
         JSONObject object = new JSONObject();
         try {            
             String charset = java.nio.charset.StandardCharsets.UTF_8.name();
@@ -77,14 +79,14 @@ public class VCConnector {
                     URLEncoder.encode(id, charset),
                     URLEncoder.encode(type, charset),
                     URLEncoder.encode(action, charset));
-            object = request("/vote", query.getBytes());            
+            object = request("/vote", query.getBytes(), userAgent, remoteAddr);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
         return object;
     }
     
-     public static JSONObject requestComment(String auth, String id, String content) {
+     public static JSONObject requestComment(String auth, String id, String content, String userAgent, String remoteAddr) {
         JSONObject object = new JSONObject();
         try {            
             String charset = java.nio.charset.StandardCharsets.UTF_8.name();
@@ -93,7 +95,7 @@ public class VCConnector {
                     URLEncoder.encode(auth, charset),
                     URLEncoder.encode(id, charset),
                     URLEncoder.encode(content, charset));
-            object = request("/comment", query.getBytes());
+            object = request("/comment", query.getBytes(), userAgent, remoteAddr);
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
