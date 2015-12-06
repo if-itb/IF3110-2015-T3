@@ -39,8 +39,17 @@ CREATE TABLE votes_answer(
 	FOREIGN KEY (voter) REFERENCES user(userId)
 );
 
-create table tokenlist ( 
+CREATE TABLE tokenlist ( 
 	userId int(11), 
 	token varchar(255), 
 	expdate timestamp 
+);
+
+CREATE TABLE comment (
+	commentId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	questionId INT NOT NULL,
+	commenterId INT NOT NULL,
+	content TEXT NOT NULL,
+	FOREIGN KEY (questionId) REFERENCES question(questionId),
+	FOREIGN KEY (commenterId) REFERENCES user(userId)
 );
