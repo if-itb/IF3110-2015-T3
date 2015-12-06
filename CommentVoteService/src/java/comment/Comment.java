@@ -38,10 +38,6 @@ public class Comment extends HttpServlet {
 	System.out.println("qid : " + qid);
 	
 	if(request.getMethod().equals("POST")){
-	    System.out.println("Token : " + token);
-	    System.out.println("content : " + content);
-	    System.out.println("Name : " + name);
-	    System.out.println("qid : " + qid);
 	    System.out.println("POST COMMENT");
 	    try {
 		PrintWriter out = response.getWriter();
@@ -77,7 +73,7 @@ public class Comment extends HttpServlet {
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
 	} else if(request.getMethod().equals("GET")) {
-	    System.out.println("GET COMMENT");	    
+	    System.out.println("GET COMMENT");
 	    Connection conn = ConnectDb.connect();
 	    String sql = "select * from comments where qid = ? ";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);

@@ -27,24 +27,13 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 	$http({
 	    url: "http://localhost:8083/CommentVoteService/comment",
 	    method: "GET",
-	    data: {
-		token: $cookies.get("token"),
-		name: $cookies.get("username"),
-		content: $scope.content,
-		qid: id
-	    },
-	    transformRequest: function (obj) {
-		var str = [];
-		for (var p in obj)
-		    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-		return str.join("&");
-	    },
+	    params: { qid: id },
 	    transformResponse: function (data) {
+                console.log(data);
 		var x2js = new X2JS();
 		var json = x2js.xml_str2json(data);
 		return json;
-	    },
-	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	    }
 	}).success(function (response) {
 	    $scope.comments.push(response);
 	});

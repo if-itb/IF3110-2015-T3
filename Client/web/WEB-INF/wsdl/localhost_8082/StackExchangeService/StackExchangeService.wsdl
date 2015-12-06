@@ -4,26 +4,14 @@
 <xsd:import namespace="http://service/" schemaLocation="http://localhost:8082/StackExchangeService/StackExchangeService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getUserAgent">
-<part name="parameters" element="tns:getUserAgent"/>
-</message>
-<message name="getUserAgentResponse">
-<part name="parameters" element="tns:getUserAgentResponse"/>
-</message>
-<message name="getAllQuestion">
-<part name="parameters" element="tns:getAllQuestion"/>
-</message>
-<message name="getAllQuestionResponse">
-<part name="parameters" element="tns:getAllQuestionResponse"/>
-</message>
-<message name="Exception">
-<part name="fault" element="tns:Exception"/>
-</message>
 <message name="deleteQuestion">
 <part name="parameters" element="tns:deleteQuestion"/>
 </message>
 <message name="deleteQuestionResponse">
 <part name="parameters" element="tns:deleteQuestionResponse"/>
+</message>
+<message name="Exception">
+<part name="fault" element="tns:Exception"/>
 </message>
 <message name="editQuestion">
 <part name="parameters" element="tns:editQuestion"/>
@@ -73,11 +61,17 @@
 <message name="registerUserResponse">
 <part name="parameters" element="tns:registerUserResponse"/>
 </message>
-<message name="createQuestion">
-<part name="parameters" element="tns:createQuestion"/>
+<message name="getUserAgent">
+<part name="parameters" element="tns:getUserAgent"/>
 </message>
-<message name="createQuestionResponse">
-<part name="parameters" element="tns:createQuestionResponse"/>
+<message name="getUserAgentResponse">
+<part name="parameters" element="tns:getUserAgentResponse"/>
+</message>
+<message name="getAllQuestion">
+<part name="parameters" element="tns:getAllQuestion"/>
+</message>
+<message name="getAllQuestionResponse">
+<part name="parameters" element="tns:getAllQuestionResponse"/>
 </message>
 <message name="getIP">
 <part name="parameters" element="tns:getIP"/>
@@ -85,16 +79,13 @@
 <message name="getIPResponse">
 <part name="parameters" element="tns:getIPResponse"/>
 </message>
+<message name="createQuestion">
+<part name="parameters" element="tns:createQuestion"/>
+</message>
+<message name="createQuestionResponse">
+<part name="parameters" element="tns:createQuestionResponse"/>
+</message>
 <portType name="StackExchangeService">
-<operation name="getUserAgent">
-<input wsam:Action="http://service/StackExchangeService/getUserAgentRequest" message="tns:getUserAgent"/>
-<output wsam:Action="http://service/StackExchangeService/getUserAgentResponse" message="tns:getUserAgentResponse"/>
-</operation>
-<operation name="getAllQuestion">
-<input wsam:Action="http://service/StackExchangeService/getAllQuestionRequest" message="tns:getAllQuestion"/>
-<output wsam:Action="http://service/StackExchangeService/getAllQuestionResponse" message="tns:getAllQuestionResponse"/>
-<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getAllQuestion/Fault/Exception"/>
-</operation>
 <operation name="deleteQuestion">
 <input wsam:Action="http://service/StackExchangeService/deleteQuestionRequest" message="tns:deleteQuestion"/>
 <output wsam:Action="http://service/StackExchangeService/deleteQuestionResponse" message="tns:deleteQuestionResponse"/>
@@ -140,39 +131,27 @@
 <output wsam:Action="http://service/StackExchangeService/registerUserResponse" message="tns:registerUserResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/registerUser/Fault/Exception"/>
 </operation>
-<operation name="createQuestion">
-<input wsam:Action="http://service/StackExchangeService/createQuestionRequest" message="tns:createQuestion"/>
-<output wsam:Action="http://service/StackExchangeService/createQuestionResponse" message="tns:createQuestionResponse"/>
-<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/createQuestion/Fault/Exception"/>
+<operation name="getUserAgent">
+<input wsam:Action="http://service/StackExchangeService/getUserAgentRequest" message="tns:getUserAgent"/>
+<output wsam:Action="http://service/StackExchangeService/getUserAgentResponse" message="tns:getUserAgentResponse"/>
+</operation>
+<operation name="getAllQuestion">
+<input wsam:Action="http://service/StackExchangeService/getAllQuestionRequest" message="tns:getAllQuestion"/>
+<output wsam:Action="http://service/StackExchangeService/getAllQuestionResponse" message="tns:getAllQuestionResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getAllQuestion/Fault/Exception"/>
 </operation>
 <operation name="getIP">
 <input wsam:Action="http://service/StackExchangeService/getIPRequest" message="tns:getIP"/>
 <output wsam:Action="http://service/StackExchangeService/getIPResponse" message="tns:getIPResponse"/>
 </operation>
+<operation name="createQuestion">
+<input wsam:Action="http://service/StackExchangeService/createQuestionRequest" message="tns:createQuestion"/>
+<output wsam:Action="http://service/StackExchangeService/createQuestionResponse" message="tns:createQuestionResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/createQuestion/Fault/Exception"/>
+</operation>
 </portType>
 <binding name="StackExchangeServicePortBinding" type="tns:StackExchangeService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getUserAgent">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getAllQuestion">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="Exception">
-<soap:fault name="Exception" use="literal"/>
-</fault>
-</operation>
 <operation name="deleteQuestion">
 <soap:operation soapAction=""/>
 <input>
@@ -281,7 +260,16 @@
 <soap:fault name="Exception" use="literal"/>
 </fault>
 </operation>
-<operation name="createQuestion">
+<operation name="getUserAgent">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getAllQuestion">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -301,6 +289,18 @@
 <output>
 <soap:body use="literal"/>
 </output>
+</operation>
+<operation name="createQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
 </operation>
 </binding>
 <service name="StackExchangeService">
