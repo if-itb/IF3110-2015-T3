@@ -39,8 +39,9 @@ public class VoteDownQuestion extends HttpServlet {
         
         int id_question = Integer.parseInt(request.getParameter("id_question"));
         String token = request.getParameter("token");
-        
-        out.println(vq.voteDown(id_question, token));
+        String userAgent = request.getParameter("user-agent");
+        String ip = request.getParameter("ip");
+        out.println(vq.voteDown(id_question, token, userAgent, ip));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -66,7 +66,7 @@ public class VoteQuestion {
     }
     
     
-    public JSONObject voteUp(int qid, String token ){
+    public JSONObject voteUp(int qid, String token, String userAgent, String ip ){
         int count=7;
         //JSONObject json = getVoteById(qid);
         JSONObject json = getVoteById(qid);
@@ -75,11 +75,11 @@ public class VoteQuestion {
  
             count = (int) json.get("vote");
 
-            String username= auth.checkToken(token);
+            String username= auth.checkToken(token, userAgent, ip);
             if(!isVoteUp(qid, username)){//sudah pernah vote up
                 if(!username.equals("-999")){//token generator salah
                     if(!username.equals("-998")){//user agent
-                        if(!username.equals("-997")){//ip
+                        if(!username.equals("-997")){
                                 try {
                                     conn = db.connect();
                                     Statement stmt;
@@ -125,12 +125,12 @@ public class VoteQuestion {
         return json;
     }
 
-    public JSONObject voteDown(int qid, String token ){
+    public JSONObject voteDown(int qid, String token, String userAgent, String ip ){
         int count;
         JSONObject json = getVoteById(qid);
         count= (int) json.get("vote");
         
-        String username= auth.checkToken(token);       
+        String username= auth.checkToken(token, userAgent, ip);       
         if(!isVoteDown(qid, username)){//voted down
             if(!username.equals("-999")){//failed generator
                 if(!username.equals("-998")){//user agent

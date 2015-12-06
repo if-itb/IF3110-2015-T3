@@ -57,8 +57,9 @@ public class AddComment extends HttpServlet {
         int id_question = Integer.parseInt(request.getParameter("id_question"));
         String content = request.getParameter("content");
         String username = request.getParameter("username");
-        
-        Boolean state = comment.addComment(id_question, content, username);
+        String userAgent = request.getParameter("user-agent");
+        String ip = request.getParameter("ip");
+        Boolean state = comment.addComment(id_question, content, username, userAgent, ip);
         if (state) {
             pw.println("{\"state\": \"failed\"}");
         }

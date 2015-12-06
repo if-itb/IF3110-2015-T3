@@ -48,7 +48,7 @@ public class Auth {
         } 
         return null;
     }
-    public String checkToken(String token) {
+    public String checkToken(String token, String userAgent, String ip) {
             String username="";
             String result="";
             try { 
@@ -60,8 +60,10 @@ public class Auth {
                 con.setRequestProperty("Accept-Charset", charset);
                 con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
                 
-                String query = String.format("token_string=%s",
-                        URLEncoder.encode(token, charset));
+                String query = String.format("token_string=%s&user_agent=%s&ip",
+                        URLEncoder.encode(token, charset),
+                        URLEncoder.encode(userAgent, charset),
+                        URLEncoder.encode(ip, charset));
                 try (OutputStream output = con.getOutputStream()) {
                     output.write(query.getBytes(charset));
                 }
@@ -114,7 +116,7 @@ public class Auth {
        public static void main (String [] args) throws IOException{
             Auth a = new Auth();
             String abc = "key";
-            System.out.println(a.checkToken(abc));
+            //System.out.println(a.checkToken(abc));
             //a.checkToken(abc);
         }
 }

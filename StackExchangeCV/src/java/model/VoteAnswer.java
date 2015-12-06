@@ -67,12 +67,12 @@ public class VoteAnswer {
     }
     
     
-    public JSONObject voteUp(int aid, String token ){
+    public JSONObject voteUp(int aid, String token, String userAgent, String ip ){
         int count;
         JSONObject json = getVoteById(aid);
         count= Integer.parseInt(json.get("vote").toString());
         
-        String username= auth.checkToken(token);
+        String username= auth.checkToken(token, userAgent, ip);
         if(!isVoteUp(aid, username)){//sudah pernah vote up
             if(!username.equals("-999")){//token generator salah
                 if(!username.equals("-998")){//user agent
@@ -121,12 +121,12 @@ public class VoteAnswer {
         return json;
     }
 
-    public JSONObject voteDown(int aid, String token ){
+    public JSONObject voteDown(int aid, String token, String userAgent, String ip ){
         int count;
         JSONObject json = getVoteById(aid);
         count= Integer.parseInt(json.get("vote").toString());
         
-        String username= auth.checkToken(token);       
+        String username= auth.checkToken(token, userAgent, ip);       
         if(!isVoteDown(aid, username)){//voted down
             if(!username.equals("-999")){//failed generator
                 if(!username.equals("-998")){//user agent

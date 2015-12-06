@@ -38,8 +38,10 @@ public class VoteUpQuestion extends HttpServlet {
         
         int id_question = Integer.parseInt(request.getParameter("id_question"));
         String token = request.getParameter("token");
+        String userAgent = request.getParameter("user-agent");
+        String ip = request.getParameter("ip");
         
-        out.println(vq.voteUp(id_question, token));
+        out.println(vq.voteUp(id_question, token, userAgent, ip));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

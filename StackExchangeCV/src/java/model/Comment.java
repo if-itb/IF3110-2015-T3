@@ -5,7 +5,8 @@
  */
 package model;
 
-import Connection.DB;
+import Authentication.Auth;
+import Config.DB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +25,7 @@ import org.json.simple.JSONArray;
 public class Comment {
     private DB db;
     private Connection conn;
+    private final Auth auth= new Auth();
     
     private static String getCurrentTimeStamp() {
         Calendar cal = Calendar.getInstance();  
@@ -38,7 +40,7 @@ public class Comment {
     public JSONObject getComments() {
         JSONObject json = new JSONObject();
         JSONArray comments = new JSONArray();
-        JSONObject comment;
+        JSONObject comment = new JSONObject();;
         
         conn = db.connect();
         try {
@@ -59,8 +61,9 @@ public class Comment {
             }
             
             /* Get every data returned by SQLquery */
+            
             while(rs.next()) {
-                comment = new JSONObject();
+                
                 comment.put("content", rs.getString("content"));
                 comment.put("date", rs.getString("date"));
                 comment.put("username", rs.getString("username"));
@@ -83,7 +86,7 @@ public class Comment {
     public JSONObject getCommentByQID(int i){
         JSONObject json = new JSONObject();
         JSONArray comments = new JSONArray();
-        JSONObject comment;
+        JSONObject comment = new JSONObject();
         
         conn = db.connect();
         try {
@@ -104,13 +107,12 @@ public class Comment {
                 return json;
             }
             
-            /* Get every data returned by SQLquery */
+            /* Get every data returned by SQLquery */ 
             while(rs.next()) {
-                comment = new JSONObject();
                 comment.put("content", rs.getString("content"));
                 comment.put("date", rs.getString("date"));
                 comment.put("username", rs.getString("username"));
-                comments.add(comment);
+                comments.add(comment);    
             }
             json.put("comments", comments);
             json.put("state", 1);
@@ -126,26 +128,34 @@ public class Comment {
         return json;
     }
     
-    public Boolean addComment(int id_question, String content, String username) {
+    public Boolean addComment(int id_question, String content, String token, String userAgent, String ip) {
         conn = db.connect();
         Boolean state = true;
+        String username =auth.checkToken(token, userAgent, ip);
+        System.out.println(username);
         try {
-            Statement stmt;
-            stmt = conn.createStatement();
+            //if(!username.equals("-999")){
+                //if(!username.equals("-998")){
+                    //if(!username.equals("-997")){
+                        Statement stmt;
+                        stmt = conn.createStatement();
 
-            String sql;
-            sql = "INSERT INTO comment(id_question, content, username, date)"
-                    + " VALUES (?, ?, ?, ?)";
+                        String sql;
+                        sql = "INSERT INTO comment(id_question, content, username, date)"
+                                + " VALUES (?, ?, ?, ?)";
 
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, id_question);
-            dbStatement.setString(2, content);
-            dbStatement.setString(3, username);
-            dbStatement.setString(4, getCurrentTimeStamp());
+                        PreparedStatement dbStatement = conn.prepareStatement(sql);
+                        dbStatement.setInt(1, id_question);
+                        dbStatement.setString(2, content);
+                        dbStatement.setString(3, username);
+                        dbStatement.setString(4, getCurrentTimeStamp());
 
-            state = dbStatement.execute();
-            stmt.close();
-            conn.close();
+                        state = dbStatement.execute();
+                        stmt.close();
+                        conn.close();
+                    //}
+                //}
+            //}
         } 
         catch (SQLException ex) {
             ex.getSQLState();
