@@ -437,3 +437,7 @@ a:visited {
     border-top-width: thin;
     border-top-color: #999;
 }
+
+.comment-list{
+    width:95%;
+}

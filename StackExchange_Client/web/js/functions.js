@@ -40,3 +40,13 @@ function vote(id, change, db) {
     xhttp.open("GET", "vote?id="+id+"&vote="+change+"&db="+db, true);
     xhttp.send();
 } 
+
+function showCommentForm(){
+    var div = document.getElementById('savecomment');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+}
