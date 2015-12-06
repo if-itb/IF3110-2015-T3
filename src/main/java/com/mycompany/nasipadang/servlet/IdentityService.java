@@ -131,15 +131,19 @@ public class IdentityService extends HttpServlet {
         User user = getUser(request.getParameter("email"), request.getParameter("password"));
         if(user != null){
             HttpSession session = request.getSession(true);
-            
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                    ipAddress = request.getRemoteAddr();  
+            }
+            String header = request.getHeader("User-Agent");
+            System.out.println("Header : " + header);
             String token = session.getId();
             session.setAttribute("name", user.name);
+//            token = token + "#" + header + "#" + ipAddress;
             System.out.println("token : " + token);
             session.setAttribute("token", token);
             session.setAttribute("id_user", user.id_user);
             session.setMaxInactiveInterval(4320);
-            request.setAttribute();
-            request.setAttribute();
             sessions.add(session);
             response.sendRedirect("../index.jsp");
         }
