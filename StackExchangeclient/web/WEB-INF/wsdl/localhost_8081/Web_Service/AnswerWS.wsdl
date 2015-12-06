@@ -10,17 +10,11 @@
 <message name="insertAnswerResponse">
 <part name="parameters" element="tns:insertAnswerResponse"/>
 </message>
-<message name="getAnswerQID">
-<part name="parameters" element="tns:getAnswerQID"/>
+<message name="numVoteAnswer">
+<part name="parameters" element="tns:numVoteAnswer"/>
 </message>
-<message name="getAnswerQIDResponse">
-<part name="parameters" element="tns:getAnswerQIDResponse"/>
-</message>
-<message name="getAnswerVote">
-<part name="parameters" element="tns:getAnswerVote"/>
-</message>
-<message name="getAnswerVoteResponse">
-<part name="parameters" element="tns:getAnswerVoteResponse"/>
+<message name="numVoteAnswerResponse">
+<part name="parameters" element="tns:numVoteAnswerResponse"/>
 </message>
 <message name="getAnswerUID">
 <part name="parameters" element="tns:getAnswerUID"/>
@@ -34,17 +28,11 @@
 <message name="voteAnswerResponse">
 <part name="parameters" element="tns:voteAnswerResponse"/>
 </message>
-<message name="numVoteAnswer">
-<part name="parameters" element="tns:numVoteAnswer"/>
+<message name="getAnswerVote">
+<part name="parameters" element="tns:getAnswerVote"/>
 </message>
-<message name="numVoteAnswerResponse">
-<part name="parameters" element="tns:numVoteAnswerResponse"/>
-</message>
-<message name="getAnswerByQID">
-<part name="parameters" element="tns:getAnswerByQID"/>
-</message>
-<message name="getAnswerByQIDResponse">
-<part name="parameters" element="tns:getAnswerByQIDResponse"/>
+<message name="getAnswerVoteResponse">
+<part name="parameters" element="tns:getAnswerVoteResponse"/>
 </message>
 <message name="setAnswerVote">
 <part name="parameters" element="tns:setAnswerVote"/>
@@ -52,18 +40,26 @@
 <message name="setAnswerVoteResponse">
 <part name="parameters" element="tns:setAnswerVoteResponse"/>
 </message>
+<message name="getAnswerQID">
+<part name="parameters" element="tns:getAnswerQID"/>
+</message>
+<message name="getAnswerQIDResponse">
+<part name="parameters" element="tns:getAnswerQIDResponse"/>
+</message>
+<message name="getAnswerByQID">
+<part name="parameters" element="tns:getAnswerByQID"/>
+</message>
+<message name="getAnswerByQIDResponse">
+<part name="parameters" element="tns:getAnswerByQIDResponse"/>
+</message>
 <portType name="AnswerWS">
 <operation name="insertAnswer">
 <input wsam:Action="http://jaxws/AnswerWS/insertAnswerRequest" message="tns:insertAnswer"/>
 <output wsam:Action="http://jaxws/AnswerWS/insertAnswerResponse" message="tns:insertAnswerResponse"/>
 </operation>
-<operation name="getAnswerQID">
-<input wsam:Action="http://jaxws/AnswerWS/getAnswerQIDRequest" message="tns:getAnswerQID"/>
-<output wsam:Action="http://jaxws/AnswerWS/getAnswerQIDResponse" message="tns:getAnswerQIDResponse"/>
-</operation>
-<operation name="getAnswerVote">
-<input wsam:Action="http://jaxws/AnswerWS/getAnswerVoteRequest" message="tns:getAnswerVote"/>
-<output wsam:Action="http://jaxws/AnswerWS/getAnswerVoteResponse" message="tns:getAnswerVoteResponse"/>
+<operation name="numVoteAnswer">
+<input wsam:Action="http://jaxws/AnswerWS/numVoteAnswerRequest" message="tns:numVoteAnswer"/>
+<output wsam:Action="http://jaxws/AnswerWS/numVoteAnswerResponse" message="tns:numVoteAnswerResponse"/>
 </operation>
 <operation name="getAnswerUID">
 <input wsam:Action="http://jaxws/AnswerWS/getAnswerUIDRequest" message="tns:getAnswerUID"/>
@@ -73,17 +69,21 @@
 <input wsam:Action="http://jaxws/AnswerWS/voteAnswerRequest" message="tns:voteAnswer"/>
 <output wsam:Action="http://jaxws/AnswerWS/voteAnswerResponse" message="tns:voteAnswerResponse"/>
 </operation>
-<operation name="numVoteAnswer">
-<input wsam:Action="http://jaxws/AnswerWS/numVoteAnswerRequest" message="tns:numVoteAnswer"/>
-<output wsam:Action="http://jaxws/AnswerWS/numVoteAnswerResponse" message="tns:numVoteAnswerResponse"/>
-</operation>
-<operation name="getAnswerByQID">
-<input wsam:Action="http://jaxws/AnswerWS/getAnswerByQIDRequest" message="tns:getAnswerByQID"/>
-<output wsam:Action="http://jaxws/AnswerWS/getAnswerByQIDResponse" message="tns:getAnswerByQIDResponse"/>
+<operation name="getAnswerVote">
+<input wsam:Action="http://jaxws/AnswerWS/getAnswerVoteRequest" message="tns:getAnswerVote"/>
+<output wsam:Action="http://jaxws/AnswerWS/getAnswerVoteResponse" message="tns:getAnswerVoteResponse"/>
 </operation>
 <operation name="setAnswerVote">
 <input wsam:Action="http://jaxws/AnswerWS/setAnswerVoteRequest" message="tns:setAnswerVote"/>
 <output wsam:Action="http://jaxws/AnswerWS/setAnswerVoteResponse" message="tns:setAnswerVoteResponse"/>
+</operation>
+<operation name="getAnswerQID">
+<input wsam:Action="http://jaxws/AnswerWS/getAnswerQIDRequest" message="tns:getAnswerQID"/>
+<output wsam:Action="http://jaxws/AnswerWS/getAnswerQIDResponse" message="tns:getAnswerQIDResponse"/>
+</operation>
+<operation name="getAnswerByQID">
+<input wsam:Action="http://jaxws/AnswerWS/getAnswerByQIDRequest" message="tns:getAnswerByQID"/>
+<output wsam:Action="http://jaxws/AnswerWS/getAnswerByQIDResponse" message="tns:getAnswerByQIDResponse"/>
 </operation>
 </portType>
 <binding name="AnswerWSPortBinding" type="tns:AnswerWS">
@@ -97,16 +97,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getAnswerQID">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getAnswerVote">
+<operation name="numVoteAnswer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -133,16 +124,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="numVoteAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getAnswerByQID">
+<operation name="getAnswerVote">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -152,6 +134,24 @@
 </output>
 </operation>
 <operation name="setAnswerVote">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getAnswerQID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getAnswerByQID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

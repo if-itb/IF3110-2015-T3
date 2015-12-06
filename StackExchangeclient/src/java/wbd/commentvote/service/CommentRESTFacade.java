@@ -21,12 +21,11 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Path("wbd.commentvote.comment")
 public class CommentRESTFacade {
@@ -48,7 +47,7 @@ public class CommentRESTFacade {
   }
 
   @POST
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({"application/xml", "application/json"})
   public Response create(Comment entity) {
     try {
       getJpaController().create(entity);
@@ -59,7 +58,7 @@ public class CommentRESTFacade {
   }
 
   @PUT
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({"application/xml", "application/json"})
   public Response edit(Comment entity) {
     try {
       getJpaController().edit(entity);
@@ -82,27 +81,27 @@ public class CommentRESTFacade {
 
   @GET
   @Path("{id}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({"application/xml", "application/json"})
   public Comment find(@PathParam("id") Integer id) {
     return getJpaController().findComment(id);
   }
 
   @GET
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({"application/xml", "application/json"})
   public List<Comment> findAll() {
     return getJpaController().findCommentEntities();
   }
 
   @GET
   @Path("{max}/{first}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({"application/xml", "application/json"})
   public List<Comment> findRange(@PathParam("max") Integer max, @PathParam("first") Integer first) {
     return getJpaController().findCommentEntities(max, first);
   }
 
   @GET
   @Path("count")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces("text/plain")
   public String count() {
     return String.valueOf(getJpaController().getCommentCount());
   }

@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Entity
 @Table(name = "comment")
@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "Comment.findByUid", query = "SELECT c FROM Comment c WHERE c.uid = :uid"),
   @NamedQuery(name = "Comment.findByDate", query = "SELECT c FROM Comment c WHERE c.date = :date")})
 public class Comment implements Serializable {
-
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

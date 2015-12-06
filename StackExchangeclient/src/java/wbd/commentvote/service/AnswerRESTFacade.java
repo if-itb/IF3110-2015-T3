@@ -48,7 +48,7 @@ public class AnswerRESTFacade {
   }
 
   @POST
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public Response create(Answer entity) {
     try {
       getJpaController().create(entity);
@@ -59,7 +59,7 @@ public class AnswerRESTFacade {
   }
 
   @PUT
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public Response edit(Answer entity) {
     try {
       getJpaController().edit(entity);
@@ -82,20 +82,20 @@ public class AnswerRESTFacade {
 
   @GET
   @Path("{id}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public Answer find(@PathParam("id") Integer id) {
     return getJpaController().findAnswer(id);
   }
 
   @GET
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<Answer> findAll() {
     return getJpaController().findAnswerEntities();
   }
 
   @GET
   @Path("{max}/{first}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<Answer> findRange(@PathParam("max") Integer max, @PathParam("first") Integer first) {
     return getJpaController().findAnswerEntities(max, first);
   }

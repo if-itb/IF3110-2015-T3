@@ -48,7 +48,7 @@ public class VoteQuestionRESTFacade {
   }
 
   @POST
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public Response create(VoteQuestion entity) {
     try {
       getJpaController().create(entity);
@@ -59,7 +59,7 @@ public class VoteQuestionRESTFacade {
   }
 
   @PUT
-  @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Consumes({MediaType.APPLICATION_JSON})
   public Response edit(VoteQuestion entity) {
     try {
       getJpaController().edit(entity);
@@ -82,20 +82,20 @@ public class VoteQuestionRESTFacade {
 
   @GET
   @Path("{id}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public VoteQuestion find(@PathParam("id") Integer id) {
     return getJpaController().findVoteQuestion(id);
   }
 
   @GET
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<VoteQuestion> findAll() {
     return getJpaController().findVoteQuestionEntities();
   }
 
   @GET
   @Path("{max}/{first}")
-  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  @Produces({MediaType.APPLICATION_JSON})
   public List<VoteQuestion> findRange(@PathParam("max") Integer max, @PathParam("first") Integer first) {
     return getJpaController().findVoteQuestionEntities(max, first);
   }

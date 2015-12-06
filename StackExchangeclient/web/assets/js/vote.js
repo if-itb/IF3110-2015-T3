@@ -6,20 +6,44 @@
 
 var app = angular.module('cmv', []);
 app.controller('vote', function ($scope, $http) {
-  $scope.voteQuestionUp = function (qid, uid) {
-    // var vote = parseInt(document.getElementById(id).innerHTML) + 1;
-    console.log('tes');
-    var param = {
-      
-    }
-    $http({
-      url : "http://localhost:8088/StackExchangeclient/webresources/wbd.commentvote.votequestion/",
-      method : 'get',
-      // params : param,
-    })
-    // . then (
-    //   console.log('success'),
-    //   console.log('failed')
-    // )
-  };
+  // vote question
+function getQVote($http)
+{
+  $http.get(
+        "http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.votequestion/"
+      )
+      .success(function(data, status) {
+        var ar = []
+        for (var isi in data) {
+          ar.push(isi);
+          ar['name'] = ar.uid['name'];
+          ar['uid'] = ar.uid['id'];
+          ar['qid'] = ar.qid['id'];
+        }
+        return ar;
+      })
+      .error(function(status) {
+        console.log(status);
+      })
+};
+// vote answer
+function getAVote($http)
+{
+  $http.get(
+        "http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.voteanswer/"
+      )
+      .success(function(data, status) {
+        var ar = []
+        for (var isi in data) {
+          ar.push(isi);
+          ar['name'] = ar.uid['name'];
+          ar['uid'] = ar.uid['id'];
+          ar['qid'] = ar.qid['id'];
+        }
+        return ar;
+      })
+      .error(function(status) {
+        console.log(status);
+      })
+};
 });

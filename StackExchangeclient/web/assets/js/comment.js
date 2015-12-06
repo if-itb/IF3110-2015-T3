@@ -18,9 +18,9 @@ app.controller('comment', function($scope, $http) {
     }
     $scope.showed = !$scope.showed;
   };
-  $http.get("dummy.json").then(function(response) {
+  $http.get("http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.comment").then(function(response) {
     var ret = [];
-    angular.forEach(response.data.result, function(c) {
+    angular.forEach(response.data, function(c) {
       if(c.qid == document.getElementById("qid").value) {
         ret.push(c);
       }
