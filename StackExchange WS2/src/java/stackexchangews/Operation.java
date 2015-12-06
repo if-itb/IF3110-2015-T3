@@ -149,7 +149,7 @@ public class Operation {
     @WebMethod(operationName = "vote")
     public void vote(@WebParam(name = "token") String token, @WebParam(name = "mode") boolean mode, @WebParam(name = "idq") String idq, @WebParam(name = "val") int val) throws IOException, UnsupportedEncodingException, MalformedURLException, ParseException {
         try {
-            if (Auth(token)>0) {
+            if (Auth(token)>0 && canVote(Integer.toString(getUIDbyToken(token)),mode,idq)) {
             Statement stmt = conn.createStatement();
             String sql;
             if (mode) {
@@ -332,10 +332,52 @@ public class Operation {
     /**
      * Web service operation
      */
+    @WebMethod(operationName = "getUIDbyQID")
+    public int getUIDbyQID(@WebParam(name = "qid") int qid) {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT id_user FROM question where id = ?";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, qid);            
+            
+            ResultSet rs = dbStatement.executeQuery();
+            rs.next();
+            int id = rs.getInt("id_user");                                               
+            stmt.close();
+            
+            return id;
+        }        
+        catch (SQLException ex) {
+            return -1;   
+        }
+    }    
+    @WebMethod(operationName = "getUIDbyAID")
+    public int getUIDbyAID(@WebParam(name = "Aid") int aid) {
+        try {
+            Statement stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT id_user FROM answer where id = ?";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, aid);            
+            
+            ResultSet rs = dbStatement.executeQuery();
+            rs.next();
+            int id = rs.getInt("id_user");                                               
+            stmt.close();
+            
+            return id;
+        }        
+        catch (SQLException ex) {
+            return -1;   
+        }
+    }        
+    
+    
     @WebMethod(operationName = "deleteQ")
     public boolean deleteQ(@WebParam(name = "token") String token, @WebParam(name = "idq") int idq) throws MalformedURLException, IOException, UnsupportedEncodingException, ParseException {
         try {
-            if (Auth(token)>0) {
+            if (Auth(token)>0 &&  getUIDbyToken(token)==getUIDbyQID(idq)) {
             Statement stmt = conn.createStatement();
             String sql;            
             sql = "DELETE FROM ANSWER WHERE id_question = ?";                         
@@ -367,7 +409,7 @@ public class Operation {
      */
     @WebMethod(operationName = "deleteA")
     public boolean deleteA(@WebParam(name = "token") String token, @WebParam(name = "ida") int ida) throws MalformedURLException, ParseException, IOException {
-        if (Auth(token)>0) {
+        if (Auth(token)>0 && getUIDbyToken(token)==getUIDbyAID(ida)) {
         try {
             Statement stmt = conn.createStatement();
             String sql;            
