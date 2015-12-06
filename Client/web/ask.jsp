@@ -25,6 +25,7 @@
 	<%@page import= "java.net.URL,javax.xml.namespace.QName,java.lang.String" %>
 	<%@page import= "com.yangnormal.sstackex.WebServiceInterface" %>
 	<%@page import= "com.yangnormal.sstackex.WebServiceImplService" %>
+	<%@ page import="org.apache.commons.codec.digest.DigestUtils" %>
 	<%
 
 		String topic = request.getParameter("topic");
@@ -41,7 +42,12 @@
 			QName qname = new QName("http://ws.sstackex.yangnormal.com/","WebServiceImplService");
 			WebServiceImplService webService = new WebServiceImplService(url,qname);
 			WebServiceInterface ws = webService.getWebServiceImplPort();
-			int status = ws.postQuestion(token,topic,content);
+			String userAgent = DigestUtils.md5Hex(request.getHeader("User-Agent"));
+			String ipAddress = request.getHeader("X-FORWARDED-FOR");
+			if (ipAddress == null) {
+				ipAddress = request.getRemoteAddr();
+			}
+			int status = ws.postQuestion(token,topic,content,userAgent,ipAddress);
 			request.setAttribute("status",status);
 			request.setAttribute("name","Ask Question");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("status.jsp");

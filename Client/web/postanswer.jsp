@@ -4,6 +4,7 @@
 <%@page import= "java.net.URL,javax.xml.namespace.QName,java.lang.String" %>
 <%@page import= "com.yangnormal.sstackex.WebServiceInterface" %>
 <%@page import= "com.yangnormal.sstackex.WebServiceImplService" %>
+<%@ page import="org.apache.commons.codec.digest.DigestUtils" %>
 <%
 
 	String content = request.getParameter("content");
@@ -20,7 +21,7 @@
 		QName qname = new QName("http://ws.sstackex.yangnormal.com/","WebServiceImplService");
 		WebServiceImplService webService = new WebServiceImplService(url,qname);
 		WebServiceInterface ws = webService.getWebServiceImplPort();
-		String userAgent = request.getHeader("User-Agent");
+		String userAgent = DigestUtils.md5Hex(request.getHeader("User-Agent"));
 		String ipAddress = request.getHeader("X-FORWARDED-FOR");
 		if (ipAddress == null) {
 			ipAddress = request.getRemoteAddr();
