@@ -101,12 +101,16 @@
 <div ng-app="myApp" ng-controller="customersCtrl">
 
   <div ng-repeat="x in names">
-      <div class="cmcontent"> {{ x.content}} </div> <cmdate><cmdd>at</cmdd>  {{x.date  }} </cmdate> by <cmu>{{x.username}} </cmu>
+      <div class="cmcontent"> {{ x.content}} </div> <cmdate><cmdd>at</cmdd>  {{x.timestamp  }} </cmdate> by <cmu>{{x.author}} </cmu>
     <div class="separator3"></div>
   </div>
 
  
 </div>
+            
+            
+          
+            
          <form action="http://localhost:21215/StackExch_Client/commentp" method="POST">
                  <input id="fcomment" type="text" name="ncomment" placeholder="Add a comment : "/><br> 
                  <input type="hidden" name="cipa" value="<%out.print(ipa);%>">
@@ -114,7 +118,11 @@
                  <input type="hidden" name="q_id" value="<% out.print(id) ; %>" >
                  <input type="hidden" name="id_c" value="<%out.print(ccm) ; %>" >
                  <input id="fsubmit2" type="submit" value="Comment "><br>   
-            </form>     
+            </form>  
+                 
+                 
+                 
+                 
         </div>
         <div class="separator2"></div>
         <div id ="qans"><% out.println(Q.getTanswer()) ; %> Answers</div>
@@ -154,18 +162,19 @@
             <input type="hidden" name="cipa" value="<%out.println(ipa);%>">
              <input type="hidden" name="cbrowser" value="<%out.println(browser);%>">
           </form>
- <script>
+
+
+<script>
 var app = angular.module('myApp', []);
 app.controller('customersCtrl', function($scope, $http) {
-    var id = <%= request.getParameter("id") %>;
-    var url_ = "http://localhost/CommentandVote/CommentandVote/getAllComment.php?id="+id;
-   
-   console.log("id : "+id);
+    var id = <%= request.getParameter("id")%>;
+    var url_ = "http://localhost:21215/CommentandVote/AllComment?id="+id;
+      console.log("id : "+id);
     $http.get(url_)
-   .then(function (response) {$scope.names = response.data.records;});
+  .then(function (response) {$scope.names = response.data.records;});
 });
 </script>
-          
+
     </body>
     
 </html>
