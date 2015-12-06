@@ -90,20 +90,20 @@ public class VoteServlet extends HttpServlet {
 
         if (token == null || sId == null || type == null || action == null)
             return;
-
+        
         JSONObject result = new JSONObject();
-        JSONObject identity = IdentityService.requestAuth(token);
-        if (identity != null && identity.containsKey("status")) {
-            Long status = (Long) identity.get("status");
+        JSONObject identity = IdentityService.requestAuth(token);        
+        if (identity != null && identity.containsKey("status")) {            
+            Long status = (Long) identity.get("status");            
             // token has expired
             if (status == -1) {
                 result.put("status", -1);
                 result.put("detail", "Token has expired");
             }
             // token found
-            else if (status == 1 && result.containsKey("id")) {
-                // workaround, json must be converted to long first
-                long idUserL = (long) result.get("id");
+            else if (status == 1 && identity.containsKey("id")) {
+                // workaround, json must be converted to long first                
+                long idUserL = (long) identity.get("id");
                 int idUser = (int) idUserL;
                 int id;
                 try {
@@ -124,7 +124,7 @@ public class VoteServlet extends HttpServlet {
                     if (success)
                         result.put("votes", getQuestionVotes(id));
                 }
-                else if (type.equals("answer")) {
+                else if (type.equals("answer")) {                    
                     if (action.equals("up"))
                         success = voteAnswerUp(idUser, id);
                     else if (action.equals("down"))
@@ -311,7 +311,7 @@ public class VoteServlet extends HttpServlet {
             statement.setInt(1, idAnswer);
             ResultSet result = statement.executeQuery();
             if (result.next())
-                votes = result.getInt(2);
+                votes = result.getInt(1);
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());

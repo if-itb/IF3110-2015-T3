@@ -1,46 +1,74 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-(function() {
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.href);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-    
-    var app = angular.module('stackexchange', []);
-    
-    app.controller('viewController', [ '$http', function($http) {
-        var questionCtrl = this;
-        this.comments = [];   
-        $http({url: "http://localhost:8080/comment", method: "GET", params: {question_id: getUrlParameter("id")}
+var app = angular.module('stackexchange', []);
+
+app.controller("voteController", function($scope, $http) {
+    $scope.votes = {};
+
+    $scope.init = function(id, type) {
+        $scope.votes[type + id] = 0;
+        $http({
+            method: "GET",
+            url: "vote",
+            params: {id: id, type: type},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data) {
-            if (!data[0].error) {
-                questionCtrl.comments = data;
+            if (data.hasOwnProperty("votes"))
+                $scope.votes[type + id] = data["votes"];
+        });
+    };
+
+    $scope.vote = function(id, type, action) {
+        var thisVote = $('#'+type+'-'+id+'-'+action);
+        if (!thisVote.hasClass("vote-button"))
+            return;
+
+        $http({
+            method: "POST",
+            url: "vote",
+            data: "id=" + id + "&type=" + type + "&action=" + action,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(data) {
+            if (data.hasOwnProperty("votes"))
+                $scope.votes[type + id] = data["votes"];
+
+            switch (data["status"]) {
+                // vote success
+                case 1:
+                    alert("success gan");
+                    var otherVote = action === "up"? $('#'+type+'-'+id+'-down') : $('#'+type+'-'+id+'-up');
+                    thisVote.removeClass("vote-button").addClass("vote-button-yes");
+                    otherVote.removeClass("vote-button").addClass("vote-button-no");
+                    break;
+                // vote failed
+                case 0:
+                    alert("gagal gan");
+                    break;
+                case -1:
+                    alert("login dulu gan");
+                    window.location.replace("signin");
+                    break;
             }
         });
-    }]);
-    
-    app.controller('addController', [ '$http', function($http) {
-       this.comment = {}; 
-       this.addComment = function(comments) {
-           var comment = this.comment;
-           console.log(comment);
-           comments.push(comment);
-           this.comment = {};
-           
-           $http({url: "http://localhost:8080/comment",method: "POST", params: {
-                   question_id: comment.question_id,
-                   content: comment.content
-                }
-            }).success(function(data) {
-                console.log(data);
-            });
-       }
-    }]);
+    };
 
-})();
+    $scope.voteQuestionUp = function(id) {
+        $scope.vote(id, "question", "up");
+    };
+
+    $scope.voteQuestionDown = function(id) {
+        $scope.vote(id, "question", "down");
+    };
+
+    $scope.voteAnswerUp = function(id) {
+        $scope.vote(id, "answer", "up");
+    };
+
+    $scope.voteAnswerDown = function(id) {
+        $scope.vote(id, "answer", "down");
+    };
+});

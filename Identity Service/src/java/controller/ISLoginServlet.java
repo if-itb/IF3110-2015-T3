@@ -75,13 +75,13 @@ public class ISLoginServlet extends HttpServlet {
                             String auth = uuid + "#" +
                                     (userAgent == null? "" : userAgent) + "#" +
                                     (clientIP == null? "" : clientIP);
-                            deleteStatement.setInt(1, user_id);
+                            deleteStatement.setInt(1, user_id);                            
                             insertStatement.setString(1, auth);
                             insertStatement.setInt(2, user_id);
                             insertStatement.setTimestamp(3, expire_date);                            
                             deleteStatement.execute();
                             insertStatement.execute();                                                                                
-                            object.put("auth", uuid);
+                            object.put("auth", auth);
                             object.put("expire_date", expire_date.getTime());
                             conn.commit();                            
                         }

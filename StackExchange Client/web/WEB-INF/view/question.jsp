@@ -10,17 +10,18 @@
 <jsp:include page="header.jsp" flush="true"/>    
     <h3 class="topic"><a class="topic" href="question?id=${question.id}"><c:out value="${question.topic}"/></a></h3>
     <hr class="heading">
+    <div ng-app="stackexchange">
         <div class="question-item">
-            <div class="vote-panel">
+            <div class="vote-panel" ng-controller="voteController" ng-init="init(${question.id}, 'question')">
                 <c:choose>
                     <c:when test="${empty user}"><c:set var="question_class" value="-guest"></c:set></c:when>
                     <c:when test="${question_state > 0}"><c:set var="question_class" value="-yes"></c:set></c:when>
                     <c:when test="${question_state < 0}"><c:set var="question_class" value="-no"></c:set></c:when>
                     <c:otherwise><c:set var="question_class" value=""></c:set></c:otherwise>
                 </c:choose>
-                <span id="question-${question.id}-up" class="vote-button${question_class} glyphicon glyphicon-chevron-up" data-id="${question.id}" data-type="question" data-action="up"></span>
+                <span id="question-${question.id}-up" class="vote-button${question_class} glyphicon glyphicon-chevron-up" ng-click="voteQuestionUp(${question.id})" data-id="${question.id}" data-type="question" data-action="up"></span>
                 <div class="vote-count">
-                    <span id="question-${question.id}">${question.votes}</span>
+                    <span id="question-${question.id}" ng-model="votes">{{votes["question" + ${question.id}]}}</span>
                 </div>
                 <c:choose>
                     <c:when test="${empty user}"><c:set var="question_class" value="-guest"></c:set></c:when>
@@ -28,7 +29,7 @@
                     <c:when test="${question_state > 0}"><c:set var="question_class" value="-no"></c:set></c:when>
                     <c:otherwise><c:set var="question_class" value=""></c:set></c:otherwise>
                 </c:choose>
-                <span id="question-${question.id}-down" class="vote-button${question_class} glyphicon glyphicon-chevron-down" data-id="${question.id}" data-type="question" data-action="down"></span>
+                    <span id="question-${question.id}-down" class="vote-button${question_class} glyphicon glyphicon-chevron-down" data-id="${question.id}" data-type="question" data-action="down" ng-click="voteQuestionDown(${question.id})"></span>
             </div>
             <div class="question-content">
                 <p><c:out value="${question.content}"/></p>
@@ -62,16 +63,16 @@
             <div class="answer-list">
             <c:forEach items="${answers}" var="answer">                
                 <div class="answer-item">
-                    <div class="vote-panel">
+                    <div class="vote-panel" ng-controller="voteController" ng-init="init(${answer.id}, 'answer')">
                         <c:choose>
                             <c:when test="${empty user}"><c:set var="answer_class" value="-guest"></c:set></c:when>
                             <c:when test="${answer_states[answer.id] > 0}"><c:set var="answer_class" value="-yes"></c:set></c:when>
                             <c:when test="${answer_states[answer.id] < 0}"><c:set var="answer_class" value="-no"></c:set></c:when>
                             <c:otherwise><c:set var="answer_class" value=""></c:set></c:otherwise>
                         </c:choose>
-                        <span id="answer-${answer.id}-up" class="vote-button${answer_class} glyphicon glyphicon-chevron-up" data-id="${answer.id}" data-type="answer" data-action="up"></span>
+                        <span id="answer-${answer.id}-up" class="vote-button${answer_class} glyphicon glyphicon-chevron-up" data-id="${answer.id}" data-type="answer" data-action="up" ng-click="voteAnswerUp(${answer.id})"></span>
                         <div class="vote-count">
-                            <span id="answer-${answer.id}">${answer.votes}</span>
+                            <span id="answer-${answer.id}" ng-model="votes">{{votes["answer" + ${answer.id}]}}</span>
                         </div>
                         <c:choose>
                             <c:when test="${empty user}"><c:set var="answer_class" value="-guest"></c:set></c:when>
@@ -79,7 +80,7 @@
                             <c:when test="${answer_states[answer.id] > 0}"><c:set var="answer_class" value="-no"></c:set></c:when>
                             <c:otherwise><c:set var="answer_class" value=""></c:set></c:otherwise>
                         </c:choose>
-                        <span id="answer-${answer.id}-down" class="vote-button${answer_class} glyphicon glyphicon-chevron-down" data-id="${answer.id}" data-type="answer" data-action="down"></span>
+                        <span id="answer-${answer.id}-down" class="vote-button${answer_class} glyphicon glyphicon-chevron-down" data-id="${answer.id}" data-type="answer" data-action="down" ng-click="voteAnswerDown(${answer.id})"></span>
                     </div>
                     <div class="answer-content">
                         <p><c:out value="${answer.content}"/></p>
@@ -92,6 +93,8 @@
             </c:forEach>
             </div>
         </c:if>
+        </div>
+                    
         <br>        
         <h3>Your Answer</h3>
         <hr class="heading">

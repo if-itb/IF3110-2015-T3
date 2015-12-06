@@ -45,14 +45,9 @@ public class ISAuthServlet extends HttpServlet {
         response.setContentType("application/json");        
         try (PrintWriter out = response.getWriter()) {            
             String token = request.getParameter("auth");
-            String userAgent = request.getHeader("User-Agent");
-            String clientIP = request.getRemoteAddr();
-            if (userAgent == null) userAgent = "";
-            if (clientIP == null) clientIP = "";
             String query = "SELECT * FROM token WHERE access_token = ?";
             JSONObject obj = new JSONObject();
-            if (token != null) try (PreparedStatement statement = conn.prepareStatement(query)) {
-                token = token + "#" + userAgent + "#" + clientIP;                
+            if (token != null) try (PreparedStatement statement = conn.prepareStatement(query)) {                
                 statement.setString(1, token);
 
                 ResultSet result = statement.executeQuery();
