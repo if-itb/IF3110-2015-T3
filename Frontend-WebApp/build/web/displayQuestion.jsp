@@ -92,17 +92,17 @@
         <% for(Answer.Answer a : ans) { %>
         <table >
             <tr>
-                <td class="vote">
-                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>&aid=<%=a.getAid()%>&up=true">
-                        <img src="image/Up.png" width="30" hight="30">
+                <td class="vote" ng-controller='voteCtrl'>
+                    {{qid=<%=id%>;""}}
+                    {{aid=<%=a.getAid()%>;""}}
+                    <a ng-click='postnew(true)'>
+                            <img src="image/Up.png" width="30" hight="30">
+                    </a>
+                    <h3>{{votenum}}</h3>
+                    <a ng-click='postnew(false)'>
+                            <img src="image/down.png"  width="30" hight="30">
                     </a>
 
-                    <h3>
-                        <%= a.getAvote() %>
-                    </h3>
-                    <a href="voteAnswer.jsp?id=<%=q.getQid()%>&aid=<%=a.getAid()%>&up=false">
-                        <img src="image/down.png"  width="30" hight="30">
-                    </a>
                 </td>
                 <td class="dContent">
                     <%= a.getAcontent()%>
