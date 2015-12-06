@@ -14,14 +14,14 @@
     
     var app = angular.module('stackexchange', []);
 
-    app.controller('ViewCommentsController', ['$scope', '$http', '$location',
-        function($scope, $http, $location) {
-        var id = $location.search()['q_id'];
+    app.controller('ViewCommentsController', ['$scope', '$http',
+        function($scope, $http) {
+        $scope.comments = [];
         $http({url: "http://localhost:8080/StackExchange_Client/comment", 
             method: "GET", 
             params: {q_id : getUrlParameter("q_id")}
-        }).success(function(data) {
-           $scope.comments = data;  
-        });
+        }).then(function successCallback(response) {
+            $scope.comments = response.data.comments;
+          });
     }]);
 })();

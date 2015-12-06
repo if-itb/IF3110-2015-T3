@@ -45,11 +45,11 @@
                         <br></span>
                     
                 </span>
-                
                     
-                <div ng-controller="ViewCommentsController">    
+                <div ng-controller="ViewCommentsController">   
+                    <script>alert("ViewCommentsController.comments")</script>
                     <!-- Show comments -->                
-                    <span class="question-info" ng-repeat = "comment in ViewCommentsController.comments">
+                    <span class="question-info" ng-repeat = "comment in comments">
                             {{ comment.content }}
                             <br>
                             <span class="author">{{ comment.u_id }}</span> at {{ comment.date_created }}

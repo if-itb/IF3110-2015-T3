@@ -49,6 +49,7 @@ public class CommentServlet extends HttpServlet {
         ArrayList<Comment> commentList = getComments(qId);
         
         JSONArray comments = new JSONArray();
+        JSONObject result = new JSONObject();
         for (Comment comment: commentList) {
             JSONObject object = new JSONObject();
             object.put("c_id", comment.getcId());
@@ -58,9 +59,9 @@ public class CommentServlet extends HttpServlet {
             object.put("date_created", comment.getDateCreated());
             comments.add(object);
         }
-        
+        result.put("comments", comments);
         try(PrintWriter out = response.getWriter()) {
-            out.print(comments.toString());
+            out.print(result.toString());
         }
         
     }
