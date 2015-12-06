@@ -66,7 +66,7 @@ public class Authentication extends HttpServlet {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE random_string='" + random_string + "' AND user_agent='" + user_agent +"' AND ip_address='" + ip_address + "'";
+            sql = "SELECT * FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE random_string='" + random_string + "'";
             ResultSet rs = stmt.executeQuery(sql);
             
             // check token is on DB or not
@@ -170,18 +170,10 @@ public class Authentication extends HttpServlet {
                 JSONObject input = (JSONObject) obj;
                 token = (String) input.get("token"); // full token
                 
-                //decode token
-                token = URLDecoder.decode(token, "UTF-8");
-                
                 realUserAgent = (String) input.get("user_agent"); // real user agent
                 realIpAddress = (String) input.get("ip_address"); // real ip address
                 
-                String temp[] = token.split("#");
-                random_string = temp[0];
-                user_agent = temp[1];
-                ip_address = temp[2];
-                
-                // check user agent and ip address in token is valid
+                random_string = token;
                 
                 getUser();
                 

@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -74,6 +75,9 @@ public class Request extends HttpServlet {
                 create_time = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(temp);
                 
                 is_valid ="1";
+                // append user_agent and ip_address to random_string
+                String original = user_agent + ip_address;
+                random_string += this.getMD5Hash(original);
                 
                 //check if current user_id has invalid token
                 sql = "SELECT * FROM user_token WHERE user_id=" + user_id +" AND user_agent='" + user_agent +"' AND ip_address='" + ip_address +"'";
@@ -149,17 +153,6 @@ public class Request extends HttpServlet {
                 ip_address = (String) input.get("ip_address");
                 createNewToken(email, password);
                 
-                String original = user_agent + ip_address;
-		MessageDigest md = MessageDigest.getInstance("MD5");
-		md.update(original.getBytes());
-		byte[] digest = md.digest();
-		StringBuffer sb = new StringBuffer();
-		for (byte b : digest) {
-			sb.append(String.format("%02x", b & 0xff));
-		}
-                
-                token += sb.toString();
-                
                 response.setContentType("application/json;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
 
@@ -186,5 +179,16 @@ public class Request extends HttpServlet {
         String randomUUIDString = uuid.toString();
         
         return randomUUIDString;
+    }
+    
+    public String getMD5Hash(String original) throws NoSuchAlgorithmException{
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(original.getBytes());
+        byte[] digest = md.digest();
+        StringBuffer sb = new StringBuffer();
+        for (byte b : digest) {
+                sb.append(String.format("%02x", b & 0xff));
+        }
+        return sb.toString(); // return hashed string
     }
 }
