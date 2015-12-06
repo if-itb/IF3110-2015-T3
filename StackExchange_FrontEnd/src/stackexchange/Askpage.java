@@ -26,6 +26,8 @@ public class Askpage extends HttpServlet {
         data.put("access_token", token);
         data.put("title", request.getParameter("title"));
         data.put("content", request.getParameter("content"));
+        data.put("user_agent", request.getHeader("user-agent"));
+        data.put("ip_address", request.getRemoteAddr());
 
         String requestResponse = HttpRequest.executeMethod("createQuestion", data);
 

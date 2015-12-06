@@ -25,6 +25,8 @@ public class Loginpage extends HttpServlet {
 
         requestParams.put("email", request.getParameter("email"));
         requestParams.put("password", request.getParameter("password"));
+        requestParams.put("user_agent", request.getHeader("user-agent"));
+        requestParams.put("ip_address", request.getRemoteAddr());
 
         String requestResponse = HttpRequest.createJsonPost("http://localhost:9000/Identity_Service/Request", requestParams);
         String token = "";

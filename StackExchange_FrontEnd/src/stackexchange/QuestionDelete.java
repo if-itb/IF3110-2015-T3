@@ -25,6 +25,8 @@ public class QuestionDelete extends HttpServlet {
 
         requestParams.put("access_token", request.getParameter("token"));
         requestParams.put("id", request.getParameter("id"));
+        requestParams.put("user_agent", request.getHeader("user-agent"));
+        requestParams.put("ip_address", request.getRemoteAddr());
 
         // Set target method
         String requestResponse = HttpRequest.executeMethod("deleteQuestion", requestParams);

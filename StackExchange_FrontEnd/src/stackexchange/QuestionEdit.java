@@ -27,6 +27,8 @@ public class QuestionEdit extends HttpServlet {
         requestParams.put("id", request.getParameter("id"));
         requestParams.put("title", request.getParameter("title"));
         requestParams.put("content", request.getParameter("content"));
+        requestParams.put("user_agent", request.getHeader("user-agent"));
+        requestParams.put("ip_address", request.getRemoteAddr());
 
         // Set target method
         String requestResponse = HttpRequest.executeMethod("editQuestion", requestParams);

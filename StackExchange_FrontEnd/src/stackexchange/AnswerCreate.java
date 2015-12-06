@@ -26,6 +26,13 @@ public class AnswerCreate extends HttpServlet {
         requestParams.put("access_token", request.getParameter("token"));
         requestParams.put("question_id", request.getParameter("question_id"));
         requestParams.put("content", request.getParameter("content"));
+        requestParams.put("user_agent", request.getHeader("user-agent"));
+        requestParams.put("ip_address", request.getRemoteAddr());
+
+        System.out.println("+++");
+        System.out.println(requestParams.get("user_agent"));
+        System.out.println(requestParams.get("ip"));
+        System.out.println("+++");
 
         // Set target method
         String requestResponse = HttpRequest.executeMethod("createAnswer", requestParams);
