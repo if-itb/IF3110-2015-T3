@@ -14,7 +14,9 @@
         <link href="css/style.css" rel="stylesheet" type="text/css"/>
         <link href='https://fonts.googleapis.com/css?family=Dosis:500' rel='stylesheet' type='text/css'>
     </head>
-    <body ng-app="stackExchange">
+    <script src="js/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+    <body data-ng-app="stackExchange">
         <div class="container">
         	<div class="userinfo">
                     <c:choose>

@@ -26,23 +26,20 @@
                     <p>asked by <font color="#008080"><%= q_user.getName() %> (<%= q_user.getEmail() %>)</font> at <%= question.getCreateTime() %><br> 
                     <% if (question.getUserId() == uid) { %><a class="edit" href="edit?id=<%= question.getQuestionId() %>">edit</a><a class="delete" href="delete?id=<%= question.getQuestionId() %>" onclick="return confirm('Are you sure you want delete this question?')">delete</a></span></div><% } %>
             </div>
-            <div class="content">
-                <div class="comment-list">
+            <div class="content" data-ng-controller="commentListController">
+                <div data-ng-repeat="comment in comments">
                 <div class="comment">
-                    <p>Commentnya di sini lorem ipsum dolor sit amet — <font color="#008080">username</font> at  2015-11-18 11:36:38.0 </p>
-                </div>
-                <div class="comment">
-                    <p>Commentnya di sini lorem ipsum dolor sit amet — <font color="#008080">username</font> at  2015-11-18 11:36:38.0 </p>
+                    <p>{{comment.content}} — <font color="#008080">{{comment.name}}</font> at {{comment.create_time}} </p>
                 </div>
                 </div>
                 <div class="comment" style="width:95%">
                     <p align="right"><a href = "#" onclick="showCommentForm()"><font color="#008080">add comment</font></a></p>
                 </div>
-                <form class="inputform" method="post" name="savecomment" action="" style="display:none;" id="savecomment">
-                    <input type="hidden" name="question_id" value="<%= question.getQuestionId() %>">
-                    <textarea placeholder="Content" rows="2" name="content"></textarea>
+                <form class="inputform" name="savecomment" ng-submit="submitComment()" style="display:none;" id="savecomment" data-ng-controller="addCommentController">
+                    <!--<input type="hidden" name="question_id" value="<%= question.getQuestionId() %>" ng-model="newcomment.question_id">-->
+                    <textarea placeholder="Content" rows="2" name="content" ng-model="newcontent"></textarea>
                     <div class="button-bottom">
-                        <button type="submit" name="savecomment" value="Submit">Post</button>
+                        <input type="submit" value="Submit" />
                     </div>
                 </form>
             </div>
@@ -78,7 +75,10 @@
                 </form>
             </div>
 	</div>
-                    
+    
+        
     <script src="js/functions.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/commentController.js"></script>
     </body>
 </html>

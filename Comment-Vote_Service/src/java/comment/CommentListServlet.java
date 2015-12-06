@@ -25,23 +25,25 @@ public class CommentListServlet extends HttpServlet {
       int qid = Integer.parseInt(request.getParameter("id"));
       JSONArray ja = new JSONArray();
       try(PrintWriter out = response.getWriter()){
-        String sql = "SELECT * FROM comment WHERE question_id = ?";
+        String sql = "SELECT name,content,create_time FROM comment NATURAL JOIN user WHERE question_id = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
           stmt.setInt(1, qid);
           ResultSet result= stmt.executeQuery();
           while (result.next())
           {
-            int uid = result.getInt("user_id");
+            String name = result.getString("name");
             String content = result.getString("content");
             String create_time = result.getString("create_time");
             JSONObject jo = new JSONObject();
-            jo.put("uid",uid);
+            jo.put("name",name);
             jo.put("content",content);
             jo.put("create_time",create_time);
             ja.add(jo);
           }
         }
-        out.println(ja.toString());
+        JSONObject comments = new JSONObject();
+        comments.put("comments",ja);
+        out.println(comments.toString());
       }
     }
 
