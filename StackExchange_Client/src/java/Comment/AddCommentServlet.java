@@ -55,7 +55,13 @@ public class AddCommentServlet extends HttpServlet {
             }
           }
         } else {
-            jo.put("ERROR","Token expired"); 
+            if (status==0) {
+                jo.put("ERROR","Token expired"); 
+            } else if (status==-1) {
+                jo.put("ERROR","Different IP Address detected. Please login again.");
+            } else if (status==-2) {
+                jo.put("ERROR","Different browser detected. Please login again.");
+            }
         }
         out.println(jo.toString());
       }
