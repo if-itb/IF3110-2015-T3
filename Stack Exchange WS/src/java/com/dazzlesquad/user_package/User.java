@@ -39,8 +39,8 @@ public class User {
         this.id= nid;
         this.name = nname;
         this.email = nemail;
-        this.password = DigestUtils.sha1Hex(npass);
-        //this.password = npass;
+        //this.password = DigestUtils.sha1Hex(npass);
+        this.password = npass;
     }
     
     public int getUserId() {
@@ -68,8 +68,8 @@ public class User {
     }
     
     public void setUserPassword(String password){
-        this.password = DigestUtils.sha1Hex(password);
-        //this.password = password;
+        //this.password = DigestUtils.sha1Hex(password);
+        this.password = password;
     }
     
 }

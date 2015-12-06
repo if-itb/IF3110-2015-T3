@@ -75,7 +75,7 @@ public class UserWS {
         try {
             Statement statement1 = conn.createStatement();
             String sql1;
-            sql1 = "SELECT id FROM User WHERE email=?";
+            sql1 = "SELECT id FROM user WHERE email=?";
 
             PreparedStatement dbStatement1 = conn.prepareStatement(sql1);
             dbStatement1.setString(1, user.getUserEmail());
@@ -91,8 +91,7 @@ public class UserWS {
 
             if (insertsuccessful == 1) {
                 Statement statement2 = conn.createStatement();
-                String sql2;
-                sql2 = "INSERT INTO User (name, email, password) VALUES (?, ?, SHA1(?))";
+                String sql2 = "INSERT INTO user (name, email, password) VALUES (?, ?, SHA1(?))";
 
                 PreparedStatement dbStatement2 = conn.prepareStatement(sql2);
                 dbStatement2.setString(1, user.getUserName());
