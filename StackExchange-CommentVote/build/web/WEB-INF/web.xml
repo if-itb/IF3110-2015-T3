@@ -4,9 +4,17 @@
         <servlet-name>Comment</servlet-name>
         <servlet-class>stackexchange.commentvote.Comment</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Vote</servlet-name>
+        <servlet-class>stackexchange.commentvote.Vote</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Comment</servlet-name>
         <url-pattern>/Comment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Vote</servlet-name>
+        <url-pattern>/Vote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
