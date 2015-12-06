@@ -4,18 +4,6 @@
 <xsd:import namespace="http://service.webservice.stackexchange.org/" schemaLocation="http://localhost:8080/stack_exchange_web_services/AnswerWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="hello">
-<part name="parameters" element="tns:hello"/>
-</message>
-<message name="helloResponse">
-<part name="parameters" element="tns:helloResponse"/>
-</message>
-<message name="insertAnswer">
-<part name="parameters" element="tns:insertAnswer"/>
-</message>
-<message name="insertAnswerResponse">
-<part name="parameters" element="tns:insertAnswerResponse"/>
-</message>
 <message name="downvoteAnswer">
 <part name="parameters" element="tns:downvoteAnswer"/>
 </message>
@@ -34,15 +22,19 @@
 <message name="upvoteAnswerResponse">
 <part name="parameters" element="tns:upvoteAnswerResponse"/>
 </message>
+<message name="hello">
+<part name="parameters" element="tns:hello"/>
+</message>
+<message name="helloResponse">
+<part name="parameters" element="tns:helloResponse"/>
+</message>
+<message name="insertAnswer">
+<part name="parameters" element="tns:insertAnswer"/>
+</message>
+<message name="insertAnswerResponse">
+<part name="parameters" element="tns:insertAnswerResponse"/>
+</message>
 <portType name="AnswerWS">
-<operation name="hello">
-<input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/helloRequest" message="tns:hello"/>
-<output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/helloResponse" message="tns:helloResponse"/>
-</operation>
-<operation name="insertAnswer">
-<input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/insertAnswerRequest" message="tns:insertAnswer"/>
-<output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/insertAnswerResponse" message="tns:insertAnswerResponse"/>
-</operation>
 <operation name="downvoteAnswer">
 <input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/downvoteAnswerRequest" message="tns:downvoteAnswer"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/downvoteAnswerResponse" message="tns:downvoteAnswerResponse"/>
@@ -55,27 +47,17 @@
 <input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/upvoteAnswerRequest" message="tns:upvoteAnswer"/>
 <output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/upvoteAnswerResponse" message="tns:upvoteAnswerResponse"/>
 </operation>
+<operation name="hello">
+<input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/helloRequest" message="tns:hello"/>
+<output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/helloResponse" message="tns:helloResponse"/>
+</operation>
+<operation name="insertAnswer">
+<input wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/insertAnswerRequest" message="tns:insertAnswer"/>
+<output wsam:Action="http://service.webservice.stackexchange.org/AnswerWS/insertAnswerResponse" message="tns:insertAnswerResponse"/>
+</operation>
 </portType>
 <binding name="AnswerWSPortBinding" type="tns:AnswerWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="hello">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="insertAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="downvoteAnswer">
 <soap:operation soapAction=""/>
 <input>
@@ -95,6 +77,24 @@
 </output>
 </operation>
 <operation name="upvoteAnswer">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="hello">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="insertAnswer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

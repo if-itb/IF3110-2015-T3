@@ -9,7 +9,7 @@ public class MySQLDao {
     final String DB_URL = "jdbc:mysql://localhost:3306/stack_exchange_2";
 
     final String USER = "root";
-    final String PASS = "rahasia";
+    final String PASS = "";
 
     protected Connection conn = null;
 
