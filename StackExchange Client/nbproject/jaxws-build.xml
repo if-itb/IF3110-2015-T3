@@ -60,7 +60,7 @@
     </target>
     <target name="wsimport-client-Operation" depends="wsimport-init">
         <mkdir dir="${build.generated.dir}/jax-wsCache/Operation"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Operation" destdir="${build.generated.dir}/jax-wsCache/Operation" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/Operation/wsdl/localhost_8080/Operation/Operation.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Operation/Operation?wsdl" xnocompile="true" xendorsed="true" package="stackexchangews">
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/Operation" destdir="${build.generated.dir}/jax-wsCache/Operation" wsdl="${basedir}/${conf-dir}xml-resources/web-service-references/Operation/wsdl/localhost_8080/Operation/Operation.wsdl" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:8080/Operation/Operation?wsdl" xnocompile="true" xendorsed="true">
             <depends file="${basedir}/${conf-dir}xml-resources/web-service-references/Operation/wsdl/localhost_8080/Operation/Operation.wsdl"/>
             <produces dir="${build.generated.dir}/jax-wsCache/Operation"/>
         </wsimport>

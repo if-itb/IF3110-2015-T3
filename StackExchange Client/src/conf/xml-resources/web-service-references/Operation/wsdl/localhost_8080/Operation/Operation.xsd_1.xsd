@@ -42,8 +42,6 @@
 
 <xs:element name="editQ" type="tns:editQ"/>
 
-<xs:element name="editQResponse" type="tns:editQResponse"/>
-
 <xs:element name="getUIDbyToken" type="tns:getUIDbyToken"/>
 
 <xs:element name="getUIDbyTokenResponse" type="tns:getUIDbyTokenResponse"/>
@@ -62,8 +60,6 @@
 
 <xs:element name="vote" type="tns:vote"/>
 
-<xs:element name="voteResponse" type="tns:voteResponse"/>
-
 <xs:complexType name="createAnswer">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
@@ -75,33 +71,6 @@
 <xs:complexType name="createAnswerResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="MalformedURLException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="IOException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="UnsupportedEncodingException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="ParseException">
-<xs:sequence>
-<xs:element name="errorType" type="xs:int"/>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-<xs:element name="position" type="xs:int"/>
-<xs:element name="unexpectedObject" type="xs:anyType" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -151,7 +120,34 @@
 
 <xs:complexType name="AuthResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:int"/>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="UnsupportedEncodingException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MalformedURLException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="IOException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ParseException">
+<xs:sequence>
+<xs:element name="errorType" type="xs:int"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="position" type="xs:int"/>
+<xs:element name="unexpectedObject" type="xs:anyType" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -220,19 +216,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="vote">
-<xs:sequence>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="mode" type="xs:boolean"/>
-<xs:element name="idq" type="xs:string" minOccurs="0"/>
-<xs:element name="val" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="voteResponse">
-<xs:sequence/>
-</xs:complexType>
-
 <xs:complexType name="createQuestion">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
@@ -244,6 +227,15 @@
 <xs:complexType name="createQuestionResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="vote">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="mode" type="xs:boolean"/>
+<xs:element name="idq" type="xs:string" minOccurs="0"/>
+<xs:element name="val" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -266,9 +258,5 @@
 <xs:element name="topic" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="editQResponse">
-<xs:sequence/>
 </xs:complexType>
 </xs:schema>

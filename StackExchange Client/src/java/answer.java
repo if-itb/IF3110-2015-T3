@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
-import stackexchangews.IOException_Exception;
-import stackexchangews.MalformedURLException_Exception;
-import stackexchangews.ParseException_Exception;
-import stackexchangews.UnsupportedEncodingException_Exception;
 
 /**
  *
