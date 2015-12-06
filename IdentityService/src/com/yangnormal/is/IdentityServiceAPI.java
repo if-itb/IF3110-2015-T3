@@ -10,11 +10,8 @@ import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -82,14 +79,52 @@ public class IdentityServiceAPI extends HttpServlet {
         serve((request, out) -> {
             try {
                 Map<String, String> queryStringMap = splitQuery(req.getQueryString());
-                PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ? AND useragent =? AND ip=?");
+                int status;
+                int uid=0;
                 String[] tokenString=queryStringMap.get("token").split("#");
-                stmt.setString(1,tokenString[0]);
-                stmt.setString(2,tokenString[1]);
-                stmt.setString(3,tokenString[2]);
+                String token = tokenString[0];
+                String userAgent = tokenString[1];
+                String ipAddress = tokenString[2];
+                boolean isExpired=true, isDifferentUserAgent=true, isDifferentIP=true;
+                PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ?");
+                stmt.setString(1,token);
                 ResultSet result = stmt.executeQuery();
-                result.next();
-                out.print("{\"uid\":\""+result.getInt("uid")+"\"}");
+                Timestamp timeNow = new Timestamp(Calendar.getInstance().getTime().getTime());
+                while (result.next()){ //Cek apakah useragent sama
+                    isDifferentUserAgent=(result.getString("useragent")!=userAgent);
+                    if (!isDifferentUserAgent){
+                        break;
+                    }
+                }
+                result.beforeFirst();
+                while (result.next()){ //Cek apakah ip sama
+                    isDifferentIP=(result.getString("ip")!=ipAddress);
+                    if (!isDifferentIP){
+                        break;
+                    }
+                }
+                result.beforeFirst();
+                while (result.next()){ //cek apakah expired atau tidak
+                    isExpired=(timeNow.after(result.getTimestamp("expired")));
+                    if (!isExpired){
+                        break;
+                    }
+                }
+                if ((!isDifferentIP)&&(!isExpired)&&(!isDifferentUserAgent)){
+                    result.first();
+                    uid = result.getInt("uid"); //kalau useragent sama, ip sama, dan tidak expired, return cari uid nya
+                }
+                if (isExpired){ //return -1 kalau expired
+                    status = -1;
+                } else if (isDifferentIP) { //return -2 kalau beda ip
+                    status = -2;
+                } else if (isDifferentUserAgent){ //return -3 kalau beda useragent
+                    status = -3;
+                } else { //return uid kalau valid
+                    status = uid;
+                }
+
+                out.print("{\"uid\":\""+status+"\"}");
                 out.flush();
             } catch (Exception e) {
                 res.setStatus(500);
