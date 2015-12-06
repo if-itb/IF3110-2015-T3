@@ -14,11 +14,11 @@
             <div class="content">
                 <h2><%= question.getTopic() %></h2>
                 <div class="voting" ng-controller="questionVoteController">
-                    <div class="arrow-up" ng-click="questionVoteController.addVote(1)"></div>
+                    <div class="arrow-up" ng-click="addVote(1)"></div>
                     <!--<div class="arrow-up" onclick="return vote(<%= question.getQuestionId() %>,1,'question')"></div>-->
                     <div class="votenumber" id="vote-q">{{ vote }}</div>
                     <!--<div class="votenumber" id="vote-q"><%= question.getVote() %></div>-->
-                    <div class="arrow-down" ng-click="questionVoteController.addVote(-1)"></div>
+                    <div class="arrow-down" ng-click="addVote(-1)"></div>
                     <!--<div class="arrow-down" onclick="return vote(<%= question.getQuestionId() %>,-1,'question')"></div>-->
 		</div>
 		<div class="question-content">

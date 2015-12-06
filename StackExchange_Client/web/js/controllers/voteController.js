@@ -23,18 +23,17 @@ app.controller('questionVoteController', [ '$scope','$http','$location','$cookie
                     }
                 }    
                     );
-        this.addVote = function(x){
-            this.votedata.token = $cookies.get("stackexchange_token");
+        $scope.addVote = function(x){
+            var token = $cookies.get("stackexchange_token");
             if (token!==null) {
-                this.votedata.sum = x;
                 $http({
                     url: "http://localhost:8080/StackExchange_Client/addVote",
                     method: "POST",
-                    params: {
+                    data: {
                         id: qid,
-                        vote: this.votedata.sum,
+                        vote: x,
                         db: "question",
-                        token: this.votedata.token
+                        token: token
                     },
                      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                   transformRequest: function(obj) {
