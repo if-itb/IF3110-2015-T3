@@ -32,7 +32,6 @@
 		AnswerService aservice = new AnswerService();
 		Answer as = aservice.getAnswerPort();
 		List<AnswerItem> a = as.getAnswerList(access_token,q_id);
-		
 	%>
 	<% if (q.getIdQuestion() != -1){ %>
 	<%@ page import="java.util.*, java.io.*"%>
@@ -66,7 +65,7 @@
 				<strong><h2>Question</h2></strong>
 			</header>
 			
-	<div id="page-wrapper">
+	<div id="page-wrapper" ng-app="questionApp" ng-controller="questionCtrl" ng-init="init()">
 		<!-- Header -->
 		<header id="header">
 			<h1 id="logo"><a href="index.jsp">Stack Exchange <span>| by Tusiri</span></a></h1>
@@ -77,10 +76,10 @@
 				<div class = 'q_details'>
 					<div class = 'only_q'>
 						<div class = 'a_left'>
-							<div class = 'vote_buttons' ng-app="voteApp" ng-controller="voteCtrl">
-								<div hidden class='up_button user' ng-click="VoteUp()"><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
+							<div class = 'vote_buttons'>
+								<div hidden class='up_button user' ng-click="VoteUp()"><img id='q_up' ng-src={{imageup}} width='30' height='30'></div>
 									<div class = 'vote' id='q_vote<%=q_id%>'>{{vote}}</div>
-								<div hidden class='down_button user'ng-click="VoteDown()"><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
+								<div hidden class='down_button user'ng-click="VoteDown()"><img id='q_down' ng-src={{imagedown}} width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -97,23 +96,23 @@
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
-				<% for (int i = 0; i < a.size(); i++) { %>
+				<div ng-repeat="answer in answers track by $index">
 					<div class = 'row q_or_a'>
 						<div class = 'a_left'>
 							<div class = 'vote_buttons'>
-								<div hidden class='up_button user' onclick='VoteUp(false,<%=a.get(i).getNumAnswer()%>,"<%=access_token%>")'><img id='a_up<%=a.get(i).getNumAnswer() %>' src='assets/img/up<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
-									<div class = 'vote' id='vote<%=a.get(i).getNumAnswer()%>'><%= a.get(i).getNumVotes() %></div>
-								<div hidden class='down_button user' onclick='VoteDown(false,<%=a.get(i).getNumAnswer()%>,"<%=access_token%>")'><img id='a_down<%=a.get(i).getNumAnswer() %>' src='assets/img/down<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
+								<div hidden class='up_button user' ng-click="VoteAnswerUp(answer)"><img ng-src={{answer.imageup}} width='30' height='30'></div>
+									<div class = 'vote'>{{answer.vote}}</div>
+								<div hidden class='down_button user'ng-click="VoteAnswerDown(answer)"><img ng-src={{answer.imagedown}} width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
-							<div class = 'a_content'><%= a.get(i).getContent() %></div>
+							<div class = 'a_content'>{{answer.content}}</div>
 						</div>
 						<div class = 'details'>Answered by 
-							<span class = 'b_link'><%= a.get(i).getUsername() %> </span>
+							<span class = 'b_link'>{{answer.user}} </span>
 						</div>
 					</div>
-				<%} %>
+				</div>
 				<h3>Your Answer</h3>
 				<form name ='q_form' action="answer_create_post.jsp"  onsubmit='return validate_AForm()' METHOD="POST" >
 					<div class="controls">
@@ -136,11 +135,35 @@
 	</div>
 	
 	<script>
-var app = angular.module('voteApp', []);
-app.controller('voteCtrl', function($scope, $http) {
-    $scope.vote = <%= q.getNumVote()%>
-    $scope.access_token = "<%=access_token%>"
-    $scope.id_question = <%= q_id%>
+	
+	
+var app = angular.module('questionApp', []);
+app.controller('questionCtrl', function($scope, $http) {
+	
+	var answers = [];
+	<% for (int i=0; i<a.size(); i++) { %>
+			var obj = {
+				id : <%= a.get(i).getNumAnswer() %>,
+				vote : <%= a.get(i).getNumVotes() %>,
+				status : <%= a.get(i).getStatus() %>,
+				content : "<%= a.get(i).getContent() %>", 
+				user : "<%= a.get(i).getUsername() %>", 
+				imageup : "assets/img/up"+<%= a.get(i).getStatus() %>+".png",
+				imagedown : "assets/img/down"+<%= a.get(i).getStatus() %>+".png"
+			};
+			answers.push(obj);
+	<% } %>
+	
+	$scope.init = function() {
+		$scope.vote = <%= q.getNumVote()%>;
+    	$scope.access_token = "<%=access_token%>";
+    	$scope.id_question = <%= q_id%>;
+    	$scope.q_status = <%=q.getStatus()%>;
+    	$scope.imageup = "assets/img/up"+<%= q.getStatus() %>+".png",
+    	$scope.imagedown = "assets/img/down"+<%= q.getStatus() %>+".png"
+    	$scope.answers = answers;
+	}
+	
     $scope.VoteUp = function(){
     	var data = $.param({
  		   	access_token: $scope.access_token,
@@ -151,6 +174,17 @@ app.controller('voteCtrl', function($scope, $http) {
      		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup/', data, config)
      		.success(function (data, status, headers, config) {
         		 $scope.PostDataResponse = data;
+        		 $scope.vote = data;
+        		 
+        		 if($scope.q_status ==1){
+        			 $scope.q_status = 0;
+	    		 }
+	    		 else{
+	    			 $scope.q_status = 1;
+	    		 }
+        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
+        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
+        		 
      		})
   		};
   		
@@ -164,13 +198,67 @@ app.controller('voteCtrl', function($scope, $http) {
      		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/votedown/', data, config)
      		.success(function (data, status, headers, config) {
         		 $scope.PostDataResponse = data;
+        		 $scope.vote = data;
+        		 
+        		 if($scope.q_status ==-1){
+        			 $scope.q_status = 0;
+	    		 }
+	    		 else{
+	    			 $scope.q_status = -1;
+	    		 }
+        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
+        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
+        		 
      		})
   		};
-  		
-    });
-	
+    
+	$scope.VoteAnswerUp = function(answer){
+		var data = $.param({
+			access_token: $scope.access_token,
+	     	id_answer: answer.id
+	 	});
+		var config = { headers : {
+	        	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+	 		$http.post('http://localhost:8081/Comment_Vote-WS/rest/voteanswer/voteup/', data, config)
+	 		.success(function (data, status, headers, config) {
+	    		 $scope.PostDataResponse = data;
+	    		 answer.vote = data;
+	    		 if(answer.status ==1){
+	    			 answer.status = 0;
+	    		 }
+	    		 else{
+	    			 answer.status = 1;
+	    		 }
+	    		 answer.imageup = "assets/img/up"+answer.status+".png";
+	    		 answer.imagedown = "assets/img/down"+answer.status+".png";
+	 		})
+		};
+		
+		$scope.VoteAnswerDown = function(answer){
+			var data = $.param({
+				access_token: $scope.access_token,
+		     	id_answer: answer.id
+		 	});
+			var config = { headers : {
+		        	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+		 		$http.post('http://localhost:8081/Comment_Vote-WS/rest/voteanswer/votedown/', data, config)
+		 		.success(function (data, status, headers, config) {
+		    		 $scope.PostDataResponse = data;
+		    		 answer.vote = data;
+		    		 if(answer.status ==-1){
+		    			 answer.status = 0;
+		    		 }
+		    		 else{
+		    			 answer.status = -1;
+		    		 }
+		    		 answer.imageup = "assets/img/up"+answer.status+".png";
+		    		 answer.imagedown = "assets/img/down"+answer.status+".png";
+		 		})
+			};
+});
+
 </script>
-</script>
+
 </body>
 	<% 	} else {
 			%>

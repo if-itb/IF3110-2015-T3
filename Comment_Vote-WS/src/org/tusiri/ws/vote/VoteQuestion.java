@@ -155,6 +155,8 @@ public class VoteQuestion {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("vote = "+vote );
+		
 		return vote;
 	}
 	
@@ -273,6 +275,8 @@ public class VoteQuestion {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("vote = "+vote );
+		
 		return vote;
 	}
 }
