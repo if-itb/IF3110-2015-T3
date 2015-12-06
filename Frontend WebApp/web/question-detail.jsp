@@ -154,8 +154,8 @@ No wonder retailers wanted to make the name "Black Friday" mean something positi
               for (int i = 0; i < answers.size(); i++) {
         %>
         <div class="same-height-row border-bottom">
-          <div class="vote-number">
-              <a href = 'VoteController?name=answer-up&qid=<%= request.getParameter("qid") %>&aid=<%= answers.get(i).getIdAnswer()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/up.png" onclick=""/><br></a>
+          <div class="vote-number" ng-app="stackExchange" ng-controller="VoteController">
+              <div ng-click="vote(<%= answers.get(i).getIdAnswer() %>, 'answer-up');"><img class="small-icon" src="img/up.png" onclick=""/><br></div>
             <div class="big-number" id="answer-1">
                 <%= answers.get(i).getVoteNum() %>
             </div>
@@ -208,7 +208,9 @@ No wonder retailers wanted to make the name "Black Friday" mean something positi
     <!-- JavaScript -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js" type="text/javascript"></script>
     <script src="js/script.js"></script>
     <script src="js/script-user-identity.js"></script>
+    <script src="js/controller.js"></script>
   </body>
 </html>
