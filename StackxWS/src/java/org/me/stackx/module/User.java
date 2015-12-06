@@ -69,11 +69,19 @@ public class User {
                     response += line;
                 }
                 JSONObject usr = new JSONObject(response);
-                this.userId = usr.getInt("user_id");
-                this.name = usr.getString("name");
-                this.email = usr.getString("email");
-                this.valid = (usr.getInt("is_valid"));
-                this.createDate = "";
+                if (usr.getString("user_id").equals("")) {
+                    this.userId = -1;
+                    this.name = "";
+                    this.email = "";
+                    this.valid = (usr.getInt("is_valid"));
+                    this.createDate = "";
+                } else {
+                    this.userId = usr.getInt("user_id");
+                    this.name = usr.getString("name");
+                    this.email = usr.getString("email");
+                    this.valid = (usr.getInt("is_valid"));
+                    this.createDate = "";
+                }
             } catch (JSONException ex) {
                 Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MalformedURLException ex) {

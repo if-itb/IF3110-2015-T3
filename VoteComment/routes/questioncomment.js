@@ -17,7 +17,7 @@ router.route('/question/comment/:id/upvote').post(function(req,res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: req.body.ip_address
+        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
@@ -36,7 +36,7 @@ router.route('/question/comment/:id/downvote').post(function(req,res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: req.body.ip_address
+        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
