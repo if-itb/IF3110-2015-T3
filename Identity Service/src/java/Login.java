@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -25,6 +26,11 @@ public class Login extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String IP = request.getRemoteAddr();
+        if (IP.equalsIgnoreCase("0:0:0:0:0:0:0:1")) {
+            InetAddress inetAddress = InetAddress.getLocalHost();
+            String ipAddress = inetAddress.getHostAddress();
+            IP = ipAddress;
+        }
         // JDBC driver name and database URL
         String JDBC_DRIVER = "com.mysql.jdbc.Driver";
         String DB_URL = "jdbc:mysql://localhost:3306/stackexchange";
@@ -35,7 +41,7 @@ public class Login extends HttpServlet {
         // Set response content type
         //response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        response.setContentType("application/xml;charset=UTF-8");
+        response.setContentType("text/html");//application/xml;charset=UTF-8");
         try {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
