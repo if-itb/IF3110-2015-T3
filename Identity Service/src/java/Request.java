@@ -75,9 +75,9 @@ public class Request extends HttpServlet {
                 create_time = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(temp);
                 
                 is_valid ="1";
+                
                 // append user_agent and ip_address to random_string
-                String original = user_agent + ip_address;
-                random_string += this.getMD5Hash(original);
+                random_string += "#" + this.getMD5Hash(user_agent) + "#" + this.getMD5Hash(ip_address);
                 
                 //check if current user_id has invalid token
                 sql = "SELECT * FROM user_token WHERE user_id=" + user_id +" AND user_agent='" + user_agent +"' AND ip_address='" + ip_address +"'";
