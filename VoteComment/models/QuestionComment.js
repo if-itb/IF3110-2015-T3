@@ -68,8 +68,16 @@ questionComment.vote = function(req, callback) {
                 ' VALUES (?, ?, ?)';
 
             connection.query(sql, [req.commentId, req.userId, req.value], function(err, results) {
-                var resp = Response(Const.STATUS_OK, '', results);
-                callback(resp);
+                var resp;
+                if (err) {
+                    resp = Response(err.errno, err.message);
+                    callback(resp);
+                } else {
+                    questionComment.getById(req.commentId, function(r) {
+                        resp = r;
+                        callback(resp);
+                    });
+                }
             });
         } else {
             if (results[0].value !== req.value) {
