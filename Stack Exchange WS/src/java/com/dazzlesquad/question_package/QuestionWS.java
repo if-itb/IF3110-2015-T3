@@ -49,7 +49,7 @@ public class QuestionWS {
         try {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM Question WHERE id=?";
+            sql = "SELECT * FROM question WHERE id=?";
                     
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1,id);
@@ -85,7 +85,7 @@ public class QuestionWS {
         try {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM Answer WHERE question_id=?";
+            sql = "SELECT * FROM answer WHERE question_id=?";
                     
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1,id);
@@ -119,7 +119,7 @@ public class QuestionWS {
             String sql;
             Statement statement = conn.createStatement();
 
-            sql = "SELECT user_id FROM Question WHERE id = ? LIMIT 1";
+            sql = "SELECT user_id FROM question WHERE id = ? LIMIT 1";
 
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, id);
@@ -165,7 +165,7 @@ public class QuestionWS {
                 String sql;
                 Statement statement = conn.createStatement();
 
-                sql = "DELETE FROM Question WHERE id=?";
+                sql = "DELETE FROM question WHERE id=?";
 
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setInt(1, id);
@@ -217,7 +217,7 @@ public class QuestionWS {
                 try {
                     Statement statement = conn.createStatement();
                     String sql;
-                    sql = "INSERT INTO Question (user_id, topic, content, vote, date) VALUES (?,?,?,0,now())";
+                    sql = "INSERT INTO question (user_id, topic, content, vote, date) VALUES (?,?,?,0,now())";
 
                     PreparedStatement dbStatement = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
                     dbStatement.setInt(1,tokenUserId);
@@ -243,7 +243,7 @@ public class QuestionWS {
         try {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM Question ORDER BY id DESC";
+            sql = "SELECT * FROM question ORDER BY id DESC";
                     
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             
@@ -276,7 +276,7 @@ public class QuestionWS {
             String sql;
             Statement statement = conn.createStatement();
 
-            sql = "SELECT user_id FROM Question WHERE id = ? LIMIT 1";
+            sql = "SELECT user_id FROM question WHERE id = ? LIMIT 1";
 
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, id);
@@ -322,7 +322,7 @@ public class QuestionWS {
                 String sql;
                 Statement statement = conn.createStatement();
 
-                sql = "UPDATE Question SET topic = ?, content = ? WHERE id = ?";
+                sql = "UPDATE question SET topic = ?, content = ? WHERE id = ?";
 
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, newtopic);

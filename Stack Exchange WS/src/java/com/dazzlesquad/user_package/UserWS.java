@@ -42,7 +42,7 @@ public class UserWS {
         try {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM User WHERE id=?";
+            sql = "SELECT * FROM user WHERE id=?";
                     
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1,id);

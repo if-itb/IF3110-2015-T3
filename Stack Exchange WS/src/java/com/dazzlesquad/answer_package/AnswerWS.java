@@ -43,7 +43,7 @@ public class AnswerWS {
         try {
             Statement statement = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM Answer WHERE id=?";
+            sql = "SELECT * FROM answer WHERE id=?";
                     
             PreparedStatement dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1,id);
@@ -103,7 +103,7 @@ public class AnswerWS {
                 try {
                     Statement statement = conn.createStatement();
                     String sql;
-                    sql = "INSERT INTO Answer (user_id, question_id, content, vote, date) VALUES (?,?,?,0,now())";
+                    sql = "INSERT INTO answer (user_id, question_id, content, vote, date) VALUES (?,?,?,0,now())";
 
                     PreparedStatement dbStatement = conn.prepareStatement(sql);
                     dbStatement.setInt(1,tokenUserId);
@@ -132,7 +132,7 @@ public class AnswerWS {
                 String sql;
                 Statement statement = conn.createStatement();
 
-                sql = "DELETE FROM Answer WHERE question_id=?";
+                sql = "DELETE FROM answer WHERE question_id=?";
 
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setInt(1,qid);

@@ -12,6 +12,8 @@
             <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/AddAnswer.java</file>
             <file>file:/Users/zulvafachrina/Documents/ITB/Kuliah/Semester%205/Pengembangan%20Aplikasi%20Berbasis%20Web/2015/IF3110-2015-T3/Stack%20Exchange%20Client/web/style.css</file>
         </group>
-        <group name="stack-clone-service-advanced"/>
+        <group name="stack-clone-service-advanced">
+            <file>file:/home/nithoalif/Dev/kuliah/pemrograman-berbasis-web/stack-clone-service-advanced/Stack%20Exchange%20Client/src/java/com/dazzlesquad/servlet/QuestionServlet.java</file>
+        </group>
     </open-files>
 </project-private>
