@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import static com.sun.xml.internal.ws.api.message.Packet.State.ClientResponse;
-import static com.sun.xml.ws.api.message.Packet.State.ClientResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;

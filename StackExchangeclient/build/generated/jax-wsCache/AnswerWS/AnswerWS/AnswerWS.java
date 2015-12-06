@@ -46,31 +46,20 @@ public interface AnswerWS {
 
     /**
      * 
-     * @param id
+     * @param uid
+     * @param aid
      * @return
      *     returns int
      */
     @WebMethod
-    @WebResult(name = "gtQID", targetNamespace = "")
-    @RequestWrapper(localName = "getAnswerQID", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerQID")
-    @ResponseWrapper(localName = "getAnswerQIDResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerQIDResponse")
-    public int getAnswerQID(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(name = "gtVote", targetNamespace = "")
-    @RequestWrapper(localName = "getAnswerVote", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerVote")
-    @ResponseWrapper(localName = "getAnswerVoteResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerVoteResponse")
-    public int getAnswerVote(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
+    @WebResult(name = "numVoteAnswer", targetNamespace = "")
+    @RequestWrapper(localName = "numVoteAnswer", targetNamespace = "http://jaxws/", className = "AnswerWS.NumVoteAnswer")
+    @ResponseWrapper(localName = "numVoteAnswerResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.NumVoteAnswerResponse")
+    public int numVoteAnswer(
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "aid", targetNamespace = "")
+        int aid);
 
     /**
      * 
@@ -105,34 +94,17 @@ public interface AnswerWS {
 
     /**
      * 
-     * @param uid
-     * @param aid
+     * @param id
      * @return
      *     returns int
      */
     @WebMethod
-    @WebResult(name = "numVoteAnswer", targetNamespace = "")
-    @RequestWrapper(localName = "numVoteAnswer", targetNamespace = "http://jaxws/", className = "AnswerWS.NumVoteAnswer")
-    @ResponseWrapper(localName = "numVoteAnswerResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.NumVoteAnswerResponse")
-    public int numVoteAnswer(
-        @WebParam(name = "uid", targetNamespace = "")
-        int uid,
-        @WebParam(name = "aid", targetNamespace = "")
-        int aid);
-
-    /**
-     * 
-     * @param qid
-     * @return
-     *     returns java.util.List<AnswerWS.Answer>
-     */
-    @WebMethod
-    @WebResult(name = "Answer", targetNamespace = "")
-    @RequestWrapper(localName = "getAnswerByQID", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerByQID")
-    @ResponseWrapper(localName = "getAnswerByQIDResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerByQIDResponse")
-    public List<Answer> getAnswerByQID(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid);
+    @WebResult(name = "gtVote", targetNamespace = "")
+    @RequestWrapper(localName = "getAnswerVote", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerVote")
+    @ResponseWrapper(localName = "getAnswerVoteResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerVoteResponse")
+    public int getAnswerVote(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
 
     /**
      * 
@@ -147,5 +119,33 @@ public interface AnswerWS {
         int id,
         @WebParam(name = "val", targetNamespace = "")
         int val);
+
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(name = "gtQID", targetNamespace = "")
+    @RequestWrapper(localName = "getAnswerQID", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerQID")
+    @ResponseWrapper(localName = "getAnswerQIDResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerQIDResponse")
+    public int getAnswerQID(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
+     * @param qid
+     * @return
+     *     returns java.util.List<AnswerWS.Answer>
+     */
+    @WebMethod
+    @WebResult(name = "Answer", targetNamespace = "")
+    @RequestWrapper(localName = "getAnswerByQID", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerByQID")
+    @ResponseWrapper(localName = "getAnswerByQIDResponse", targetNamespace = "http://jaxws/", className = "AnswerWS.GetAnswerByQIDResponse")
+    public List<Answer> getAnswerByQID(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid);
 
 }

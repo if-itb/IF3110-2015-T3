@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Entity
 @Table(name = "vote_answer")
@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
   @NamedQuery(name = "VoteAnswer.findById", query = "SELECT v FROM VoteAnswer v WHERE v.id = :id"),
   @NamedQuery(name = "VoteAnswer.findByType", query = "SELECT v FROM VoteAnswer v WHERE v.type = :type")})
 public class VoteAnswer implements Serializable {
-
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

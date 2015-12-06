@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Path("wbd.commentvote.votequestion")
 public class VoteQuestionRESTFacade {
@@ -102,7 +102,7 @@ public class VoteQuestionRESTFacade {
 
   @GET
   @Path("count")
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces("text/plain")
   public String count() {
     return String.valueOf(getJpaController().getVoteQuestionCount());
   }

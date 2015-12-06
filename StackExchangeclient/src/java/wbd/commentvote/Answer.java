@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Entity
 @Table(name = "answer")
@@ -42,7 +42,6 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "Answer.findByDate", query = "SELECT a FROM Answer a WHERE a.date = :date"),
   @NamedQuery(name = "Answer.findByVote", query = "SELECT a FROM Answer a WHERE a.vote = :vote")})
 public class Answer implements Serializable {
-
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

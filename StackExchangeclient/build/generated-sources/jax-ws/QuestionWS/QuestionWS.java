@@ -26,6 +26,59 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param id
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(name = "questionVote", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionVote", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionVote")
+    @ResponseWrapper(localName = "getQuestionVoteResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionVoteResponse")
+    public int getQuestionVote(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<QuestionWS.Question>
+     */
+    @WebMethod
+    @WebResult(name = "Questions", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestion")
+    @ResponseWrapper(localName = "getQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionResponse")
+    public List<Question> getQuestion();
+
+    /**
+     * 
+     * @param val
+     * @param id
+     */
+    @WebMethod
+    @RequestWrapper(localName = "setQuestionVote", targetNamespace = "http://jaxws/", className = "QuestionWS.SetQuestionVote")
+    @ResponseWrapper(localName = "setQuestionVoteResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.SetQuestionVoteResponse")
+    public void setQuestionVote(
+        @WebParam(name = "id", targetNamespace = "")
+        int id,
+        @WebParam(name = "val", targetNamespace = "")
+        int val);
+
+    /**
+     * 
+     * @param qid
+     * @return
+     *     returns java.util.List<QuestionWS.Question>
+     */
+    @WebMethod
+    @WebResult(name = "Question", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionByQID", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionByQID")
+    @ResponseWrapper(localName = "getQuestionByQIDResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionByQIDResponse")
+    public List<Question> getQuestionByQID(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid);
+
+    /**
+     * 
      * @param uid
      * @param arg1
      * @return
@@ -60,17 +113,51 @@ public interface QuestionWS {
 
     /**
      * 
+     * @param uid
      * @param qid
-     * @return
-     *     returns java.util.List<QuestionWS.Question>
+     * @param token
      */
     @WebMethod
-    @WebResult(name = "Question", targetNamespace = "")
-    @RequestWrapper(localName = "getQuestionByQID", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionByQID")
-    @ResponseWrapper(localName = "getQuestionByQIDResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionByQIDResponse")
-    public List<Question> getQuestionByQID(
+    @RequestWrapper(localName = "deleteQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.DeleteQuestion")
+    @ResponseWrapper(localName = "deleteQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.DeleteQuestionResponse")
+    public void deleteQuestion(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "token", targetNamespace = "")
+        String token);
+
+    /**
+     * 
+     * @param qid
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(name = "getQuestionUID", targetNamespace = "")
+    @RequestWrapper(localName = "getQuestionUID", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionUID")
+    @ResponseWrapper(localName = "getQuestionUIDResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionUIDResponse")
+    public int getQuestionUID(
         @WebParam(name = "qid", targetNamespace = "")
         int qid);
+
+    /**
+     * 
+     * @param uid
+     * @param type
+     * @param qid
+     */
+    @WebMethod
+    @RequestWrapper(localName = "voteQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.VoteQuestion")
+    @ResponseWrapper(localName = "voteQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.VoteQuestionResponse")
+    public void voteQuestion(
+        @WebParam(name = "qid", targetNamespace = "")
+        int qid,
+        @WebParam(name = "uid", targetNamespace = "")
+        int uid,
+        @WebParam(name = "type", targetNamespace = "")
+        int type);
 
     /**
      * 
@@ -94,93 +181,6 @@ public interface QuestionWS {
         int uid,
         @WebParam(name = "token", targetNamespace = "")
         String token);
-
-    /**
-     * 
-     * @param val
-     * @param id
-     */
-    @WebMethod
-    @RequestWrapper(localName = "setQuestionVote", targetNamespace = "http://jaxws/", className = "QuestionWS.SetQuestionVote")
-    @ResponseWrapper(localName = "setQuestionVoteResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.SetQuestionVoteResponse")
-    public void setQuestionVote(
-        @WebParam(name = "id", targetNamespace = "")
-        int id,
-        @WebParam(name = "val", targetNamespace = "")
-        int val);
-
-    /**
-     * 
-     * @param uid
-     * @param qid
-     * @param token
-     */
-    @WebMethod
-    @RequestWrapper(localName = "deleteQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.DeleteQuestion")
-    @ResponseWrapper(localName = "deleteQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.DeleteQuestionResponse")
-    public void deleteQuestion(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
-        @WebParam(name = "uid", targetNamespace = "")
-        int uid,
-        @WebParam(name = "token", targetNamespace = "")
-        String token);
-
-    /**
-     * 
-     * @param uid
-     * @param type
-     * @param qid
-     */
-    @WebMethod
-    @RequestWrapper(localName = "voteQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.VoteQuestion")
-    @ResponseWrapper(localName = "voteQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.VoteQuestionResponse")
-    public void voteQuestion(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid,
-        @WebParam(name = "uid", targetNamespace = "")
-        int uid,
-        @WebParam(name = "type", targetNamespace = "")
-        int type);
-
-    /**
-     * 
-     * @return
-     *     returns java.util.List<QuestionWS.Question>
-     */
-    @WebMethod
-    @WebResult(name = "Questions", targetNamespace = "")
-    @RequestWrapper(localName = "getQuestion", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestion")
-    @ResponseWrapper(localName = "getQuestionResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionResponse")
-    public List<Question> getQuestion();
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(name = "questionVote", targetNamespace = "")
-    @RequestWrapper(localName = "getQuestionVote", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionVote")
-    @ResponseWrapper(localName = "getQuestionVoteResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionVoteResponse")
-    public int getQuestionVote(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
-
-    /**
-     * 
-     * @param qid
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(name = "getQuestionUID", targetNamespace = "")
-    @RequestWrapper(localName = "getQuestionUID", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionUID")
-    @ResponseWrapper(localName = "getQuestionUIDResponse", targetNamespace = "http://jaxws/", className = "QuestionWS.GetQuestionUIDResponse")
-    public int getQuestionUID(
-        @WebParam(name = "qid", targetNamespace = "")
-        int qid);
 
     /**
      * 

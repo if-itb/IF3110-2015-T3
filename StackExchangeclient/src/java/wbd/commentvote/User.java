@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 @Entity
 @Table(name = "user")
@@ -37,7 +37,6 @@ import javax.xml.bind.annotation.XmlTransient;
   @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
   @NamedQuery(name = "User.findByPass", query = "SELECT u FROM User u WHERE u.pass = :pass")})
 public class User implements Serializable {
-
   private static final long serialVersionUID = 1L;
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

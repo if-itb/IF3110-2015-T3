@@ -27,7 +27,7 @@ import wbd.commentvote.controller.exceptions.RollbackFailureException;
 
 /**
  *
- * @author Afrizal
+ * @author gazandic
  */
 public class UserJpaController implements Serializable {
 

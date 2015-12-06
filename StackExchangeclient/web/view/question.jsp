@@ -19,10 +19,10 @@
         String browserType = request.getHeader("User-Agent").substring(0, 10);
         String ipAddress  = request.getHeader("X-FORWARDED-FOR");
         if(ipAddress == null)
-        {
-          ipAddress = request.getRemoteAddr();
-        }
-        token += "#"+browserType+"#"+ ipAddress;
+       {
+         ipAddress = request.getRemoteAddr();
+       }
+       token += "#"+browserType+"#"+ ipAddress;
       }
     }
   }
@@ -43,7 +43,7 @@
   <body>
     <div class="container" ng-app="app">
       <h1 class="text-center"><a href="/StackExchangeclient">OVERFLOW48</a></h1>
-      <form id="search" action="search.jsp" action="GET">
+      <form id="search" action="search.jsp" method="GET">
         <table>
         <tr>
           <td width="200%"> <input id="q" placeholder="What are you looking for?" type="text" class="form" name="q"></td>
@@ -132,7 +132,7 @@
               <input ng-model="qid" type="hidden" value="<%=id%>">
               <textarea ng-model="content" placeholder="Content" class="box" rows="5"></textarea>
               <div class="text-right">
-                  <button ng-click="submit()" class="button" class="text-right" type="submit">Post</button>
+                  <button ng-click="submit(<%=uid%>)" class="button" class="text-right" type="submit">Post</button>
               </div>
           <% } %>
         </div>

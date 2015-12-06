@@ -16,23 +16,11 @@
 <message name="matchResponse">
 <part name="parameters" element="tns:matchResponse"/>
 </message>
-<message name="createToken">
-<part name="parameters" element="tns:createToken"/>
-</message>
-<message name="createTokenResponse">
-<part name="parameters" element="tns:createTokenResponse"/>
-</message>
 <message name="createUser">
 <part name="parameters" element="tns:createUser"/>
 </message>
 <message name="createUserResponse">
 <part name="parameters" element="tns:createUserResponse"/>
-</message>
-<message name="getUID">
-<part name="parameters" element="tns:getUID"/>
-</message>
-<message name="getUIDResponse">
-<part name="parameters" element="tns:getUIDResponse"/>
 </message>
 <message name="getUIDByEmail">
 <part name="parameters" element="tns:getUIDByEmail"/>
@@ -40,11 +28,23 @@
 <message name="getUIDByEmailResponse">
 <part name="parameters" element="tns:getUIDByEmailResponse"/>
 </message>
+<message name="getUID">
+<part name="parameters" element="tns:getUID"/>
+</message>
+<message name="getUIDResponse">
+<part name="parameters" element="tns:getUIDResponse"/>
+</message>
 <message name="emailDone">
 <part name="parameters" element="tns:emailDone"/>
 </message>
 <message name="emailDoneResponse">
 <part name="parameters" element="tns:emailDoneResponse"/>
+</message>
+<message name="createToken">
+<part name="parameters" element="tns:createToken"/>
+</message>
+<message name="createTokenResponse">
+<part name="parameters" element="tns:createTokenResponse"/>
 </message>
 <portType name="UserWS">
 <operation name="getName">
@@ -55,25 +55,25 @@
 <input wsam:Action="http://jaxws/UserWS/matchRequest" message="tns:match"/>
 <output wsam:Action="http://jaxws/UserWS/matchResponse" message="tns:matchResponse"/>
 </operation>
-<operation name="createToken">
-<input wsam:Action="http://jaxws/UserWS/createTokenRequest" message="tns:createToken"/>
-<output wsam:Action="http://jaxws/UserWS/createTokenResponse" message="tns:createTokenResponse"/>
-</operation>
 <operation name="createUser">
 <input wsam:Action="http://jaxws/UserWS/createUserRequest" message="tns:createUser"/>
 <output wsam:Action="http://jaxws/UserWS/createUserResponse" message="tns:createUserResponse"/>
-</operation>
-<operation name="getUID">
-<input wsam:Action="http://jaxws/UserWS/getUIDRequest" message="tns:getUID"/>
-<output wsam:Action="http://jaxws/UserWS/getUIDResponse" message="tns:getUIDResponse"/>
 </operation>
 <operation name="getUIDByEmail">
 <input wsam:Action="http://jaxws/UserWS/getUIDByEmailRequest" message="tns:getUIDByEmail"/>
 <output wsam:Action="http://jaxws/UserWS/getUIDByEmailResponse" message="tns:getUIDByEmailResponse"/>
 </operation>
+<operation name="getUID">
+<input wsam:Action="http://jaxws/UserWS/getUIDRequest" message="tns:getUID"/>
+<output wsam:Action="http://jaxws/UserWS/getUIDResponse" message="tns:getUIDResponse"/>
+</operation>
 <operation name="emailDone">
 <input wsam:Action="http://jaxws/UserWS/emailDoneRequest" message="tns:emailDone"/>
 <output wsam:Action="http://jaxws/UserWS/emailDoneResponse" message="tns:emailDoneResponse"/>
+</operation>
+<operation name="createToken">
+<input wsam:Action="http://jaxws/UserWS/createTokenRequest" message="tns:createToken"/>
+<output wsam:Action="http://jaxws/UserWS/createTokenResponse" message="tns:createTokenResponse"/>
 </operation>
 </portType>
 <binding name="UserWSPortBinding" type="tns:UserWS">
@@ -96,25 +96,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="createToken">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="createUser">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getUID">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -132,7 +114,25 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="getUID">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="emailDone">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="createToken">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

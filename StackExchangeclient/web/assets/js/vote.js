@@ -4,46 +4,37 @@
  * and open the template in the editor.
  */
 
-var app = angular.module('cmv', []);
-app.controller('vote', function ($scope, $http) {
-  // vote question
+/*
+
+// vote question
 function getQVote($http)
 {
-  $http.get(
-        "http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.votequestion/"
-      )
-      .success(function(data, status) {
-        var ar = []
-        for (var isi in data) {
-          ar.push(isi);
-          ar['name'] = ar.uid['name'];
-          ar['uid'] = ar.uid['id'];
-          ar['qid'] = ar.qid['id'];
-        }
-        return ar;
-      })
-      .error(function(status) {
-        console.log(status);
-      })
-};
+  $http.get("http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.votequestion/").success(function(data, status) {
+    return data;
+  });
+}
 // vote answer
 function getAVote($http)
 {
-  $http.get(
-        "http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.voteanswer/"
-      )
-      .success(function(data, status) {
-        var ar = []
-        for (var isi in data) {
-          ar.push(isi);
-          ar['name'] = ar.uid['name'];
-          ar['uid'] = ar.uid['id'];
-          ar['qid'] = ar.qid['id'];
-        }
-        return ar;
-      })
-      .error(function(status) {
-        console.log(status);
-      })
-};
+  $http.get("http://localhost:8080/StackExchangeclient/webresources/wbd.commentvote.voteanswer/").success(function(data, status) {
+    return data;
+  });
+}
+
+var app = angular.module('app', []);
+app.controller('vote', function ($scope, $http) {
+  $scope.getAnswerVote = function(uid, aid) {
+    
+  };
+  $scope.getQuestionVote = function(uid, qid) {
+    
+  };
+  $scope.voteAnswer = function(uid, aid, type) {
+    
+  };
+  $scope.voteQuestion = function(uid, qid, type) {
+    
+  };
 });
+
+*/

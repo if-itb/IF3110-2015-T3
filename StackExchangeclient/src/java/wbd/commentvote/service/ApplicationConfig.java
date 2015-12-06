@@ -5,25 +5,36 @@
  */
 package wbd.commentvote.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.ApplicationPath;
 
 /**
  *
  * @author Afrizal
  */
-@ApplicationPath("webresources")
+@javax.ws.rs.ApplicationPath("webresources")
 public class ApplicationConfig extends Application {
 
-  /**
-   *
-   * @return Set of Class
-   */
   @Override
   public Set<Class<?>> getClasses() {
-    return new HashSet<>(Arrays.asList(VoteAnswerRESTFacade.class, VoteQuestionRESTFacade.class, AnswerRESTFacade.class, QuestionRESTFacade.class, CommentRESTFacade.class, UserRESTFacade.class));
+    Set<Class<?>> resources = new java.util.HashSet<>();
+    addRestResourceClasses(resources);
+    return resources;
   }
+
+  /**
+   * Do not modify addRestResourceClasses() method.
+   * It is automatically populated with
+   * all resources defined in the project.
+   * If required, comment out calling this method in getClasses().
+   */
+  private void addRestResourceClasses(Set<Class<?>> resources) {
+    resources.add(wbd.commentvote.service.AnswerRESTFacade.class);
+    resources.add(wbd.commentvote.service.CommentRESTFacade.class);
+    resources.add(wbd.commentvote.service.QuestionRESTFacade.class);
+    resources.add(wbd.commentvote.service.UserRESTFacade.class);
+    resources.add(wbd.commentvote.service.VoteAnswerRESTFacade.class);
+    resources.add(wbd.commentvote.service.VoteQuestionRESTFacade.class);
+  }
+  
 }

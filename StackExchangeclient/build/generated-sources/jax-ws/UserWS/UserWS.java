@@ -56,37 +56,6 @@ public interface UserWS {
 
     /**
      * 
-     * @param id
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(name = "createToken", targetNamespace = "")
-    @RequestWrapper(localName = "createToken", targetNamespace = "http://jaxws/", className = "UserWS.CreateToken")
-    @ResponseWrapper(localName = "createTokenResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateTokenResponse")
-    public String createToken(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
-
-    /**
-     * 
-     * @param pass
-     * @param name
-     * @param email
-     */
-    @WebMethod
-    @RequestWrapper(localName = "createUser", targetNamespace = "http://jaxws/", className = "UserWS.CreateUser")
-    @ResponseWrapper(localName = "createUserResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateUserResponse")
-    public void createUser(
-        @WebParam(name = "name", targetNamespace = "")
-        String name,
-        @WebParam(name = "email", targetNamespace = "")
-        String email,
-        @WebParam(name = "pass", targetNamespace = "")
-        String pass);
-
-    /**
-     * 
      * @param token
      * @return
      *     returns int
@@ -126,5 +95,36 @@ public interface UserWS {
     public boolean emailDone(
         @WebParam(name = "id", targetNamespace = "")
         String id);
+
+    /**
+     * 
+     * @param pass
+     * @param name
+     * @param email
+     */
+    @WebMethod
+    @RequestWrapper(localName = "createUser", targetNamespace = "http://jaxws/", className = "UserWS.CreateUser")
+    @ResponseWrapper(localName = "createUserResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateUserResponse")
+    public void createUser(
+        @WebParam(name = "name", targetNamespace = "")
+        String name,
+        @WebParam(name = "email", targetNamespace = "")
+        String email,
+        @WebParam(name = "pass", targetNamespace = "")
+        String pass);
+
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(name = "createToken", targetNamespace = "")
+    @RequestWrapper(localName = "createToken", targetNamespace = "http://jaxws/", className = "UserWS.CreateToken")
+    @ResponseWrapper(localName = "createTokenResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateTokenResponse")
+    public String createToken(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
 
 }
