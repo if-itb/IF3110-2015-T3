@@ -8,17 +8,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login</title>
+        <title>Register</title>
 		<link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <h1>Simple Stack Exchange</h1>
-        <form name='login' action='ask.jsp'>
+        <a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
+        <form name='login' action='reg' method="POST">
             <input class="inputform" type='text' name='name' placeholder='Name'><br><br>
-            <input class="inputform" type='text' name='mail' placeholder='Email'><br><br>
+            <input class="inputform" type='text' name='email' placeholder='Email'><br><br>
             <input class="inputform" type='password' name='pass' placeholder='Password'><br><br>
             <input class="button" type='submit' value='Register'>
-            
         </form>
     </body>
 </html>

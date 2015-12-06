@@ -30,15 +30,15 @@
     %>
     <%-- end web service invocation --%><hr/>
      
-        <center><a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
+        <a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
             <form name='question' action='edit' method='POST'>
-                <input type='text' name='topic' placeholder='Question Topic' size='80' value="<%out.println(Q.getTopic());%>"><br><br>
-                <textarea name='qcontent' placeholder="Question"  style="resize:none;width:500px;"><%out.println(Q.getContent());%></textarea><br><br>
+                <input class="inputform" type='text' name='topic' placeholder='Question Topic' value="<%out.println(Q.getTopic());%>"><br><br>
+                <textarea class="inputform" name='qcontent' placeholder="Question"  rows="5"><%out.println(Q.getContent());%></textarea><br><br>
                 <input type ="hidden" name="id" value="<%out.println(Q.getId());%>">;
-                <input type="submit" value="Submit">
+                <input class="button" type="submit" value="Submit">
             </form>
             
             
-        </center>
+     
     </body>
 </html>

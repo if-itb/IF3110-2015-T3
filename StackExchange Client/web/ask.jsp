@@ -13,14 +13,15 @@
 		<link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <h1>Simple Stack Exchange</h1>
-            <form name='question' action='answer.jsp'>
+        <a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
+            <form name='question' action='ask' method='POST'>
                 <input class="inputform" type='text' name='topic' placeholder='Question Topic'><br><br>
                 <textarea class="inputform" name='qcontent' placeholder="Question" rows="4"></textarea><br><br>
                 <input class="button" type="submit" value="Submit">
-            </form>
+				  </form>
             
             
+        
         
     </body>
 </html>
