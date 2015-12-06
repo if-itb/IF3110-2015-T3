@@ -2,6 +2,9 @@ package vote;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +19,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import model.VoteQuestionModel;
+import mysql.ConnectDb;
 
 @WebServlet(name = "VoteQuestion", urlPatterns = {"/votequestion"})
 public class VoteQuestion extends HttpServlet {
@@ -23,22 +27,49 @@ public class VoteQuestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 	    throws ServletException, IOException, SQLException {
 	response.setContentType("text/html;charset=UTF-8");
-	try (PrintWriter out = response.getWriter()) {
-	    int qid = Integer.parseInt(request.getParameter("qid"));
-	    String token = request.getParameter("token");
-	    int value = Integer.parseInt(request.getParameter("value"));
-	    int userid = Integer.parseInt(request.getParameter("userid"));
+	
+	if(request.getMethod().equals("POST")) {
+	    try (PrintWriter out = response.getWriter()) {
+		int qid = Integer.parseInt(request.getParameter("qid"));
+		String token = request.getParameter("token");
+		int value = Integer.parseInt(request.getParameter("value"));
+		int userid = Integer.parseInt(request.getParameter("userid"));
 
-	    String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
-	    if (null != tokenStatus) {
-		VoteQuestionModel vqm = new VoteQuestionModel(userid, qid, value);
-		if(vqm.addToDatabase().equals("sukses")) {
-		    out.println(vqm.toXML());
-		} else {
-		    out.println("Error");
+		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
+		if (null != tokenStatus) {
+		    VoteQuestionModel vqm = new VoteQuestionModel(userid, qid, value);
+		    if (vqm.addToDatabase().equals("sukses")) {
+			System.out.println("HASIL : " + vqm.toXML());
+			out.println(vqm.toXML());
+		    } else {
+			out.println("Error");
+		    }
 		}
 	    }
+	} else {
+	    Connection conn = ConnectDb.connect();
+	    int qid = Integer.parseInt(request.getParameter("qid"));
+	    String sql = "select votes from questions where qid = ? ";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setInt(1, qid);
+	    ResultSet res = dbStatement.executeQuery();
+	    
+	    int q = 0;
+
+	    if (res.next()) {
+		PrintWriter o = response.getWriter();
+		System.out.println("Result :" + res.toString());
+		q = res.getInt("votes");
+		System.out.println("qqqqqqqqqqqqqqqqq : "+q);
+		VoteQuestionModel vqm = new VoteQuestionModel(999, qid, 1, q);
+		System.out.println("HAaaaaaaaaaaasil1 : " + vqm.toXML());
+
+		o.println (vqm.toXML());
+	    }
+
 	}
+	
+	
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

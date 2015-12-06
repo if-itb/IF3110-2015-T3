@@ -1,6 +1,5 @@
 package model;
 
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.Date;
@@ -53,7 +52,6 @@ public final class CommentModel {
     
     @XmlElement
     public String getName() {
-	System.out.println("NAMS :" + this.name);
         return this.name;
     }
     

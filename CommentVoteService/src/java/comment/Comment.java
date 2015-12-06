@@ -35,11 +35,6 @@ public class Comment extends HttpServlet {
 	String name = request.getParameter("name");
 	String qid = request.getParameter("qid");
 
-	System.out.println("Token : " + token);
-	System.out.println("content : " + content);
-	System.out.println("Name : " + name);
-	System.out.println("qid : " + qid);
-	
 	if(request.getMethod().equals("POST")){
 	    System.out.println("POST COMMENT");
 	    try {
@@ -96,7 +91,6 @@ public class Comment extends HttpServlet {
 		nama = res.getString("name");
 		konten = res.getString("content");
 		tanggal = res.getString("created_at");
-//		Date d = tanggal;
 		qId = res.getInt("qid");
 		CommentModel c = new CommentModel(nama, konten, qId, tanggal);
 		System.out.println("HAsil1 : " + c.toXML());

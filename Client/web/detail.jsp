@@ -27,7 +27,7 @@
         </div>
             <h2><c:out value="${question.getQtopic()}" /></h2>
             <div class='row rowQuestion clearfix' id='<c:out value="${question.getQid()}" />'>
-                <div class='colVote' ng-controller='voteCtrl' >
+                <div class='colVote' ng-controller='voteQuestionCtrl' >
                     <div class='qVote arrow-up' id='<c:out value="${question.getQid()}" />' ng-click='voteUp()'></div>
                     <span class='qVoteVal'>{{vote}}</span>
                     <div class='qVote arrow-down' id='<c:out value="${question.getQid()}" />' ng-click='voteDown()'></div>
@@ -68,9 +68,9 @@
                 <div class='row clearfix'>
 
                     <c:forEach items="${answers}" var="answer">
-                    <div class='colVote'>
+			<div class='colVote' ng-controller="voteAnswerCtrl">
                         <div class='aVote arrow-up' id='<c:out value="${answer.getQid()}" />' ng-click='voteUp()'></div>
-                        <span class='voteVal'>{{vote}}</span>
+                        <span class='voteVal'>{{ votes || "<c:out value="${answer.getVotes()}" />" }}</span>
                         <div class='aVote arrow-down' id='<c:out value="${answer.getQid()}" />' ng-click='voteDown()'></div>
                     </div>
                     <div class='elemQDetail'>
@@ -103,6 +103,5 @@
     <script type="text/javascript" src="x2js.js"></script>
     <script type="text/javascript" src="xml2json.js"></script>
     <script type="text/javascript" src="controller.js"></script>
-    <script type="text/javascript" src="vote.js"></script>
 </body>
 </html>

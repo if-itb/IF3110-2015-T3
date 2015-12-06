@@ -17,7 +17,7 @@ import mysql.ConnectDb;
 
 // ACCESS_TOKEN OBJECT
 @XmlRootElement(name = "voteQuestion")
-@XmlType(propOrder = { "userId", "content", "createdAt" })
+@XmlType(propOrder = { "qid", "vote" })
 public final class VoteQuestionModel {
     private int userId;
     private int qid;
@@ -32,12 +32,17 @@ public final class VoteQuestionModel {
 	this.value = value;
     }
     
+    public VoteQuestionModel(int userId, int qid, int value ,int vote) throws SQLException {
+	this.userId = userId;
+	this.qid = qid;
+	this.vote = vote;
+    }
+    
     @XmlElement
     public int getQid() {
 	return this.qid;
     }
     
-    @XmlElement
     public int getValue() {
 	return this.value;
     }
@@ -66,12 +71,11 @@ public final class VoteQuestionModel {
     public String addToDatabase() throws SQLException {
 	try {
 	    Connection conn = ConnectDb.connect();
-	    String sql = "select * from user_vote_question where id = ?, qid = ?";
+	    String sql = "select * from user_vote_question where id = ? and qid = ?";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);
 	    
 	    dbStatement.setInt(1, this.userId);
 	    dbStatement.setInt(2, this.qid);
-	    dbStatement.setInt(3, this.value);
 	    
 	    ResultSet res = dbStatement.executeQuery();
 	    if(res.next()){
@@ -86,8 +90,10 @@ public final class VoteQuestionModel {
 		int rs = dbStatement.executeUpdate();
 		
 		if(this.value == -1) {
+		    System.out.println("-----------");
 		    sql = "update questions set votes = votes - 1 where qid = ?";
 		} else {
+		    System.out.println("+++++++++++");
 		    sql = "update questions set votes = votes + 1 where qid = ?";
 		}
 		
@@ -95,13 +101,17 @@ public final class VoteQuestionModel {
 		dbStatement.setInt(1, this.qid);
 		rs = dbStatement.executeUpdate();
 		
-		sql = "select * from questions where=?";
+		sql = "select * from questions where qid=?";
 		dbStatement = conn.prepareStatement(sql);
 		dbStatement.setInt(1, this.qid);
 		
+		res = dbStatement.executeQuery();
+		if(res.next()) {
+		    this.vote = res.getInt("votes");
+		}
 		return "sukses";
 	    }
-	} catch (Exception ex) {
+	} catch ( SQLException ex) {
 	    System.out.println("Error Add Vote to Database : " + ex);
 	}
 	return null;
