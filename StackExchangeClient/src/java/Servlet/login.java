@@ -25,10 +25,18 @@ public class login extends HttpServlet {
         response.setContentType("application/xml;charset=UTF-8");
         String uname = request.getParameter("user");
         String pass = request.getParameter("pass");
+        String useragent = request.getHeader("user-agent");
+        String ip = request.getHeader("X-FORWARDED-FOR");
         
         Form form = new Form();
         form.param("uname", uname);
         form.param("pass", pass);
+        form.param("useragent", useragent);
+        form.param("ip", ip);
+        
+        if (ip == null) {
+            ip = request.getRemoteAddr();
+        }
        
         Client client = ClientBuilder.newClient();
         String url = "http://localhost:21568/StackExchangeAuth/getToken";
