@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html ng-app ='myApp'>
     <head>
         
        <%@  page import="java.net.URL,javax.xml.namespace.QName,javax.xml.ws.Service" %>
@@ -41,7 +41,6 @@
         %>;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="script.js"></script>
          <link rel="stylesheet" type="text/css" href="style/style.css">
         <title><% out.println(Q.getTitle()) ; %></title>
     </head>
@@ -98,7 +97,7 @@
          
         <div class="commentbox">   
           
-<div ng-app="myApp" ng-controller="customersCtrl">
+<div  ng-controller="customersCtrl">
 
   <div ng-repeat="x in names">
       <div class="cmcontent"> {{ x.content}} </div> <cmdate><cmdd>at</cmdd>  {{x.timestamp  }} </cmdate> by <cmu>{{x.author}} </cmu>
@@ -109,7 +108,15 @@
 </div>
             
             
-          
+            <div ng-controller = 'commentController' class='block-comment'>
+                        
+                           Add Comment
+                            <form >
+                                <input type="text" ng-model="content">
+                                <button ng-click='addComment(to + "," + request.getParameter("id") + "," + content);' style='margin-top:10px;'>Post Comment</button>
+                            </form>
+                        </div>
+               </div>
             
          <form action="http://localhost:21215/StackExch_Client/commentp" method="POST">
                  <input id="fcomment" type="text" name="ncomment" placeholder="Add a comment : "/><br> 
@@ -173,8 +180,56 @@ app.controller('customersCtrl', function($scope, $http) {
     $http.get(url_)
   .then(function (response) {$scope.names = response.data.records;});
 });
-</script>
 
+        
+        console.log("Start");
+        app.controller('commentController', function($scope, $http) {
+            
+                
+                $scope.addComment = function(access_token, qid,comment_content) {
+                     var token = "<%= request.getParameter("token") %>";
+                    var qid = "<%= request.getParameter("id") %>";
+                    var ncomment = $scope.content;
+                    var cipa = "<% out.print(ipa);%>";
+                    var cbrowser = "<% out.print(browser);%>"
+                    var idc = <% out.print(ccm); %>;
+                    console.log("qid : "+qid);
+                    console.log("ncomment : "+ncomment);
+                    console.log("cipa : "+cipa);
+                    console.log("cbrowser : "+cbrowser);
+                    console.log("idc : "+idc);
+                    console.log("token : "+token);
+                   var addCommentUrl = "http://localhost:21215/CommentandVote/Comment";                                 
+                   
+                    var yourComment = {token: token ,q_id: qid, ncomment: ncomment,cipa:cipa,cbrowser:cbrowser,id_c:idc};
+                    console.log("comment : " + yourComment);
+                  
+                    $http({
+                        url: addCommentUrl,
+                        data: JSON.stringify(yourComment),
+                        method: 'POST',
+                        dataType: "json",
+                        crossDomain: true
+                    })
+                    .then(function (response){
+                        //console.log("Success");
+                       // $scope.comments.push(response.data);                        
+                        $scope.status=response.data.status;
+                        //console.log(JSON.stringify(response));
+                        //console.log("Message " + $scope.message);
+                        //console.log("Cba" + JSON.stringify($scope.comments))
+                        if ($scope.status >0){
+                        } else {
+                            window.location.href = "http://localhost:21215/StackExch_Client/error.jsp?status=" + $scope.status;
+                        }
+                    },function (err){
+                        console.log("Error : " + err);
+                    });
+            };
+        
+        });
+    </script>
+          
     </body>
     
 </html>

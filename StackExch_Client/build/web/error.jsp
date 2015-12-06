@@ -11,10 +11,30 @@
             if (ipa == null) {  
                 ipa = request.getRemoteAddr();  
             }
-            String browser = request.getHeader("user-agent");
-            String message = request.getParameter("message");
+            String status=request.getParameter("status");
+            int ss = Integer.valueOf(status);
             
-            String url_ = request.getParameter("url");
+            
+            String browser ="";
+            String message = "";
+            
+            String url_ = "";
+            if (ss==-1) {
+                message = "Your token not valid";
+                url_ = "logout";
+            } else if (ss==-2) {
+                 message = "Your token expired";
+                url_ = "logout";
+            } else if (ss==-3) {
+                message = "You detected connected from different ip";
+                url_ = "logout";
+            } else if (ss==-4) {
+                message = "You detected connected from different browser";
+                url_ = "logout";
+            } else {
+                message = "You only allowed vote one time";
+                url_ = "home.jsp";
+            }
             %>
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Error Page</title>        
