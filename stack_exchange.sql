@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2015 at 04:08 AM
+-- Generation Time: Dec 06, 2015 at 02:48 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -55,6 +55,36 @@ INSERT INTO `answer` (`answer_id`, `answerer_name`, `answerer_email`, `answer_co
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `answer_comment`
+--
+
+CREATE TABLE IF NOT EXISTS `answer_comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_content` text NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `answer_id` int(11) NOT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+
+--
+-- Dumping data for table `answer_comment`
+--
+
+INSERT INTO `answer_comment` (`comment_id`, `comment_content`, `user_name`, `answer_id`) VALUES
+(2, 'halo', 'kevin', 13),
+(3, 'halo', 'kevin', 13),
+(4, 'Bagus sekali jawabannya', 'william', 13),
+(5, 'halo nama aku', 'william', 13),
+(17, 'Bagus sekali jawabannya', 'william', 13),
+(18, 'Bagus sekali jawabannya', 'william', 13),
+(19, 'Bagus sekali jawabannya', 'william', 13),
+(20, 'Bagus sekali jawabannya', 'william', 13),
+(21, 'Bagus sekali jawabannya', 'william', 13),
+(22, 'Bagus sekali jawabannya', 'william', 13);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `answer_vote`
 --
 
@@ -83,28 +113,6 @@ INSERT INTO `answer_vote` (`user_id`, `answer_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comment`
---
-
-CREATE TABLE IF NOT EXISTS `comment` (
-  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `comment_content` text NOT NULL,
-  `user_name` varchar(50) NOT NULL,
-  `answer_id` int(11) NOT NULL,
-  PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `comment`
---
-
-INSERT INTO `comment` (`comment_id`, `comment_content`, `user_name`, `answer_id`) VALUES
-(2, 'halo', 'kevin', 13),
-(3, 'halo', 'kevin', 13);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `question`
 --
 
@@ -129,6 +137,21 @@ INSERT INTO `question` (`question_id`, `asker_name`, `asker_email`, `question_to
 (11, 'marcel', 'marcel@gmail.com', 'Do we now know why McCarthy suddenly dropped out of the vote for House Speaker?', 'Is it because he was was carrying on a long running affair with a Congresswoman? \n\nMultiple sources within Bakersfield, North Carolina, & on Capitol Hill tell Gotnews.com that Majority Leader Kevin McCarthy (R-CA) and Renee Ellmers (R-NC) have been carrying on a long-running affair since 2011. ', 1, 2),
 (12, 'kevin', 'kevin@gmail.com', 'Algoritma', 'Gimana cara membuat algoritma fibonaci dengan efisien ?', 0, 3),
 (13, 'ken', 'ken@mail.com', 'lelel', 'lelelel', 1, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `question_comment`
+--
+
+CREATE TABLE IF NOT EXISTS `question_comment` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment_content` text NOT NULL,
+  `user_name` varchar(50) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `question_id` (`question_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -167,10 +190,17 @@ CREATE TABLE IF NOT EXISTS `token` (
   `uuid` varchar(100) NOT NULL,
   `user_id` int(11) NOT NULL,
   `expires` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_agent` varchar(100) NOT NULL,
+  `user_agent` text NOT NULL,
   `ip_address` varchar(100) NOT NULL,
   PRIMARY KEY (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `token`
+--
+
+INSERT INTO `token` (`uuid`, `user_id`, `expires`, `user_agent`, `ip_address`) VALUES
+('f755616c-131f-440c-89ea-028bc4e05b2f', 1, '2015-12-06 13:29:44', 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:43.0) Gecko/20100101 Firefox/43.0', '0:0:0:0:0:0:0:1');
 
 -- --------------------------------------------------------
 

@@ -158,7 +158,7 @@ public class Vote extends HttpServlet {
                 } else if (target.compareTo("question") == 0) {
                     switch (action) {
                         case "incr" :
-                            out.println(incrVoteQuestion(id, userId));
+                            incrVoteQuestion(id, userId);
                             break;
                         case "decr" :
                             decrVoteQuestion(id, userId);

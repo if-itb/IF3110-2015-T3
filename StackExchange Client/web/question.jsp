@@ -17,39 +17,7 @@
 </head>
 
 <body>
-    
-    <script>
-    var vote = angular.module('voteup',[]);
-    app.controller('DemoController', function($scope,$http) {
-    $scope.add = function(amount) {    
-      $http.get("Vote?id=13&user=3"); 
-    };
-    });
-    </script>
-    
-<script>
-var app = angular.module('myForm', []);
-app.controller('formCtrl', function($scope) {
-    $scope.master = {lastName: "Doe"};
-    $scope.reset = function() {
-        $scope.user = angular.copy($scope.master);
-    };
-    $scope.reset();
-});
-</script>
-
-<script>
-    var app2= angular.module('getComment', []);
-    app2.controller('commentCtrl', function($scope, $http){
-     $http.toString("http://localhost:8080/StackExchange_Client/index.jsp");
-     $scope.master = {sesuatu: $http.toLocaleString("http://localhost:8080/StackExchange_Client/index.jsp")};
-    });
-    
-</script>    
-<script>
-    
-</script>
-
+<div ng-app="App">
 <%
         String token = "";
         Cookie[] cookies = request.getCookies();
@@ -77,17 +45,10 @@ app.controller('formCtrl', function($scope) {
                 </h2>
                 <hr>
                 <div class="row">
-                    <div class= "vote col">
-                        <a href=" <% out.print("qvoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid")); %>" >
-                        <img src="img/upvote.png" width ="35" height="35"><br>
-                        </a>
-                        <div ng-controller="DemoController">
-                            <h4>The simplest adding machine ever</h4>
-                            <button ng-click="add(1)" class="button">Add</button>
-                        </div>
-                        <span id="question-vote-count<%= result.getUserId()%>"><%= result.getVote() %></span><br>
-                        <a href=" <% out.print("qvoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid")); %>">  
-                        <img src="img/downvote.png" width="35" height="35">
+                    <div class= "vote col" ng-controller = "voteController">
+                        <img src="img/upvote.png" width ="35" height="35" ng-init = "questionVoteNumber = <%= result.getVote() %>" ng-click="voteClick('question','incr',<%= request.getParameter("qid") %>,<%= request.getParameter("id") %>)"><br>
+                        <span id="question-vote-count">{{ questionVoteNumber }}</span><br>
+                        <img src="img/downvote.png" width="35" height="35" ng-click="voteClick('question','decr',<%= request.getParameter("qid") %>,<%= request.getParameter("id") %>)">
                         </a>
                     </div>
                     <div class = "col-content">
@@ -120,17 +81,14 @@ app.controller('formCtrl', function($scope) {
                             <div class="section" id="answers">
                                 <div class="answer underline" id="answer-">
                                     <div class="row">
-                                        <div class="vote col">
-                                            <a href=" <% out.print("avoteup.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid") + "&aid=" +result.get(i).getAnswerId()); %>">
-                                            <img src="img/upvote.png" width="35" height="35">
-                                            </a><br>
+                                        <div class="vote col" ng-controller = "voteController">
+                                          <img src="img/upvote.png" width ="35" height="35" ng-init = "answerVoteNumber<%=result.get(i).getAnswerId()%> = <%= result.get(i).getVote() %>" ng-click="voteClick('answer','incr',<%= result.get(i).getVote() %>,<%= request.getParameter("id") %>)"><br>
                                             <div class = "col content">
                                                 <span id="answer-vote-count-<%= result.get(i).getAnswerId() %>">
-                                                 <%= result.get(i).getVote() %>
+                                                  {{answerVoteNumber<%=result.get(i).getAnswerId()%>}}
                                                 </span>
                                             </div>
-                                            <a href=" <% out.print("avotedown.jsp?token=" + token + "&id=" + request.getParameter("id") + "&qid=" + request.getParameter("qid") + "&aid=" +result.get(i).getAnswerId()); %>">
-                                            <img src="img/downvote.png" width="35" height="35">
+                                            <img src="img/downvote.png" width="35" height="35"ng-click="voteClick('answer','incr',<%= result.get(i).getVote() %>,<%= request.getParameter("id") %>)">
                                             </a>
                                         </div>
                                         
@@ -182,5 +140,7 @@ app.controller('formCtrl', function($scope) {
             </div>
         </div>
     </div>
+</div>
+<script src="js/ajax.js"></script>
  </body>
  </html>
