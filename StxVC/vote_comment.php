@@ -1,9 +1,9 @@
 <?php
 	include 'parser.php';	
 	
-	function postAnswer($q_id, $token,$content) {
+	function postAnswer($q_id, $token, $uag, $ip,$content) {
 		require'config.php';
-		$res = get_Email_From_Token($token);
+		$res = get_Email_From_Token($token,$uag, $ip);
 		if($res != 404 && $res != 402) {
 			$email = $res;
 			$sql = "SELECT name from user where email = '".$email."'";
@@ -18,9 +18,9 @@
 			}
 		}
 	}
-	function voteQuestion($id, $token, $value) {
+	function voteQuestion($id, $token, $uag, $ip, $value) {
 		require'config.php';
-		$res = get_Email_From_Token($token);
+		$res = get_Email_From_Token($token,$uag, $ip);
 		if($res != 404 && $res != 402) {
 			$email = $res;
 			//cek apakah sudah vote atau belum
@@ -64,9 +64,9 @@
 		} 
 	}
 
-	function voteAnswer($id, $token, $value) {
+	function voteAnswer($id, $token, $uag, $ip, $value) {
 		require'config.php';
-		$res = get_Email_From_Token($token);
+		$res = get_Email_From_Token($token,$uag,$ip);
 		if($res != 404 && $res != 402) {		
 			$email = $res;
 			//cek apakah sudah vote atau belum
@@ -109,9 +109,12 @@
 			header("HTTP/1.1 201 Sudah vote");
 		}
 	}
-	function get_Email_From_Token($token) {
-		$url = 'http://localhost:8082/StxIS/Handler?token='.$token;
-		$respon_code =  getResponseCode($url);
+	function get_Email_From_Token($token, $uag, $ip) {
+		$_SERVER['HTTP_USER_AGENT'];
+		header("user-agent:hahahahah");
+		$url = 'http://localhost:8082/StxIS/Handler?token='.urlencode($token).'&user-agent='.$uag.'&ip='.$ip;
+		
+		$respon_code = getResponseCode($url);
 		if($respon_code == 200) { //OK
 			$xml_obj = simplexml_load_file($url);
 			$email = parseTokenEmail($xml_obj);
