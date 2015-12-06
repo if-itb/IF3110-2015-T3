@@ -94,7 +94,7 @@ angular.module("stackexchangeApp", [])
                 if ($scope.comments[id].length == 0){
                     $scope.comments[id] = [];
                 }
-                $scope.comments[id].push({"comment_id": response.data.data.insertId, "content" : $scope.newComment, "vote": 0, "user_name": "Not Available", "create_date": new Date()});
+                $scope.comments[id].push({"comment_id": response.data.data.comment_id, "content" : $scope.newComment, "vote": response.data.data.vote, "user_name": response.data.data.user_name, "create_date": response.data.data.create_date});
                 $scope.newComment = "";
             }, function(data){
                 if (data.status == 440){
@@ -105,12 +105,11 @@ angular.module("stackexchangeApp", [])
 
         this.upvote = function(answerId, commentId){
             commentService.upvote("answer", commentId).then(function(response){
-                console.log("--RESPONSE");
+                console.log("===");
                 console.log(response);
-
                 for (var i=0;i<$scope.comments[answerId].length;i++){
                     if ($scope.comments[answerId][i].comment_id == commentId){
-                        $scope.comments[answerId][i].vote++;
+                        $scope.comments[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -122,12 +121,9 @@ angular.module("stackexchangeApp", [])
 
         this.downvote = function(answerId, commentId){
             commentService.downvote("answer", commentId).then(function(response){
-                console.log("--RESPONSE");
-                console.log(response);
-
                 for (var i=0;i<$scope.comments[answerId].length;i++){
                     if ($scope.comments[answerId][i].comment_id == commentId){
-                        $scope.comments[answerId][i].vote--;
+                        $scope.comments[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -142,18 +138,14 @@ angular.module("stackexchangeApp", [])
         $scope.newComment = "";
 
         this.getComments = function(questionId){
-            console.log("**IN");
             commentService.getComment("question", questionId).then(function(data){
-                console.log("****");
-                console.log(data);
                 $scope.comments = data.data.data;
-                console.log($scope.comments);
             })
         };
 
         this.addComment = function(id){
             commentService.addComment("question", id, $scope.newComment).then(function(response){
-                $scope.comments.push({"comment_id": response.data.data.insertId, "content" : $scope.newComment, "vote": 0, "user_name": "Not Available", "create_date": new Date()});
+                $scope.comments.push({"comment_id": response.data.data.comment_id, "content" : $scope.newComment, "vote": response.data.data.vote, "user_name": response.data.data.user_name, "create_date": response.data.data.create_date});
                 $scope.newComment = "";
             }, function(data){
                 if (data.status == 440){
@@ -164,9 +156,11 @@ angular.module("stackexchangeApp", [])
 
         this.upvote = function(commentId){
             commentService.upvote("question", commentId).then(function(response){
+                console.log("===");
+                console.log(response);
                 for (var i=0;i<$scope.comments.length;i++){
                     if ($scope.comments[i].comment_id == commentId){
-                        $scope.comments[i].vote++;
+                        $scope.comments[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -180,7 +174,7 @@ angular.module("stackexchangeApp", [])
             commentService.downvote("question", commentId).then(function(response){
                 for (var i=0;i<$scope.comments.length;i++){
                     if ($scope.comments[i].comment_id == commentId){
-                        $scope.comments[i].vote--;
+                        $scope.comments[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -192,15 +186,13 @@ angular.module("stackexchangeApp", [])
     }])
     .controller("AnswerController", ["voteService", function(voteService){
         this.answers = ${answers};
-        console.log(this.answers);
-
         var answers = this.answers;
 
         this.upvote = function(answerId){
-            voteService.upvote("answer", answerId).then(function(){
+            voteService.upvote("answer", answerId).then(function(response){
                 for (var i=0;i<answers.length;i++){
                     if (answerId == answers[i].id){
-                        answers[i].vote++;
+                        answers[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -211,10 +203,10 @@ angular.module("stackexchangeApp", [])
         };
 
         this.downvote = function(answerId){
-            voteService.downvote("answer", answerId).then(function(){
+            voteService.downvote("answer", answerId).then(function(response){
                 for (var i=0;i<answers.length;i++){
                     if (answerId == answers[i].id){
-                        answers[i].vote--;
+                        answers[i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -226,11 +218,7 @@ angular.module("stackexchangeApp", [])
     }])
     .controller("QuestionController", ["$http", "voteService", "parameterService", function($http, voteService, parameterService){
         this.question = ${question};
-        console.log(this.question);
-
         this.newAnswer = "";
-        var newAnswer = this.newAnswer;
-
         var question = this.question;
 
         this.addAnswer = function(questionId){
@@ -257,7 +245,6 @@ angular.module("stackexchangeApp", [])
             }).then(function () {
                 window.location.href = "/answer?id=" + questionId + "&token=" + parameterService.getParameter('token');
             }, function(response){
-                console.log(response);
                 if (response.status == 401){
                     window.location.href = "/login";
                 } else {
@@ -268,8 +255,8 @@ angular.module("stackexchangeApp", [])
         };
 
         this.upvote = function(questionId){
-            voteService.upvote("question", questionId).then(function(){
-                question.vote++;
+            voteService.upvote("question", questionId).then(function(response){
+                question.vote = response.data.data.vote;
             }, function(data){
                 if (data.status == 440){
                     window.location.href = "/login";
@@ -278,8 +265,8 @@ angular.module("stackexchangeApp", [])
         };
 
         this.downvote = function(questionId){
-            voteService.downvote("question", questionId).then(function(){
-                question.vote--;
+            voteService.downvote("question", questionId).then(function(response){
+                question.vote = response.data.data.vote;
             }, function(data){
                 if (data.status == 440){
                     window.location.href = "/login";
@@ -310,25 +297,26 @@ angular.module("stackexchangeApp", [])
 
         var save_mode = false;
 
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
         $('.edit-btn').click(function(e){
             e.preventDefault()
             e.stopPropagation()
 
             if (!save_mode){
-                console.log("editing")
-
                 $card = $(this).closest('.card')
                 var text = $card.find('.input-content').text()
-                console.log(text)
 
                 $card.find('.card-content:eq(1)').empty().append('<div class="input-field"><textarea id="text-edit" class="materialize-textarea">' + text + '</textarea></div>')
                 $('#text-edit').focus().trigger('autoresize')
 
                 save_mode = true
             } else {
-
-                console.log("saving")
-
                 var id = $(this).closest('.card').attr('data-id')
                 var content = $('#text-edit').val()
                 var title = $('#topic-title h4').text()
@@ -343,6 +331,7 @@ angular.module("stackexchangeApp", [])
 
         if (getParameterByName('token')){
             $('#add-answer-form').attr('action', '/answer/add?token=' + getParameterByName('token'));
+            $('#logo-container').attr('href', '/?token=' + getParameterByName('token'));
         } else {
             $('#add-answer-form').attr('action', '/answer/add');
         }
