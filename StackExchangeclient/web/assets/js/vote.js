@@ -4,21 +4,22 @@
  * and open the template in the editor.
  */
 
-// var app = angular.module('comment-vote', []);
-// app.controller('vote', function ($scope, $http) {
-//   $scope.voteQuestionUp = 
-// });
-// 
-window.onload = function (qid, uid) {
+var app = angular.module('cmv', []);
+app.controller('vote', function ($scope, $http) {
+  $scope.voteQuestionUp = function (qid, uid) {
     // var vote = parseInt(document.getElementById(id).innerHTML) + 1;
+    console.log('tes');
     var param = {
       
     }
     $http({
-      url : "http://localhost:8083/webresources/wbd.commentvote.votequestion/",
-      method : get,
-      params : param,
-      success : console.log('success'),
-      fail : console.log('failed')
+      url : "http://localhost:8088/StackExchangeclient/webresources/wbd.commentvote.votequestion/",
+      method : 'get',
+      // params : param,
     })
+    // . then (
+    //   console.log('success'),
+    //   console.log('failed')
+    // )
   };
+});

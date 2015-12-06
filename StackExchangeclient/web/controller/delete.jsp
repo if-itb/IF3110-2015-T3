@@ -16,6 +16,13 @@
     for(Cookie cookie : cookies) {
       if(cookie.getName().equals("auth")) {
         token = cookie.getValue();
+        String browserType = request.getHeader("User-Agent").substring(0, 10);
+        String ipAddress  = request.getHeader("X-FORWARDED-FOR");
+        if(ipAddress == null)
+        {
+          ipAddress = request.getRemoteAddr();
+        }
+        token += "#"+browserType+"#"+ ipAddress;
       }
     }
   }

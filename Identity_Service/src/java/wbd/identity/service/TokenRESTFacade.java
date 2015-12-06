@@ -54,16 +54,16 @@ public class TokenRESTFacade {
   public String create(Token entity) {
         String ss="asdsas";
         SecureRandom random = new SecureRandom();
-        ss = new BigInteger(130, random).toString(32);  
-//        ss = ss + entity.getVal();
-        entity.setVal(ss);
+        ss = new BigInteger(130, random).toString(32); 
+        entity.appendVal(ss);
         System.out.println(entity.getVal());
         long time = System.currentTimeMillis() / 1000;
         entity.setExpires((int) time+5400);
     try {
       getJpaController().create(entity);
-      return entity.getVal();
+      return parseString(entity.getVal());
     } catch (Exception ex) {
+//      return entity.getVal();
       return "fail";
     }
   }
@@ -117,5 +117,16 @@ public class TokenRESTFacade {
   public String count() {
     return String.valueOf(getJpaController().getTokenCount());
   }
-  
+  public String parseString(String s){
+    int i = 0;
+    String a="";
+    while(i<s.length()){
+      if(s.charAt(i)=='#'){
+        a = s.substring(0, i);
+        break;
+      }
+      i++;
+    }
+    return a;
+  }
 }
