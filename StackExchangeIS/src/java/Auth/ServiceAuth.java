@@ -83,7 +83,7 @@ public class ServiceAuth extends HttpServlet {
                     object.put("user_id", res.getInt("uid"));
                     out.print(object);
                 }else{
-                    object.put("auth", 0);
+                    object.put("auth", -1);
                     object.put("message", "Token From Different IP");
                     out.print(object);
                 }
@@ -93,12 +93,12 @@ public class ServiceAuth extends HttpServlet {
                     object.put("user_id", res.getInt("uid"));
                     out.print(object);
                 }else{
-                    object.put("auth", 0);
+                    object.put("auth", -2);
                     object.put("message", "Token From Different Browser");
                     out.print(object);
                 }
             } else {
-                object.put("auth", 0);
+                object.put("auth", -3);
                 object.put("message", "Token Invalid");
                 out.print(object);
             }

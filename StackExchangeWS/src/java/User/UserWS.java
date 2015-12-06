@@ -78,8 +78,8 @@ public class UserWS {
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
         long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
-        // token is valid if user_id value is not -1
-        if (user_id != -1) {
+        // token is valid if user_id value is positive
+        if (user_id > 0) {
         
             try (Statement st = conn.createStatement()) {
 
@@ -99,7 +99,16 @@ public class UserWS {
             }
         } else {
             // else: token is invalid, deny request
-            res = ValidationToken.AUTH_INVALID;
+            if (res == 0 ){
+                res = ValidationToken.AUTH_EXPIRED;
+            } else if (res == -1) {
+                res = ValidationToken.AUTH_DIFFIP;
+            } else if (res == -2){
+                res = ValidationToken.AUTH_DIFFBROWSER;
+            } else if (res == -3) {
+                res = ValidationToken.AUTH_INVALID;
+            }
+            
         }
         
         return res;

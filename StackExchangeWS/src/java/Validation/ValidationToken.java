@@ -27,8 +27,11 @@ public class ValidationToken {
     
     // authorization flag
     public static final int AUTH_VALID = 1;
-    public static final int AUTH_INVALID = 0;
-    public static final int AUTH_ERROR = -1;
+    public static final int AUTH_EXPIRED = 0;
+    public static final int AUTH_DIFFIP = -1;
+    public static final int AUTH_DIFFBROWSER = -2;
+    public static final int AUTH_INVALID = -3;
+    
     
     /* URL TO ServiceAuth CONTROLLER IN IDENTITY SERVICE */
     private static final String URL_AUTH = "http://localhost:8082/StackExchangeIS/ServiceAuth";
@@ -75,10 +78,13 @@ public class ValidationToken {
             
                 // get the attributes and add the cookie
             long isAuth = (Long) object.get("auth");
-                
+            
             if (isAuth > 0)
                 user_id = (Long) object.get("user_id");
-            
+            else{
+                user_id = (Long) object.get("auth");
+            }
+                
             conn.disconnect();
         } catch (IOException | ParseException ex) {
             Logger.getLogger(ValidationToken.class.getName()).log(Level.SEVERE, null, ex);

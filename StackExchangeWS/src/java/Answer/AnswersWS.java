@@ -42,11 +42,11 @@ public class AnswersWS {
                             @WebParam(name = "q_id") int q_id,
                             @WebParam(name = "content") String content) {
         
-        int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
+        int res = ValidationToken.AUTH_INVALID;       // initialize result with error first (assumption)
         long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
-        // token is valid if user_id value is not -1
-        if (user_id != -1) {
+        // token is valid if user_id value is positive
+        if (user_id > 0) {
         
             try (Statement st = connAns.createStatement()) {
 
@@ -68,8 +68,15 @@ public class AnswersWS {
             }
         } else {
             // else: token is invalid, deny request
-            res = ValidationToken.AUTH_INVALID;
-        }
+            if (res == 0 ){
+                res = ValidationToken.AUTH_EXPIRED;
+            } else if (res == -1) {
+                res = ValidationToken.AUTH_DIFFIP;
+            } else if (res == -2){
+                res = ValidationToken.AUTH_DIFFBROWSER;
+            } else if (res == -3) {
+                res = ValidationToken.AUTH_INVALID;
+            }        }
         
         return res;
     }
@@ -120,11 +127,11 @@ public class AnswersWS {
                            @WebParam(name = "useragent") String uagent,
                             @WebParam(name = "aid") int aid, 
                             @WebParam(name = "value") int value) {
-        int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
+        int res = ValidationToken.AUTH_INVALID;       // initialize result with error first (assumption)
         long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
-        // token is valid if user_id value is not -1
-        if (user_id != -1) {
+        // token is valid if user_id value is positive
+        if (user_id > 0) {
         
             try (Statement st = connAns.createStatement()) {
                 String query = "SELECT * FROM `vote_answers` WHERE uid = ? AND aid = ?";
@@ -152,8 +159,15 @@ public class AnswersWS {
             }
         } else {
             // else: token is invalid, deny request
-            res = ValidationToken.AUTH_INVALID;
-        }
+            if (res == 0 ){
+                res = ValidationToken.AUTH_EXPIRED;
+            } else if (res == -1) {
+                res = ValidationToken.AUTH_DIFFIP;
+            } else if (res == -2){
+                res = ValidationToken.AUTH_DIFFBROWSER;
+            } else if (res == -3) {
+                res = ValidationToken.AUTH_INVALID;
+            }        }
         return res;
     }
 
