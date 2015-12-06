@@ -71,6 +71,7 @@ public class ClientLogout extends HttpServlet {
             } else {
                 request.setAttribute("success", "false");                
                 request.setAttribute("token", null);
+                request.setAttribute("description", status.getDescription());
                 ServletContext sc = getServletContext();
                 RequestDispatcher rd = sc.getRequestDispatcher("/logoutProcess.jsp");
                 rd.forward(request, response);

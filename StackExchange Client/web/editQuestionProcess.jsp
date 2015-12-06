@@ -30,8 +30,18 @@
 	int questionId = Integer.parseInt(request.getParameter("questionId"));
 	java.lang.String questionTitle = request.getParameter("questionTopic");
 	java.lang.String questionContent = request.getParameter("questionContent");
+        StringBuilder accessTokenComplete = new StringBuilder(accessToken);
+        
+        accessTokenComplete.append("_" + request.getHeader("User-Agent"));
+        String ipaddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipaddress == null) {
+            ipaddress = request.getRemoteAddr();
+        }
+        accessTokenComplete.append("_" + ipaddress);
+        System.out.println(accessTokenComplete);
+
 	// TODO process result here
-	java.lang.String result = port.updateQuestion(accessToken, questionId, questionTitle, questionContent);
+	java.lang.String result = port.updateQuestion(accessTokenComplete.toString(), questionId, questionTitle, questionContent);
 	
         
         if (result.equals("valid")){
@@ -58,7 +68,24 @@
             out.println("<div class='row center'>");
             out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
             out.println("</div>");
-        } else {
+        }  else if (result.equals("different browser")) {
+            out.println("<div class='container center'>");
+            out.println("<i class='large material-icons'>thumb_down</i><br>");
+            out.println("<h4>Failed, you use different browser. Please login again</h4><br><br>");
+            out.println("</div>");
+            out.println("<div class='row center'>");
+            out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
+            out.println("</div>");
+        }  else if (result.equals("different ip address")) {
+            out.println("<div class='container center'>");
+            out.println("<i class='large material-icons'>thumb_down</i><br>");
+            out.println("<h4>Failed, you use different ip address. Please login again</h4><br><br>");
+            out.println("</div>");
+            out.println("<div class='row center'>");
+            out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
+            out.println("</div>");
+        }  
+        else {
             out.println("<div class='container center'>");
             out.println("<i class='large material-icons'>thumb_down</i><br>");
             out.println("<h4>Failed edit question.</h4><br><br>");

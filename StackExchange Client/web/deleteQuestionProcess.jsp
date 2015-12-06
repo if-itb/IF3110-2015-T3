@@ -26,8 +26,18 @@
 	 // TODO initialize WS operation arguments here
 	java.lang.String accessToken = request.getParameter("token");
 	int questionId = Integer.parseInt(request.getParameter("id"));
+        
+        StringBuilder accessTokenComplete = new StringBuilder(accessToken);
+        
+        accessTokenComplete.append("_" + request.getHeader("User-Agent"));
+        String ipaddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipaddress == null) {
+            ipaddress = request.getRemoteAddr();
+        }
+        accessTokenComplete.append("_" + ipaddress);
+        
 	// TODO process result here
-	java.lang.String result = port.deleteQuestion(accessToken, questionId);
+	java.lang.String result = port.deleteQuestion(accessTokenComplete.toString(), questionId);
         
 	if (result.equals("valid")){
             out.println("<div class='container center'>");
@@ -53,7 +63,24 @@
             out.println("<div class='row center'>");
             out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
             out.println("</div>");
-        } else {
+        } else if (result.equals("different browser")) {
+            out.println("<div class='container center'>");
+            out.println("<i class='large material-icons'>thumb_down</i><br>");
+            out.println("<h4>Failed, you use different browser. Please login again</h4><br><br>");
+            out.println("</div>");
+            out.println("<div class='row center'>");
+            out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
+            out.println("</div>");
+        }  else if (result.equals("different ip address")) {
+            out.println("<div class='container center'>");
+            out.println("<i class='large material-icons'>thumb_down</i><br>");
+            out.println("<h4>Failed, you use different ip address. Please login again</h4><br><br>");
+            out.println("</div>");
+            out.println("<div class='row center'>");
+            out.println("<a href='login.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Login</a><br><br>");
+            out.println("</div>");
+        }   
+        else {
             out.println("<div class='container center'>");
             out.println("<i class='large material-icons'>thumb_down</i><br>");
             out.println("<h4>Failed delete question.</h4><br><br>");

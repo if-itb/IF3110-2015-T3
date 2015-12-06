@@ -26,8 +26,18 @@
 	java.lang.String accessToken = request.getParameter("token");
 	int questionId = Integer.parseInt(request.getParameter("questionId"));
 	java.lang.String answerContent = request.getParameter("answerContent");
+        
+        StringBuilder accessTokenComplete = new StringBuilder(accessToken);
+        
+        accessTokenComplete.append("_" + request.getHeader("User-Agent"));
+        String ipaddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipaddress == null) {
+            ipaddress = request.getRemoteAddr();
+        }
+        accessTokenComplete.append("_" + ipaddress);
+        
 	// TODO process result here
-	java.lang.String result = port.addAnswer(accessToken, questionId, answerContent);
+	java.lang.String result = port.addAnswer(accessTokenComplete.toString(), questionId, answerContent);
 	
         if (result.equals("valid")){
             out.println("success");
@@ -35,7 +45,12 @@
             out.println("failed<br/>token expired, please login again");
         } else if (result.equals("invalid")) {
             out.println("failed<br/>token invalid, please login again");     
-        } else {
+        } else if (result.equals("different browser")) {
+            out.println("<h4>Failed, you use different browser. Please login again</h4><br><br>");
+        }  else if (result.equals("different ip address")) {
+            out.println("<h4>Failed, you use different ip address. Please login again</h4><br><br>");
+        }   
+        else {
             out.println("failed<br/>");
             out.println(result);
         }
