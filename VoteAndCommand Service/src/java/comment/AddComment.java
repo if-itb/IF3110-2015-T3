@@ -65,7 +65,7 @@ public class AddComment extends HttpServlet {
             int userId = Integer.parseInt(request.getParameter("userId"));
             String result = addComment(id,content,userId);
             response.getWriter().write(result);
-        }
+        } 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
