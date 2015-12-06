@@ -17,7 +17,12 @@
         </style>
     </head>
     <body>
-        <script src="app.js" type="text/javascript"></script>
+        <script>
+            <%@include file="angular.min.js"%>
+        </script>
+        <script>
+            <%@include file="app.js"%>
+        </script>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
               <div class="navbar-header">

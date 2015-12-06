@@ -63,19 +63,11 @@ public class votequestion extends HttpServlet {
         int qid = Integer.parseInt(request.getParameter("qid"));
         try {
             // establish a connection with the identity service that handles login
-            URL url = new URL(URL_VOTE_QUESTION);
+            String params = String.format("qid=%d", qid);
+            URL url = new URL(URL_VOTE_QUESTION + "?" + params);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
            // set the request property
-            conn.setDoOutput(true);
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Content-Type", "text/plain");
             conn.setRequestProperty("charset", "utf-8");
-
-            String params = String.format("qid=%d", qid);
-
-            try (OutputStream output = conn.getOutputStream()) {
-                output.write(params.getBytes("UTF-8"));
-            }
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                                                     conn.getInputStream()));

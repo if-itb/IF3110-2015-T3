@@ -21,12 +21,10 @@
                 <h2>${result.getQuestionTopic()}</h2>
             </div>
             <div class="child-content">
-                <div class="sidebar">
-                    <a href="<c:url value="/votequestion?qid=${result.getQuestionId()}&jlhvote=1"></c:url>"><div class="voteup"></div>
-                    </a>
-                    <div>${questionvote}</div>
-                    <a href="<c:url value="/votequestion?qid=${result.getQuestionId()}&jlhvote=-1"></c:url>"><div class="votedown"></div>
-                    </a>
+                <div class="sidebar" ng-controller="voteQuestion" ng-init="init()">
+                    <div class="voteup" ng-click="vote(1)"></div>
+                    <div>{{ votes }}</div>
+                    <div class="votedown" ng-click="vote(-1)"></div>
                 </div>
 
                 <div class="list-content">
