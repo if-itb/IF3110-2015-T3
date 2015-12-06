@@ -25,13 +25,16 @@
   
 <!DOCTYPE html>
 <html>
+  <script src="../assets/angular/angular.min.js"></script>
+  <script src="../assets/js/comment.js"></script>
+  <script src="../assets/js/vote.js"></script>
   <head>
     <title>Question | Overflow48</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
     <link rel="icon" type="image/png" href="../assets/white-icon.jpg">
   </head>
   <body>
-    <div class="container">
+    <div class="container" ng-app="app">
       <h1 class="text-center"><a href="/StackExchangeclient">OVERFLOW48</a></h1>
       <form id="search" action="search.jsp" action="GET">
         <table>
@@ -57,9 +60,8 @@
         QuestionWS.Question q = qport.getQuestionByQID(id).get(0);
         java.util.List<AnswerWS.Answer> answers = aport.getAnswerByQID(id);
       %>      
-
+      
       <h2><a href="question.jsp?id=<%=id%>"><%=q.getTopic()%></a></h2>
-
       <div class="question">
         <hr class="line">
         <div class="item">
@@ -95,7 +97,39 @@
         </div>
       </div>
       
-      
+      <input type="hidden" id="qid" value="<%=id%>">
+      <div ng-controller="comment">
+        <div ng-repeat="c in comments">
+          <div class="question">
+            <hr class="line">
+            <div class="item">
+              <div class="vote">
+                <table width="100%">
+                  <tr><td></td></tr>
+                </table>
+              </div>
+              <div class="text-long">
+                <p class="comment">{{ c.content }}</p>
+              </div>
+              <div class="text-right">
+                <p class="comment">commented by {{ c.name }} at {{ c.date }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p ng-click="show()" class="link" ng-bind="caption"></p>
+        <div ng-show="showed">
+          <% if(uid == 0) { %>
+            <p>You must be logged in to comment this question.</p>
+          <% } else { %>
+              <input ng-model="qid" type="hidden" value="<%=id%>">
+              <textarea ng-model="content" placeholder="Content" class="box" rows="5"></textarea>
+              <div class="text-right">
+                  <button ng-click="submit()" class="button" class="text-right" type="submit">Post</button>
+              </div>
+          <% } %>
+        </div>
+      </div>
       
       <br/> <h2><%=q.getSumAns()%> Answers</h2>
 
@@ -149,7 +183,4 @@
         
   </body>
   <footer> <br><br> </footer>
-  <script src="../assets/angular/angular.min.js"></script>
-  <script src="../assets/js/comment.js"></script>
-  <script src="../assets/js/vote.js"></script>
 </html>

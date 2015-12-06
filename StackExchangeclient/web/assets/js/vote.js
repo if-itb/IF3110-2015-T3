@@ -12,7 +12,7 @@
 window.onload = function (qid, uid) {
     // var vote = parseInt(document.getElementById(id).innerHTML) + 1;
     var param = {
-      asd
+      
     }
     $http({
       url : "http://localhost:8083/webresources/wbd.commentvote.votequestion/",
