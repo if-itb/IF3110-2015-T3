@@ -22,7 +22,7 @@
                             console.log("masuk");
                     
                                 var loadComment =  function() {
-                                   $http.get("http://localhost:8083/CommentVoteService/CommentServlet?q_id="+q_id)
+                                   $http.get("http://localhost:8083/CommentService/CommentServlet?q_id="+q_id)
                                   .then(function(response) {
                                        $scope.comments = response.data;
                                        console.log($scope.comments);
@@ -32,7 +32,7 @@
                             $scope.sendPost = function(){
                                 $.ajax({
                                     type: "POST",
-                                    url: "http://localhost:8083/CommentVoteService/CommentServlet",
+                                    url: "http://localhost:8083/CommentService/CommentServlet",
                                     data: {
                                         q_id  : q_id,
                                         user_id  : 4,
@@ -51,7 +51,7 @@
                       $scope.voteUpQuestion = function(){
                         $.ajax({
                             type: "POST",
-                            url: "http://localhost:8083/CommentVoteService/VoteUpQuestionServlet",
+                            url: "http://localhost:8083/CommentService/VoteUpQuestionServlet",
                             data: {
                                 q_id  :q_id,
                                 user_id  : 14,
@@ -65,7 +65,7 @@
                         $scope.voteDownQuestion = function(){
                             $.ajax({
                                 type: "POST",
-                                url: "http://localhost:8083/CommentVoteService/VoteDownQuestionServlet",
+                                url: "http://localhost:8083/CommentService/VoteDownQuestionServlet",
                                 data: {
                                     q_id  :q_id,
                                     user_id  : 14,
@@ -76,7 +76,7 @@
                               });
                         }
                         $scope.getVoteNumber = function(){
-                           $http.get("http://localhost:8083/CommentvoteService/VoteDownQuestionServlet?q_id="+q_id)
+                           $http.get("http://localhost:8083/CommentService/VoteDownQuestionServlet?q_id="+q_id)
                            .then(function(response) {
                                console.log("success");
                                $scope.votenumber = response.data.vote;
@@ -88,7 +88,7 @@
                           .controller('answerCtrl',function($scope,$http){
                      console.log("voteupquestion");
                     var loadAnswer = function() {
-                        $http.get("http://localhost:8083/CommentVoteService/AnswerServlet?q_id="+q_id)
+                        $http.get("http://localhost:8083/CommentService/AnswerServlet?q_id="+q_id)
                        .then(function(response2) {
                            console.log("init");
                            $scope.comment = response2.data;
@@ -101,7 +101,7 @@
                         $scope.voteUpAnswer = function(answerId){
                           $.ajax({
                               type: "POST",
-                              url: "http://localhost:8083/CommentVoteService/VoteUpAnswerServlet",
+                              url: "http://localhost:8083/CommentService/VoteUpAnswerServlet",
                               data: {
                                   q_id  :q_id,
                                   user_id  : 14,
@@ -116,7 +116,7 @@
                         $scope.voteDownAnswer = function(answerId){
                             $.ajax({
                                 type: "POST",
-                                url: "http://localhost:8083/CommentVoteService/VoteDownAnswerServlet",
+                                url: "http://localhost:8083/CommentService/VoteDownAnswerServlet",
                                 data: {
                                     q_id  :q_id,
                                     user_id  : 14,
