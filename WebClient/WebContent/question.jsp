@@ -192,8 +192,9 @@
             	  $scope.comments = $scope.comments.concat(data);
             	  
                }
-               $scope.comment = null;
+               
            })
+           $scope.comment = null;
            
 	   };
 	});
