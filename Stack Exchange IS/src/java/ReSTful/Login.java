@@ -51,8 +51,7 @@ public class Login extends HttpServlet {
         response.setContentType("application/json");
         JSONObject obj = new JSONObject();
     
-        try (PrintWriter out = response.getWriter()) {
-      
+        try (PrintWriter out = response.getWriter()) {      
             String email = request.getParameter("email");
             String password = request.getParameter("password");
             

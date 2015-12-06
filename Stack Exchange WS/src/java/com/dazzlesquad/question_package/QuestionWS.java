@@ -12,6 +12,15 @@ import com.dazzlesquad.database_console.DBConnect;
 import com.dazzlesquad.answer_package.*;
 import com.dazzlesquad.user_package.User;
 import com.dazzlesquad.user_package.UserWS;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -20,6 +29,9 @@ import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 
 @WebService(serviceName = "QuestionWS")
@@ -189,48 +201,54 @@ public class QuestionWS {
     @WebMethod(operationName = "insertQuestion")
     @WebResult(name="Question")
     public int insertQuestion(@WebParam(name = "Question") Question q, @WebParam(name = "token") String token) {
-        int insertsuccessful = 1, tokenUserId = 0; // nanti diganti fungsi validasi
+        int insertsuccessful = 0; // nanti diganti fungsi validasi
+        StringBuilder response = new StringBuilder();
+        try {
+            JSONParser parser = new JSONParser();
+            //try{
+            URL url = new URL("http://localhost:8082/Stack_Exchange_IS/Validation");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+            con.setRequestProperty("Authorization", token);
             
-        if (insertsuccessful == 1) {
-            try {
-                String sql;
+            OutputStreamWriter writer = new OutputStreamWriter(con.getOutputStream());
+            writer.write("");
+            writer.flush();
+            String line;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            writer.close();
+            reader.close();
+            Object obj = 0;
+            obj = parser.parse(response.toString());
+            JSONObject obj2 = (JSONObject)obj;
+            System.out.println(obj2.toString());
+            int user_id = 0;
+            if (obj != null){
+                insertsuccessful = 1;
+                obj2.get("user_id");
+                user_id = Integer.parseInt(obj2.get("user_id").toString());
+            } 
+            System.out.println(user_id);
+            if (user_id != 0){
                 Statement statement = conn.createStatement();
+                String sql;
+                sql = "INSERT INTO question (user_id, topic, content, vote, date) VALUES (?, ?, ?, 0, now())";
 
-                sql = "SELECT user_id FROM tokenlist WHERE token = ? LIMIT 1";
+                PreparedStatement dbStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                dbStatement.setInt(1, user_id);
+                dbStatement.setString(2, q.getQuestionTopic());
+                dbStatement.setString(3, q.getQuestionContent());
 
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, token);
-
-                ResultSet result = dbStatement.executeQuery();
-
-                tokenUserId = 0;
-                if (result.next()) {
-                    tokenUserId = result.getInt("user_id");
-                } else {
-                    tokenUserId = 0;
-                }
-                statement.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
+                dbStatement.executeUpdate();
+                statement.close();                
             }
-            if(tokenUserId!=0){
-                try {
-                    Statement statement = conn.createStatement();
-                    String sql;
-                    sql = "INSERT INTO question (user_id, topic, content, vote, date) VALUES (?,?,?,0,now())";
-
-                    PreparedStatement dbStatement = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
-                    dbStatement.setInt(1,tokenUserId);
-                    dbStatement.setString(2,q.getQuestionTopic());
-                    dbStatement.setString(3,q.getQuestionContent());
-
-                    dbStatement.executeUpdate(); 
-                    statement.close();
-                
-                } catch (SQLException ex) {
-                    Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+        } catch (Exception ex) {
+            Logger.getLogger(QuestionWS.class.getName()).log(Level.SEVERE, null, ex);
         }
         return insertsuccessful;
     }

@@ -8,6 +8,8 @@ package ReSTful;
 import DBConnect.DBConnect;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,17 +49,24 @@ public class Validation extends HttpServlet {
         JSONObject obj = new JSONObject();
         
         try (PrintWriter out = response.getWriter()) {
-            String token = request.getParameter("token");
+            String token = request.getHeader("Authorization");
+            System.out.println(token);
+            String decoded_token = URLDecoder.decode(token, "UTF-8");
+            String[] token_element = decoded_token.split("#");
+            String user_agent = token_element[1];
+            String ip_address = token_element[2];
             
             try {
                 /* Check in Token List */
                 Statement statement = conn.createStatement();
-                String select_token = "SELECT * FROM tokenlist WHERE token = ? LIMIT 1";
+                String select_token = "SELECT * FROM tokenlist WHERE token = ? AND user_agent = ? AND ip_address  = ? LIMIT 1";
                 PreparedStatement dbStatement = conn.prepareStatement(select_token);
                 dbStatement.setString(1, token);
+                dbStatement.setString(2, user_agent);
+                dbStatement.setString(3, ip_address);
                 ResultSet result = dbStatement.executeQuery();
                 
-                /* Chechk Token Expiration */
+                /* Check Token Expiration */
                 if(result.next()) {
                     Date exp_date = null;
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -71,12 +80,15 @@ public class Validation extends HttpServlet {
                     Date currentDate = new Date();
                     if (currentDate.after(exp_date)) {
                         obj.put("message", "expired session");
+                        obj.put("user_id", "0");
                     } else {
                         obj.put("message", "valid");
+                        obj.put("user_id", result.getString("user_id"));
                     }
                     out.print(obj);
                 } else {
                     obj.put("message", "invalid");
+                    obj.put("user_id", "0");
                     out.print(obj);
                 }
                 
