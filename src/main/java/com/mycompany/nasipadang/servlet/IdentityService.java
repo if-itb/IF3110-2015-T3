@@ -138,6 +138,8 @@ public class IdentityService extends HttpServlet {
             session.setAttribute("token", token);
             session.setAttribute("id_user", user.id_user);
             session.setMaxInactiveInterval(4320);
+            request.setAttribute();
+            request.setAttribute();
             sessions.add(session);
             response.sendRedirect("../index.jsp");
         }
@@ -152,5 +154,7 @@ public class IdentityService extends HttpServlet {
     public String getServletInfo() {
         return "Servlet for serving identity service";
     }// </editor-fold>
+    
+    
 
 }
