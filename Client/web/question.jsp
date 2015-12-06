@@ -78,7 +78,7 @@
 				%>
 					<div class="stackanswer">
 						<br>
-						<div class="votes"><a ng-click="avoteup(<%=answer.getId()%>)"><div class="arrow-up" onclick=""></div></a><div id="voteanswer">{{avote[<%=answer.getId()%>].vote}}</div><a ng-click="avotedown(<%=answer.getId()%>)"><div class="arrow-down" onclick=""></div></a></div>
+						<div class="votes"><a ng-click="avoteup(<%=answer.getId()%>)"><div class="arrow-up" onclick=""></div></a><div id="voteanswer">{{avote[<%=answer.getId()%>]}}</div><a ng-click="avotedown(<%=answer.getId()%>)"><div class="arrow-down" onclick=""></div></a></div>
 						<div class="content"><% out.println(answer.getContent()); %></div>
 						<div class="detail">answered by <% out.println(answer.getUser().getName()); %><a class="linkname"></a> at <% out.println(answer.getDate()); %> </div>
 					</div>

@@ -48,9 +48,7 @@
 							int status = Integer.parseInt((String)responseJSON.get("status"));
 							if (status==1){
 								String token = (String) responseJSON.get("token");
-								out.println(token);
-								Cookie TokenCookie = new Cookie("token",token);
-								out.println(TokenCookie.getValue());
+								Cookie TokenCookie = new Cookie("token",token);;
 								TokenCookie.setMaxAge(1800);
 								response.addCookie(TokenCookie);
 								out.println("Login Success!");

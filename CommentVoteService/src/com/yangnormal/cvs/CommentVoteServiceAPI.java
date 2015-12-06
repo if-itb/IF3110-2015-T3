@@ -343,7 +343,7 @@ public class CommentVoteServiceAPI extends HttpServlet {
                             } else {
                                 out.println("{\"status\":0}");
                             }
-                            String query2 = "INSERT INTO vote_answer (qid, uid, vote) VALUES ("+qid+","+uid+","+direction+")";
+                            String query2 = "INSERT INTO vote_answer (aid, uid, vote) VALUES ("+qid+","+uid+","+direction+")";
                             stmt2 = conn.createStatement();
                             stmt2.executeUpdate(query2);
                         } else {

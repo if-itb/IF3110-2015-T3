@@ -57,8 +57,9 @@ app.controller('MainController', function($scope, CommentFactory, globalVariable
     };
 
     $scope.refreshAVote = function(aid){
+        console.log("saasdasdsad");
         Vote.get({id: aid, type:"answer"}).$promise.then(function(result){
-            $scope.avote[aid] = result;
+            $scope.avote[aid] = result.vote;
         });
     };
 
