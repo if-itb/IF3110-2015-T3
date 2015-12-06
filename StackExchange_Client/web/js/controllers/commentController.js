@@ -8,8 +8,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-app.controller('commentListController', ['$scope','$http','$location',
-  function($scope,$http,$location) {
+app.controller('commentController', ['$scope','$http','$location','$cookies',
+  function($scope,$http,$location,$cookies) {
   var qid = $location.search()['id'];
     var req = {
    method: "GET",
@@ -18,12 +18,8 @@ app.controller('commentListController', ['$scope','$http','$location',
   }
     $http(req)
     .then(function(response) {$scope.comments = response.data.comments;});
-}]); 
 
-app.controller('addCommentController', ['$scope','$http','$location','$cookies',
-  function($scope,$http,$location,$cookies) {
-    $scope.submitComment = function() {
-    var qid = $location.search()['id'];
+     $scope.submitComment = function() {
     var token = $cookies.get("stackexchange_token");
     var content = $scope.newcontent;
     var submitreq = {
@@ -35,13 +31,11 @@ app.controller('addCommentController', ['$scope','$http','$location','$cookies',
         for(var p in obj)
         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
         return str.join("&");
-      },
+    },
       data: {id: qid, content: content, token: token}
     }
     $http(submitreq)
-    .then(function(response) {alert("tes");});
+    .then(function(response) {$scope.comments.push(response.data)});
   }
 }]); 
-
-
 

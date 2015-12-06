@@ -13,8 +13,7 @@
     	{{comment.create_time}}<br>
     </li>
   </ul>
-</div>
- <form class="inputform" ng-submit="submitComment()" id="savecomment" data-ng-controller="addCommentController">
+ <form class="inputform" ng-submit="submitComment()" id="savecomment">
                     <!--<input type="hidden" name="question_id" value="<%= question.getQuestionId() %>" ng-model="newcomment.question_id">-->
                     <textarea placeholder="Content" rows="2"  ng-model="newcontent"></textarea>
                     <div class="button-bottom">
@@ -22,6 +21,7 @@
                     </div>
                 </form>
 
+</div>
 </div>
 <script src="commentController.js"></script>
 

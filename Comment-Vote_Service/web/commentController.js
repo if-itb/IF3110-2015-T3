@@ -1,12 +1,12 @@
-angular.module('commentApp', ['addCommentApp'])
+var app = angular.module('commentApp', ['ngCookies'])
 .config(function($locationProvider) {
     $locationProvider.html5Mode({
       enabled: true,
       requireBase: false
     });
-})
-.controller('commentListController', ['$scope','$http','$location',
-  function($scope,$http,$location) {
+});
+app.controller('commentListController', ['$scope','$http','$location','$cookies',
+  function($scope,$http,$location,$cookies) {
   var qid = $location.search()['id'];
     var req = {
    method: "GET",
@@ -15,23 +15,12 @@ angular.module('commentApp', ['addCommentApp'])
   }
     $http(req)
     .then(function(response) {$scope.comments = response.data.comments;});
-}]); 
 
-angular.module('addCommentApp', ['ngCookies'])
-.config(function($locationProvider) {
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-    });
-})
-.controller('addCommentController', ['$scope','$http','$location','$cookies',
-  function($scope,$http,$location,$cookies) {
-    $scope.submitComment = function() {
-    var qid = $location.search()['id'];
+     $scope.submitComment = function() {
     var token = $cookies.get("stackexchange_token");
     var content = $scope.newcontent;
     var submitreq = {
-      method: "GET",
+      method: "POST",
       url: "http://localhost:8083/Comment-Vote_Service/addComment",
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       transformRequest: function(obj) {
@@ -39,10 +28,10 @@ angular.module('addCommentApp', ['ngCookies'])
         for(var p in obj)
         str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
         return str.join("&");
-      },
-      params: {id: qid, content: content, token: token}
+    },
+      data: {id: qid, content: content, token: token}
     }
     $http(submitreq)
-    .then(function(response) {alert("tes");});
+    .then(function(response) {$scope.comments.push(response.data)});
   }
 }]); 
