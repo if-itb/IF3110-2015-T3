@@ -51,7 +51,7 @@ public class deletequestion extends HttpServlet {
         if (ipAddress == null)
             ipAddress = request.getRemoteAddr();  
         
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        String token = ClientValidate.tokenExtract(cookies);
         if (token == null) {
             response.sendRedirect("login.jsp");
         } else {
@@ -59,7 +59,7 @@ public class deletequestion extends HttpServlet {
             question.Question question = getQuestionById(questionid);
             // check if the current logged user is the one that creates the question
             if (getUserByToken(token).getUid() == question.getQuestionUid()) {
-                int ins = deleteQuestion(token, questionid);
+                int ins = deleteQuestion(token, ipAddress, useragent, questionid);
             }
             response.sendRedirect("home");
         }

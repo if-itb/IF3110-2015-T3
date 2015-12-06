@@ -50,7 +50,12 @@ public class Login extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = MD5.crypt(request.getParameter("password")); 
-
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (ipAddress == null) {  
+            ipAddress = request.getRemoteAddr();  
+        }
         try {
             // establish a connection with the identity service that handles login
             URL url = new URL(URL_LOGIN);
@@ -61,9 +66,11 @@ public class Login extends HttpServlet {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
 
-            String params = String.format("email=%s&password=%s",
+            String params = String.format("email=%s&password=%s&uagent=%s&ipaddress=%s",
                                             URLEncoder.encode(email, "UTF-8"),
-                                            URLEncoder.encode(password, "UTF-8"));
+                                            URLEncoder.encode(password, "UTF-8"), 
+                                            URLEncoder.encode(useragent, "UTF-8"), 
+                                            URLEncoder.encode(ipAddress, "UTF-8"));
 
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(params.getBytes("UTF-8"));
@@ -83,15 +90,9 @@ public class Login extends HttpServlet {
 
                 // get the attributes and add the cookie
             String strToken = (String) object.get("token_str");
-            String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
-            useragent = useragent.replace(',', '$');
-            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
 
             if (strToken != null) {
-                strToken = strToken + "#" + ipAddress + "#" + useragent;
+                //strToken = strToken + "#" + ipAddress + "#" + useragent;
                 Cookie tokenCookie;
                 tokenCookie = new Cookie("token_cookie", strToken);
                 tokenCookie.setPath(request.getContextPath());

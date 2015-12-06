@@ -72,9 +72,11 @@ public class UserWS {
      * Web service operation
      */
     @WebMethod(operationName = "logoutUser")
-    public int logoutUser(@WebParam(name = "token") String token) {
+    public int logoutUser(@WebParam(name = "token") String token,
+                           @WebParam(name = "ipAddress") String ip,
+                           @WebParam(name = "useragent") String uagent) {
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = ValidationToken.validateToken(token); // validate token and get the user id
+        long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is not -1
         if (user_id != -1) {

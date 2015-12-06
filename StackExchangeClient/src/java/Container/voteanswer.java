@@ -44,7 +44,7 @@ public class voteanswer extends HttpServlet {
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  
         
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        String token = ClientValidate.tokenExtract(cookies);
         
         if (token == null) {
             request.setAttribute("error", "You have to log in first!");
@@ -54,7 +54,7 @@ public class voteanswer extends HttpServlet {
             int qid = Integer.parseInt(request.getParameter("qid"));
             int aid = Integer.parseInt(request.getParameter("aid"));
             int value = Integer.parseInt(request.getParameter("jlhvote"));
-            int ins = voteanswers(token, aid, value);
+            int ins = voteanswers(token, ipAddress, useragent, aid, value);
             response.sendRedirect("viewpost?qid="+qid);
         }
         

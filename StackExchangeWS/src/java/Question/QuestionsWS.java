@@ -102,11 +102,13 @@ public class QuestionsWS {
      */
     @WebMethod(operationName = "createQuestion")
     public int createQuestion(@WebParam(name = "token") String token,
+                                @WebParam(name = "ipAddress") String ip,
+                                @WebParam(name = "useragent") String uagent,
                                 @WebParam(name = "topic") String topic,
                                 @WebParam(name = "content") String content) {
         
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = ValidationToken.validateToken(token); // validate token and get the user id
+        long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is not -1
         if (user_id != -1) {
@@ -143,12 +145,14 @@ public class QuestionsWS {
      */
     @WebMethod(operationName = "updateQuestion")
     public int updateQuestion(@WebParam(name = "token") String token,
+                                @WebParam(name = "ipAddress") String ip,
+                                @WebParam(name = "useragent") String uagent,
                                 @WebParam(name = "qid") int qid,
                                 @WebParam(name = "newTopic") String newTopic,
                                 @WebParam(name = "newContent") String newContent) {
         
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = ValidationToken.validateToken(token); // validate token and get the user id
+        long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is not -1
         if (user_id != -1) {
@@ -184,10 +188,12 @@ public class QuestionsWS {
      */
     @WebMethod(operationName = "deleteQuestion")
     public int deleteQuestion(@WebParam(name = "token") String token,
+                                @WebParam(name = "ipAddress") String ip,
+                                @WebParam(name = "useragent") String uagent,
                                 @WebParam(name = "qid") int qid) {
         
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = ValidationToken.validateToken(token); // validate token and get the user id
+        long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is not -1
         if (user_id != -1) {
@@ -221,11 +227,13 @@ public class QuestionsWS {
      */
     @WebMethod(operationName = "votequestion")
     public int votequestion(@WebParam(name = "token") String token,
+                            @WebParam(name = "ipAddress") String ip,
+                            @WebParam(name = "useragent") String uagent,
                             @WebParam(name = "qid") int qid,
                             @WebParam(name = "value") int value) {
         //TODO write your implementation code here:
         int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = ValidationToken.validateToken(token); // validate token and get the user id
+        long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is not -1
         if (user_id != -1) {

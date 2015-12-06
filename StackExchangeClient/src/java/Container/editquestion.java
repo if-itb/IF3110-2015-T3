@@ -53,7 +53,7 @@ public class editquestion extends HttpServlet {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
         if (ipAddress == null)
             ipAddress = request.getRemoteAddr();  
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        String token = ClientValidate.tokenExtract(cookies);
         
         if (token == null) {
             request.setAttribute("error", "You have to log in first!");

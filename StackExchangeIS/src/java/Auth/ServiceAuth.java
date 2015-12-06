@@ -47,6 +47,8 @@ public class ServiceAuth extends HttpServlet {
         // get the token string
         JSONObject object = new JSONObject();
         String tokenstr = request.getParameter("token_str");
+        String ipaddress = request.getParameter("ipaddress");
+        String uagent = request.getParameter("uagent");
         
         try (PrintWriter out = response.getWriter()) {
             String query = "SELECT * FROM tokens WHERE token_str = ?";
@@ -71,6 +73,28 @@ public class ServiceAuth extends HttpServlet {
                 } else {
                     object.put("auth", 0);
                     object.put("message", "Token Expired");
+                    out.print(object);
+                }
+                String tokendb = res.getString("token_str");
+                String[] parts = tokendb.split("#");
+                if (parts[1].equals(ipaddress)){
+                    object.put("auth", 1);
+                    object.put("messsage", "Token Valid");
+                    object.put("user_id", res.getInt("uid"));
+                    out.print(object);
+                }else{
+                    object.put("auth", 0);
+                    object.put("message", "Token From Different IP");
+                    out.print(object);
+                }
+                if (parts[2].equals(uagent)){
+                    object.put("auth", 1);
+                    object.put("messsage", "Token Valid");
+                    object.put("user_id", res.getInt("uid"));
+                    out.print(object);
+                }else{
+                    object.put("auth", 0);
+                    object.put("message", "Token From Different Browser");
                     out.print(object);
                 }
             } else {

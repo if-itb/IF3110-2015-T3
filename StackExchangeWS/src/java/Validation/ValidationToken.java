@@ -38,10 +38,11 @@ public class ValidationToken {
      * @param token
      * @return 
      */
-    public static long validateToken(String token) {
+    public static long validateToken(String token, String ipaddress, String useragent) {
         long user_id = -1;
         
         try {
+            
             // establish a connection with the identity service that handles login
             URL url = new URL(URL_AUTH);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -51,8 +52,10 @@ public class ValidationToken {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
      
-            String params = String.format("token_str=%s",
-                                            URLEncoder.encode(token, "UTF-8"));
+            String params = String.format("token_str=%s&ipaddress=%s&useragent=%s",
+                                            URLEncoder.encode(token, "UTF-8"),
+                                            URLEncoder.encode(ipaddress, "UTF-8"),
+                                            URLEncoder.encode(useragent, "UTF-8"));
       
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(params.getBytes("UTF-8"));

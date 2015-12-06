@@ -45,7 +45,7 @@ public class savequestion extends HttpServlet {
             ipAddress = request.getRemoteAddr();  
         
         // validate the token
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        String token = ClientValidate.tokenExtract(cookies);
         if (token == null) {
             request.setAttribute("error", "You have to log in first!");
             response.sendRedirect("login.jsp");
@@ -54,7 +54,7 @@ public class savequestion extends HttpServlet {
             String newTopic = request.getParameter("topic");
             String newContent = request.getParameter("content");
             // update the question
-            updateQuestion(token, qid, newTopic, newContent);
+            updateQuestion(token, ipAddres, useragent, qid, newTopic, newContent);
             response.sendRedirect("viewpost?qid="+qid);
         }
         

@@ -46,11 +46,11 @@ public class addanswer extends HttpServlet {
         if (ipAddress == null)
             ipAddress = request.getRemoteAddr();  
         
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, request.getCookies());
+        String token = ClientValidate.tokenExtract(request.getCookies());
         if (token == null)
             response.sendRedirect("login.jsp");
         else {
-            int ret = insertAnswer(token, qid, content);
+            int ret = insertAnswer(token, ipAddress, useragent, qid, content);
             response.sendRedirect("viewpost?qid="+qid);
         }
     }

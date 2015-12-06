@@ -15,6 +15,8 @@ import javax.xml.ws.WebServiceRef;
 import question.QuestionsWS_Service;
 import javax.servlet.http.Cookie;
 import ClientValidate.ClientValidate;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import javax.servlet.RequestDispatcher;
 
 /**
@@ -44,15 +46,16 @@ public class askquestion extends HttpServlet {
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
         if (ipAddress == null) 
             ipAddress = request.getRemoteAddr();
-        
+
         // validate the token
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        String token = ClientValidate.tokenExtract(cookies);
+        
         if (token == null) {
             response.sendRedirect("login.jsp");
         } else {
             String topic = request.getParameter("topic");
             String content = request.getParameter("content"); 
-            int suc = createQuestion(token, topic, content);
+            int suc = createQuestion(token, ipAddress, useragent, topic, content);
             response.sendRedirect("home");
         }
     }

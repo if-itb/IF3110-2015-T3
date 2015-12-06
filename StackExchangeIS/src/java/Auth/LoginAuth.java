@@ -51,6 +51,8 @@ public class LoginAuth extends HttpServlet {
       
             String email = request.getParameter("email");
             String password = request.getParameter("password");
+            String ipAddress = request.getParameter("ipaddress");
+            String useragent = request.getParameter("uagent");
     
             // prepare the SQL query and the parameters
             String query = "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -64,6 +66,7 @@ public class LoginAuth extends HttpServlet {
                 // generate token by randomizing big integer
                 Random random = new SecureRandom();
                 String token = new BigInteger(80, random).toString(32);
+                token = token + "#" + ipAddress + "#" + useragent;
                                 
                 int uid = res.getInt("uid");
                 Timestamp tst = new Timestamp(new Date().getTime());

@@ -11,18 +11,17 @@ import javax.servlet.http.Cookie;
  * @author Bimo
  */
 public class ClientValidate {
-    public static String tokenExtract(String ip, String uagent, Cookie[] cookies){
+    public static String tokenExtract(Cookie[] cookies){
         boolean found = false;
         int i = 0;
-        String[] parts;
         String token = "";
         
         if (cookies != null) {
             while (!found && i < cookies.length) {
                 //Ambil token yang ada di cookie milik client
-                parts = cookies[i].getValue().split("#");
-                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ip) && parts[2].equals(uagent)) {
-                        token = parts[0];
+                //parts = cookies[i].getValue().split("#");
+                if (cookies[i].getName().equals("token_cookie")) {
+                        token = cookies[i].getValue();
                         found = true;
                 }
                 i++;
