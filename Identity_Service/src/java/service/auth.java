@@ -73,12 +73,13 @@ public class auth extends HttpServlet {
                         if (date.after(token_expired))
                         {
                             jo.put("status",-1);
-                            sql = "DELETE FROM token where token_id =?";
+                            jo.put("id",result.getInt("user_id"));
+                            /*sql = "DELETE FROM token where token_id =?";
                             try (PreparedStatement delstmt = conn.prepareStatement(sql))
                             {
                                 delstmt.setString(1, token);
                                 delstmt.executeUpdate();
-                            }
+                            }*/
                         }
                         else 
                         {
@@ -89,10 +90,10 @@ public class auth extends HttpServlet {
                         Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                out.println(jo);
             } catch (SQLException ex) {
                 Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
             }
+            out.println(jo.toString());
         }
     }
 

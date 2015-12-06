@@ -67,6 +67,9 @@ public class ViewQuestionServlet extends HttpServlet {
 
             if (status!=1) {
                 uid = -1;
+            } else {
+                String uname = getUserByID(uid).getName();
+                request.setAttribute("uname",uname);
             }
         }
         Question q = getQuestionByID(Integer.parseInt(request.getParameter("id")));

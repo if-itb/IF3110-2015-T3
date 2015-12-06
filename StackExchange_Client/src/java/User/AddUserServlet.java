@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import model.user.User;
 import model.user.UserWS_Service;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  *
@@ -42,7 +39,7 @@ public class AddUserServlet extends HttpServlet {
         model.user.User newUser = new model.user.User();
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String password = md5(request.getParameter("password"));
+        String password = request.getParameter("password");
         newUser.setName(name);
         newUser.setEmail(email);
         newUser.setPassword(password);
@@ -67,18 +64,5 @@ public class AddUserServlet extends HttpServlet {
     private int getIDbyEmail(String email) {
         model.user.UserWS port = service.getUserWSPort();
         return port.getIDbyEmail(email);
-    }
-    
-    public static String md5(String input) {
-        String md5 = null;
-        if(null == input) return null;
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(input.getBytes(), 0, input.length());
-            md5 = new BigInteger(1, digest.digest()).toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return md5;
     }
 }

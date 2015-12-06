@@ -11,7 +11,6 @@
 <jsp:useBean id="a_user" type="java.util.Map<Integer, model.user.User>" scope="request"/>
 <jsp:useBean id="uid" type="Integer" scope="request"/>
 <jsp:include page="header.jsp" flush="true"/>
-
             <div class="content">
                 <h2><%= question.getTopic() %></h2>
                 <div class="voting">
@@ -26,8 +25,8 @@
                     <p>asked by <font color="#008080"><%= q_user.getName() %> (<%= q_user.getEmail() %>)</font> at <%= question.getCreateTime() %><br> 
                     <% if (question.getUserId() == uid) { %><a class="edit" href="edit?id=<%= question.getQuestionId() %>">edit</a><a class="delete" href="delete?id=<%= question.getQuestionId() %>" onclick="return confirm('Are you sure you want delete this question?')">delete</a></span></div><% } %>
             </div>
-            <div class="content" data-ng-controller="commentController">
-                <div data-ng-repeat="comment in comments">
+            <div class="content" ng-controller="commentController">
+                <div ng-repeat="comment in comments">
                 <div class="comment">
                     <p>{{comment.content}} — <font color="#008080">{{comment.name}}</font> at {{comment.create_time}} </p>
                 </div>
@@ -36,11 +35,8 @@
                     <p align="right"><a href = "#" onclick="showCommentForm()"><font color="#008080">add comment</font></a></p>
                 </div>
                 <form class="inputform" name="savecomment" ng-submit="submitComment()" style="display:none;" id="savecomment">
-                    <!--<input type="hidden" name="question_id" value="<%= question.getQuestionId() %>" ng-model="newcomment.question_id">-->
                     <textarea placeholder="Content" rows="2" name="content" ng-model="newcontent"></textarea>
-                    <div class="button-bottom">
-                        <input type="submit" value="Submit" />
-                    </div>
+                    <div class="button-bottom"><input type="submit" value="Submit" /></div>
                 </form>
             </div>
             <div class="content">
@@ -75,8 +71,7 @@
                 </form>
             </div>
 	</div>
-    
-        
+
     <script src="js/functions.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/commentController.js"></script>
