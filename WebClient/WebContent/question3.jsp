@@ -80,7 +80,7 @@
 							<div class = 'vote_buttons' ng-app="voteApp" ng-controller="voteCtrl">
 								<div hidden class='up_button user' ng-click="VoteUp()"><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
 									<div class = 'vote' id='q_vote<%=q_id%>'>{{vote}}</div>
-								<div hidden class='down_button user'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
+								<div hidden class='down_button user'ng-click="VoteDown()"><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -140,21 +140,34 @@ var app = angular.module('voteApp', []);
 app.controller('voteCtrl', function($scope, $http) {
     $scope.vote = <%= q.getNumVote()%>
     $scope.access_token = "<%=access_token%>"
-    $scope.q_id = <%= q_id%>
+    $scope.id_question = <%= q_id%>
     $scope.VoteUp = function(){
-    	var voteUpUrl = "http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup";
-		var tokenData = {access_token:$scope.access_token, id_question:$scope.q_id}
-		$.ajax({
-	        url: voteUpUrl,
-	        data: tokenData,
-	        dataType: "json",
-	        type: "POST",
-	        success: function(data) {
-	        	$scope.vote= data;
-	        }
-	    });
-    }
-});
+    	var data = $.param({
+ 		   	access_token: $scope.access_token,
+         	id_question: $scope.id_question
+     	});
+    	var config = { headers : {
+            	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+     		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup/', data, config)
+     		.success(function (data, status, headers, config) {
+        		 $scope.PostDataResponse = data;
+     		})
+  		};
+  		
+	$scope.VoteDown = function(){
+    	var data = $.param({
+ 		   	access_token: $scope.access_token,
+         	id_question: $scope.id_question
+     	});
+    	var config = { headers : {
+            	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+     		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/votedown/', data, config)
+     		.success(function (data, status, headers, config) {
+        		 $scope.PostDataResponse = data;
+     		})
+  		};
+  		
+    });
 	
 </script>
 </script>
