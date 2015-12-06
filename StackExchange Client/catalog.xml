@@ -2,10 +2,10 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
     <system systemId="http://localhost:8080/StackExchange_WebService/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8080/StackExchange_WebService/QuestionWS.wsdl"/>
     <system systemId="http://localhost:8080/StackExchange_WebService/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8080/StackExchange_WebService/QuestionWS.xsd_1.xsd"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WebService/QuestionWS.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WebService/QuestionWS.xsd_1"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WebService/AnswerWS.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WebService/AnswerWS.xsd_1"/>
     <system systemId="http://localhost:8081/StackExchange_WebService/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchange_WebService/UserWS.wsdl"/>
     <system systemId="http://localhost:8081/StackExchange_WebService/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchange_WebService/UserWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WebService/AnswerWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WebService/AnswerWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerWS/wsdl/localhost_8081/StackExchange_WebService/AnswerWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WebService/QuestionWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchange_WebService/QuestionWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionWS/wsdl/localhost_8081/StackExchange_WebService/QuestionWS.xsd_1.xsd"/>
 </catalog>

@@ -6,43 +6,9 @@
 
 <xs:element name="addNewAnswerResponse" type="tns:addNewAnswerResponse"/>
 
-<xs:element name="devoteAnswer" type="tns:devoteAnswer"/>
-
-<xs:element name="devoteAnswerResponse" type="tns:devoteAnswerResponse"/>
-
 <xs:element name="getAnswerByQId" type="tns:getAnswerByQId"/>
 
 <xs:element name="getAnswerByQIdResponse" type="tns:getAnswerByQIdResponse"/>
-
-<xs:element name="voteAnswer" type="tns:voteAnswer"/>
-
-<xs:element name="voteAnswerResponse" type="tns:voteAnswerResponse"/>
-
-<xs:complexType name="voteAnswer">
-<xs:sequence>
-<xs:element name="a_id" type="xs:int"/>
-<xs:element name="u_id" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="voteAnswerResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="devoteAnswer">
-<xs:sequence>
-<xs:element name="a_id" type="xs:int"/>
-<xs:element name="u_id" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="devoteAnswerResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
 
 <xs:complexType name="getAnswerByQId">
 <xs:sequence>
@@ -70,7 +36,7 @@
 
 <xs:complexType name="addNewAnswer">
 <xs:sequence>
-<xs:element name="u_id" type="xs:int"/>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 <xs:element name="q_id" type="xs:int"/>
 </xs:sequence>

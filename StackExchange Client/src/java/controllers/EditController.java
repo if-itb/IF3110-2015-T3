@@ -96,7 +96,7 @@ public class EditController extends HttpServlet {
         if(user!=null) {
             Question question = getQuestion(q_id);
             if(user.getUId()==question.getUId()) {
-                String token = request.getParameter("token")
+                String token = request.getParameter("token");
                 String topic = request.getParameter("topic");
                 String content = request.getParameter("content");
                 int qId = updateQuestion(token, q_id, topic, content);
@@ -142,12 +142,11 @@ public class EditController extends HttpServlet {
         return port.getQuestion(qId);
     }
 
-    private int updateQuestion(int qId, java.lang.String topic, java.lang.String content) {
+    private int updateQuestion(java.lang.String token, int qId, java.lang.String topic, java.lang.String content) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.updateQuestion(qId, topic, content);
+        return port.updateQuestion(token, qId, topic, content);
     }
     
-
 }

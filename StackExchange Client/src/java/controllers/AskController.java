@@ -94,11 +94,11 @@ public class AskController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int addNewQuestion(int uId, java.lang.String topic, java.lang.String content) {
+    private int addNewQuestion(java.lang.String token, java.lang.String topic, java.lang.String content) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.addNewQuestion(uId, topic, content);
+        return port.addNewQuestion(token, topic, content);
     }
 
 }

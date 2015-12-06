@@ -4,78 +4,40 @@
 <xsd:import namespace="http://controllers/" schemaLocation="http://localhost:8081/StackExchange_WebService/AnswerWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="addNewAnswer">
-<part name="parameters" element="tns:addNewAnswer"/>
-</message>
-<message name="addNewAnswerResponse">
-<part name="parameters" element="tns:addNewAnswerResponse"/>
-</message>
-<message name="voteAnswer">
-<part name="parameters" element="tns:voteAnswer"/>
-</message>
-<message name="voteAnswerResponse">
-<part name="parameters" element="tns:voteAnswerResponse"/>
-</message>
-<message name="devoteAnswer">
-<part name="parameters" element="tns:devoteAnswer"/>
-</message>
-<message name="devoteAnswerResponse">
-<part name="parameters" element="tns:devoteAnswerResponse"/>
-</message>
 <message name="getAnswerByQId">
 <part name="parameters" element="tns:getAnswerByQId"/>
 </message>
 <message name="getAnswerByQIdResponse">
 <part name="parameters" element="tns:getAnswerByQIdResponse"/>
 </message>
+<message name="addNewAnswer">
+<part name="parameters" element="tns:addNewAnswer"/>
+</message>
+<message name="addNewAnswerResponse">
+<part name="parameters" element="tns:addNewAnswerResponse"/>
+</message>
 <portType name="AnswerWS">
-<operation name="addNewAnswer">
-<input wsam:Action="http://controllers/AnswerWS/addNewAnswerRequest" message="tns:addNewAnswer"/>
-<output wsam:Action="http://controllers/AnswerWS/addNewAnswerResponse" message="tns:addNewAnswerResponse"/>
-</operation>
-<operation name="voteAnswer">
-<input wsam:Action="http://controllers/AnswerWS/voteAnswerRequest" message="tns:voteAnswer"/>
-<output wsam:Action="http://controllers/AnswerWS/voteAnswerResponse" message="tns:voteAnswerResponse"/>
-</operation>
-<operation name="devoteAnswer">
-<input wsam:Action="http://controllers/AnswerWS/devoteAnswerRequest" message="tns:devoteAnswer"/>
-<output wsam:Action="http://controllers/AnswerWS/devoteAnswerResponse" message="tns:devoteAnswerResponse"/>
-</operation>
 <operation name="getAnswerByQId">
 <input wsam:Action="http://controllers/AnswerWS/getAnswerByQIdRequest" message="tns:getAnswerByQId"/>
 <output wsam:Action="http://controllers/AnswerWS/getAnswerByQIdResponse" message="tns:getAnswerByQIdResponse"/>
 </operation>
+<operation name="addNewAnswer">
+<input wsam:Action="http://controllers/AnswerWS/addNewAnswerRequest" message="tns:addNewAnswer"/>
+<output wsam:Action="http://controllers/AnswerWS/addNewAnswerResponse" message="tns:addNewAnswerResponse"/>
+</operation>
 </portType>
 <binding name="AnswerWSPortBinding" type="tns:AnswerWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="addNewAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="voteAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="devoteAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="getAnswerByQId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="addNewAnswer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -55,7 +55,7 @@ public class DeleteController extends HttpServlet {
                 Question question = getQuestion(qId);
                 if (question.getUId()==user.getUId()) {
                     //Same user
-                    int isSuccessful = deleteQuestion(token);
+                    int isSuccessful = deleteQuestion(token, qId);
                     if(isSuccessful==1) {
                         request.setAttribute("message", "Question deleted sucessfully");
                         RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
@@ -99,18 +99,18 @@ public class DeleteController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int deleteQuestion(int qId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.deleteQuestion(qId);
-    }
-
     private Question getQuestion(int qId) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         QuestionWS.QuestionWS port = service.getQuestionWSPort();
         return port.getQuestion(qId);
+    }
+
+    private int deleteQuestion(java.lang.String token, int qId) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        QuestionWS.QuestionWS port = service.getQuestionWSPort();
+        return port.deleteQuestion(token, qId);
     }
 
 }

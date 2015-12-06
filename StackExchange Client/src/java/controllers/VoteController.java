@@ -73,7 +73,6 @@ public class VoteController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -110,34 +109,6 @@ public class VoteController extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
-    private String voteQuestion(int qId, int uId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.voteQuestion(qId, uId);
-    }
-
-    private String devoteQuestion(int qId, int uId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        QuestionWS.QuestionWS port = service.getQuestionWSPort();
-        return port.devoteQuestion(qId, uId);
-    }
-
-    private String voteAnswer(int aId, int uId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        AnswerWS.AnswerWS port = service_1.getAnswerWSPort();
-        return port.voteAnswer(aId, uId);
-    }
-
-    private String devoteAnswer(int aId, int uId) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        AnswerWS.AnswerWS port = service_1.getAnswerWSPort();
-        return port.devoteAnswer(aId, uId);
     }
 
 }
