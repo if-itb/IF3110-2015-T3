@@ -1,12 +1,15 @@
 package org.tusiri.ws.comment;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CommentItem {
-	private int id_comment;
-	private int id_question=-1;
-	private int id_user;
-	private String comment="";
-	private String comment_date="";
-	private String username="";
+	public int id_comment;
+	public int id_question=-1;
+	public int id_user;
+	public String comment="";
+	public String comment_date="";
+	public String username="";
 	
 	public int getIDCommet() {
 		return id_comment;

@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<% 
 		Cookie cookie = null;
 		Cookie[] cookies = null;
@@ -52,6 +53,7 @@
 		<jsp:param name="needDeleteQuestion" value="true" />
 		<jsp:param name="check" value="1" />
 	</jsp:include>
+	<script src="assets/js/vote.js"></script>
 	<script src="assets/js/validator.js"></script>
 	<% } %>
 </head>
@@ -88,29 +90,27 @@
 						<div class = 'details'>Asked by 
 							<span class = 'b_link'><%= q.getUsername() %> </span>
 							<span hidden class = 'modify_<%=q.getIdUser()%>'>
-				              		<a href = 'question_edit.jsp?id=<%= q.getIdQuestion() %>' class = 'y_link'> edit </a>|
-				              		<a onclick='delQuestion(<%= q.getIdQuestion() %>,false)' class = 'r_link'>delete</a><br>
-			              	</span>
-		              	</div>
+				             		<a href = 'question_edit.jsp?id=<%= q.getIdQuestion() %>' class = 'y_link'> edit </a>|
+				             		<a onclick='delQuestion(<%= q.getIdQuestion() %>,false)' class = 'r_link'>delete</a><br>
+			             	</span>
+		             	</div>
 					</div>
 					<div ng-app="commentShowApp" ng-controller="commentShowCtrl" ng-init="init()">
 						<ul>
-				  			<li ng-repeat="x in comments">
-				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-				  			</li>
+				 			<li ng-repeat="x in comments">
+				   			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+				 			</li>
 						</ul>
-						<form ng-submit="submitComment()">
-						   <input type="text" ng-model="comment" />
-						   <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
-						   <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
-						    <button type="submit" class="btn btn-primary">Save</button>
+						<input type="button" value="Add a comment" ng-click="ShowHide()" />
+						<form ng-show = "IsVisible" ng-submit="submitComment()">
+							<input type="text" ng-model="comment" required/>
+						  <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
+						  <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
 						</form>
 					</div>
 					
 				</div>
-				
-				
-				
+			
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
 				<% for (int i = 0; i < a.size(); i++) { %>
@@ -156,35 +156,47 @@
 	app.controller('commentShowCtrl', function($scope, $http) {
 		
 		$scope.init = function() {
-		    $scope.id_question = <%=q_id_string%>;
-		    $scope.access_token = '<%=access_token %>';
+		   $scope.id_question = <%=q_id_string%>;
+		   $scope.access_token = '<%=access_token %>';
 		}
 		
-	    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-	    .then(function(response) {$scope.comments = response.data;});
-	    
-	    
-	    $scope.submitComment = function() {
-			 alert($scope.comment);
+		$scope.IsVisible = false;
+        $scope.ShowHide = function () {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = $scope.IsVisible ? false : true;
+        }
+        
+	   $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
+	   .then(function(response) {$scope.comments = response.data;});
+	   
+	   
+	   $scope.submitComment = function() {
+			alert($scope.comment);
 			var data = $.param({
-			   access_token: $scope.access_token,
+			  access_token: $scope.access_token,
                comment: $scope.comment,
                id_question: $scope.id_question
            });
-			alert(data);
        
            var config = {
-        		   
+        		  
                headers : {
                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-               }
+               },
            }
 
            $http.post('http://localhost:8081/Comment_Vote-WS/comment/question/add/', data, config)
            .success(function (data, status, headers, config) {
-               $scope.PostDataResponse = data;
+        	   
+               if(data.id_comment > 0){
+            	  $scope.comments = $scope.comments.concat(data);
+            	  
+               }
+               
            })
-	    };
+           $scope.comment = null;
+           
+	   };
 	});
 	var app2 = angular.module('commentAddApp', []);
 	app2.controller('commentAddCtrl', function($scope, $http) {
