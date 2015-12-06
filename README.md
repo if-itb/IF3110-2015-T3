@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://www.dropbox.com/s/nnxvhdoo8uzdj3m/TUGAS%20BESAR%20III.docx?dl=0
 
 ### Arsitektur Umum Server
 

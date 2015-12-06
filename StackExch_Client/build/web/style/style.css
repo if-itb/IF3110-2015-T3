@@ -1,0 +1,526 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 10, 2015, 3:02:16 PM
+    Author     : tama
+*/
+
+body {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+ 
+}
+a {
+    text-decoration: none;
+}
+
+#head1 {
+     text-decoration: none;
+   margin-top:15pt;
+   margin-right:12.5%;
+    color : white ;
+}
+#h {
+    text-align: center;
+    text-decoration: none;
+    font-weight:lighter;
+    font-size:350%;
+    font-weight: bold;
+    color: darkturquoise;
+    padding-top: 15px;
+    clear : both;
+    width : 33%;
+    margin-left:33%;
+    margin-bottom: 10pt;
+}
+
+at {
+    text-decoration: none;
+    color : darkorange;
+}
+
+#login,#logout {  
+    display :inline; 
+    float : right;
+    margin-left:5pt;
+   padding: 2px;
+   width : 100px;
+   text-align: center;
+   padding-top: 5px;
+   padding-bottom:5px;   
+   color : white;
+}
+#login {
+    background-color:darkturquoise;
+}
+#logout {
+    background-color:palegreen;
+}
+#login:hover , #reg:hover,#logout:hover {
+    opacity: 0.8;
+    cursor : pointer ;
+}
+
+#reg {  
+   display :inline;
+   text-decoration: none;
+   float : right;
+   margin-left: 5pt;
+   padding: 2px;
+   padding-top: 5px;
+   padding-bottom:5px;
+   width : 100px;
+   text-align: center;
+   background-color: darkorange;
+   color : white
+}
+#hello {
+    display :inline;
+   text-decoration: none;
+   float : right;
+   margin-left: 5pt;
+   margin-right:20pt;
+   padding: 2px;
+   padding-top: 5px;
+   padding-bottom:5px;
+   font-size:125%;
+   text-align: center;
+}
+
+#searchbox
+{
+   // background-color:lightgray;
+   
+       
+    width: 50%;
+    height: 35px;
+    padding: 5px;
+    margin-top: 3em;
+    margin:auto;
+    overflow: hidden; /* Clear floats */
+}
+
+#search {
+    width : 83%;
+    border: 2px solid ;
+    border-color: seagreen;
+    height:75%;
+    margin:auto;   
+}
+
+#submit{
+    height:95%;
+    margin-left: 5px;
+    width:13%;
+   color : seagreen;
+    background-color:white;
+    font-weight: bold;
+    border : 2px solid seagreen;
+    
+}
+
+#submit:hover {       
+    background-color: #95d788;
+    color:white;
+    
+}   
+
+#submit:active {       
+    background: #95d788;
+    outline: none;
+         
+}
+
+p {
+    margin-top : 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-weight:bold;
+}
+
+as {
+    color:orange;
+    font-weight: lighter;
+    font-style: italic;
+    text-decoration: none;
+}
+as:hover {
+    color:red;
+}
+
+
+.raq {
+    margin-left: 12.5%;
+    margin-top: 30px;
+    font-size: 150%;
+}
+
+.separator {
+    height: 4px;
+    background:white;
+    width:75%;
+    
+   margin-top : 5px;
+    margin-left:12.5%;
+    border: 1px solid black;
+}
+
+#rname,#remail,#rpass,#lname,#lpass,#ntoken {
+     margin-left: 30%;
+    margin-top:15px;
+    width:40%;
+    border : 1px solid black;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:5px;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 100%;
+    
+}
+#rsubmit,#lsubmit,#rreset {
+    margin-top : 35px;
+    margin-left :45%;
+    width:10%;
+    padding-top:5px;
+    padding-bottom : 5px;
+    font-size:120%;
+    color : white;   
+}
+#lsubmit {
+    background-color: darkturquoise;
+    border : 5px solid darkturquoise ;
+}
+#rsubmit {
+    background-color: darkorange;
+    border : 5px solid darkorange;
+}
+#rsubmit:hover,#lsubmit:hover {
+    opacity : 0.8;
+    cursor : pointer;
+}
+
+#rname,#lname {
+   margin-top:30px;
+}
+#atitle,#acontent {
+    border : 2px solid black;
+}
+#atitle {
+    width : 50%;
+    margin-left : 25%;
+    font-size : 115%;
+    padding-top:4px;
+    padding-bottom:4px;
+   padding-left : 10px;
+    margin-top:30px;
+}
+
+#acontent,#fcontent {
+    width : 50.48%;
+    margin-left:25%;
+    font-size : 115%;
+    margin-top : 15px;
+    height : 200px;
+    padding-top:14px;   
+    padding-left : 10px;
+    
+}
+
+#asubmit,#fsubmit {
+    width : 7.5%;
+   font-size : 120%;
+   padding-top:5px;
+   padding-bottom:5px;
+   margin-left :46.125%;
+   margin-top:20px;
+   background-color: white ;
+   color : darkturquoise;
+   border : 5px solid darkturquoise;
+}
+
+#asubmit:hover,#fsubmit:hover {
+    color : white ;
+    background-color : darkturquoise;
+}
+
+
+.uline {
+    height: 1px;
+    
+    width:75%;
+    margin-top : 8px;
+    margin-left:12.5%;
+    border-bottom: 2px solid black;
+}
+.vote, .answers,.thread {
+    display: inline-block;
+    margin-top:10px;
+}
+.vote {
+    margin-left:14.5%;
+    margin-top: 15px;
+   // border : 1px solid red;
+    width :5%;
+    text-align: center;
+}
+
+.answers {
+    text-align: center;
+}
+.vnum {
+    color:darkturquoise;
+    margin-left:3%;
+    margin-top:10px;
+    font-size: 300%;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.vname {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top:2px;
+    margin-right:3px;
+    font-size : 110%;
+    font-weight:600;
+    
+}
+
+.thread {
+    margin-left: 4%;
+    width:54%; 
+    position: absolute;
+}
+
+.title {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 600;
+    color:black;
+    text-align: left;
+    font-size:165%;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.title:hover {
+    color:activecaption;
+    text-decoration:none ;
+    cursor:pointer;
+}
+.content {
+    font-weight: 100;
+    text-align: justify;
+}
+
+.utility {
+    margin-top:10px;
+    text-align: right;
+    margin-right: 14%;
+    font-size: 85%;
+    font-weight: lighter;
+}
+
+a1 {
+    color:lawngreen;
+}
+
+.bb {
+    color : blue;
+    font-style: normal;
+}
+.bb:hover {
+    color:orange;
+    cursor:pointer;
+   
+}
+.cc {
+    color:red;
+    font-style: normal;
+}
+.cc:hover {
+    color:orange;
+    cursor: pointer;
+}
+
+#wrap {
+    width:75%;
+    margin-left: 12.5%;
+}
+
+#main {
+    margin-top: 20px;
+    font-weight:normal;
+    margin-right: 20px;
+    font-size : 125%;
+    float:right ;
+    text-align:justify;
+    width:80%;
+}
+
+#sidebar {
+    float : left;
+    width:14%;
+    text-align: center;
+    margin-left: 1%;
+}
+#vdown,#vup {
+    display:inline;
+    transition: 0.5s ease;
+    white-space: nowrap;
+}
+#vup {
+    text-decoration: none;
+    transition: 0.5s ease;
+    white-space: nowrap;    
+    margin-right: 12px;
+}
+
+
+#vup:hover {
+    opacity: 0.5;
+   
+    
+}
+#vdown {
+    text-decoration: none;      
+    transition: 0.5s ease;
+    white-space: nowrap;
+    
+}
+#vdown:hover {
+    opacity: 0.5;
+     
+}
+#vnum {
+    color:blue;
+    font-size:600%;
+    margin-top : 15px;
+    font-family: "Times New Roman", Times, serif;
+}
+#footer {    
+    clear:both;   
+}
+
+#qinfo {
+    font-size: 85%;
+    text-align:right;
+    margin-top:10px;
+    margin-right:10px;
+}
+
+aa {
+    color:lawngreen;
+}
+
+#qans {
+    margin-top:25px;
+    font-size : 170%;
+    margin-left:12.5%;
+}
+
+.separator2 {
+    height: 1px;
+    background:#717171;
+    width:75%;
+   margin-top:10px;
+    margin-left:12.5%;
+    border-bottom: 1px solid black;
+}
+
+
+#yans {
+    font-size:160%;
+    margin-left:15%;
+    margin-top:20px;
+    color: #6cbb6b;
+}
+
+.rsuccess {
+    text-align: center ;
+    margin-top : 25px;
+    font-size : 150%;
+}
+
+rr {
+    color : blue ;
+    text-decoration: underline;
+}
+
+rr:hover {
+    color : gold;
+}
+
+#regerror {
+    color : red ;
+    font-size : 125%;
+    margin-top : 25px ;
+    text-align: center;
+}
+
+.commentbox {
+   background-color :lavender;
+    margin-top:25px;
+    margin-bottom: 25px;
+    width:75%;
+    margin-left:12.5%;    
+    padding-top : 10px;
+    padding-bottom : 10px; 
+    border-radius:2px;
+}
+
+#fcomment {
+    margin-top : 25px;
+    width : 90%;
+    margin-left : 5%;
+    font-size: 125%;
+    border-radius : 4px;
+    border : 3px solid darkturquoise;
+}
+
+#fsubmit2 {
+   font-size : 100%;
+   background-color: white ;
+   color :darkturquoise;
+   padding-top:5px;
+   padding-bottom:5px;
+   border : 4px solid darkturquoise;
+   margin-top:10px;
+   width:10%;
+   border-radius : 4px;
+   margin-left : 40%;
+}
+
+#fsubmit2:hover {
+    margin-top : 20px;
+    background-color : darkturquoise ;
+    color : white;
+}
+.cmcontent {
+    margin-left:10px;
+    margin-right: 10px;
+    margin-bottom:10px;
+    font-size : 120%;
+}
+
+cmdate {
+    color : red;
+    margin-left:10px;
+}
+
+cmdd {
+    color : black;
+}
+cmu {
+    color: darkorange;
+}
+.separator3 {
+    margin-left : 5px;  
+    width:98%;
+    height: 1px;
+    background:#717171;
+    margin-right: 5px ;
+    border: 1px dotted black;
+    margin-top:10px;
+   margin-bottom:10px;
+}
