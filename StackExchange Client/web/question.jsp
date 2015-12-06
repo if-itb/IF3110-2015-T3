@@ -1,3 +1,5 @@
+/* global angular */
+
 <%-- 
     Document   : question
     Created on : Nov 16, 2015, 1:47:03 AM
@@ -10,6 +12,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <jsp:include page="/views/header.jsp" flush="true"/>
+
 	<div class="container">
             <h2><a href="question?q_id=<c:out value='${question.getQId()}'/>" class="question-title-big">
                 <c:out value="${question.getTopic()}"/>
@@ -43,14 +46,27 @@
                         </a></c:if>
                         <br></span>
                     
-        </span>
-		<!-- Show comments -->
-		<span class="question-info" ng-repeat = "rows in comment.rows">
+                </span>
+                
+                    
+                <div ng-app="stackexchange" ng-controller="commentController">    
+		<!-- Show comments -->                
+		<span class="question-info" ng-repeat = "rows in names">
 			{{ rows.content }}
 			<br>
 			<span class="author">{{ rows.username }}</span> at {{ rows.dateCreated }}
 		</span>
-		
+                </div>
+                <script>
+                    var mainApp = angular.module("stackexchange", []);
+
+                    mainApp.controller('commentController', function($scope) {
+                       $scope.names=[
+                        {content:'Isi komen 1',username:'Vanya',dateCreated:'Sun 12/06/15'},
+                        {content:'Isi komen 2',username:'Tifani',dateCreated:'Sun 12/06/15'},
+                        {content:'Isi komen 3',username:'Jessica',dateCreated:'Sun 12/06/15'}];
+                    });
+                </script>
 		<!-- Add comment -->
 		<a href="#" ng-click="showBox = ! showBox">Add Comment</a>
 		<div class="comment-box" ng-show="showBox">

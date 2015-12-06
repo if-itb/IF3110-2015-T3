@@ -13,6 +13,7 @@
 <c:set var="uri" value="${req.requestURI}" />
 <!DOCTYPE html>
 <html lang="en">
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <head>
 	<meta content="text/html; charset=utf-8">
 	<link REL="SHORTCUT ICON" HREF="assets/img/icon.ico"/>
@@ -21,7 +22,6 @@
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
- 
 <body>
 	<div class="title-section">
 		<header>
