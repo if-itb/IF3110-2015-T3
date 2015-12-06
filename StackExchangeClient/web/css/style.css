@@ -231,14 +231,17 @@ and open the template in the editor.
 		float:center;
 	}
         .block-comment{
+            margin-left:20%;
+            margin-right:20%;
             font-family:calibri;
         }
         .bc-content{
-            margin-left:17.5%;
-            width: 65%;
             text-align: left;
             float:left;
             clear: both;
         }
-        
-        
+        .blocking{
+            text-align: left;
+            float:left;
+            clear: both;
+        }

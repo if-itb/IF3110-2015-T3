@@ -67,7 +67,6 @@
         </nav>   
         <script>
             $(document).ready(function(){
-
               // Initialize collapse button
               $(".button-collapse").sideNav();
             });
@@ -132,14 +131,11 @@
                 
                 
                 String question_comment = 
-                "<div ng-controller = 'commentController'>"
-                        + "Add Comment"
-                        + "<form >"
-                            + "<textarea ng-model='comment_content' placeholder='Your Comment' style='width:550px'></textarea>"
-                            + "<button ng-click='addComment(\"" + theCookie + "\"," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
+                "<div ng-controller = 'commentController' class='block-comment'>"
+                        +"<br><br><br><br><br><br><br><br>"
+                        +"<div class = 'bc-content'>"
                             + "<h4>Comments</h4>"
-
-                            + "<div ng-repeat='comment in comments' class='block-comment'>"
+                            + "<div ng-repeat='comment in comments' >"
                                 +"<div class='bc-content'>"
                                     +"{{comment.content}}"
                                     +" - "
@@ -148,14 +144,23 @@
                                     +"</a>" +"- {{comment.timestamp}}"
                                 +"</div>"
                             +"</div>"
-                        + "</form>"
+                        +"</div>"
+                        //+"<br><br><br><br>"
+                        +"<div class = 'bc-content'>"
+                            + "Add Comment"
+                            + "<form >"
+                                + "<textarea ng-model='comment_content' placeholder='Your Comment' style='width:550px'></textarea>"
+                                + "<button ng-click='addComment(\"" + theCookie + "\"," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
+
+                            + "</form>"
+                        +"</div>"
                 + "</div>";
                 
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
                 
                 out.write(start + question + question_comment + end);
-                out.write("<br><br>");
+                out.write("<br><br><br><br><br><br><br><br><br><br>");
             
         } catch (Exception ex) {
             // TODO handle custom exceptions here
@@ -187,10 +192,9 @@
             for(int i = 0; i < result.size() ; i++){
                 
                 java.lang.String result2 = port2.getNamaAns(result.get(i).getIDAns());
-
                 // java.lang.String result2 = port.getNamaAns(result.get(i).getIDAns());
-
                 String answer = 
+                        
                     "<div ng-app ='voteApp' ng-controller='voteAnswerController' class='block-QA'>"
                         +"<div class='bQA-vote'>"
                             +"<a ng-click='direction=1; voteAnswer(\"" + theCookie + "\"," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
@@ -216,7 +220,6 @@
                 
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
-
             out.write(start + answer + end);
                 
             }
@@ -257,7 +260,6 @@
         app.controller('commentController', function($scope, $http) {
             var commentUrl = "http://localhost:8082/StackExchange_IS/allComments"; 
             var q_id = "<%= request.getParameter("id") %>";
-
             var access_token = "<%= theCookie %>";
             console.log("AllComments" + access_token);
             console.log("AllCommenet The Cookie : " + "<%= theCookie %>" );
@@ -278,7 +280,6 @@
                      //console.log(JSON.stringify($scope.comments));
                      //console.log(JSON.stringify($scope.message));
                      /*if ($scope.message == 1 || $scope.message == -5){
-
                      } else {
                          window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
                      }*/
@@ -314,7 +315,6 @@
                         //console.log("Message " + $scope.message);
                         //console.log("Cba" + JSON.stringify($scope.comments))
                         if ($scope.message == 1 || $scope.message == -5 || $scope.message == undefined){
-
                         } else {
                             window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
                         }
@@ -322,20 +322,16 @@
                         console.log("Error : " + err);
                     });
             };
-
         
         });
-
         app.controller('voteQuestionController', function($scope,$http){
            var voteUrl = "http://localhost:8082/StackExchange_IS/initiateQVote";
             $scope.token = "<%= theCookie %>";
             $scope.direction = -99;
-
             $scope.loadInitial = function(qid){
             var access_token = "<%= theCookie %>";
             console.log("initiateVote : " + access_token);
             var qid = "<%= request.getParameter("id") %>";
-
             var commentParameter = {question_id: qid};
              //console.log("Question ID - Quesr=tion: " + qid);
              //console.log(JSON.stringify(commentParameter));
@@ -354,7 +350,6 @@
                  console.log("Error : " + err);
              });
          };
-
     
             console.log("Hello World");
             $scope.voteQuestion = function(access_token, qid, direction) {
@@ -392,7 +387,6 @@
         
                 
         //var aApp = angular.module('voteAnswerApp',[]);
-
         app.controller('voteAnswerController', function($scope,$http){
             var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceAnswer";
             $scope.token = "<%= theCookie %>";
@@ -427,7 +421,6 @@
                 });
             };
         });
-
     
     </script>
 </html>
