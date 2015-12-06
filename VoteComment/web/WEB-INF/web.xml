@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>CommentRSServlet</servlet-name>
+        <servlet-class>is.Comment.CommentRSServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentRSServlet</servlet-name>
+        <url-pattern>/CommentRSServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <filter>
+    <filter-name>CORS</filter-name>
+    <filter-class>is.cors.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>
+            CORS
+        </filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+</web-app>
