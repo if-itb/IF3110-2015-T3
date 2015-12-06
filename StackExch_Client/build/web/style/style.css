@@ -505,8 +505,12 @@ rr:hover {
 
 cmdate {
     color : red;
+    margin-left:10px;
 }
 
+cmdd {
+    color : black;
+}
 cmu {
     color: darkorange;
 }

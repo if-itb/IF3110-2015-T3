@@ -45,6 +45,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Stack Exchange</title>
         <link rel="stylesheet" type="text/css" href="style/style.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     </head>
     <body>
         <% if (idu==0) { %>

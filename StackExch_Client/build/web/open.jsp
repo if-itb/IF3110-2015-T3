@@ -40,6 +40,8 @@
           int ccm = (id*1000) + csize+1;
         %>;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
          <link rel="stylesheet" type="text/css" href="style/style.css">
         <title><% out.println(Q.getTitle()) ; %></title>
     </head>
@@ -75,12 +77,12 @@
 			
                 <div id="vnum"><div id="<% out.println(Q.getIdQ());%>"><% out.println(Q.getVote()) ;%> </div> </div> 
                 <div id="vup">
-                    <a a href="process.jsp?action=voteup&id=<% out.println(Q.getIdQ()) ; %>&t=q">
+                    <a a href="votep?action=voteup&id=<% out.println(Q.getIdQ()) ; %>&t=q">
                     <img src="img/up.png" alt="Vote Up" style="width: 32px;height:32px">
                     </a>
                 </div>
                 <div id="vdown">
-                    <a a href="process.jsp?action=votedown&id=<% out.println(Q.getIdQ()) ; %>&t=q">
+                    <a a href="votep?action=votedown&id=<% out.println(Q.getIdQ()) ; %>&t=q">
                     <img src="img/down.png" alt="Vote Down" style="width: 32px;height:32px">
                      </a>
                 </div>
@@ -93,16 +95,23 @@
         </div><br><br>
         <div class="separator2"></div>        
          
-        <div class="commentbox">     
-            <% for (int i2=0;i2<csize;i2++) { %>
-         <% 
-         %> <div class="cmcontent"><% out.println(Cm.get(i2).getContent());  
-         %> | at <cmdate><%out.println(Cm.get(i2).getDate());%></cmdate> by <cmu> <%
-         out.println(Cm.get(i2).getUsername()); %></cmu></div>
-           <div class="separator3"></div>
-         <% } %>
-            <form>
-                 <input id="fcomment" type="text" name="ncomment" placeholder="Add a comment : "/><br>             
+        <div class="commentbox">   
+          
+<div ng-app="myApp" ng-controller="customersCtrl">
+
+  <div ng-repeat="x in names">
+      <div class="cmcontent"> {{ x.content}} </div> <cmdate><cmdd>at</cmdd>  {{x.date  }} </cmdate> by <cmu>{{x.username}} </cmu>
+    <div class="separator3"></div>
+  </div>
+
+ 
+</div>
+         <form action="http://localhost:21215/StackExch_Client/commentp" method="POST">
+                 <input id="fcomment" type="text" name="ncomment" placeholder="Add a comment : "/><br> 
+                 <input type="hidden" name="cipa" value="<%out.print(ipa);%>">
+                 <input type="hidden" name="cbrowser" value="<%out.print(browser);%>">
+                 <input type="hidden" name="q_id" value="<% out.print(id) ; %>" >
+                 <input type="hidden" name="id_c" value="<%out.print(ccm) ; %>" >
                  <input id="fsubmit2" type="submit" value="Comment "><br>   
             </form>     
         </div>
@@ -117,10 +126,10 @@
             </div>
             <div id="sidebar">         
                 <div id="vnum"><div id="<% out.println(A.get(i).getIdA()) ; %>"> <% out.println(A.get(i).getVote()) ; %> </div></div> 
-                <div id="vup"><a href="process.jsp?action=voteup&id=<% out.println(A.get(i).getIdA()) ; %>&t=a">
+                <div id="vup"><a href="votep?action=voteup&id=<% out.println(A.get(i).getIdA()) ; %>&t=a">
                         <img src="img/up.png" alt="Vote Up" style="width: 32px;height:32px"></a>
                 </div>
-                <div id="vdown"><a a href="process.jsp?action=votedown&id=<% out.println(A.get(i).getIdA()) ; %>&t=a">
+                <div id="vdown"><a a href="votep?action=votedown&id=<% out.println(A.get(i).getIdA()) ; %>&t=a">
                         <img src="img/down.png" alt="Vote Down" style="width: 32px;height:32px"></a>
                     </div>
             </div>
@@ -144,7 +153,20 @@
             <input type="hidden" name="cipa" value="<%out.println(ipa);%>">
              <input type="hidden" name="cbrowser" value="<%out.println(browser);%>">
           </form>
+ <script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+    var id = <%= request.getParameter("id") %>;
+    var url_ = "http://localhost/CommentandVote/CommentandVote/getAllComment.php?id="+id;
+   
+   console.log("id : "+id);
+    $http.get(url_)
+   .then(function (response) {$scope.names = response.data.records;});
+});
+</script>
+          
     </body>
+    
 </html>
 
 <%--

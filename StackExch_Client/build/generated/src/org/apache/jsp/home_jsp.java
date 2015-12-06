@@ -67,7 +67,13 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
             R = sws.searchQuestion(sq);
             rsize = R.size();
         }
-        
+        String nto = request.getParameter("ntoken");
+        if (nto!=null&&nto!="") {
+            String nexp = request.getParameter("nexp");
+            HttpSession ss2 = request.getSession();
+            ss2.setAttribute("token", nto);
+            ss2.setAttribute("expire",nexp);
+        }
           String to="",us="",ex="";
           int idu=0; 
           HttpSession ss = request.getSession();
@@ -87,6 +93,7 @@ public final class home_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
       out.write("        <title>Stack Exchange</title>\n");
       out.write("        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\">\n");
+      out.write("    <script src=\"http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js\"></script>\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        ");
