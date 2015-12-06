@@ -5,8 +5,6 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html lang="en" ng-app="stackexchange"> </html>
 <jsp:include page="header.jsp" flush="true"/>    
     <h3 class="topic"><a class="topic" href="question?id=${question.id}"><c:out value="${question.topic}"/></a></h3>
     <hr class="heading">

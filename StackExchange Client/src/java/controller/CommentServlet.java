@@ -5,6 +5,7 @@
  */
 package controller;
 
+import connector.VCConnector;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -18,9 +19,12 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 /**
@@ -57,29 +61,23 @@ public class CommentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-        int id = Integer.parseInt(request.getParameter("question_id"));
-        System.out.println(id);
-        try (PrintWriter out = response.getWriter()){
-            URL obj = new URL("http://localhost:8083/comment?id=" + id);
-            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
-            connection.setRequestMethod("GET");
-            
-            //TRUS INI NGAPAIN LAGI HAHAHAHAHAHAH
-            
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer responses = new StringBuffer();
-            String currentLine;
-
-            while ((currentLine = in.readLine()) != null) {
-                responses.append(currentLine);
-            }
-            in.close();
-
-            //print result
-            out.println(responses.toString());
-           
-        } catch (IOException e) {
-            e.printStackTrace();
+        JSONArray jsonResponse = new JSONArray();
+        String questionId = request.getParameter("id");
+        if (questionId == null) {
+            return;
+        }
+        
+        int id;
+        try {
+            id = Integer.parseInt(questionId);
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        
+        try (PrintWriter out = response.getWriter()) { 
+            response.setContentType("application/json");            
+            out.println(VCConnector.getComments(questionId));
         }
     }
 
@@ -94,34 +92,30 @@ public class CommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        JSONParser parser = new JSONParser();
+        response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            String auth=null; //INI DAPET DARI MANA???
-            String charset = "UTF-8";
+            JSONObject jsonResponse = new JSONObject();
+            String questionId = request.getParameter("id");
             String content = request.getParameter("content");
-            String id_question=request.getParameter("question_id"); //GIMANA CARA DAPETNYAA
-                   
-            URL url = new URL("http://localhost:8083/comment");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-            connection.setRequestProperty("Accept-Charset", charset);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
-           
-            String query = String.format("auth=%s&id_question=%s&content=%s",
-                    URLEncoder.encode(auth, charset),
-                    URLEncoder.encode(id_question, charset),
-                    URLEncoder.encode(content, charset));
-            
-            try (OutputStream output = connection.getOutputStream()) {
-                output.write(query.getBytes(charset));
+            if (questionId != null && content!= null) {
+                try {
+                    Cookie cookies[] = request.getCookies();
+                    String auth = null;
+                    for (Cookie cookie: cookies) {
+                        if (cookie.getName().equals("auth")) {
+                            auth = cookie.getValue();
+                            break;
+                        }
+                    }
+                    if (auth != null) {
+                        content = content.toLowerCase();
+                        jsonResponse = VCConnector.requestComment(auth, questionId, content);
+                    }
+                }
+                catch (NumberFormatException ex) {
+                }
             }
-            BufferedReader br = new BufferedReader(new InputStreamReader((connection.getInputStream())));
-            String output;
-            while ((output = br.readLine()) != null) {
-                out.println(output);
-            }
-            connection.disconnect();
+            out.write(jsonResponse.toString());
         }
     }
 
