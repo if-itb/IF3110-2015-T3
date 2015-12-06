@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+Laporan terdapat pada tautan berikut ini bit.ly/Tugas3WBD_Istridaman
 
 ### Arsitektur Umum Server
 
