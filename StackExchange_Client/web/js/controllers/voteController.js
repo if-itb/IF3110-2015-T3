@@ -10,24 +10,25 @@ app.controller('questionVoteController', [ '$scope','$http','$location','$cookie
         var votedata = this.votedata;
         this.votedata = {};
         this.getVote = function()
-        {
+        {    
+            var qid = $location.search()['id'];
             $http(
                 {
                     url: "http://localhost:8080/Comment-Vote_Service/vote",
                     method: "GET",
-                    params: {id: getParameterByName("id"), db: "question"}
+                    params: {id: qid, db: "question"}
                 }).success(function(data)
                 {
-                    if (data.vote != null)
+                    if (data.vote !== null)
                     {
                         questionvotecontrol.vote = data.vote;
                     }
                 }    
-                    )
-        }
+                    );
+        };
         this.addVote = function(x){
             this.votedata.token = $cookies.get("stackexchange_token");
-            if (token!=null) {
+            if (token!==null) {
                 this.votedata.sum = x;
                 $http({
                     url: "http://localhost:8080/Comment-Vote_Service/addVote",
@@ -43,12 +44,11 @@ app.controller('questionVoteController', [ '$scope','$http','$location','$cookie
                 else {
                     alert("You must log in to vote.");
                 }
-        }
+        };
         this.init = function(qid)
         {
             this.votedata.qid = qid;
-        }
+        };
         
     }
-])
-
+]);
