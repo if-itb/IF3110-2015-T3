@@ -99,9 +99,17 @@ public class LoginServlet extends HttpServlet {
                     md.update(seed.getBytes());
                     byte[] digest = md.digest();
                     StringBuilder access_token = new StringBuilder();
+                    StringBuilder access_token_saved = new StringBuilder();
                     for (byte b : digest) {
                         access_token.append(String.format("%02x", b & 0xff));
+                        access_token_saved.append(String.format("%02x", b & 0xff));
                     }
+                    access_token_saved.append("_" + request.getHeader("User-Agent"));
+                    String ipaddress = request.getHeader("X-FORWARDED-FOR");
+                    if (ipaddress == null) {
+                        ipaddress = request.getRemoteAddr();
+                    }
+                    access_token_saved.append("_" + ipaddress);
                     
                     ms = ms + LIFETIME * 1000;
                     java.sql.Timestamp tokenexpired = new java.sql.Timestamp(ms);
@@ -109,7 +117,7 @@ public class LoginServlet extends HttpServlet {
                     int userid = rs.getInt("userID");
                     sql = "UPDATE account SET token=?, tokenexpired=? WHERE userID = ?";
                     preparedStatement = conn.prepareStatement(sql);
-                    preparedStatement.setString(1, access_token.toString());
+                    preparedStatement.setString(1, access_token_saved.toString());
                     preparedStatement.setTimestamp(2, tokenexpired);
                     preparedStatement.setInt(3, userid);
                     preparedStatement.executeUpdate();

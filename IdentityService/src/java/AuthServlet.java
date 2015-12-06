@@ -65,6 +65,7 @@ public class AuthServlet extends HttpServlet {
             }
  
             Token token = (Token) gson.fromJson(sb.toString(), Token.class);
+            System.out.println(token.getAccessToken());
  
             Connection conn = null;
             //PreparedStatement preparedStatement = null;
@@ -104,11 +105,40 @@ public class AuthServlet extends HttpServlet {
                 }
             }
             else {
+                sql = "SELECT token FROM account";
+                preparedStatement = conn.prepareStatement(sql);
+                rs = preparedStatement.executeQuery();
+                String tokenParts[] = token.getAccessToken().split("#");
+                String tokenSavedParts[] = new String[3];
+                boolean found = false;
+
+                if (tokenParts.length == 3) {
+                    while (rs.next() && !found) {
+                        tokenSavedParts = rs.getString("token").split("#");
+                        if (tokenParts[0].equals(tokenSavedParts[0])) {
+                            if (!tokenParts[1].equals(tokenSavedParts[1])) {
+                                 found = true;
+                                 status.setSuccess(false);
+                                 status.setDescription("different browser");
+                                 response.getOutputStream().print(gson.toJson(status));
+                                 response.getOutputStream().flush();
+                            }
+                            else {
+                                 found = true;
+                                 status.setSuccess(false);
+                                 status.setDescription("different ip address");
+                                 response.getOutputStream().print(gson.toJson(status));
+                                 response.getOutputStream().flush();
+                            }
+                        }
+                    }
+                }
+
                 status.setSuccess(false);
                 status.setDescription("invalid");
                 response.getOutputStream().print(gson.toJson(status));
                 response.getOutputStream().flush();
-            }
+         }
             
             rs.close();
             

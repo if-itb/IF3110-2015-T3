@@ -48,8 +48,16 @@ public class LogoutServlet extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String token = request.getParameter("token");
-        System.out.println(token);
+        StringBuilder token = new StringBuilder();
+        token.append(request.getParameter("token"));
+        token.append("_" + request.getHeader("User-Agent"));
+        String ipaddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipaddress == null) {
+            ipaddress = request.getRemoteAddr();
+        }
+        token.append("_" + ipaddress);
+        
+        System.out.println(token.toString());
         response.setContentType("application/json");
         Gson gson = new Gson();
         
@@ -63,7 +71,7 @@ public class LogoutServlet extends HttpServlet {
             
             String sql = "SELECT userID FROM account WHERE token=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, token);
+            preparedStatement.setString(1, token.toString());
             ResultSet rs = preparedStatement.executeQuery();
             
             Status status = new Status();
@@ -71,7 +79,7 @@ public class LogoutServlet extends HttpServlet {
             if (rs.next()) {
                 sql = "UPDATE account SET token=null, tokenexpired=null WHERE token=?";
                 preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, token);
+                preparedStatement.setString(1, token.toString());
                 preparedStatement.executeUpdate();
                 
                 status.setSuccess(true);
@@ -79,6 +87,35 @@ public class LogoutServlet extends HttpServlet {
                 response.getOutputStream().print(gson.toJson(status));
                 response.getOutputStream().flush();
             } else {
+                sql = "SELECT token FROM account";
+                preparedStatement = conn.prepareStatement(sql);
+                rs = preparedStatement.executeQuery();
+                String tokenParts[] = token.toString().split("#");
+                String tokenSavedParts[] = new String[3];
+                boolean found = false;
+
+                if (tokenParts.length == 3) {
+                    while (rs.next() && !found) {
+                        tokenSavedParts = rs.getString("token").split("#");
+                        if (tokenParts[0].equals(tokenSavedParts[0])) {
+                            if (!tokenParts[1].equals(tokenSavedParts[1])) {
+                                 found = true;
+                                 status.setSuccess(false);
+                                 status.setDescription("different browser");
+                                 response.getOutputStream().print(gson.toJson(status));
+                                 response.getOutputStream().flush();
+                            }
+                            else {
+                                 found = true;
+                                 status.setSuccess(false);
+                                 status.setDescription("different ip address");
+                                 response.getOutputStream().print(gson.toJson(status));
+                                 response.getOutputStream().flush();
+                            }
+                        }
+                    }
+                }
+                
                 status.setSuccess(false);
                 status.setDescription("token invalid");                
                 response.getOutputStream().print(gson.toJson(status));
