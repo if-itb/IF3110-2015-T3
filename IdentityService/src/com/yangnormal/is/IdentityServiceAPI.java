@@ -10,11 +10,8 @@ import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.net.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
-import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -82,11 +79,52 @@ public class IdentityServiceAPI extends HttpServlet {
         serve((request, out) -> {
             try {
                 Map<String, String> queryStringMap = splitQuery(req.getQueryString());
+                int status;
+                int uid=0;
+                String[] tokenString=queryStringMap.get("token").split("#");
+                String token = tokenString[0];
+                String userAgent = tokenString[1];
+                String ipAddress = tokenString[2];
+                boolean isExpired=true, isDifferentUserAgent=true, isDifferentIP=true;
                 PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ?");
-                stmt.setString(1,queryStringMap.get("token"));
+                stmt.setString(1,token);
                 ResultSet result = stmt.executeQuery();
-                result.next();
-                out.print("{\"uid\":\""+result.getInt("uid")+"\"}");
+                Timestamp timeNow = new Timestamp(Calendar.getInstance().getTime().getTime());
+                while (result.next()){ //Cek apakah useragent sama
+                    isDifferentUserAgent=(result.getString("useragent")!=userAgent);
+                    if (!isDifferentUserAgent){
+                        break;
+                    }
+                }
+                result.beforeFirst();
+                while (result.next()){ //Cek apakah ip sama
+                    isDifferentIP=(result.getString("ip")!=ipAddress);
+                    if (!isDifferentIP){
+                        break;
+                    }
+                }
+                result.beforeFirst();
+                while (result.next()){ //cek apakah expired atau tidak
+                    isExpired=(timeNow.after(result.getTimestamp("expired")));
+                    if (!isExpired){
+                        break;
+                    }
+                }
+                if ((!isDifferentIP)&&(!isExpired)&&(!isDifferentUserAgent)){
+                    result.first();
+                    uid = result.getInt("uid"); //kalau useragent sama, ip sama, dan tidak expired, return cari uid nya
+                }
+                if (isExpired){ //return -1 kalau expired
+                    status = -1;
+                } else if (isDifferentIP) { //return -2 kalau beda ip
+                    status = -2;
+                } else if (isDifferentUserAgent){ //return -3 kalau beda useragent
+                    status = -3;
+                } else { //return uid kalau valid
+                    status = uid;
+                }
+
+                out.print("{\"uid\":\""+status+"\"}");
                 out.flush();
             } catch (Exception e) {
                 res.setStatus(500);
@@ -104,6 +142,11 @@ public class IdentityServiceAPI extends HttpServlet {
                 map = mapper.readValue(request.getReader(), new TypeReference<Map<String, String>>(){});
                 String email = (String)map.get("email");
                 String password = (String)map.get("password");
+                String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                if (ipAddress == null) {
+                    ipAddress = request.getRemoteAddr();
+                }
+                String userAgent = request.getHeader("User-Agent");
                 /*String email = request.getParameter("email");
                 String password = request.getParameter("password");*/
 
@@ -114,7 +157,7 @@ public class IdentityServiceAPI extends HttpServlet {
                     ResultSet result = stmt.executeQuery();
                     result.next();
                     int uid = result.getInt("id");
-                    String token = issueAuthorization(uid);
+                    String token = issueAuthorization(uid,userAgent,ipAddress);
                     out.print("{\"status\":\"1\", \"token\":\""+ token + "\"}");
                 } else {
                     out.print("{\"status\":\"0\"}");
@@ -164,11 +207,11 @@ public class IdentityServiceAPI extends HttpServlet {
         return result.getInt("count") == 1;
     }
 
-    private String issueAuthorization(int uid) throws SQLException {
+    private String issueAuthorization(int uid, String userAgent, String ipAddress) throws SQLException {
         Statement stmt = conn.createStatement();
         String token = UUID.randomUUID().toString();
-        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR);");
-        return token;
+        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`, `useragent`, `ip`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR,`"+userAgent+"`,`"+ipAddress+"`);");
+        return token+"#"+userAgent+"#"+ipAddress;
     }
 
     private static Map<String, String> splitQuery(String queryString) throws UnsupportedEncodingException {
