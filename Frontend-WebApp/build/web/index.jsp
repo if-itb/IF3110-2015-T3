@@ -11,8 +11,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Simple StackExchange</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+        <script src='js/angular/angular.min.js'> </script>
+        <script src='js/controllers/maincontroller.js'> </script>
     </head>
-    <body>
+    <body ng-app='CommentAndVoteApp'>
         
         <%
         
@@ -65,8 +67,8 @@
         
         <table class="question">
             <tr>
-                    <td class="number">
-                            <%= q.getQvote() %>
+                    <td class="number" ng-controller='voteCtrl'>
+                        {{qid=<%=q.getQid()%>;votenum}}
                     </td>
                     <td class="number">
                             <%
