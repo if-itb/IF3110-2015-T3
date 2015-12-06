@@ -41,7 +41,7 @@
         %>;
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
+<script src="script.js"></script>
          <link rel="stylesheet" type="text/css" href="style/style.css">
         <title><% out.println(Q.getTitle()) ; %></title>
     </head>
@@ -73,8 +73,8 @@
             <div id="main">         
                <% out.println(Q.getContent()) ; %>
             </div>
-            <div id="sidebar">
-			
+           <div id="sidebar">
+               
                 <div id="vnum"><div id="<% out.println(Q.getIdQ());%>"><% out.println(Q.getVote()) ;%> </div> </div> 
                 <div id="vup">
                     <a a href="votep?action=voteup&id=<% out.println(Q.getIdQ()) ; %>&t=q">
@@ -86,6 +86,7 @@
                     <img src="img/down.png" alt="Vote Down" style="width: 32px;height:32px">
                      </a>
                 </div>
+                    
             </div>
             <div id="footer"> </div>
             <div id="qinfo">asked by <aa><% out.println(Q.getUsername()) ; %></aa> at<aa><% out.println(Q.getDate()) ; %></aa> |

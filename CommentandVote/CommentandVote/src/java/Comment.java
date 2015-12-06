@@ -17,8 +17,8 @@ import org.json.simple.JSONObject;
  *
  * @author tama
  */
-@WebServlet(urlPatterns = {"/AnswerVoted"})
-public class AnswerVoted extends HttpServlet {
+@WebServlet(urlPatterns = {"/Comment"})
+public class Comment extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,26 +34,25 @@ public class AnswerVoted extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+             
+             JSONObject ret = new JSONObject();
             /* TODO output your page here. You may use following sample code. */
-              JSONObject ret = new JSONObject();
-            /* TODO output your page here. You may use following sample code. */
-            String token = request.getParameter("token");
-            String id = request.getParameter("id");
-            String value = request.getParameter("value");
+            String qid = request.getParameter("q_id");
+            String idc = request.getParameter("id_c");
+            String ncomment = request.getParameter("ncomment");
             String ipa = request.getParameter("cipa");
             String browser = request.getParameter("cbrowser");
-            String t="";
-            int tempi = Integer.valueOf(id);
-            int num = Integer.valueOf(value);
-            if (tempi<1000) t="q";
-            else t="a";
-            System.out.println("voteservlet : "+id+"|"+num+"|"+tempi+"|"+ipa);
-            System.out.println("voteservlet : "+browser);
-            System.out.println("voteservlet : "+token);
-            Function F = new Function();            
-            int r = F.changeVote(token,t,tempi,num,ipa,browser);
-             System.out.println("voteservlet return : "+r);
-             ret.put("status", r);
+            String token = request.getParameter("token");
+            System.out.println("Comment servlet qid : "+qid);
+            System.out.println("Comment servlet idc : "+idc);
+            System.out.println("Comment servlet ncomment : "+ncomment);
+            System.out.println("Comment servlet ipa : "+ipa);
+            System.out.println("Comment servlet browser : "+browser);
+            System.out.println("Comment servlet token : "+token);
+            Function F = new Function();
+            int status = F.addComment(token,Integer.valueOf(idc),Integer.valueOf(qid),ncomment,ipa,browser);
+            System.out.println("Comment servlet status : "+status);
+             ret.put("status", status);
             out.print(ret);
         }
     }

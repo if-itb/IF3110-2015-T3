@@ -235,5 +235,29 @@ public class Function {
             }
             return ret ;
         }
+     
+     public int getCurrentVote(String t,int id) {
+           Connection conn = null ; 
+            Statement stmt = null ;
+            ResultSet rs =null;
+            int ret = 0 ;
+            String sql;
+            try {
+                Class.forName("com.mysql.jdbc.Driver");                
+                conn = DriverManager.getConnection(DB_URL, USER,PASS);  
+                if (t.equals("q")) sql = "SELECT vote FROM question WHERE id_q="+id;
+                else sql = "SELECT vote FROM answer WHERE id_a="+id;
+                stmt= conn.createStatement();
+                rs = stmt.executeQuery(sql);                
+                rs.next();
+                ret = rs.getInt("vote");
+                stmt.close();
+                conn.close();
+            }
+            catch (Exception e) {
+                e.printStackTrace() ;
+            }
+            return ret ;
+        }
         
 }

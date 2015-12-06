@@ -55,23 +55,28 @@ public class commentp extends HttpServlet {
             cipa =cipa.substring(0, cipa.length()-2);
             String cbrowser = request.getParameter("cbrowser");
             cbrowser=cbrowser.substring(0,cbrowser.length()-2);
-            String t="",idd="",ee="",us="";
+            int id = Integer.valueOf(q_id);
+             String message="",url_="";
+            String t=null,idd="",ee="",us="";
             HttpSession ss = request.getSession();
             boolean x= true ;
-             t = ss.getAttribute("token").toString();
-            if (t!=null&&t.length()>0) {
-             
-            } else {
-                x=false;
-                System.out.println("commentp : Token tidak valid");
-            }
-            if (x) {
-           
+             if (ss.getAttribute("token")!=null)t=ss.getAttribute("token").toString();
+               
             System.out.println("commentp : "+ncomment+"|"+q_id+"|"+id_c+"|"+cipa);
             System.out.println("commentp : "+cbrowser);
             System.out.println("commentp : "+t);
+            if (t!=null&&t.length()>0) {
+             
+            }  else {
+                x=false;
+                message = "You're not currently login. <br> Please login to do this porcedure.";
+                url_ = "open.jsp?id="+q_id;
+                response.sendRedirect("error.jsp?message="+message+"&url="+url_);
+            }
+            if (x) {
+         String  urlr="open.jsp?id="+q_id;
            try { 
-            URL url = new URL("http://localhost:35476/CommentVote/Comment");
+            URL url = new URL("http://localhost:21215/CommentandVote/Comment");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
@@ -79,6 +84,7 @@ public class commentp extends HttpServlet {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
             String query = String.format("token=%s&q_id=%s&id_c=%s&ncomment=%s&cbrowser=%s&cipa=%s",URLEncoder.encode(t, "UTF-8"),URLEncoder.encode(q_id, "UTF-8"), URLEncoder.encode(id_c, "UTF-8"), URLEncoder.encode(ncomment, "UTF-8"),URLEncoder.encode(cbrowser, "UTF-8"),URLEncoder.encode(cipa, "UTF-8"));
              System.out.println("commentp : aa");
+            
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(query.getBytes("UTF-8"));
             }
@@ -100,6 +106,16 @@ public class commentp extends HttpServlet {
                System.out.println(t+"|"+status+"|");
             }      
             conn.disconnect();
+             if (status <0) {
+                     if (status==-2) message = "You're token had expired. <br> Please re-login."  ;              
+                     else if (status==-3)  message = "You're detected connecting from different ip <br> Please re-login." ;
+                     else if (status==-4)message = "You're detected using different browser <br> Please re-login." ;
+                                    
+                    
+                     if (status!=-999) url_="logout";
+                     else url_ =  "open.jsp?id="+q_id;
+                     urlr="error.jsp?message="+message+"&url="+url_;
+            }
             } catch (MalformedURLException e) {
                   e.printStackTrace();
             } catch (IOException e) {
@@ -111,8 +127,10 @@ public class commentp extends HttpServlet {
           
            
            System.out.println("commentp : dd");
-            } int id = Integer.valueOf(q_id);
-         response.sendRedirect("open.jsp?id="+id);
+           response.sendRedirect(urlr);
+            
+            } 
+        
         }
         
     }

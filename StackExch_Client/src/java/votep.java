@@ -56,14 +56,20 @@ public class votep extends HttpServlet {
             String id = request.getParameter("id");
             HttpSession ss= request.getSession();
             String t = ss.getAttribute("token").toString();
-            boolean x= true ;           
+            boolean x= true ;   
+            int id_ = Integer.valueOf(id);
+             if (id_>1000) id_= id_/1000;
+            String message="",url_="";
             if (t!=null&&t.length()>0) {
              
             } else {
                 x=false;
-                System.out.println("votep : Token tidak valid");
+                message = "You're not currently login. <br> Please login to do this porcedure.";
+                url_ = "open.jsp?id="+id;
+                response.sendRedirect("error.jsp?message="+message+"&url="+url_);
             }
             if (x) {
+                String urlr="open.jsp?id="+id;
                 try { 
                     String val="";
                     if (action.contains("up")) val="1";
@@ -72,7 +78,7 @@ public class votep extends HttpServlet {
                     System.out.println("votep "+t);
                     System.out.println("votep "+cbrowser);
 
-                    URL url = new URL("http://localhost:35476/CommentVote/vote");
+                    URL url = new URL("http://localhost:21215/CommentandVote/AnswerVoted");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setDoOutput(true);
 
@@ -103,10 +109,16 @@ public class votep extends HttpServlet {
                        System.out.println(t+"|"+status+"|");
                     }      
                     conn.disconnect();
-                     if (status==-2) System.out.println("votep : token tidak valid");
-                     else if (status==-3) System.out.println("votep : you are accessing from different ip");
-                     else if (status==-4) System.out.println("You are using different browser");
-                     else if (status==-999) System.out.println("You are already vote this one");
+                    if (status <0) {
+                     if (status==-2) message = "You're token had expired. <br> Please re-login."  ;              
+                     else if (status==-3)  message = "You're detected connecting from different ip <br> Please re-login." ;
+                     else if (status==-4)message = "You're detected using different browser <br> Please re-login." ;
+                     else if (status==-999) System.out.println("You already vote this one.<br> You can't vote more than 1 times");                     
+                    
+                     if (status!=-999) url_="logout";
+                     else url_ =  "open.jsp?id="+id;
+                     urlr="error.jsp?message="+message+"&url="+url_;
+                    }
                     } catch (MalformedURLException e) {
                           e.printStackTrace();
                     } catch (IOException e) {
@@ -114,11 +126,11 @@ public class votep extends HttpServlet {
                    } catch (ParseException ex) {
                         Logger.getLogger(commentp.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                response.sendRedirect(urlr);
             }
              System.out.println("votep : dd");
-             int id_ = Integer.valueOf(id);
-             if (id_>1000) id_= id_/1000;
-             response.sendRedirect("open.jsp?id="+id_);
+             
+             
         }
     }
 
