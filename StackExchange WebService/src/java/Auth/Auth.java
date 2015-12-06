@@ -19,12 +19,17 @@ import java.util.logging.Logger;
  * @author acel
  */
 public class Auth {
-    String token = "";
-    String id = "";
+    private String token = "";
+    private String id = "";
+    private String ip = "";
+    private String user_agent = "";
+    private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
     
-    public Auth(String token, String id){
+    public Auth(String token, String id, String ip, String user_agent){
         this.token = token;
         this.id = id;
+        this.ip = ip;
+        this.user_agent = user_agent;
     }
     
     public boolean getResponse(String url){
@@ -38,16 +43,15 @@ public class Auth {
     }
     
     public String servletResponse(String url)throws MalformedURLException, IOException{
-        String link = url + "?token=" + token + "&id=" + id;
+        String link = url + "?token=" + token + "&id=" + id + "&ip=" + ip;
         StringBuffer response1 = new StringBuffer();
-        String USER_AGENT = "Chrome/46.0.2490.86";
+        
         URL obj = new URL(link);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestProperty("User-Agent", user_agent);
         // optional default is GET
         con.setRequestMethod("GET");
-
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
+        
         int responseCode = con.getResponseCode();
         try {
             BufferedReader in = new BufferedReader(

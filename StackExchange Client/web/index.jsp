@@ -110,7 +110,7 @@
                             String s = String.valueOf(id);
                     %>
                             <div class="col title">
-                                <a href="question.jsp?id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a>
+                                <h3><a href="question.jsp?id=<%=request.getParameter("id")%>&qid=<%= s %>"><% out.print(result.get(i).getTopic());%></a></h3>
                             </div>
                             <div class="content">
                                 <br>
