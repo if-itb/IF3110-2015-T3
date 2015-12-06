@@ -95,6 +95,7 @@ public final class VoteAnswerModel {
 		} else {
 		    System.out.println("+++++++++++");
 		    sql = "update answers set votes = votes + 1 where aid = ?";
+		    
 		}
 		
 		dbStatement = conn.prepareStatement(sql);
@@ -104,6 +105,7 @@ public final class VoteAnswerModel {
 		sql = "select * from answers where aid=?";
 		dbStatement = conn.prepareStatement(sql);
 		dbStatement.setInt(1, this.aid);
+		System.out.println(this.aid);
 		
 		res = dbStatement.executeQuery();
 		if(res.next()) {

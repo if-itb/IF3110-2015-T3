@@ -36,7 +36,7 @@ public class VoteQuestion extends HttpServlet {
 		int userid = Integer.parseInt(request.getParameter("userid"));
 
 		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
-		if (null != tokenStatus) {
+		if ("valid".equals(tokenStatus)) {
 		    VoteQuestionModel vqm = new VoteQuestionModel(userid, qid, value);
 		    if (vqm.addToDatabase().equals("sukses")) {
 			System.out.println("HASIL : " + vqm.toXML());
@@ -44,6 +44,10 @@ public class VoteQuestion extends HttpServlet {
 		    } else {
 			out.println("Error");
 		    }
+		} else if("expired".equals(tokenStatus)) {
+		    out.println("expired");
+		} else {
+		    out.println("invalid");
 		}
 	    }
 	} else {
@@ -60,9 +64,7 @@ public class VoteQuestion extends HttpServlet {
 		PrintWriter o = response.getWriter();
 		System.out.println("Result :" + res.toString());
 		q = res.getInt("votes");
-		System.out.println("qqqqqqqqqqqqqqqqq : "+q);
 		VoteQuestionModel vqm = new VoteQuestionModel(999, qid, 1, q);
-		System.out.println("HAaaaaaaaaaaasil1 : " + vqm.toXML());
 
 		o.println (vqm.toXML());
 	    }

@@ -49,7 +49,7 @@ public class VoteAnswer extends HttpServlet {
 		int userid = Integer.parseInt(request.getParameter("userid"));
 
 		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
-		if (null != tokenStatus) {
+		if ("valid".equals(tokenStatus)) {
 		    VoteAnswerModel vqm = new VoteAnswerModel(userid, aid, value);
 		    if (vqm.addToDatabase().equals("sukses")) {
 			System.out.println("HASIL : " + vqm.toXML());
@@ -57,6 +57,10 @@ public class VoteAnswer extends HttpServlet {
 		    } else {
 			out.println("Error");
 		    }
+		} else if ("expired".equals(tokenStatus)) {
+		    out.println("expired");
+		} else {
+		    out.println("invalid");
 		}
 	    }
 	}

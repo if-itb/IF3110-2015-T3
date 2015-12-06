@@ -26,7 +26,7 @@ public final class AccessToken {
     private String useragent;
     private String ip;
     
-    private final long lifetime = 15000;
+    private final long lifetime = 1;
     
     public AccessToken() {}
     

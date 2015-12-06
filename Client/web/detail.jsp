@@ -66,7 +66,8 @@
             <div class='answer'>
                 <h2><c:out value="${answers.size()}" />  Answer</h2>
                 <div class='row clearfix'>
-                    <c:forEach items="${answers}" var="s">
+		    
+                    <c:forEach items="${answers}" var="answer">
 			<div class='colVote' ng-controller="voteAnswerCtrl">
                         <div class='aVote arrow-up' id='<c:out value="${answer.getAid()}" />' ng-click='voteUp(<c:out value="${answer.getAid()}" />)'></div>
                         <span class='voteVal'>{{ votes || "<c:out value="${answer.getVotes()}" />" }}</span>

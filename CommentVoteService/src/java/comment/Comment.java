@@ -40,34 +40,26 @@ public class Comment extends HttpServlet {
 	    try {
 		PrintWriter out = response.getWriter();
 
-		String result = isValidToken(token, this.getUserAgent(request), this.getIP(request));
-		if ("UserNotFound".equals(result.trim())) {
-		    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		    // Redirect to the login page with error message
-		    request.setAttribute("errorMessage", "Invalid Email / Password !");
-		    request.getRequestDispatcher("/login.jsp").forward(request, response);
+		    String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
+		    System.out.println("token Status :" + tokenStatus);
+		    if (null != tokenStatus) {
+			switch (tokenStatus) {
+			    case "valid":
+				System.out.println("VALID TOKEN");
+				CommentModel cm = new CommentModel(name, content, Integer.parseInt(qid));
+				cm.addToDatabase();
+				out.println(cm.toXML());
+				break;
+			    case "invalid":
+				System.out.println("INVALID TOKEN");
+				out.println("invalid");
+				break;
+			    default:
+				System.out.println("EXPIRED_TOKEN");
+				out.println("expired");
+			}
 		}
-		
-		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
-		System.out.println("token Status :" + tokenStatus);
-		if (null != tokenStatus) {
-		    switch (tokenStatus) {
-			case "valid":
-			    System.out.println("VALID TOKEN");
-			    CommentModel cm = new CommentModel(name, content, Integer.parseInt(qid));
-			    cm.addToDatabase();
-			    out.println(cm.toXML());
-			    break;
-			case "invalid":
-			    System.out.println("INVALID TOKEN");
-			    out.println("invalidtoken");
-			    break;
-			default:
-			    System.out.println("EXPIRED_TOKEN");
-			    out.println("expiredtoken");
-		    }
-		}
-	    } catch (ServletException | IOException ex) {
+	    } catch (IOException ex) {
 		request.setAttribute("errorMessage", ex.getMessage());
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
@@ -171,6 +163,7 @@ public class Comment extends HttpServlet {
     private String isValidToken(String token, String useragent, String ip) {
 	Form form = new Form();
 	form.param("token", token);
+	System.out.println("TOOOOOOOOOOOOOKEEEEEEN :" + token);
 	form.param("user_agent", useragent);
 	form.param("ip", ip);
         

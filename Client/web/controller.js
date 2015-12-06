@@ -35,9 +35,10 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 	    }
 	}).success(function (response) {
 	    $scope.comments = response.comments.comments;
-	    if( Object.prototype.toString.call( $scope.comments ) === '[object Array]' ) {}
-	    else $scope.comments = [ $scope.comments ];
-	    $log.log(JSON.stringify($scope.comments));
+	    if (Object.prototype.toString.call($scope.comments) === '[object Array]') {
+	    } else
+		$scope.comments = [$scope.comments];
+	    $log.log(JSON.stringify($scope.comments));	    
 	});
     }
     
@@ -64,20 +65,35 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
                 return str.join("&");
             },
 	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
+		if (data.contains("invalid")) {
+		    console.log("invalid");
+		    return "invalid";
+		} else if (data.contains("expired")) {
+		    console.log("expired");
+		    return "expired";
+		} else {
+		    var x2js = new X2JS();
+		    var json = x2js.xml_str2json(data);
+		    return json;
+		}
+		
 	    },
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(response){
-	    if (!$scope.comments) $scope.comments = [];
-	    $scope.comments.push(response.comment);
+	    if (response.toString().indexOf("expired") > -1){
+		window.location.href = "/Client/expired";
+	    } else if(response.toString().indexOf("invalid") > -1) {
+		window.location.href = "/Client/invalid";
+	    } else {
+		if (!$scope.comments) $scope.comments = [];
+		$scope.comments.push(response.comment);
+	    }
 	});
     };
 });
 
 
-app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies) {
+app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies, $location) {
     $scope.username;
     $scope.vote;
     $scope.id;
@@ -112,7 +128,10 @@ app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies) {
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
+	    if (!response){
+	    } else {
+		$scope.vote = response.voteQuestion.vote;
+	    }
 	});
     };
     
@@ -139,13 +158,33 @@ app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies) {
 		return str.join("&");
 	    },
 	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
+		if (data.contains("invalid")) {
+		    console.log("invalid");
+		    return "invalid";
+		} else if (data.contains("expired")) {
+		    console.log("expired");
+		    return "expired";
+		} else if (data.contains("Error")) {
+		    console.log("Error");
+		    return "error";
+		} else {
+		    var x2js = new X2JS();
+		    var json = x2js.xml_str2json(data);
+		    return json;
+		}
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
+	    if (response.toString().indexOf("expired") > -1){
+		window.location.href = "/Client/expired";
+	    } else if(response.toString().indexOf("invalid") > -1) {
+		window.location.href = "/Client/invalid";
+		$location.path("/invalid");
+	    } else if (response.toString().indexOf("error") > -1) {
+	    alert("Error : Anda Sudah Pernah Melakukan Vote");
+	    }else {
+		$scope.vote = response.voteQuestion.vote;
+	    }
 	});
     };
     
@@ -172,13 +211,33 @@ app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies) {
 		return str.join("&");
 	    },
 	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
+		console.log("DAta :" + data);
+		if (data.contains("invalid")) {
+		    console.log("invalid");
+		    return "invalid";
+		} else if (data.contains("expired")) {
+		    console.log("expired");
+		    return "expired";
+		} else if (data.contains("Error")) {
+		    console.log("Error");
+		    return "error";
+		} else {
+		    var x2js = new X2JS();
+		    var json = x2js.xml_str2json(data);
+		    return json;
+		}
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
+	   if (response.toString().indexOf("expired") > -1){
+		window.location.href = "/Client/expired";
+	    } else if(response.toString().indexOf("invalid") > -1) {
+		window.location.href = "/Client/invalid";
+	    } else if (response.toString().indexOf("error") > -1) {
+		alert("Error : Anda Sudah Pernah Melakukan Vote");
+	    } else {
+		$scope.vote = response.voteQuestion.vote;
+	    }
 	});
     };
     
@@ -217,17 +276,38 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 		return str.join("&");
 	    },
 	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
+		console.log("DAta :" + data);
+		if (data.contains("invalid")) {
+		    console.log("invalid");
+		    return "invalid";
+		} else if (data.contains("expired")) {
+		    console.log("expired");
+		    return "expired";
+		} else if (data.contains("Error")) {
+		    console.log("Error");
+		    return "error";
+		} else {
+		    var x2js = new X2JS();
+		    var json = x2js.xml_str2json(data);
+		    return json;
+		}
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.votes = response.voteAnswer.vote;
+	    if (response.toString().indexOf("expired") > -1){
+		window.location.href = "/Client/expired";
+	    } else if(response.toString().indexOf("invalid") > -1) {
+		window.location.href = "/Client/invalid";
+	    } else if (response.toString().indexOf("error") > -1) {
+		alert("Error : Anda Sudah Pernah Melakukan Vote");
+	    }
+	     else {
+		$scope.votes = response.voteAnswer.vote;
+	    }
 	});
     };
 
-    $scope.voteUp = function () {
+    $scope.voteUp = function (id) {
 	console.log(JSON.stringify({
 	    token: $cookies.get("token"),
 	    userid: $cookies.get("id"),
@@ -250,13 +330,33 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 		return str.join("&");
 	    },
 	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
+		if (data.contains("invalid")) {
+		    console.log("invalid");
+		    return "invalid";
+		} else if (data.contains("expired")) {
+		    console.log("expired");
+		    return "expired";
+		} else if (data.contains("Error")) {
+		    console.log("Error");
+		    return "error";
+		}
+		else{
+		    var x2js = new X2JS();
+		    var json = x2js.xml_str2json(data);
+		    return json;
+		}
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.votes = response.voteAnswer.vote;
+	    if (response.toString().indexOf("expired") > -1){
+		window.location.href = "/Client/expired";
+	    } else if(response.toString().indexOf("invalid") > -1) {
+		window.location.href = "/Client/invalid";
+	    } else if(response.toString().indexOf("error") > -1) {
+		alert("Error : Anda Sudah Pernah Melakukan Vote");
+	    } else {
+		$scope.votes = response.voteAnswer.vote;
+	    }
 	});
     };
 
