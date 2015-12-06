@@ -77,9 +77,9 @@ public class RegistereduserFacadeREST extends AbstractFacade<Registereduser> {
                 
                 // concate token
                 token =  new StringBuilder(token)
-                        .append("#")
+                        .append("_")
                         .append(browser)
-                        .append("#")
+                        .append("_")
                         .append(ip)
                         .toString();
                 
