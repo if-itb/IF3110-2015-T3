@@ -470,3 +470,50 @@ input[type="search"]::-webkit-search-decoration {
 .register input[type="submit"]:hover {
 	background: #CFBCB3;
 }
+
+/* Comments */
+.comments{
+	margin-left:100px;
+    max-width: 60%;
+    background: #EFFFDE;
+    padding: 5px;
+    font: 12px Dss, Dss, Dss, Dss;
+    color: #000;
+    border:1px solid #E4E4E4;
+}
+
+.comment-box{
+	max-width: 60%;
+	height: 200px;
+	margin-left:10px;
+}
+
+.comment-box textarea {
+	border: 1px solid #DADADA;
+    color: #888;
+    height: 150px;
+    outline: 0 none;
+    width: 60%;
+    font-size: 12px;
+    line-height:15px;
+    box-shadow: inset 0px 1px 4px #ECECEC;
+    -moz-box-shadow: inset 0px 1px 4px #ECECEC;
+    -webkit-box-shadow: inset 0px 1px 4px #ECECEC;
+	padding: 5px 3px 3px 5px;
+    resize: none;
+    font-family: Dss;
+}
+    
+.comment-box input[type="submit"] {
+    width : 60px;
+    height : 40px;
+    background: #FFA398;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 16px;
+    font-family: ConcursoItalian;
+    margin-right: 0px;
+    border: 0px;
+    -webkit-box-shadow: inset 0px 0px 0px;
+}
