@@ -53,6 +53,8 @@ public class QuestionDelete extends HttpServlet {
         
         int ret = deleteQuestion(access_token, userIP, userAgent, id_question, id_user);
                 
+        tools.redirectTo(request, response, ret);
+        /*
         switch (ret) {
           case 1:
             response.sendRedirect(request.getContextPath() + "/home");
@@ -66,6 +68,7 @@ public class QuestionDelete extends HttpServlet {
           default:
             response.sendRedirect(request.getContextPath() + "/login?alert=-1");
         }
+        */
         
         
     }

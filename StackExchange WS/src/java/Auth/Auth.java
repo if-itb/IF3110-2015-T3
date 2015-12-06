@@ -79,7 +79,12 @@ public class Auth {
         } else if (((String)jobj.get("message")).equals("expired")) {
           ret = 0;
         } else {
-          ret = -1;
+          if (((String)jobj.get("message")).contains("IP")) {
+            ret *= 2;
+          }
+          if (((String)jobj.get("message")).contains("UA")) {
+            ret *= 3;
+          }
         }
       }
 

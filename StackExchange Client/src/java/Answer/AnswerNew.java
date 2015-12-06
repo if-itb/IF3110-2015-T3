@@ -53,9 +53,11 @@ public class AnswerNew extends HttpServlet {
         
         int ret = insertAnswer(access_token, userIP, userAgent, answer);
         
+        tools.redirectTo(request, response, ret);
+        /*
         switch (ret) {
           case 1:
-            response.sendRedirect(request.getContextPath() + "/question?id=" + Integer.parseInt(request.getParameter("qid")));
+            response.sendRedirect(request.getContextPath() + "/home");
             break;
           case 0:
             response.sendRedirect(request.getContextPath() + "/login?alert=0");            
@@ -66,6 +68,7 @@ public class AnswerNew extends HttpServlet {
           default:
             response.sendRedirect(request.getContextPath() + "/login?alert=-1");
         }
+        */
         
     }
 

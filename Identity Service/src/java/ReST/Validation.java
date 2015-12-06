@@ -48,13 +48,14 @@ public class Validation extends HttpServlet {
     
     try (PrintWriter out = response.getWriter()) {
       String token = request.getParameter("token");
-      String userIP = request.getParameter("userIP");
-      String userAgent = request.getParameter("userAgent");
+      String userIP = URLEncoder.encode(request.getParameter("userIP"), "UTF-8");
+      String userAgent = URLEncoder.encode(request.getParameter("userAgent"), "UTF-8");
       
-      String userIdentifier = URLEncoder.encode(userIP + userAgent, "UTF-8");
+      String userIdentifier = userIP + userAgent;//URLEncoder.encode(userIP + userAgent, "UTF-8");
 
-      if (!token.equals(null) && token.length() > userIdentifier.length())
-          if (token.substring(token.length()-userIdentifier.length(), token.length()).equals(userIdentifier))
+      if (!token.equals(null) && token.length() > userIdentifier.length()) {
+          String checker = token.substring(token.length()-userIdentifier.length(), token.length());
+          if (checker.equals(userIdentifier)) {
             try {
                 Statement stmt = conn.createStatement();
                 String sql;
@@ -93,6 +94,19 @@ public class Validation extends HttpServlet {
                 obj.put("error", ex);  
                 out.print(obj);
             }
+          }
+          else {
+              String message = "";
+              if (checker.substring(checker.length()-userIP.length(), checker.length()).equals(userIP)) {
+                  message += "IP";
+              }
+              if (checker.substring(checker.length()-userAgent.length(), checker.length()).equals(userAgent)) {
+                  message += "UA";
+              }
+              obj.put("message", message);
+              out.print(obj);
+          }
+      }
     }
   }
 

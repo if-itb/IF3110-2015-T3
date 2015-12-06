@@ -43,7 +43,7 @@ public class Auth extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-    System.setProperty("java.net.preferIPv6Addresses", "false");
+    //System.setProperty("java.net.preferIPv4Stack", "true");
     
     JSONParser parser = new JSONParser();    
     try {

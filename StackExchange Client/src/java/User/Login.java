@@ -38,6 +38,16 @@ public class Login extends HttpServlet {
         request.setAttribute("alert", "Session Expired - Please login again");
       } else if ( request.getParameter("alert").equals("-1") ) {
         request.setAttribute("alert", "Invalid Session - Please login");   
+      } else {
+          String message = "Invalid ";
+          if ( Integer.parseInt(request.getParameter("alert")) %2 == 0 ) {
+              message += "IP Address ";
+          }
+          if ( Integer.parseInt(request.getParameter("alert")) %3 == 0 ) {
+              message += "User Agent ";
+          }
+          message += "- Please login";
+          request.setAttribute("alert", message);
       }
     }
     

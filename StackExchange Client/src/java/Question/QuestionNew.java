@@ -53,6 +53,8 @@ public class QuestionNew extends HttpServlet {
         
         int ret = insertQuestion(access_token, userIP, userAgent, question);
                         
+        tools.redirectTo(request, response, ret);
+        /*
         switch (ret) {
           case 1:
             response.sendRedirect(request.getContextPath() + "/home");
@@ -66,6 +68,7 @@ public class QuestionNew extends HttpServlet {
           default:
             response.sendRedirect(request.getContextPath() + "/login?alert=-1");
         }
+        */
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
