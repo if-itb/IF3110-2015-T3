@@ -38,7 +38,7 @@ public class Activeuser implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 255)
     @Column(name = "token")
     private String token;
     @Basic(optional = false)

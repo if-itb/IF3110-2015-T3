@@ -15,6 +15,9 @@
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    
+    <script src="assets/js/angular.min.js"></script>
+    <script src="assets/js/app.js"></script>
 
   </head>
 
@@ -125,6 +128,30 @@
                
             </div>
         </div><!-- end of col-sm-11 -->
+        
+        <% if (Util.isLogin(request)) { %>
+          <form class="form-horizontal" role="form" method="POST">
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                    <textarea class="form-control" rows="5" id="answer" name="answer"></textarea>
+                    </div>
+                  </div>
+                <input name="qid" value="${question.getKey().getQid()}" type="hidden" />
+                <div class="form-group"> 
+                  <div class="col-md-10 col-md-offset-2">
+                    <button type="submit" class="btn btn-info btn-block">Post</button>
+                  </div>
+                </div>
+              </form>
+            <%} else {%>
+                <div class="col-md-10 col-md-offset-2 alert alert-danger" role="alert">
+                    Please
+                    <span>
+                        <a class="btn btn-default btn-sm" href="${pageContext.request.contextPath}/login.jsp" role="button">Login now!</a>
+                    </span> to answer the question!
+                </div>
+            <%}%>
+        
         <div class="col-sm-12">
             <h2>
                 ${question.getKey().getCountanswers()} Answers

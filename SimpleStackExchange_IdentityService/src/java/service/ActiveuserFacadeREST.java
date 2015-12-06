@@ -10,6 +10,7 @@ import entity.Registereduser;
 import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -58,6 +59,11 @@ public class ActiveuserFacadeREST extends AbstractFacade<Activeuser> {
     @Produces(MediaType.TEXT_PLAIN)
     public String auth(@PathParam("token") String token) throws ParseException
     {
+        StringTokenizer st = new StringTokenizer(token, "#");
+        while (st.hasMoreTokens()) {
+            System.out.println(st.nextToken());
+        }
+ 
         Activeuser auser = new Activeuser();
         try {
             auser = (Activeuser) em.createNamedQuery("Activeuser.findByToken")

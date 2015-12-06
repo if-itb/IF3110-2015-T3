@@ -8,6 +8,7 @@ package user;
 import entity.Registereduser;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,8 +41,16 @@ public class UserLogin extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         
+        // get user agent
+        String browser = tool.Util.parseUserAgent(request.getHeader("User-Agent"));
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
+        }
+        
+        // REST consumer 
         ConsumerREST r = new ConsumerREST(); // Create object for consumming REST Web service
-        String token = r.validate(email, password); // validate whether there is valid email and password
+        String token = r.validate(email, password, browser, ipAddress); // validate whether there is valid email and password
         
         if(!token.equals("")){
             Cookie loginCookie = new Cookie("token", token); // Set cookie to track user's session

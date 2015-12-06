@@ -54,7 +54,12 @@ public class RegistereduserFacadeREST extends AbstractFacade<Registereduser> {
     @POST
     @Path("validate")
     @Produces(MediaType.TEXT_PLAIN)
-    public String validate(@FormParam("email") String email, @FormParam("password") String password) throws JAXBException, IOException {
+    public String validate(
+            @FormParam("email") String email, 
+            @FormParam("password") String password,
+            @FormParam("browser") String browser,
+            @FormParam("ip")String ip
+    ) throws JAXBException, IOException {
         Registereduser user;
         try {
             user = new Registereduser(this.findByEmail(email));
@@ -70,6 +75,15 @@ public class RegistereduserFacadeREST extends AbstractFacade<Registereduser> {
                 Date date = new Date();
                 Timestamp timestamp = new Timestamp(date.getTime());
                 
+                // concate token
+                token =  new StringBuilder(token)
+                        .append("#")
+                        .append(browser)
+                        .append("#")
+                        .append(ip)
+                        .toString();
+                
+                        
                 // Create Activeuser object
                 Activeuser auser = new Activeuser(token, user.getUid(), date);
               

@@ -63,10 +63,12 @@ public class ConsumerREST {
         return resource.request(javax.ws.rs.core.MediaType.TEXT_PLAIN).get(Integer.class);
     }
     
-    public String validate(String email, String password) throws ClientErrorException {
+    public String validate(String email, String password, String browser, String ip) throws ClientErrorException {
         Form form = new Form();
         form.param("email", email);
         form.param("password", password);
+        form.param("browser", browser);
+        form.param("ip", ip);
         return webTarget.path("validate").request(MediaType.TEXT_PLAIN).post(Entity.entity(form,MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
     }
 
