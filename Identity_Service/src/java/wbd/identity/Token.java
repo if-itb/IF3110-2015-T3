@@ -36,7 +36,7 @@ public class Token implements Serializable {
   @Id
   @Basic(optional = false)
   @NotNull
-  @Size(min = 1, max = 64)
+  @Size(min = 1, max = 256)
   @Column(name = "val")
   private String val;
   @Basic(optional = false)

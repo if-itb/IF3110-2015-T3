@@ -92,7 +92,7 @@ public class LoginAuth extends HttpServlet {
               }
               event = parser.next();
               s = parser.getString();
-              String browserType = request.getHeader("User-Agent");
+              String browserType = request.getHeader("User-Agent").substring(0,10);
               String ipAddress  = request.getHeader("X-FORWARDED-FOR");
               if(ipAddress == null)
               {

@@ -23,7 +23,7 @@ public class TokenChecker {
     resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{token}));
     String strIS = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
 //    System.out.println(strIS);
-    if ("[]".equals(strIS)){
+    if ("[]".equals(strIS)||token==null||token.equals("")){
       return false;
     }
     else{
