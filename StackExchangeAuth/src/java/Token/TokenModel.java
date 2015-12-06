@@ -24,15 +24,20 @@ public class TokenModel {
     @XmlElement(name="token", required=true)
     private String token;
     
-    public TokenModel() {
+    /*public TokenModel() {
        TokenGenerator tgin = new TokenGenerator(6);
+       this.token = tgin.getToken();
+    }*/
+    
+    public TokenModel(String userAgent, String ip) {
+       TokenGenerator tgin = new TokenGenerator(6, userAgent, ip);
        this.token = tgin.getToken();
     }
     
-    public TokenModel(int lifetime) {
+    /*public TokenModel(int lifetime) {
        TokenGenerator tgin = new TokenGenerator(lifetime);
        this.token = tgin.getToken();
-    }
+    }*/
     
     @XmlElement
     public String getToken() {

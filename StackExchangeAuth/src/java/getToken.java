@@ -53,7 +53,11 @@ public class getToken extends HttpServlet {
         String uname = request.getParameter("uname");
         String pass = request.getParameter("pass");
         String password = "";
-        
+        String userAgent = request.getHeader("user-agent");
+        String ip = request.getHeader("X-FORWARDED-FOR");
+        if(ip==null){
+            ip = request.getRemoteAddr();
+        }
         PrintWriter tw = response.getWriter();
         
         DB db = new DB();
@@ -97,7 +101,7 @@ public class getToken extends HttpServlet {
             
             try {
                 
-                token = new TokenModel();
+                token = new TokenModel(userAgent,ip);
                 String tkn = token.getToken();
                 
                 Connection conn = db.connect();

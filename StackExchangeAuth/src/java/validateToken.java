@@ -71,7 +71,12 @@ public class validateToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String token_string = request.getParameter("token_string");
-        
+        String token[] = token_string.split("#");
+        String userAgent = request.getHeader("user-agent");
+        String ip = request.getHeader("X-FORWARDED-FOR");
+        if(ip==null){
+            ip = request.getRemoteAddr();
+        }
         PrintWriter tw = response.getWriter();
         
         DB db = new DB();
@@ -107,17 +112,25 @@ public class validateToken extends HttpServlet {
         }
         catch(SQLException ex) {
         }
-        
-        if (valid_hour != 0 && token_string != null) {
-            tw.println("<tokenModel>");
-            tw.println("<date_create>" + date_create + "</date_create>");
-            tw.println("<valid_hour>" + valid_hour + "</valid_hour>");
-            tw.println("<status>" + isValid(date_create, valid_hour) + "</status>");
-            tw.println("<username>" + username + "</username>");
-            tw.println("</tokenModel>");
+        if(token[1].equals(userAgent)){
+            if(token[2].equals(ip)){
+                if (valid_hour != 0 && token_string != null) {
+                    tw.println("<tokenModel>");
+                    tw.println("<date_create>" + date_create + "</date_create>");
+                    tw.println("<valid_hour>" + valid_hour + "</valid_hour>");
+                    tw.println("<status>" + isValid(date_create, valid_hour) + "</status>");
+                    tw.println("<username>" + username + "</username>");
+                    tw.println("</tokenModel>");
+                }
+                else {
+                    tw.println("<tokenModel><status>false</status></tokenModel>");
+                }
+            }else{
+                tw.println("<tokenModel><status>"+token[2]+" : "+ ip +"</status></tokenModel>");
+            }
         }
-        else {
-            tw.println("<tokenModel><status>false</status></tokenModel>");
+        else{
+            tw.println("<tokenModel><status>user-agent</status></tokenModel>");
         }
         tw.close();
     }

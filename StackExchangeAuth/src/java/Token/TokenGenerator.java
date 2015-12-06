@@ -6,6 +6,7 @@
 package Token;
 
 import Config.DB;
+
 import java.util.UUID;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -31,9 +33,12 @@ public class TokenGenerator {
     
     public TokenGenerator() {}
     
-    public TokenGenerator(int lifetime) {
+    public TokenGenerator(int lifetime, String userAgent, String ip) {
         this.token = UUID.randomUUID().toString();
-        
+         String temp1= "#" +userAgent;
+         String temp2= "#" +ip;
+        this.token= this.token + temp1+ temp2;
+        //this.token.concat('#'+userAgent+"#"+ip);
         DB db = new DB();
         Connection conn = db.connect();
         
