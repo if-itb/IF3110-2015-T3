@@ -84,20 +84,26 @@ public class IdentityServiceAPI extends HttpServlet {
                 String token = queryStringMap.get("token");
                 String userAgent = queryStringMap.get("userAgent");
                 String ipAddress = queryStringMap.get("ipAddress");
+                System.out.println(token+userAgent+ipAddress);
                 boolean isExpired=true, isDifferentUserAgent=true, isDifferentIP=true;
-                PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ?");
+                PreparedStatement stmt=conn.prepareStatement("SELECT * FROM token WHERE token = ?");
                 stmt.setString(1,token);
                 ResultSet result = stmt.executeQuery();
                 Timestamp timeNow = new Timestamp(Calendar.getInstance().getTime().getTime());
+                result.beforeFirst();
                 while (result.next()){ //Cek apakah useragent sama
-                    isDifferentUserAgent=(result.getString("useragent")!=userAgent);
+                    System.out.println(result.getString("useragent"));
+                    isDifferentUserAgent=(!result.getString("useragent").equals(userAgent));
                     if (!isDifferentUserAgent){
                         break;
                     }
                 }
                 result.beforeFirst();
                 while (result.next()){ //Cek apakah ip sama
-                    isDifferentIP=(result.getString("ip")!=ipAddress);
+                    System.out.println(result.getString("ip"));
+                    System.out.println(ipAddress);
+                    isDifferentIP=(!result.getString("ip").equals(ipAddress));
+                    System.out.println(isDifferentIP);
                     if (!isDifferentIP){
                         break;
                     }
@@ -127,6 +133,7 @@ public class IdentityServiceAPI extends HttpServlet {
                 out.flush();
             } catch (Exception e) {
                 res.setStatus(500);
+                e.printStackTrace();
                 out.print("{\"error\":\""+e.getMessage()+"\"}");
                 out.flush();
             }

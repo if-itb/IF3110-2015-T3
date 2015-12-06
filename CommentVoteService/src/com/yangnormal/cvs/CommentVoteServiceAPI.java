@@ -134,16 +134,15 @@ public class CommentVoteServiceAPI extends HttpServlet {
                 stmt.setString(1, qid);
                 ResultSet result = stmt.executeQuery();
                 out.print("{");
-                out.print("\"comment_list\": [");
-
-
 
                 int rowcount = 0;
                 if (result.last()) {
                     rowcount = result.getRow();
                     result.beforeFirst();
                 }
-
+                if (rowcount > 0){
+                    out.print("\"comment_list\": [");
+                }
                 for (int i=0;i<rowcount-1;i++){
                     result.next();
                     String content= result.getString("content");
