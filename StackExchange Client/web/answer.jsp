@@ -10,11 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Answer a Question!</title>
+		<link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-    
-    <center>
-<%! 
+	<center>
+    <%! 
                Cookie[] cookies = null;
                String token = null;
             %>
@@ -104,15 +104,14 @@
     }
     %>
     <%-- end web service invocation --%>
-        
-        <h4>Your Answer</h4>
+	 <h4>Your Answer</h4>
         <form name='question' action='answer' method='POST'>            
-            <textarea name='acontent' placeholder="Answer" style="resize:none;width:500px;"></textarea><br><br>
+            <textarea class="inputform" name='acontent' placeholder="Answer" rows="5"></textarea><br><br>
             <input type='hidden' name='idq' value="<%out.println(request.getParameter("id"));%>">
-            <input type="submit" value="Submit">
-        </form>        
+            <input class="button" type="submit" value="Submit">
+			</form>        
         
         
     </center>
-    </body>
+	</body>
 </html>
