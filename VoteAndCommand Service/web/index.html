@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  
+  <head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  </head>
+ 
+  
+  <body>
+    <div ng-app="App">
+      <div ng-controller="voteController">
+        <p>{{5+5}}</p>
+        <button ng-click="voteClick('question','incr',9,1)">Click here to add vote!</button>
+        <p>Vote : {{questionVoteNumber}}</p>
+      </div>
+      <div ng-controller="commentController">
+        <p>{{5+5}}</p>
+        <button ng-click="commentClick(13,'answer','Bagus sekali jawabannya', 1)">Click here to get add comment!</button>
+        <p>Comments in answer id 13 :</p>
+        <ul>
+          <li ng-repeat="com in comment">
+            {{ com.user_name + ', ' + com.content }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    
+    <script>
+      var appName = angular.module("App", []);
+      
+      appName.controller("voteController", function($scope, $http) {
+            $scope.voteClick = function(target,action,id,userId) {
+                var responsePromise = $http.get("Vote?target=" + target + "&action=" + action + "&id="+ id +"&userId=" + userId);
+                responsePromise.success(function(data, status, headers, config) {
+                    $scope.voteNumber = data.answer_vote;
+                });
+                responsePromise.error(function(data, status, headers, config) {
+                    alert("AJAX failed!");
+                });
+            }
+        } );
+      
+        appName.controller("commentController", function($scope, $http) {
+            $scope.commentClick = function(id,target,content,userId) {
+                var responsePromise = $http.get("Comment?id=" + id + "&target=" + target + "&content="+ content +"&userId=" + userId);
+                var responseGetComment = $http.get("GetComment?id=" + id + "&target=" + target);
+                
+                responseGetComment.success(function(data,status,headers,config) {
+                  $scope.comment = data.comment;
+                });
+                responseGetComment.error(function(data,status,headers,config) {
+                  alert("Ajax failed");
+                });
+            }
+        } );
+    </script>
+  </body>
+</html>

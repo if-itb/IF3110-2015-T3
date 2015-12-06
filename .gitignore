@@ -1,0 +1,41 @@
+/StackExchange Client/nbproject/private/
+/StackExchange WebService/nbproject/private/
+/IdentityServices/nbproject/private/
+/StackExchange WebService/build/
+/StackExchange Client/build/
+/StackExchange Client/dist/
+/StackExchange WebService/dist/
+/IdentityServices/build/
+/IdentityServices/dist/
+/VoteAndComment Services/nbproject/private/
+/VoteAndComment Services/build/
+/VoteAndComment Services/dist/
+*.xml
+*.properties
+*.MF
+*.xsd
+*.wsdl
+*.class
+IdentityServices/nbproject/ant-deploy.xml
+IdentityServices/nbproject/build-impl.xml
+IdentityServices/nbproject/project.xml
+IdentityServices/build.xml
+StackExchange Client/build.xml
+StackExchange Client/catalog.xml
+StackExchange Client/nbproject/ant-deploy.xml
+StackExchange Client/nbproject/build-impl.xml
+StackExchange Client/nbproject/jax-ws.xml
+StackExchange Client/nbproject/jaxws-build.xml
+StackExchange Client/nbproject/project.xml
+StackExchange WebService/build.xml
+StackExchange WebService/nbproject/project.xml
+StackExchange WebService/nbproject/jaxws-build.xml
+StackExchange WebService/nbproject/jax-ws.xml
+StackExchange WebService/nbproject/ant-deploy.xml
+StackExchange WebService/nbproject/build-impl.xml
+*.dpf
+*.dpf
+VoteAndCommand Service/build/web/gfv3ee6.dpf
+VoteAndCommand Service/build/web/gfv3ee6.dpf
+VoteAndCommand Service/build/web/gfv3ee6.dpf
+*.dpf
