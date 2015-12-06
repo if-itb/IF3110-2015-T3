@@ -270,11 +270,11 @@ public class TokenResource {
 		DBConnection dbc = new DBConnection();
 		PreparedStatement stmt = dbc.getDBStmt();
 		Connection conn = dbc.getConn();
-		
+		String[] tokenData = access_token.split("#");
 		try{
 			String sql = "DELETE FROM token WHERE access_token = ? ";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, access_token);
+			stmt.setString(1, tokenData[0]);
 			stmt.executeUpdate();
 			stmt.close();
 			conn.close();

@@ -105,7 +105,7 @@
 						   <input type="text" ng-model="comment" />
 						   <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
 						   <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
-						    <button type="submit" class="btn btn-primary">Save</button>
+						    
 						</form>
 					</div>
 					
