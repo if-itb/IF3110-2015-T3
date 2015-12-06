@@ -31,6 +31,7 @@
                 </c:choose>
                     <span id="question-${question.id}-down" class="vote-button${question_class} glyphicon glyphicon-chevron-down" data-id="${question.id}" data-type="question" data-action="down" ng-click="voteQuestionDown(${question.id})"></span>
             </div>
+            
             <div class="question-content">
                 <p><c:out value="${question.content}"/></p>
                 <div class="timestamp">
@@ -39,22 +40,23 @@
                         <a class="edit" href="edit?id=${question.id}"><span class="glyphicon glyphicon-edit"></span> edit</a>
                         <a class="delete" href="delete?id=${question.id}" onclick="return confirm('Are you sure you want to delete this question?');"><span class="glyphicon glyphicon-remove"></span> delete</a>
                     </c:if>
-                </div>
-                    
+                </div>    
+            </div>
+            <div class="question-content">        
                 <div class="comment" ng-controller="viewController as question">
                     <div class="comment-item" ng-repeat="comment in question.comments">
+                        <p> "Recently Asked Questions"</p>
+                        <p> "Recently Asked Questions"</p>
                         <p>{{comment.content}} - <span class="author">{{ comment.user }}</span></p>
                     </div>
-                    
-                    <form name="commentForm" ng-controller="aController as commentCtrl" ng-submit="commentForm.$valid && commentCtrl.addComment(question.comments)" novalidate>
+
+                    <form name="commentForm" ng-controller="addController as commentCtrl" ng-submit="commentForm.$valid && commentCtrl.addComment(question.comments)" novalidate>
                         <input ng-model="commentCtrl.comment.question_id" ng-init="commentCtrl.comment.q_id=<%= "${question.id}" %>" type="hidden">
                         <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your Comment" required>
                         <input type="submit" class="btn btn-default" value="Add comment">
                     </form>
-                   
                 </div>
-                    
-            </div>
+             </div>
         </div>
         <br>
         <c:if test="${fn:length(answers) > 0}">
@@ -88,6 +90,7 @@
                             answered by <c:out value="${answerers[answer.id].name}"/> at ${answer.timestamp}
                         </div>
                     </div>
+                        
                 </div>
                 <hr>
             </c:forEach>
