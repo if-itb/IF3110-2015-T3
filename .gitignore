@@ -9,3 +9,4 @@ Client/src/com/
 Client/Client.iml
 .idea/artifacts/Client_war_exploded.xml
 IdentityService/IdentityService.iml
+IdentityService/web/web/WEB-INF/web.xml

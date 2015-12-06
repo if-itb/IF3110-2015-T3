@@ -21,15 +21,16 @@
 
 					String email = request.getParameter("email");
 					String password = request.getParameter("password");
+					String userAgent= request.getParameter("User-Agent");
 					if ((email!=null)&&(password!=null))
 					{
-
 						HttpClient httpClient = HttpClientBuilder.create().build();
 
 						try {
 							HttpPost req = new HttpPost("http://localhost:8083/v1/login");
 							StringEntity params =new StringEntity("{\"email\":\""+email+"\",\"password\":\""+password+"\"} ");
 							req.addHeader("content-type", "application/x-www-form-urlencoded");
+							req.setHeader("User-Agent",userAgent);
 							req.setEntity(params);
 							HttpResponse res = httpClient.execute(req);
 							BufferedReader br = new BufferedReader(new

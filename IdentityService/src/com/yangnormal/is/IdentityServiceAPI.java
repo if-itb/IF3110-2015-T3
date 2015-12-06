@@ -82,8 +82,11 @@ public class IdentityServiceAPI extends HttpServlet {
         serve((request, out) -> {
             try {
                 Map<String, String> queryStringMap = splitQuery(req.getQueryString());
-                PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ?");
-                stmt.setString(1,queryStringMap.get("token"));
+                PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ? AND useragent =? AND ip=?");
+                String[] tokenString=queryStringMap.get("token").split("#");
+                stmt.setString(1,tokenString[0]);
+                stmt.setString(2,tokenString[1]);
+                stmt.setString(3,tokenString[2]);
                 ResultSet result = stmt.executeQuery();
                 result.next();
                 out.print("{\"uid\":\""+result.getInt("uid")+"\"}");
@@ -104,6 +107,11 @@ public class IdentityServiceAPI extends HttpServlet {
                 map = mapper.readValue(request.getReader(), new TypeReference<Map<String, String>>(){});
                 String email = (String)map.get("email");
                 String password = (String)map.get("password");
+                String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                if (ipAddress == null) {
+                    ipAddress = request.getRemoteAddr();
+                }
+                String userAgent = request.getHeader("User-Agent");
                 /*String email = request.getParameter("email");
                 String password = request.getParameter("password");*/
 
@@ -114,7 +122,7 @@ public class IdentityServiceAPI extends HttpServlet {
                     ResultSet result = stmt.executeQuery();
                     result.next();
                     int uid = result.getInt("id");
-                    String token = issueAuthorization(uid);
+                    String token = issueAuthorization(uid,userAgent,ipAddress);
                     out.print("{\"status\":\"1\", \"token\":\""+ token + "\"}");
                 } else {
                     out.print("{\"status\":\"0\"}");
@@ -164,11 +172,11 @@ public class IdentityServiceAPI extends HttpServlet {
         return result.getInt("count") == 1;
     }
 
-    private String issueAuthorization(int uid) throws SQLException {
+    private String issueAuthorization(int uid, String userAgent, String ipAddress) throws SQLException {
         Statement stmt = conn.createStatement();
         String token = UUID.randomUUID().toString();
-        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR);");
-        return token;
+        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`, `useragent`, `ip`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR,`"+userAgent+"`,`"+ipAddress+"`);");
+        return token+"#"+userAgent+"#"+ipAddress;
     }
 
     private static Map<String, String> splitQuery(String queryString) throws UnsupportedEncodingException {
