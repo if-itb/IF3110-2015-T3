@@ -81,10 +81,9 @@ public class IdentityServiceAPI extends HttpServlet {
                 Map<String, String> queryStringMap = splitQuery(req.getQueryString());
                 int status;
                 int uid=0;
-                String[] tokenString=queryStringMap.get("token").split("#");
-                String token = tokenString[0];
-                String userAgent = tokenString[1];
-                String ipAddress = tokenString[2];
+                String token = queryStringMap.get("token");
+                String userAgent = queryStringMap.get("userAgent");
+                String ipAddress = queryStringMap.get("ipAddress");
                 boolean isExpired=true, isDifferentUserAgent=true, isDifferentIP=true;
                 PreparedStatement stmt=conn.prepareStatement("SELECT uid FROM token WHERE token = ?");
                 stmt.setString(1,token);
@@ -147,8 +146,7 @@ public class IdentityServiceAPI extends HttpServlet {
                     ipAddress = request.getRemoteAddr();
                 }
                 String userAgent = request.getHeader("User-Agent");
-                /*String email = request.getParameter("email");
-                String password = request.getParameter("password");*/
+                System.out.println(email+"-"+password+"-"+ipAddress+"-"+userAgent);
 
                 if (checkAuthentication(email, password)) {
                     // Ambil id
@@ -158,6 +156,7 @@ public class IdentityServiceAPI extends HttpServlet {
                     result.next();
                     int uid = result.getInt("id");
                     String token = issueAuthorization(uid,userAgent,ipAddress);
+                    System.out.println(token);
                     out.print("{\"status\":\"1\", \"token\":\""+ token + "\"}");
                 } else {
                     out.print("{\"status\":\"0\"}");
@@ -210,8 +209,8 @@ public class IdentityServiceAPI extends HttpServlet {
     private String issueAuthorization(int uid, String userAgent, String ipAddress) throws SQLException {
         Statement stmt = conn.createStatement();
         String token = UUID.randomUUID().toString();
-        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`, `useragent`, `ip`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR,`"+userAgent+"`,`"+ipAddress+"`);");
-        return token+"#"+userAgent+"#"+ipAddress;
+        stmt.executeUpdate("INSERT INTO `token` (`uid`, `token`, `expired`, `useragent`, `ip`) VALUES ('"+uid+"', '"+token+"', NOW() + INTERVAL 12 HOUR,'"+userAgent+"','"+ipAddress+"');");
+        return token;
     }
 
     private static Map<String, String> splitQuery(String queryString) throws UnsupportedEncodingException {

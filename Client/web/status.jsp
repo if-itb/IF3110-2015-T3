@@ -15,8 +15,14 @@
 			String name = (String) request.getAttribute("name");
 			if (status==1){
 				out.println(name+" Success!");
+			} else if (status==-1) {
+				out.println(name+" Failed! Token Expired!");
+			} else if (status==-2){
+				out.println(name+" Failed! Different IP!");
+			} else if (status==-3) {
+				out.println(name+" Failed! Different User Agent!");
 			} else {
-				out.println(name+" Failed!");
+				out.println(name+" Failed! Unknown error!");
 			}
 		%>
 		</div>	

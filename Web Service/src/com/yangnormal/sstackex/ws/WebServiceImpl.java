@@ -88,7 +88,7 @@ public class WebServiceImpl implements WebServiceInterface{
 
     @Override
     public int postQuestion(String token, String title, String content) throws Exception{
-
+        int status=-4;
         Connection conn = null;
         PreparedStatement stmt = null;
         int uid=-1;
@@ -98,21 +98,27 @@ public class WebServiceImpl implements WebServiceInterface{
             // Open a connection
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             // Query
-            String query = "SELECT uid FROM token WHERE token=?";
+            /*String query = "SELECT uid FROM token WHERE token=?";
             stmt = conn.prepareStatement(query);
             stmt.setString(1,token);
             // Result Set
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 uid=rs.getInt("uid");
+            }*/
+            uid = checkToken(token);
+            if (uid>0) {
+                String query = "INSERT INTO question (vote, topic, content, date, uid) VALUES (0,?,?,CURRENT_TIMESTAMP,?)";
+                stmt = conn.prepareStatement(query);
+                stmt.setString(1, title);
+                stmt.setString(2, content);
+                stmt.setInt(3, uid);
+                // Result Set
+                stmt.executeUpdate();
+                status = 1;
+            } else {
+                status = uid;
             }
-            query = "INSERT INTO question (vote, topic, content, date, uid) VALUES (0,?,?,CURRENT_TIMESTAMP,?)";
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1,title);
-            stmt.setString(2,content);
-            stmt.setInt(3,uid);
-            // Result Set
-            stmt.executeUpdate();
         }
         catch (SQLException se){
             se.printStackTrace();
@@ -122,12 +128,12 @@ public class WebServiceImpl implements WebServiceInterface{
             e.printStackTrace();
         }
 
-        return 1;
+        return status;
     }
 
     @Override
     public int postAnswer(int qid, String token, String content) throws Exception{
-
+        int status=-4;
         Connection conn = null;
         PreparedStatement stmt = null;
         int uid=-1;
@@ -137,21 +143,27 @@ public class WebServiceImpl implements WebServiceInterface{
             // Open a connection
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             // Query
-            String query = "SELECT uid FROM token WHERE token=?";
+            /*String query = "SELECT uid FROM token WHERE token=?";
             stmt = conn.prepareStatement(query);
             stmt.setString(1,token);
             // Result Set
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
                 uid=rs.getInt("uid");
+            }*/
+            uid = checkToken(token);
+            if (uid>0) {
+                String query = "INSERT INTO answer (vote, content, date, uid, qid) VALUES (0,?,CURRENT_TIMESTAMP,?,?)";
+                stmt = conn.prepareStatement(query);
+                stmt.setString(1, content);
+                stmt.setInt(2, uid);
+                stmt.setInt(3, qid);
+                // Result Set
+                stmt.executeUpdate();
+                status =1;
+            } else {
+                status =uid;
             }
-            query = "INSERT INTO answer (vote, content, date, uid, qid) VALUES (0,?,CURRENT_TIMESTAMP,?,?)";
-            stmt = conn.prepareStatement(query);
-            stmt.setString(1,content);
-            stmt.setInt(2,uid);
-            stmt.setInt(3,qid);
-            // Result Set
-            stmt.executeUpdate();
         }
         catch (SQLException se){
             se.printStackTrace();
@@ -160,16 +172,16 @@ public class WebServiceImpl implements WebServiceInterface{
         catch (Exception e){
             e.printStackTrace();
         }
-        return 1;
+        return status;
     }
 
 
     @Override
     public int deleteQuestion(int qid, String token) throws Exception{
+        int status=-4;
         Connection conn = null;
         Statement stmt = null;
         int uid=-1;
-        int status=0;
         try {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -177,7 +189,7 @@ public class WebServiceImpl implements WebServiceInterface{
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             // Query
             // Cari user yang memiliki hak akses untuk question ini
-            String query = "SELECT uid FROM question WHERE id= " + qid;
+            /*String query = "SELECT uid FROM question WHERE id= " + qid;
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -191,17 +203,18 @@ public class WebServiceImpl implements WebServiceInterface{
             while (rs.next()) {
                 expired = rs.getTimestamp("expired");
             }
+
             Timestamp time = new Timestamp(Calendar.getInstance().getTime().getTime()); //Waktu sekarang
-            if (checkToken(token) != uid) { //ini berarti tokennya bukan punya yang punya question ini
-                status = 0;
-            } else if (time.after(expired)) { //kalo expired, kasih status -1
-                status = -1;
-            } else { //berhasil, update deh!
-                query = "DELETE FROM question WHERE id= "+qid;
+            */
+            uid = checkToken(token);
+            if (uid>0) {
+                String query = "DELETE FROM question WHERE id= "+qid;
                 stmt = conn.createStatement();
                 // Result Set
                 stmt.executeUpdate(query);
                 status = 1;
+            }  else {
+                status = uid;
             }
         }
         catch (SQLException se){
@@ -440,7 +453,7 @@ public class WebServiceImpl implements WebServiceInterface{
         Connection conn = null;
         PreparedStatement stmt = null;
         int uid=-1;
-        int status=0;
+        int status=-4;
         try {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -448,13 +461,14 @@ public class WebServiceImpl implements WebServiceInterface{
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
             // Query
             // Cari user yang memiliki hak akses untuk question ini
-            String query = "SELECT uid FROM question WHERE id=?";
+            /*String query = "SELECT uid FROM question WHERE id=?";
             stmt = conn.prepareStatement(query);
             stmt.setInt(1,qid);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 uid = rs.getInt("uid");
             }
+
 
             // Cari waktu expired token
             query = "SELECT expired FROM token WHERE token=?";
@@ -467,12 +481,11 @@ public class WebServiceImpl implements WebServiceInterface{
                 expired = rs.getTimestamp("expired");
             }
             Timestamp time = new Timestamp(Calendar.getInstance().getTime().getTime()); //Waktu sekarang
+            */
+            String query;
+            uid = checkToken(token);
 
-            if (checkToken(token) != uid) { //ini berarti tokennya bukan punya yang punya question ini
-                status = 0;
-            } else if (time.after(expired)) { //kalo expired, kasih status -1
-                status = -1;
-            } else { //berhasil, update deh!
+            if (uid>0) { //berhasil, update deh!
                 query = "UPDATE question SET topic=?,content=?,date=CURRENT_TIMESTAMP,uid=? WHERE id =?";
                 stmt = conn.prepareStatement(query);
                 stmt.setString(1,title);
@@ -482,6 +495,8 @@ public class WebServiceImpl implements WebServiceInterface{
                 // Result Set
                 stmt.executeUpdate();
                 status = 1;
+            } else {
+                status =uid;
             }
         }
         catch (SQLException se){

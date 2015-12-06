@@ -35,7 +35,7 @@
 									<input type="text" id="searchbar" name="searchbar">
 									<input type="submit" id="searchsubmit" value="Search">
 								</form>
-								<% if (token=="") { %>
+								<% if (token.equals("")) { %>
 									<br>
 									You are not logged in, please <a href="login.jsp">Login</a>
 								<% } else {%>
