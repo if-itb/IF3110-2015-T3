@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+import vc.auth.Auth;
 
 /**
  *
@@ -99,17 +100,8 @@ public class VoteUpQuestionRSServlet extends HttpServlet {
             String sql;
             PreparedStatement dbStatement;
             //take the email from session asumsi bahwa token selalu bersama email
-            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setString(1, token);
-            ResultSet rsEmail = dbStatement.executeQuery();
-            System.out.println(dbStatement.toString());
-            //agar index berada di elemen pertama dan get email
-            if(rsEmail.next()) {
-                //returnExecution = returnExecution + 1;
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA "+rsEmail.getString("Email"));
-                currentEmail = rsEmail.getString("Email");
-            }
+            Auth auth = new Auth();
+            currentEmail = auth.getEmail(token);
 
             //Melakukan pengecekan apakah sudah ada atau belum dalam database
             sql = "SELECT * FROM upquestion WHERE IDQuestion = ? AND email = ?";

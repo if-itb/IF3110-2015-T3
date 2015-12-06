@@ -26,6 +26,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.json.JSONArray;
+import vc.auth.Auth;
 
 /**
  *
@@ -119,7 +120,7 @@ public class CommentRSServlet extends HttpServlet {
             String sql;
             PreparedStatement dbStatement;
             // getting the commenter's name
-            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            /*sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setString(1, token);
             System.out.println(dbStatement.toString());
@@ -128,7 +129,10 @@ public class CommentRSServlet extends HttpServlet {
             if(rsEmail.next()) {
                 //returnExecution = returnExecution + 1;
                 currentEmail = rsEmail.getString("Email");
-            }
+            }*/
+            
+            Auth auth = new Auth();
+            currentEmail = auth.getEmail(token);
             
             sql = "SELECT Name FROM users WHERE Email = ?";
             dbStatement = conn.prepareStatement(sql);
