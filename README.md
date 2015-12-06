@@ -21,7 +21,8 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://drive.google.com/a/std.stei.itb.ac.id/file/d/0B5FDXnomS9GOQm9iVS1QMW5CdzQ/view?usp=sharing
+
 
 ### Arsitektur Umum Server
 
