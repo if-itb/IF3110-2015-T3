@@ -72,7 +72,7 @@ public class validateToken extends HttpServlet {
         
         String token_string = request.getParameter("token_string");
         String token[] = token_string.split("#");
-        String userAgent = request.getParameter("user-agent");
+        String userAgent = request.getParameter("user_agent");
         String ip = request.getParameter("ip");
        
         PrintWriter tw = response.getWriter();
@@ -124,7 +124,7 @@ public class validateToken extends HttpServlet {
                     tw.println("<tokenModel><status>false</status></tokenModel>");
                 }
             }else{
-                tw.println("<tokenModel><status>"+token[2]+" : "+ ip +"</status></tokenModel>");
+                tw.println("<tokenModel><status>ip</status></tokenModel>");
             }
         }
         else{
