@@ -69,9 +69,14 @@ public class ISLoginServlet extends HttpServlet {
                         String insertQuery = "INSERT INTO token (access_token, user_id, expire_date) VALUES (?, ?, ?)";
                         try (
                             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
-                            PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {                                                        
+                            PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {
+                            String userAgent = request.getHeader("User-Agent");
+                            String clientIP = request.getRemoteAddr();
+                            String auth = uuid + "#" +
+                                    (userAgent == null? "" : userAgent) + "#" +
+                                    (clientIP == null? "" : clientIP);
                             deleteStatement.setInt(1, user_id);
-                            insertStatement.setString(1, uuid);
+                            insertStatement.setString(1, auth);
                             insertStatement.setInt(2, user_id);
                             insertStatement.setTimestamp(3, expire_date);                            
                             deleteStatement.execute();
