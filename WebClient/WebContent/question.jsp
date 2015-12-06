@@ -211,9 +211,19 @@ app.controller('questionCtrl', function($scope, $http) {
     	   
            if(data.id_comment > 0){
         	  $scope.comments = $scope.comments.concat(data);
-        	  
-           }
-           
+           } else if(data.id_comment == 0)
+           {
+        		alert("Token expired");   
+           } else if(data.id_comment == -1)
+           {
+       		alert("Token not valid or empty");   
+          } else if(data.id_comment == -2)
+          {
+         		alert("IP address not valid");   
+            } else if(data.id_comment == -3)
+          {
+         		alert("User agent not valid");   
+            }
        })
        $scope.comment = null;
    };

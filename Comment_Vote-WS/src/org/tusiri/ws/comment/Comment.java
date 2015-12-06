@@ -43,6 +43,7 @@ public class Comment {
 		try {
 			TokenValidity validity = checker.check();
 			result = validity.getIsValid();
+			ci.setIDComment(result);
 			if(result == 1){
 				//Masukkan ke database
 				DBConnection dbc = new DBConnection();
