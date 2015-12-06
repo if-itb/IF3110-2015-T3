@@ -17,12 +17,12 @@
             </a></h2>
             <hr>
             <span ng-controller="ViewVoteController" ng-init="init(${question.getQId()}, 'question')" id="question-vote"><br>
-                <div ng-click="vote(${question.getQId()},'question',${token},'up')" class="arrow-up">
+                <div ng-click="vote(${question.getQId()},'question','${token}','up')" class="arrow-up">
                 </div><br>
                 <span id="questvote" class="question-number">
                     {{vote}}</span><br>
                 <br>
-		<div ng-click="vote(${question.getQId()},'question',${token},'down')" class="arrow-down">
+		<div ng-click="vote(${question.getQId()},'question','${token}','down')" class="arrow-down">
                 </div><br></span>
 		<span id="question-content">
                     
@@ -48,11 +48,11 @@
                 <div ng-controller="ViewCommentsController">   
 
                     <!-- Show comments -->                
-                    <span class="question-info" ng-repeat = "comment in comments">
+                    <div class="comment" ng-repeat = "comment in comments">
                             {{ comment.content }}
                             <br>
                             <span class="author">{{ comment.email }}</span> at {{ comment.date_created }}
-                    </span>
+                    </div>
                 </div>
 
 		<!-- Add comment -->
