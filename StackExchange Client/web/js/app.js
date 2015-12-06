@@ -43,4 +43,92 @@
             });
        }
     }]);
+
+    app.controller('questionVoteController', [ '$http', function($http) {
+        var questionVoteCtrl = this;
+        this.vote = 0;
+        
+        var voteData = this.voteData;
+        this.voteData = {};  
+        
+        this.getVote = function() {
+            $http({
+                url: "http://localhost:8080/StackExchange_Client/QuestionGetVote",
+                method: "GET",
+                params: {qid: getParameterByName("id")}
+            }).success(function(data) {
+                if ( data.vote_count != null ) {
+                    questionVoteCtrl.vote = data.vote_count;
+                }
+            });      
+        }
+        
+        this.init = function(q_id, u_id) {
+            this.voteData.q_id = q_id;
+            this.voteData.u_id = u_id;          
+        }
+        
+        this.addVote = function(val) {    
+            this.voteData.val = val;
+            
+            $http({
+               url: "http://localhost:8080/StackExchange_Client/questionvote",
+               method: "POST",
+               params: {
+                   qid: this.voteData.q_id,
+                   uid: this.voteData.u_id,
+                   value: this.voteData.val
+                }
+            }).success(function(data) {
+                console.log(data);
+                questionVoteCtrl.getVote();
+            });
+            
+        }
+    }]);
+
+    app.controller('answerVoteController', [ '$http', function($http) {
+        var answerVoteCtrl = this;
+        this.vote = 0;
+        this.aid = -1;
+        
+        var voteData = this.voteData;
+        this.voteData = {};  
+        
+        this.getVote = function(aid) {
+            answerVoteCtrl.aid = aid;
+            $http({
+                url: "http://localhost:8080/StackExchange_Client/AnswerGetVote",
+                method: "GET",
+                params: {aid: this.aid}
+            }).success(function(data) {
+                if ( data.vote_count != null ) {
+                    answerVoteCtrl.vote = data.vote_count;
+                }
+            });      
+        }
+        
+        this.init = function(a_id, u_id) {
+            this.voteData.a_id = a_id;
+            this.voteData.u_id = u_id;          
+        }
+        
+        this.addVote = function(val) {    
+            this.voteData.val = val;
+            
+            $http({
+               url: "http://localhost:8080/StackExchange_Client/answervote",
+               method: "POST",
+               params: {
+                   aid: this.voteData.a_id,
+                   uid: this.voteData.u_id,
+                   value: this.voteData.val
+                }
+            }).success(function(data) {
+                answerVoteCtrl.getVote(answerVoteCtrl.aid);
+            });
+            
+        }
+    }]);
+
 })();

@@ -61,7 +61,7 @@ public class AnswerVote extends HttpServlet {
             String aid = request.getParameter("aid");
             String value = request.getParameter("value");
                    
-            URL url = new URL("http://localhost:8083/CV_Service/vote/question");
+            URL url = new URL("http://localhost:8083/CV_Service/vote/answer");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
@@ -121,7 +121,7 @@ public class AnswerVote extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**

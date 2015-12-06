@@ -60,7 +60,7 @@ public class QuestionVote extends HttpServlet {
             String uid = request.getParameter("uid");
             String qid = request.getParameter("qid");
             String value = request.getParameter("value");
-                   
+            System.out.println(">>>> " + uid + "|" + qid + "|" + value);
             URL url = new URL("http://localhost:8083/CV_Service/vote/question");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setDoOutput(true);
@@ -122,7 +122,7 @@ public class QuestionVote extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-    //processRequest(request, response);
+    processRequest(request, response);
   }
 
   /**

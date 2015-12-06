@@ -65,18 +65,24 @@
             <div class="row">
 
                 <div class="question-status col-2">
-                    <div class="vote">
+                    <div class="vote"
+                         ng-controller="questionVoteController as questionVote"
+                         ng-init="questionVote.getVote()">
 
-                        <div class="vote-up">
-                            <a class="vote-link" href="questionvote?id=<%= question.getId() %>&value=1">▲</a>
+                        <div class="vote-up"
+                            ng-init="questionVote.init(<%= question.getId() %>, <%= user != null ? user.getId() : -1 %>)">
+                            <a class="vote-link" 
+                               ng-click="questionVote.addVote(1)">▲</a>
                         </div>
 
                         <div class="vote-counts">
-                            <span><%= question_vote_count %></span>
+                            <span>{{ questionVote.vote }}</span>
                         </div>
 
-                        <div class="vote-down">
-                            <a class="vote-link" href="questionvote?id=<%= question.getId() %>&value=-1">▼</a>
+                        <div class="vote-down":
+                            ng-init="questionVote.init(<%= question.getId() %>, <%= user != null ? user.getId() : -1 %>)">
+                            <a class="vote-link" 
+                               ng-click="questionVote.addVote(-1)">▼</a>
                         </div>
 
                     </div>
@@ -137,17 +143,24 @@
             <div class="row">
                 
                 <div class="answer-status col-2">
-                    <div class="vote">
-                        <div class="vote-up">
-                            <a class="vote-link" href="answervote?qid=<%= question.getId() %>&aid=<%= answer.getId() %>&value=1">▲</a>
+                    <div class="vote"
+                         ng-controller="answerVoteController as answerVote"
+                         ng-init="answerVote.getVote(<%= answer.getId() %>)">
+                    
+                        <div class="vote-up"
+                            ng-init="answerVote.init(<%= answer.getId() %>, <%= user != null ? user.getId() : -1 %>)">
+                            <a class="vote-link" 
+                               ng-click="answerVote.addVote(1)">▲</a>
                         </div>
 
                         <div class="vote-counts">
-                            <span><%= answers_vote_counts.get(answer.getId()) %></span>
+                            <span>{{ answerVote.vote }}</span>
                         </div>
 
-                        <div class="vote-down">
-                            <a class="vote-link" href="answervote?qid=<%= question.getId() %>&aid=<%= answer.getId() %>&value=-1">▼</a>
+                        <div class="vote-down"
+                            ng-init="answerVote.init(<%= answer.getId() %>, <%= user != null ? user.getId() : -1 %>)">
+                            <a class="vote-link" 
+                               ng-click="answerVote.addVote(-1)">▼</a>
                         </div>
                     </div>
                 </div> <!-- .answer-status -->
