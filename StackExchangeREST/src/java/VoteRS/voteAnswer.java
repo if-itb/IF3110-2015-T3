@@ -49,7 +49,7 @@ public class voteAnswer extends HttpServlet {
                 Statement stmt = conn.createStatement();
                 String sql;
 
-                sql = "SELECT SUM(value) vote_count FROM `vote` WHERE a_id = ?";
+                sql = "SELECT SUM(v_count) v_count FROM `vote` WHERE a_id = ?";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setInt(1, Integer.parseInt(aid));
 
