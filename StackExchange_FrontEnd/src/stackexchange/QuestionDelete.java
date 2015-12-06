@@ -48,7 +48,7 @@ public class QuestionDelete extends HttpServlet {
         if (request.getParameter("token") != null && !request.getParameter("token").isEmpty()){
             response.setContentType("text/html;charset=UTF-8");
 
-            request.setAttribute("error", "Internal Server Error");
+            request.setAttribute("error", "Only The Author can delete this question");
             request.getRequestDispatcher("/views/error.jsp").forward(request, response);
         } else {
             response.setContentType("text/html;charset=UTF-8");
