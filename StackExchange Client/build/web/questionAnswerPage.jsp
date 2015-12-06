@@ -20,40 +20,32 @@
                 angular.module('myForm',[])
                         .controller('FormController',function($scope,$http){
                             console.log("masuk");
+                    
+                                var loadComment =  function() {
+                                   $http.get("http://localhost:8083/CommentService/CommentServlet?q_id="+q_id)
+                                  .then(function(response) {
+                                       $scope.comments = response.data;
+                                       console.log($scope.comments);
+                                  });      
+                               }
+                               loadComment();
                             $scope.sendPost = function(){
-                                
                                 $.ajax({
                                     type: "POST",
                                     url: "http://localhost:8083/CommentService/CommentServlet",
                                     data: {
-                                        q_id  : 27,
+                                        q_id  : q_id,
                                         user_id  : 4,
                                         content : $scope.commentContent
                                     
                                      },
                                     dataType: "json"
-                                  });
-//                                $http({
-//                                    method: 'POST',
-//                                    url : "http://localhost:8083/CommentService/CommentServlet",
-//                                    data : {
-//                                        questionID  : 1,
-//                                        token  : "sdfsd",
-//                                        content : $scope.commentContent
-//                                    
-//                                     }
-//                                }).then(function (data){
-//                                    console.log(data);
-//                                });
+                                  }).then(function (data) {
+                                    loadComment();
+                                });
+
                             }
-                        }).controller('customersCtrl', function($scope, $http) {
-                 console.log("sdfsdf");
-                $http.get("http://localhost:8083/CommentService/CommentServlet?q_id="+q_id)
-                    .then(function(response) {
-                        $scope.comments = response.data;
-                        console.log(response);
-                    });
-             })
+                        })
              .controller('questionCtrl',function($scope,$http){
                      console.log("voteupquestion");
                       $scope.voteUpQuestion = function(){
@@ -61,7 +53,7 @@
                             type: "POST",
                             url: "http://localhost:8083/CommentService/VoteUpQuestionServlet",
                             data: {
-                                q_id  :12,
+                                q_id  :q_id,
                                 user_id  : 14,
                              },
                             dataType: "json"
@@ -75,7 +67,7 @@
                                 type: "POST",
                                 url: "http://localhost:8083/CommentService/VoteDownQuestionServlet",
                                 data: {
-                                    q_id  :12,
+                                    q_id  :q_id,
                                     user_id  : 14,
                                  },
                                 dataType: "json"
@@ -95,52 +87,46 @@
              })
                           .controller('answerCtrl',function($scope,$http){
                      console.log("voteupquestion");
-                     $http.get("http://localhost:8083/CommentService/AnswerServlet?q_id="+q_id)
-                    .then(function(response2) {
-                        $scope.Answers = response2.data;
-                        console.log(response2);
-                    });      
+                    var loadAnswer = function() {
+                        $http.get("http://localhost:8083/CommentService/AnswerServlet?q_id="+q_id)
+                       .then(function(response2) {
+                           console.log("init");
+                           $scope.comment = response2.data;
+                           console.log($scope.Answers);
+                           console.log(response2);
+                       });      
+                    }
+                    loadAnswer();
              
-             
-             
-             
-                      $scope.voteUpAnswer = function(){
-                        $.ajax({
-                            type: "POST",
-                            url: "http://localhost:8083/CommentService/VoteUpAnswerServlet",
-                            data: {
-                                q_id  :12,
-                                user_id  : 14,
-                                ans_id :4,
-                             },
-                            dataType: "json"
-                          }).then(function (data) {
-                                  $scope.getVoteNumber();
-                              });
+                        $scope.voteUpAnswer = function(answerId){
+                          $.ajax({
+                              type: "POST",
+                              url: "http://localhost:8083/CommentService/VoteUpAnswerServlet",
+                              data: {
+                                  q_id  :q_id,
+                                  user_id  : 14,
+                                  ans_id :answerId,
+                               },
+                              dataType: "json"
+                            }).then(function (data) {
+                                    loadAnswer();
+                                });
                           
                     }
-                        $scope.voteDownAnswer = function(){
+                        $scope.voteDownAnswer = function(answerId){
                             $.ajax({
                                 type: "POST",
                                 url: "http://localhost:8083/CommentService/VoteDownAnswerServlet",
                                 data: {
-                                    q_id  :12,
+                                    q_id  :q_id,
                                     user_id  : 14,
-                                    ans_id :4,
+                                    ans_id :answerId,
                                  },
                                 dataType: "json"
                               }).then(function (data) {
-                                  $scope.getVoteNumber();
+                                  loadAnswer();
                               });
                         }
-                        $scope.getVoteNumber = function(){
-                           $http.get("http://localhost:8083/CommentService/VoteDownAnswerServlet?q_id="+q_id+"&ans_id="+ans_id)
-                           .then(function(response) {
-                               console.log("success");
-                               $scope.votenumber = response.data.vote;
-                               console.log(response);
-                           });
-                        }   
                         //$scope.getVoteNumber();      
              })             
 
@@ -158,8 +144,8 @@
     <div id="questionAndAnswer">
            <jsp:include page="questionAnswerPage_Q.jsp" flush ="true"/>
            
-           
-            <div ng-controller="customersCtrl"> 
+           <div ng-controller="FormController">
+            <div> 
 
              <ul>
                <li ng-repeat="x in comments">
@@ -175,7 +161,7 @@
 
            
              
-             <div ng-controller="FormController">
+             <div>
                 <form novalidate class="simple-form">
                     Comment: <input type="textarea" ng-model="commentContent" /><br />
                     
@@ -183,7 +169,7 @@
                 </form>
               </div>
              
-             
+           </div>
             
 
              

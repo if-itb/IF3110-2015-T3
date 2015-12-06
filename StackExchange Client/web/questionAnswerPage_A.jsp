@@ -23,41 +23,25 @@
 
 
     
-    
-    <%-- PRINT OUT ANSWER OF QUESTION --%>
-    <% for (int i = 0; i < answerNumber; i++) { 
-%>
-     <div class='answerItem''>
-    <div class ='questionAnswerBody' ng-controller="answerCtrl">
-        <div class ='questionAnswerVote' >
-            <div class='questionAnswerVoteUpArrow'>
-                <%-- out.println("href=\"voteUpAnswer.jsp?a_id=" + answerList.get(i).getAnswerId() + "&token=" + request.getParameter("token") + "&q_id=" + questionId+ "\"");--%>
-                <a  ng-click="voteUpAnswer()" href=""><img src='icons/upArrow.png' width='30' height='30'></a> 
+  
+    <div ng-controller="answerCtrl">
+        <div class='answerItem' ng-repeat="answer in Answers">
+            <div class ='questionAnswerBody'>
+                <div class ='questionAnswerVote' >
+                    <div class='questionAnswerVoteUpArrow'>
+                        <a ng-click="voteUpAnswer(answer.answer_id)" href=""><img src='icons/upArrow.png' width='30' height='30'></a> 
+                    </div>
+                    <div class='questionAnswerVoteNumber' <%--id='voteAnswer$answerId'--%>>
+                           {{answer.vote}} 
+                    </div>
+                    <div class='questionAnswerVoteDownArrow'>
+                        <a  ng-click="voteDownAnswer(answer.answer_id)" href=""><img src='icons/downArrow.png' width='30' height='30'></a> 
+                    </div>
+                </div>
+                <div class ='questionAnswerContent'>
+                    {{ answer.content }}
+                </div>
             </div>
-            <div class='questionAnswerVoteNumber' <%--id='voteAnswer$answerId'--%>>
-                   {{$scope.Answers[i].vote}} 
-            </div>
-            <div class='questionAnswerVoteDownArrow'>
-                <a  ng-click="voteDownAnswer()" href=""><img src='icons/downArrow.png' width='30' height='30'></a> 
-            </div>
-        </div>
-        <div class ='questionAnswerContent'>
-            <% out.println(answerList.get(i).getAnswerContent()) ;%>
+            <span class='questionAnswerFooter'>answered by {{answer.userID}} at {{answer.date}}</span>
         </div>
     </div>
-            <%-- start web service invocation --%>
-    <%
-	wsmodel.WS_Service service1 = new wsmodel.WS_Service();
-	wsmodel.WS port1 = service1.getWSPort();
-	 // TODO initialize WS operation arguments here
-	int userID = answerList.get(i).getAnswerUserId();
-	// TODO process result here
-	java.lang.String userName = port1.getUserName(userID);
-    %>
-    <%-- end web service invocation --%>
-
-   
-    <span class='questionAnswerFooter'>answered by <% out.println(userName) ;%> at <% out.println(answerList.get(i).getAnswerDate()) ;%> </span>
-     </div>
-     
-     <% } %>
