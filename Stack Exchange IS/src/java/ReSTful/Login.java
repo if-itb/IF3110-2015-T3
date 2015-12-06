@@ -62,43 +62,43 @@ public class Login extends HttpServlet {
                 ip_address = request.getRemoteAddr();
             }
             
-            System.out.println(ip_address);
-            try {      
+            try {
+                /* Delete Expired Token */
                 Statement statement = conn.createStatement();
-                String select_user;
-
-                select_user = "SELECT * FROM user WHERE email = ? AND password = SHA1(?)";
-                PreparedStatement dbStatement = conn.prepareStatement(select_user);
+                String sql = "DELETE FROM tokenlist WHERE exp_date < now()";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                int query_success = dbStatement.executeUpdate();
+                
+                /* Check User Existance */
+                sql = "SELECT * FROM user WHERE email = ? AND password = SHA1(?) LIMIT 1";
+                dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, email);
                 dbStatement.setString(2, password);
-
                 ResultSet result = dbStatement.executeQuery();
+                //String name = result.getString("name");
+
+                /* Add in Token List */
                 if(result.next()){
-                    
+                    /* Set Token Expired Time */
                     Calendar date = Calendar.getInstance();
                     long delta = date.getTimeInMillis();
                     Date exp_date = new Date(delta + (3 * 60000));
-
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                    
-                    String token = URLEncoder.encode("ryanokebanget#" + user_agent + "#" + ip_address);
-
-                    String sql = "REPLACE INTO tokenlist (user_id, token, user_agent, ip_address, exp_date) VALUES (?, ?, ?, ?, ?)";
-                    
+                    /* Insert New Token */
+                    String token = URLEncoder.encode("ryanokebanget#" + user_agent + "#" + ip_address + "#" + df.format(exp_date).toString());
+                    sql = "INSERT INTO tokenlist (user_id, token, user_agent, ip_address, exp_date) VALUES (?, ?, ?, ?, ?)";
                     dbStatement = conn.prepareStatement(sql);
                     dbStatement.setInt(1, result.getInt("id"));
                     dbStatement.setString(2, token);
                     dbStatement.setString(3, user_agent);
                     dbStatement.setString(4, ip_address);
                     dbStatement.setString(5, df.format(exp_date));
-                    
-                    System.out.println(token);
-
                     dbStatement.executeUpdate();
-
                     statement.close();
 
                     obj.put("token", token);
+                    //obj.put("user", name);
                     obj.put("exp_date", df.format(exp_date));
 
                     out.print(obj);

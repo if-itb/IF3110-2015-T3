@@ -48,39 +48,35 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        
+        /* Get Token */
         Cookie[] cookies = request.getCookies();
-
         String token = "";
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     token = cookie.getValue();
-                    
-                    
                     break;
                 }
             }
         }
-        out.print(token);
         
+        /* Delete Token from Token List */
         try {
             Statement statement = conn.createStatement();
-            String sql;
-            sql = "DELETE FROM tokenlist WHERE 1";
-
+            String sql = "DELETE FROM tokenlist WHERE token = ?";
             PreparedStatement dbStatement = conn.prepareStatement(sql);
-            //dbStatement.setString(1, token);
+            dbStatement.setString(1, token);
             dbStatement.executeUpdate();
-
             statement.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Logout.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        /* Set Cookie Expiration */
         Cookie cookie = new Cookie("token", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/Stack_Exchange_Client");
+        cookie.setMaxAge(-1);
+        cookie.setPath("/");
         response.addCookie(cookie);
         
         response.sendRedirect("http://localhost:8083/Stack_Exchange_Client/QuestionServlet");

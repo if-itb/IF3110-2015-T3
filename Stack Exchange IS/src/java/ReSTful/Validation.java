@@ -50,15 +50,14 @@ public class Validation extends HttpServlet {
             String token = request.getParameter("token");
             
             try {
+                /* Check in Token List */
                 Statement statement = conn.createStatement();
-                String select_token;
-                
-                select_token = "SELECT * FROM tokenlist WHERE token = ?";
+                String select_token = "SELECT * FROM tokenlist WHERE token = ? LIMIT 1";
                 PreparedStatement dbStatement = conn.prepareStatement(select_token);
                 dbStatement.setString(1, token);
-
                 ResultSet result = dbStatement.executeQuery();
-
+                
+                /* Chechk Token Expiration */
                 if(result.next()) {
                     Date exp_date = null;
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -70,13 +69,11 @@ public class Validation extends HttpServlet {
                     }
               
                     Date currentDate = new Date();
-              
                     if (currentDate.after(exp_date)) {
                         obj.put("message", "expired session");
                     } else {
                         obj.put("message", "valid");
                     }
-              
                     out.print(obj);
                 } else {
                     obj.put("message", "invalid");
