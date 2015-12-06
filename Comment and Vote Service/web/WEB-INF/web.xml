@@ -1,9 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>CommentServlet</servlet-name>
+        <servlet-class>Comment.CommentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddComment</servlet-name>
+        <servlet-class>Comment.AddComment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>getQuestionComment</servlet-name>
+        <servlet-class>Comment.getQuestionComment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetComment</servlet-name>
+        <servlet-class>Comment.GetComment</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoteQuestion</servlet-name>
+        <servlet-class>Vote.VoteQuestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoteAnswer</servlet-name>
+        <servlet-class>Vote.VoteAnswer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentServlet</servlet-name>
+        <url-pattern>/CommentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddComment</servlet-name>
+        <url-pattern>/AddComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getQuestionComment</servlet-name>
+        <url-pattern>/getQuestionComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetComment</servlet-name>
+        <url-pattern>/GetComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteQuestion</servlet-name>
+        <url-pattern>/VoteQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteAnswer</servlet-name>
+        <url-pattern>/VoteAnswer</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

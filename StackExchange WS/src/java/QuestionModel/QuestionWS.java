@@ -135,63 +135,6 @@ public class QuestionWS {
     /**
      * Web service operation
      *
-     * @param access_token
-     * @param qid
-     * @param voteUp
-     * @return
-     */
-    @WebMethod(operationName = "voteQuestion")
-    public String voteQuestion(@WebParam(name = "access_token") String access_token, @WebParam(name = "qid") int qid, @WebParam(name = "voteUp") boolean voteUp) {
-        Connection conn = new Database().connect();
-        Statement stmt;
-        ResultSet rs;
-        String validation = new IS.CheckToken().checkToken(access_token);
-        switch (validation) {
-            case "access token error":
-                return "Expired token";
-            case "access token invalid":
-                return "Error";
-            default:
-                int userID = Integer.valueOf(validation);
-                try {
-                    stmt = conn.createStatement();
-                    String sqlCheck = "SELECT * FROM voterelation WHERE UserID = ? AND QID = ?";
-                    PreparedStatement pstmtCheck = conn.prepareStatement(sqlCheck);
-                    pstmtCheck.setInt(1, userID);
-                    pstmtCheck.setInt(2, qid);
-                    rs = pstmtCheck.executeQuery();
-                    int i = 0;
-                    while (rs.next()) {
-                        i++;
-                    }
-                    if (i > 0) {
-                        return "Gagal!";
-                    } else {
-                        String sql,sql2;
-                        if (voteUp) {
-                            sql = "UPDATE question SET Votes=Votes+1 WHERE qid = ?";
-                        } else {
-                            sql = "UPDATE question SET Votes=Votes-1 WHERE qid = ?";
-                        }
-                        sql2 = "INSERT INTO voterelation VALUES (?,?,0)";
-                        PreparedStatement pstmt = conn.prepareStatement(sql);
-                        PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-                        pstmt.setInt(1, qid);
-                        pstmt2.setInt(1, userID);
-                        pstmt2.setInt(2, qid);
-                        int a = pstmt.executeUpdate();
-                        int b = pstmt2.executeUpdate();
-                        return "Respons oke!";
-                    }
-                } catch (SQLException se) {
-                    return "Gagal!";
-                }
-        }
-    }
-
-    /**
-     * Web service operation
-     *
      * @return
      */
     @WebMethod(operationName = "getAllQuestion")
