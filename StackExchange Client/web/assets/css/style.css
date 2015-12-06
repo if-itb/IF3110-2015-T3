@@ -474,16 +474,17 @@ input[type="search"]::-webkit-search-decoration {
 /* Comments */
 .comments{
 	margin-left:100px;
-    max-width: 60%;
+    max-width: 40%;
     background: #EFFFDE;
     padding: 5px;
     font: 12px Dss, Dss, Dss, Dss;
     color: #000;
     border:1px solid #E4E4E4;
+	border-bottom: 1px dashed #B4E7BD;
 }
 
 .comment-box{
-	max-width: 60%;
+	max-width: 40%;
 	height: 200px;
 	margin-left:10px;
 }
@@ -493,7 +494,7 @@ input[type="search"]::-webkit-search-decoration {
     color: #888;
     height: 150px;
     outline: 0 none;
-    width: 60%;
+    width: 90%;
     font-size: 12px;
     line-height:15px;
     box-shadow: inset 0px 1px 4px #ECECEC;

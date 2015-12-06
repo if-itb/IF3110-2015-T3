@@ -41,11 +41,9 @@ public class ISAuth extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         JSONObject object = new JSONObject();
-        object.put("HU", "HU");
         
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            object.put("HA", "HA");
             String token = request.getParameter("token");
             String sql = "SELECT * FROM token WHERE access_token = ?";
             String ipAddress = request.getHeader("X-FORWARDED-FOR");  
