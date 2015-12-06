@@ -6,17 +6,8 @@
 package controller;
 
 import connector.VCConnector;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -25,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -59,9 +49,7 @@ public class CommentServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("application/json");
-        JSONArray jsonResponse = new JSONArray();
+            throws ServletException, IOException {                
         String questionId = request.getParameter("id");
         if (questionId == null) {
             return;
@@ -75,7 +63,7 @@ public class CommentServlet extends HttpServlet {
             return;
         }
         
-        try (PrintWriter out = response.getWriter()) { 
+        try (PrintWriter out = response.getWriter()) {            
             response.setContentType("application/json");            
             out.println(VCConnector.getComments(questionId));
         }
@@ -97,7 +85,7 @@ public class CommentServlet extends HttpServlet {
             JSONObject jsonResponse = new JSONObject();
             String questionId = request.getParameter("id");
             String content = request.getParameter("content");
-            if (questionId != null && content!= null) {
+            if (questionId != null && content!= null) {                
                 try {
                     Cookie cookies[] = request.getCookies();
                     String auth = null;

@@ -14,16 +14,18 @@ public class Comment {
     private int idQuestion;
     private int idUser;
     private String content;
+    private String user;
 
     private Comment() {
 
     }
 
-    public Comment(int id, int idQuestion, int idUser, String content) {
+    public Comment(int id, int idQuestion, int idUser, String content, String user) {
         this.id = id;
         this.idQuestion = idQuestion;
         this.idUser = idUser;
         this.content = content;
+        this.user = user;
     }
 
     public int getId() { return this.id; }
@@ -33,4 +35,6 @@ public class Comment {
     public int getIdUser() { return this.idUser; }
 
     public String getContent() { return this.content; }
+
+    public String getUser() { return this.user; }
 }

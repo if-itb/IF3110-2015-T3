@@ -41,16 +41,13 @@
                 </div>    
             </div>
             <div class="question-content">        
-                <div class="comment" ng-controller="viewController as question">
-                    <div class="comment-item" ng-repeat="comment in question.comments">
-                        <p> "Recently Asked Questions"</p>
-                        <p> "Recently Asked Questions"</p>
+                <div class="comment" ng-controller="commentController" ng-init="init(${question.id})">
+                    <div class="comment-item" ng-repeat="comment in comments">
                         <p>{{comment.content}} - <span class="author">{{ comment.user }}</span></p>
                     </div>
 
-                    <form name="commentForm" ng-controller="addController as commentCtrl" ng-submit="commentForm.$valid && commentCtrl.addComment(question.comments)" novalidate>
-                        <input ng-model="commentCtrl.comment.question_id" ng-init="commentCtrl.comment.q_id=<%= "${question.id}" %>" type="hidden">
-                        <input ng-model="commentCtrl.comment.content" type="text" placeholder="Your Comment" required>
+                    <form name="commentForm" ng-submit="addComment(${question.id})">
+                        <input name="content" ng-model="content" type="text" placeholder="Your Comment" required>
                         <input type="submit" class="btn btn-default" value="Add comment">
                     </form>
                 </div>

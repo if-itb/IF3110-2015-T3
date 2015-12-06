@@ -94,8 +94,7 @@ public class VCConnector {
                     URLEncoder.encode(auth, charset),
                     URLEncoder.encode(id, charset),
                     URLEncoder.encode(content, charset));
-           object = request("/vote", query.getBytes());
-            System.out.println(object.toString());
+            object = request("/comment", query.getBytes());
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }

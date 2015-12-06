@@ -73,8 +73,7 @@ public class CommentServlet extends HttpServlet {
             throws ServletException, IOException {
         String token = request.getParameter("auth");
         String content = request.getParameter("content");
-        String sIdQuestion = request.getParameter("id");
-
+        String sIdQuestion = request.getParameter("id");        
         if (token == null || content == null || sIdQuestion == null)
             return;
 
@@ -85,18 +84,19 @@ public class CommentServlet extends HttpServlet {
             System.err.println(e.getMessage());
             return;
         }
+        System.out.println("content " + content);
 
         JSONObject result = new JSONObject();
         JSONObject identity = IdentityService.requestAuth(token);
         if (identity != null && identity.containsKey("status")) {
-            Long status = (Long) identity.get("status");
+            Long status = (Long) identity.get("status");            
             // token has expired
             if (status == -1) {
                 result.put("status", -1);
                 result.put("detail", "Token has expired");
             }
             // token found
-            else if (status == 1 && result.containsKey("id")) {
+            else if (status == 1 && identity.containsKey("id")) {
                 boolean success = false;
                 long idUser = (long) identity.get("id");
                 String query = "INSERT INTO comment (id_question, id_user, content) VALUES (?, ?, ?)";
@@ -134,9 +134,7 @@ public class CommentServlet extends HttpServlet {
         JSONArray result = new JSONArray();
         for (Comment comment: getComments(idQuestion)) {
             JSONObject object = new JSONObject();
-            object.put("id", comment.getId());
-            object.put("id_question", comment.getIdQuestion());
-            object.put("id_user", comment.getIdUser());
+            object.put("user", comment.getUser());
             object.put("content", comment.getContent());
             result.add(object);
         }
@@ -150,11 +148,20 @@ public class CommentServlet extends HttpServlet {
             statement.setInt(1, idQuestion);
             ResultSet result = statement.executeQuery();
             while (result.next()) {
-                comments.add(new Comment(
+                query = "SELECT name FROM user WHERE id = ?";
+                try (PreparedStatement statementSelect = conn.prepareStatement(query)) {
+                    int id = result.getInt("id_user");
+                    statementSelect.setInt(1, id);
+                    ResultSet resultSelect = statementSelect.executeQuery();
+                    if (resultSelect.next()) {
+                        comments.add(new Comment(
                         result.getInt("id"),
                         result.getInt("id_question"),
                         result.getInt("id_user"),
-                        result.getString("content")));
+                        result.getString("content"),
+                        resultSelect.getString(1)));
+                    }
+                }
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

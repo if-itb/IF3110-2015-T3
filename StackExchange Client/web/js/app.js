@@ -18,7 +18,7 @@ app.controller("voteController", function($scope, $http) {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data) {
             if (data.hasOwnProperty("votes"))
-                $scope.votes[type + id] = data["votes"];
+                $scope.votes[type + id] = data.votes;
         });
     };
 
@@ -30,26 +30,25 @@ app.controller("voteController", function($scope, $http) {
         $http({
             method: "POST",
             url: "vote",
-            data: "id=" + id + "&type=" + type + "&action=" + action,
+            data: $.param({id: id, type: type, action: action}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data) {
             if (data.hasOwnProperty("votes"))
-                $scope.votes[type + id] = data["votes"];
+                $scope.votes[type + id] = data.votes;
 
-            switch (data["status"]) {
+            switch (data.status) {
                 // vote success
-                case 1:
-                    alert("success gan");
+                case 1:                    
                     var otherVote = action === "up"? $('#'+type+'-'+id+'-down') : $('#'+type+'-'+id+'-up');
                     thisVote.removeClass("vote-button").addClass("vote-button-yes");
                     otherVote.removeClass("vote-button").addClass("vote-button-no");
                     break;
                 // vote failed
                 case 0:
-                    alert("gagal gan");
+                    alert("Failed to vote");
                     break;
                 case -1:
-                    alert("login dulu gan");
+                    alert("Login first");
                     window.location.replace("signin");
                     break;
             }
@@ -80,7 +79,7 @@ app.controller("commentController", function($scope, $http) {
         $http({
             method  : "GET",
             url     : "comment",
-            data    : "id=" + idQuestion,
+            params  : {id: idQuestion},
             headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         })
         .success(function(data){
@@ -88,24 +87,25 @@ app.controller("commentController", function($scope, $http) {
         });
     };
     
-    $scope.addComment = function(idQuestion, content){
+    $scope.addComment = function(idQuestion) {
+        var theContent = $scope.content;
+        $scope.content = "";        
         $http({
             method  : "POST",
             url     : "comment",
-            data    : "id=" + idQuestion + "&content=" + content,
+            data    : $.param({id: idQuestion, content: theContent}),
             headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         })
-        .success(function(data){
+        .success(function(data){            
             switch(data["status"]){
-                case 1 :
-                    alert("alhamdulillah");
-                    if(data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
-                        $scope.comments = data["comments"];
+                case 1 :                    
+                    if (data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
+                        $scope.comments = data.comments;
                     }
                     break;
                 default :
                     if(data.hasOwnProperty("detail")){ // ketika ada detail di dalam data (ada error)
-                        alert("astaghfirullah, " + data["details"]);
+                        alert(data.detail);
                     }
                     break;
             }
