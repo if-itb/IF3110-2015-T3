@@ -82,13 +82,22 @@ public class initVote extends HttpServlet {
 
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();
-                    JSONArray votes = new JSONArray();
+                    JSONArray answers = new JSONArray();
                     
                     while(rs.next()){
-                        votes.add(rs.getInt("vote"));
+                        JSONObject answer = new JSONObject();
+                        
+                        answer.put("id", rs.getInt("id"));
+                        answer.put("qid", rs.getInt("questionId"));
+                        answer.put("content", rs.getString("content"));
+                        answer.put("email", rs.getString("email"));
+                        answer.put("name", rs.getString("name"));
+                        answer.put("vote", rs.getInt("vote"));
+                        answers.add(answer);
                     }
-                    json.put("votes", votes);
+                    json.put("answers", answers);
                     json.put("status", "success");
+                    
                 }catch(Exception e){
                     json.put("status", "get database failure");
                 }finally{

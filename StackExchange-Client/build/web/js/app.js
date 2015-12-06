@@ -23,39 +23,40 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
         temp = temp[0].split("=");
         $scope.id = temp[1];
     }
+    //Init Question Vote
     $scope.query = "type=question&id="+$scope.id;
     $scope.url = "http://localhost:8080/StackExchange-CommentVote/initVote?"+$scope.query;
     $http.get($scope.url)
             .then(function(response){
-                console.log(response.data);
                     if(response.data.status === "success"){
                         $scope.value = response.data.newVote;
                     }else{
                         $scope.value = "-";
                     }
             });
-            
-    $scope.query = "type=answer&qid="+$scope.id;
-    $scope.url = "http://localhost:8080/StackExchange-CommentVote/initVote?"+$scope.query;
-    $http.get($scope.url)
-            .then(function(response){
-                console.log(response.data);
-                    if(response.data.status === "success"){
-                        $scope.voteAnswers = response.data.votes;
-                    }
-            });       
-            
+         
+    //Init Comment
     $scope.query = "qid="+$scope.id;
     $scope.url = "http://localhost:8080/StackExchange-CommentVote/initComment?"+$scope.query;
     $http.get($scope.url)
             .then(function(response){
-                console.log(response.data);
                     if(response.data.status === "success"){
                         $scope.comments = response.data.comments;
                     }
             });
             
     
+    //Init Answers 
+    $scope.query = "type=answer&qid="+$scope.id;
+    $scope.url = "http://localhost:8080/StackExchange-CommentVote/initVote?"+$scope.query;
+    $http.get($scope.url)
+            .then(function(response){
+                    if(response.data.status === "success"){
+                        $scope.answers = response.data.answers;
+                    }else{
+                        console.log("failure");
+                    }
+            }); 
     
     $scope.email = $cookies.get('email');
     $scope.token = $cookies.get('token');
@@ -86,16 +87,29 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
                     }
                 });
     };
-    $scope.voteUpA = function(id){
+    $scope.voteUpA = function(answer){
         $scope.query = "email="+$scope.email;
         $scope.query += "&token="+$scope.token;
-        $scope.query += "&type=answer&inc=up&id="+id+"&qid="+$scope.id;
+        $scope.query += "&type=answer&inc=up&id="+answer.id+"&qid="+answer.qid;
         $scope.url = "http://localhost:8080/StackExchange-CommentVote/Vote?"+$scope.query;
         $http.get($scope.url)
                 .then(function(response){
                     console.log(response.data);
                     if(response.data.status === "success"){
-                        $scope.voteAnswer = response.data.newVote;
+                        answer.vote = response.data.newVote;
+                    }
+                });
+    };
+    $scope.voteDownA = function(answer){
+        $scope.query = "email="+$scope.email;
+        $scope.query += "&token="+$scope.token;
+        $scope.query += "&type=answer&inc=down&id="+answer.id+"&qid="+answer.qid;
+        $scope.url = "http://localhost:8080/StackExchange-CommentVote/Vote?"+$scope.query;
+        $http.get($scope.url)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.status === "success"){
+                        answer.vote = response.data.newVote;
                     }
                 });
     };

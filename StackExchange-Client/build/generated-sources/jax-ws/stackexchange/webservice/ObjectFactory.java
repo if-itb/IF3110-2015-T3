@@ -24,20 +24,16 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _User_QNAME = new QName("http://webservice.stackexchange/", "User");
-    private final static QName _AddUser_QNAME = new QName("http://webservice.stackexchange/", "addUser");
-    private final static QName _AddUserResponse_QNAME = new QName("http://webservice.stackexchange/", "addUserResponse");
-    private final static QName _DeleteUser_QNAME = new QName("http://webservice.stackexchange/", "deleteUser");
-    private final static QName _GetToken_QNAME = new QName("http://webservice.stackexchange/", "getToken");
-    private final static QName _GetTokenResponse_QNAME = new QName("http://webservice.stackexchange/", "getTokenResponse");
-    private final static QName _GetUser_QNAME = new QName("http://webservice.stackexchange/", "getUser");
-    private final static QName _GetUserByEmail_QNAME = new QName("http://webservice.stackexchange/", "getUserByEmail");
-    private final static QName _GetUserByEmailResponse_QNAME = new QName("http://webservice.stackexchange/", "getUserByEmailResponse");
-    private final static QName _GetUserResponse_QNAME = new QName("http://webservice.stackexchange/", "getUserResponse");
-    private final static QName _GetUsers_QNAME = new QName("http://webservice.stackexchange/", "getUsers");
-    private final static QName _GetUsersResponse_QNAME = new QName("http://webservice.stackexchange/", "getUsersResponse");
-    private final static QName _SignOut_QNAME = new QName("http://webservice.stackexchange/", "signOut");
-    private final static QName _SignOutResponse_QNAME = new QName("http://webservice.stackexchange/", "signOutResponse");
+    private final static QName _Answer_QNAME = new QName("http://webservice.stackexchange/", "Answer");
+    private final static QName _AddAnswer_QNAME = new QName("http://webservice.stackexchange/", "addAnswer");
+    private final static QName _DeleteAnswer_QNAME = new QName("http://webservice.stackexchange/", "deleteAnswer");
+    private final static QName _GetAnswers_QNAME = new QName("http://webservice.stackexchange/", "getAnswers");
+    private final static QName _GetAnswersResponse_QNAME = new QName("http://webservice.stackexchange/", "getAnswersResponse");
+    private final static QName _GetAnswers1_QNAME = new QName("http://webservice.stackexchange/", "getAnswers_1");
+    private final static QName _GetAnswers1Response_QNAME = new QName("http://webservice.stackexchange/", "getAnswers_1Response");
+    private final static QName _UpdateAnswer_QNAME = new QName("http://webservice.stackexchange/", "updateAnswer");
+    private final static QName _VoteAnswer_QNAME = new QName("http://webservice.stackexchange/", "voteAnswer");
+    private final static QName _VoteAnswer1_QNAME = new QName("http://webservice.stackexchange/", "voteAnswer_1");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: stackexchange.webservice
@@ -47,241 +43,181 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link User }
+     * Create an instance of {@link Answer }
      * 
      */
-    public User createUser() {
-        return new User();
+    public Answer createAnswer() {
+        return new Answer();
     }
 
     /**
-     * Create an instance of {@link AddUser }
+     * Create an instance of {@link AddAnswer }
      * 
      */
-    public AddUser createAddUser() {
-        return new AddUser();
+    public AddAnswer createAddAnswer() {
+        return new AddAnswer();
     }
 
     /**
-     * Create an instance of {@link AddUserResponse }
+     * Create an instance of {@link DeleteAnswer }
      * 
      */
-    public AddUserResponse createAddUserResponse() {
-        return new AddUserResponse();
+    public DeleteAnswer createDeleteAnswer() {
+        return new DeleteAnswer();
     }
 
     /**
-     * Create an instance of {@link DeleteUser }
+     * Create an instance of {@link GetAnswers }
      * 
      */
-    public DeleteUser createDeleteUser() {
-        return new DeleteUser();
+    public GetAnswers createGetAnswers() {
+        return new GetAnswers();
     }
 
     /**
-     * Create an instance of {@link GetToken }
+     * Create an instance of {@link GetAnswersResponse }
      * 
      */
-    public GetToken createGetToken() {
-        return new GetToken();
+    public GetAnswersResponse createGetAnswersResponse() {
+        return new GetAnswersResponse();
     }
 
     /**
-     * Create an instance of {@link GetTokenResponse }
+     * Create an instance of {@link GetAnswers1 }
      * 
      */
-    public GetTokenResponse createGetTokenResponse() {
-        return new GetTokenResponse();
+    public GetAnswers1 createGetAnswers1() {
+        return new GetAnswers1();
     }
 
     /**
-     * Create an instance of {@link GetUser }
+     * Create an instance of {@link GetAnswers1Response }
      * 
      */
-    public GetUser createGetUser() {
-        return new GetUser();
+    public GetAnswers1Response createGetAnswers1Response() {
+        return new GetAnswers1Response();
     }
 
     /**
-     * Create an instance of {@link GetUserByEmail }
+     * Create an instance of {@link UpdateAnswer }
      * 
      */
-    public GetUserByEmail createGetUserByEmail() {
-        return new GetUserByEmail();
+    public UpdateAnswer createUpdateAnswer() {
+        return new UpdateAnswer();
     }
 
     /**
-     * Create an instance of {@link GetUserByEmailResponse }
+     * Create an instance of {@link VoteAnswer }
      * 
      */
-    public GetUserByEmailResponse createGetUserByEmailResponse() {
-        return new GetUserByEmailResponse();
+    public VoteAnswer createVoteAnswer() {
+        return new VoteAnswer();
     }
 
     /**
-     * Create an instance of {@link GetUserResponse }
+     * Create an instance of {@link VoteAnswer1 }
      * 
      */
-    public GetUserResponse createGetUserResponse() {
-        return new GetUserResponse();
+    public VoteAnswer1 createVoteAnswer1() {
+        return new VoteAnswer1();
     }
 
     /**
-     * Create an instance of {@link GetUsers }
+     * Create an instance of {@link Timestamp }
      * 
      */
-    public GetUsers createGetUsers() {
-        return new GetUsers();
+    public Timestamp createTimestamp() {
+        return new Timestamp();
     }
 
     /**
-     * Create an instance of {@link GetUsersResponse }
+     * Create an instance of {@link JAXBElement }{@code <}{@link Answer }{@code >}}
      * 
      */
-    public GetUsersResponse createGetUsersResponse() {
-        return new GetUsersResponse();
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "Answer")
+    public JAXBElement<Answer> createAnswer(Answer value) {
+        return new JAXBElement<Answer>(_Answer_QNAME, Answer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link SignOut }
+     * Create an instance of {@link JAXBElement }{@code <}{@link AddAnswer }{@code >}}
      * 
      */
-    public SignOut createSignOut() {
-        return new SignOut();
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "addAnswer")
+    public JAXBElement<AddAnswer> createAddAnswer(AddAnswer value) {
+        return new JAXBElement<AddAnswer>(_AddAnswer_QNAME, AddAnswer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link SignOutResponse }
+     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteAnswer }{@code >}}
      * 
      */
-    public SignOutResponse createSignOutResponse() {
-        return new SignOutResponse();
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "deleteAnswer")
+    public JAXBElement<DeleteAnswer> createDeleteAnswer(DeleteAnswer value) {
+        return new JAXBElement<DeleteAnswer>(_DeleteAnswer_QNAME, DeleteAnswer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link User }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswers }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "User")
-    public JAXBElement<User> createUser(User value) {
-        return new JAXBElement<User>(_User_QNAME, User.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getAnswers")
+    public JAXBElement<GetAnswers> createGetAnswers(GetAnswers value) {
+        return new JAXBElement<GetAnswers>(_GetAnswers_QNAME, GetAnswers.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddUser }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswersResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "addUser")
-    public JAXBElement<AddUser> createAddUser(AddUser value) {
-        return new JAXBElement<AddUser>(_AddUser_QNAME, AddUser.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getAnswersResponse")
+    public JAXBElement<GetAnswersResponse> createGetAnswersResponse(GetAnswersResponse value) {
+        return new JAXBElement<GetAnswersResponse>(_GetAnswersResponse_QNAME, GetAnswersResponse.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link AddUserResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswers1 }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "addUserResponse")
-    public JAXBElement<AddUserResponse> createAddUserResponse(AddUserResponse value) {
-        return new JAXBElement<AddUserResponse>(_AddUserResponse_QNAME, AddUserResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getAnswers_1")
+    public JAXBElement<GetAnswers1> createGetAnswers1(GetAnswers1 value) {
+        return new JAXBElement<GetAnswers1>(_GetAnswers1_QNAME, GetAnswers1 .class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DeleteUser }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAnswers1Response }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "deleteUser")
-    public JAXBElement<DeleteUser> createDeleteUser(DeleteUser value) {
-        return new JAXBElement<DeleteUser>(_DeleteUser_QNAME, DeleteUser.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getAnswers_1Response")
+    public JAXBElement<GetAnswers1Response> createGetAnswers1Response(GetAnswers1Response value) {
+        return new JAXBElement<GetAnswers1Response>(_GetAnswers1Response_QNAME, GetAnswers1Response.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetToken }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link UpdateAnswer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getToken")
-    public JAXBElement<GetToken> createGetToken(GetToken value) {
-        return new JAXBElement<GetToken>(_GetToken_QNAME, GetToken.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "updateAnswer")
+    public JAXBElement<UpdateAnswer> createUpdateAnswer(UpdateAnswer value) {
+        return new JAXBElement<UpdateAnswer>(_UpdateAnswer_QNAME, UpdateAnswer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetTokenResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getTokenResponse")
-    public JAXBElement<GetTokenResponse> createGetTokenResponse(GetTokenResponse value) {
-        return new JAXBElement<GetTokenResponse>(_GetTokenResponse_QNAME, GetTokenResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "voteAnswer")
+    public JAXBElement<VoteAnswer> createVoteAnswer(VoteAnswer value) {
+        return new JAXBElement<VoteAnswer>(_VoteAnswer_QNAME, VoteAnswer.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUser }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link VoteAnswer1 }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUser")
-    public JAXBElement<GetUser> createGetUser(GetUser value) {
-        return new JAXBElement<GetUser>(_GetUser_QNAME, GetUser.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByEmail }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUserByEmail")
-    public JAXBElement<GetUserByEmail> createGetUserByEmail(GetUserByEmail value) {
-        return new JAXBElement<GetUserByEmail>(_GetUserByEmail_QNAME, GetUserByEmail.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserByEmailResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUserByEmailResponse")
-    public JAXBElement<GetUserByEmailResponse> createGetUserByEmailResponse(GetUserByEmailResponse value) {
-        return new JAXBElement<GetUserByEmailResponse>(_GetUserByEmailResponse_QNAME, GetUserByEmailResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUserResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUserResponse")
-    public JAXBElement<GetUserResponse> createGetUserResponse(GetUserResponse value) {
-        return new JAXBElement<GetUserResponse>(_GetUserResponse_QNAME, GetUserResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUsers }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUsers")
-    public JAXBElement<GetUsers> createGetUsers(GetUsers value) {
-        return new JAXBElement<GetUsers>(_GetUsers_QNAME, GetUsers.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GetUsersResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "getUsersResponse")
-    public JAXBElement<GetUsersResponse> createGetUsersResponse(GetUsersResponse value) {
-        return new JAXBElement<GetUsersResponse>(_GetUsersResponse_QNAME, GetUsersResponse.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SignOut }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "signOut")
-    public JAXBElement<SignOut> createSignOut(SignOut value) {
-        return new JAXBElement<SignOut>(_SignOut_QNAME, SignOut.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SignOutResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "signOutResponse")
-    public JAXBElement<SignOutResponse> createSignOutResponse(SignOutResponse value) {
-        return new JAXBElement<SignOutResponse>(_SignOutResponse_QNAME, SignOutResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://webservice.stackexchange/", name = "voteAnswer_1")
+    public JAXBElement<VoteAnswer1> createVoteAnswer1(VoteAnswer1 value) {
+        return new JAXBElement<VoteAnswer1>(_VoteAnswer1_QNAME, VoteAnswer1 .class, null, value);
     }
 
 }
