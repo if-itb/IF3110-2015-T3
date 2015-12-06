@@ -59,7 +59,7 @@ public class login extends HttpServlet {
         response.setContentType("application/json");
         try(PrintWriter out = response.getWriter()){
             email= request.getParameter("email");
-            password = md5(request.getParameter("password"));
+            password = (request.getParameter("password"));
             if (email != null & password != null){
                 sql = "SELECT * FROM user WHERE email = ? AND password = ?";
                 conn.setAutoCommit(false);
