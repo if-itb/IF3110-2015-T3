@@ -376,7 +376,7 @@ public class WebServiceImpl implements WebServiceInterface{
                 if (type == 0) { // vote question
                     String querycount = "SELECT COUNT(id) AS count FROM vote_question WHERE qid="+id + " AND uid="+uid;
 
-                    querycheck= "SELECT qid,vote FROM vote_question WHERE uid="+uid+" AND qid= "+id;
+                    //querycheck= "SELECT qid,vote FROM vote_question WHERE uid="+uid+" AND qid= "+id;
                     stmt = conn.createStatement();
                     rs = stmt.executeQuery(querycount);
                     rs.next();
@@ -385,17 +385,7 @@ public class WebServiceImpl implements WebServiceInterface{
                     if (stat==1){ //udah pernah ngevote
                         query = "UPDATE question SET vote = vote WHERE id=" + id;
                         query2 = "UPDATE question SET vote = vote WHERE id=" + id;
-//                        if (voteCheck!=direction){
-//                            if (direction==1){
-//                                query = "UPDATE question SET vote = vote + 2 WHERE id=" + id;
-//                            } else if (direction==-1){
-//                                query = "UPDATE question SET vote = vote - 2 WHERE id=" + id;
-//                            }
-//                            query2 = "UPDATE vote_question SET vote="+direction;
-//                        } else {
-//                            query = "UPDATE question SET vote = vote WHERE 1=0";
-//                            query2 = "UPDATE vote_question SET vote=vote WHERE 1=0";
-//                        }
+
                     } else {
                         if (direction==1){
                             query = "UPDATE question SET vote = vote + 1 WHERE id=" + id;
@@ -417,17 +407,7 @@ public class WebServiceImpl implements WebServiceInterface{
                     if (stat == 1){ //udah pernah ngevote
                         query = "UPDATE question SET vote = vote WHERE id=" + id;
                         query2 = "UPDATE question SET vote = vote WHERE id=" + id;
-//                        if (voteCheck!=direction){
-//                            if (direction==1){
-//                                query = "UPDATE answer SET vote = vote + 2 WHERE id=" + id;
-//                            } else if (direction==-1){
-//                                query = "UPDATE answer SET vote = vote - 2 WHERE id=" + id;
-//                            }
-//                            query2 = "UPDATE vote_answer SET vote="+direction;
-//                        } else {
-//                            query = "UPDATE answer SET vote = vote WHERE 1=0";
-//                            query2 = "UPDATE vote_answer SET vote=vote WHERE 1=0";
-//                        }
+
                     } else {
                         if (direction==1){
                             query = "UPDATE answer SET vote = vote + 1 WHERE id=" + id;

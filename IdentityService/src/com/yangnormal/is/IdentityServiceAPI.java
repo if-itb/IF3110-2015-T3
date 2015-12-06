@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @WebServlet(name = "IdentityServiceAPI", urlPatterns = {"/v1/*"} )
 public class IdentityServiceAPI extends HttpServlet {
 
-    public final String serverURL = "http://localhost:8080";
+    public final String serverURL = "http://localhost:8083";
 
     final String DB_URL="jdbc:mysql://localhost/mystackexchange";
     final String USER="root";
@@ -98,7 +98,6 @@ public class IdentityServiceAPI extends HttpServlet {
 
     private void IdentityServiceLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         serve((request, out) -> {
-
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 Map<String, Object> map = new HashMap<String, Object>();

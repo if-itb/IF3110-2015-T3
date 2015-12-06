@@ -44,6 +44,9 @@ public class CommentVoteServiceAPI extends HttpServlet {
             case "/postcomment":
                 postComment(req, res);
                 break;
+            case "/doVote":
+                doVote(req, res);
+                break;
             default:
                 show404(req,res);
         }
@@ -141,32 +144,126 @@ public class CommentVoteServiceAPI extends HttpServlet {
 
     protected void postComment (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
         serve((request, out) -> {
-            out.print(getRequest("http://localhost:8080/v1/check"));
-            out.flush();
-//            String qid = req.getParameter("qid");
-//            String content = req.getParameter("content");
-//            String uid = req.getParameter("uid");
+
+            String qid = req.getParameter("qid");
+            String content = req.getParameter("content");
+            String token = req.getParameter("token");
+
+            String check = getRequest("http://localhost:8083/v1/check?token="+ token);
+
+            // Parse JSON
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> map = new HashMap<String, Object>();
+            try {
+                map = mapper.readValue(check, new TypeReference<Map<String, String>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int uid = Integer.parseInt((String)map.get("uid"));
+
+            // cek apakah memegang token
+            if (uid > 0){
+                try {
+                PreparedStatement stmt = conn.prepareStatement("");
+
+                stmt=conn.prepareStatement("INSERT INTO comments ('qid','content','uid','time_created') VALUES (" + qid + ", '" + "?" + "', " + uid + ", CURRENT_TIMESTAMP)");
+
+                stmt.setString(1, String.valueOf(content));
+                stmt.executeUpdate();
+
+                } catch (Exception e) {
+                    res.setStatus(500);
+                    out.print("{\"error\":\""+e.getMessage()+"\"}");
+                    e.printStackTrace();
+                    out.flush();
+                }
+            }
 //
-//            try {
-//                PreparedStatement stmt = conn.prepareStatement("");
 //
-//                stmt=conn.prepareStatement("INSERT INTO comments ('qid','content','uid','time_created')");
-//
-//                stmt.setString(1, String.valueOf(id));
-//                ResultSet result = stmt.executeQuery();
-//                while (result.next()){
-//                    int vote = result.getInt("vote");
-//                    out.print("{\"vote\":\""+ vote + "\"}");
-//                }
-//                out.flush();
-//
-//            } catch (Exception e) {
-//                res.setStatus(500);
-//                out.print("{\"error\":\""+e.getMessage()+"\"}");
-//                e.printStackTrace();
-//                out.flush();
-//            }
-//
+        }, req, res);
+    }
+
+    protected void doVote (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+        serve((request, out) -> {
+
+            String qid = req.getParameter("id");
+            String type = req.getParameter("type");
+            int direction = Integer.parseInt(req.getParameter("direction"));
+            String token = req.getParameter("token");
+
+            String check = getRequest("http://localhost:8083/v1/check?token="+ token);
+
+            // Parse JSON
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> map = new HashMap<String, Object>();
+            try {
+                map = mapper.readValue(check, new TypeReference<Map<String, String>>(){});
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            int uid = Integer.parseInt((String)map.get("uid"));
+
+            // cek apakah memegang token
+            if (uid > 0){
+                try {
+                    Statement stmt;
+                    Statement stmt2;
+                    ResultSet rs;
+
+                    if (type == "question"){
+                        // Cek apakah sudah pernah melakukan vote
+                        String querycount = "SELECT COUNT(id) AS count FROM vote_question WHERE qid=" + qid + " AND uid=" + uid;
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery(querycount);
+                        rs.next();
+                        int stat = rs.getInt("count");
+
+                        if (stat == 0) { // Belum pernah melakukan vote
+                            if (direction == 1) {
+                                String query = "UPDATE question SET vote = vote + 1 WHERE id=" + qid;
+                                stmt.executeUpdate(query);
+                            } else if (direction == -1) {
+                                String query = "UPDATE question SET vote = vote - 1 WHERE id=" + qid;
+                                stmt.executeUpdate(query);
+                            }
+                        }
+                        String query2 = "INSERT INTO vote_question (qid, uid, vote) VALUES ("+qid+","+uid+","+direction+")";
+                        stmt2 = conn.createStatement();
+                        stmt2.executeUpdate(query2);
+                    }
+                    else if (type == "answer"){
+                        // Cek apakah sudah pernah melakukan vote
+                        String querycount = "SELECT COUNT(id) AS count FROM vote_answer WHERE aid=" + qid + " AND uid=" + uid;
+                        stmt = conn.createStatement();
+                        rs = stmt.executeQuery(querycount);
+                        rs.next();
+                        int stat = rs.getInt("count");
+
+                        if (stat == 0) { // Belum pernah melakukan vote
+                            if (direction == 1) {
+                                String query = "UPDATE answer SET vote = vote + 1 WHERE id=" + qid;
+                                stmt.executeUpdate(query);
+                            } else if (direction == -1) {
+                                String query = "UPDATE answer SET vote = vote - 1 WHERE id=" + qid;
+                                stmt.executeUpdate(query);
+                            }
+                        }
+                        String query2 = "INSERT INTO vote_answer (qid, uid, vote) VALUES ("+qid+","+uid+","+direction+")";
+                        stmt2 = conn.createStatement();
+                        stmt2.executeUpdate(query2);
+                    }
+
+
+                } catch (Exception e) {
+                    res.setStatus(500);
+                    out.print("{\"error\":\""+e.getMessage()+"\"}");
+                    e.printStackTrace();
+                    out.flush();
+                }
+            }
+
         }, req, res);
     }
 
