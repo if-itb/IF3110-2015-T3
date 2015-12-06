@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,6 +21,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import model.CommentModel;
+import model.Comments;
 import mysql.ConnectDb;
 
 @WebServlet(urlPatterns = {"/comment"})
@@ -26,7 +29,7 @@ public class Comment extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException, SQLException {	
+	    throws ServletException, IOException, SQLException, ParseException {	
 	String token = request.getParameter("token");
 	String content = request.getParameter("content");
 	String name = request.getParameter("name");
@@ -51,6 +54,7 @@ public class Comment extends HttpServlet {
 		}
 		
 		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
+		System.out.println("token Status :" + tokenStatus);
 		if (null != tokenStatus) {
 		    switch (tokenStatus) {
 			case "valid":
@@ -83,26 +87,32 @@ public class Comment extends HttpServlet {
 	    String hasil = "";
 	    String nama = "";
 	    String konten = "";
-	    String tanggal= "";
+	    String tanggal;
 	    int qId = 0;
 	    
-	    if (res.next()) {
+	    ArrayList<CommentModel> arrayComment = new ArrayList<>();;
+	    while (res.next()) {
+		System.out.println("Result :" + res.toString());
 		nama = res.getString("name");
 		konten = res.getString("content");
 		tanggal = res.getString("created_at");
-		qId = res.getInt("created_at");
-		CommentModel c = new CommentModel(name, content, qId, Long.parseLong(tanggal));
+//		Date d = tanggal;
+		qId = res.getInt("qid");
+		CommentModel c = new CommentModel(nama, konten, qId, tanggal);
 		System.out.println("HAsil1 : " + c.toXML());
-		hasil += c.toXML();
+		
+		arrayComment.add(c);
 	    }
 	    
+	    Comments comments = new Comments(arrayComment);
+	    hasil = comments.toXML();
 	    PrintWriter o = response.getWriter();
 	    System.out.println("HAsil : " + hasil);
 	    o.println(hasil);
 	    
 	}
     }
-    
+
 
     
     public String getUserAgent(HttpServletRequest request) {
@@ -129,6 +139,8 @@ public class Comment extends HttpServlet {
 	    processRequest(request, response);
 	} catch (SQLException ex) {
 	    Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (ParseException ex) {
+	    Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
 
@@ -146,6 +158,8 @@ public class Comment extends HttpServlet {
 	try {
 	    processRequest(request, response);
 	} catch (SQLException ex) {
+	    Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (ParseException ex) {
 	    Logger.getLogger(Comment.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }

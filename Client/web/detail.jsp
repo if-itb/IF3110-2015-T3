@@ -52,16 +52,14 @@
 
 
             <div ng-controller = 'commentCtrl'>
-
                 <form>
                     <input type="text" id = "content" name="content" placeholder="zzz" ng-model="content">
                     <button type="submit"  ng-click='comment()'> Submit </button>
                 </form>
 		
                 <div ng-repeat = "comment in comments">
-		    <p>{{comment}}</p>
+		    <p>{{comment.content}} by {{comment.name}} at {{comment.createdAt}}</p>
                 </div>
-                <a>Add a Comment</a>
             </div>
 
             <div class='answer'>

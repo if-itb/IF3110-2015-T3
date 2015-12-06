@@ -1,10 +1,15 @@
 package model;
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.StringWriter;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -21,12 +26,12 @@ import mysql.ConnectDb;
 public final class CommentModel {
     private String name;
     private String content;
-    private long created_at;
+    private String created_at;
     private int qid;
         
     public CommentModel() { }
     
-    public CommentModel(String name, String content, int qid, long createdAt) throws SQLException {
+    public CommentModel(String name, String content, int qid, String createdAt) throws SQLException {
 	this.name = name;
 	this.content = content;
 	this.created_at = createdAt;
@@ -36,12 +41,19 @@ public final class CommentModel {
     public CommentModel(String name, String content,int qid) throws SQLException {
         this.name = name;
 	this.content = content;
-	this.created_at= System.currentTimeMillis() / 1000;
+	Timestamp stamp = new Timestamp(System.currentTimeMillis());
+	Date date = new Date(stamp.getTime());
+	SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+	sdf2.setTimeZone(TimeZone.getTimeZone("Asia/Jakarta"));
+	
+	
+	this.created_at= sdf2.format(date);
 	this.qid = qid;
     }
     
     @XmlElement
     public String getName() {
+	System.out.println("NAMS :" + this.name);
         return this.name;
     }
     
@@ -51,7 +63,7 @@ public final class CommentModel {
     }
     
     @XmlElement
-    public long getCreatedAt() {
+    public String getCreatedAt() {
         return this.created_at;
     }
     

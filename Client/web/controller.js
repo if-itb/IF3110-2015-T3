@@ -34,7 +34,8 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 		return json;
 	    }
 	}).success(function (response) {
-	    $scope.comments.push(response);
+	    $scope.comments = response.comments.comments;
+	    $log.log(JSON.stringify($scope.comments));
 	});
     }
     
@@ -67,7 +68,7 @@ app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 	    },
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(response){
-	    $scope.comments.push(response);
+	    $scope.comments.push(response.comment);
 	});
     };
 });
@@ -108,11 +109,11 @@ app.controller('voteCtrl', function($scope, $http, $log, $cookies) {
 		    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
 		return str.join("&");
 	    },
-	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
-	    },
+//	    transformResponse: function (data) {
+//		var x2js = new X2JS();
+//		var json = x2js.xml_str2json(data);
+//		return json;
+//	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
 	    $scope.comments.push(response);
