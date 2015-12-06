@@ -32,7 +32,14 @@
         </c:otherwise>
        </c:choose>
     <ul class="right hide-on-med-and-down">
-      <li><a href="http://localhost:7000/login">Login</a></li>
+     <c:choose>
+        <c:when test="${token==null}">
+           <li><a href="http://localhost:7000/login">Login</a></li>
+        </c:when>    
+        <c:otherwise>
+            <li><a href="http://localhost:8080/stack_exchange_netbeans/index">Logout</a></li>
+        </c:otherwise>
+       </c:choose>
       <li><a href="http://localhost:7000/register">Register</a></li>
     </ul>
   </div>
