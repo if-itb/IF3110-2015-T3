@@ -70,18 +70,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="searchQuestions">
-<xs:sequence>
-<xs:element name="keyword" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="searchQuestionsResponse">
-<xs:sequence>
-<xs:element name="questions" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="deleteQuestion">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
@@ -106,6 +94,18 @@
 <xs:complexType name="votequestionResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchQuestions">
+<xs:sequence>
+<xs:element name="keyword" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchQuestionsResponse">
+<xs:sequence>
+<xs:element name="questions" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

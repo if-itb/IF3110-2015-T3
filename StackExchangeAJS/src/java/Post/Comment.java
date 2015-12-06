@@ -83,7 +83,6 @@ public class Comment extends HttpServlet {
                 ResultSet ret = pst.executeQuery();
                 while (ret.next()) {
                     JSONObject comment = new JSONObject();
-                    comment.put("id", ret.getInt("id"));
                     comment.put("uid", ret.getInt("uid"));
                     comment.put("content", ret.getString("content"));
                     comment.put("timestamp", ret.getString("timestamp"));

@@ -4,6 +4,18 @@
 <xsd:import namespace="http://User/" schemaLocation="http://localhost:8081/StackExchangeWS/UserWS?xsd=1"/>
 </xsd:schema>
 </types>
+<message name="addUser">
+<part name="parameters" element="tns:addUser"/>
+</message>
+<message name="addUserResponse">
+<part name="parameters" element="tns:addUserResponse"/>
+</message>
+<message name="getUser">
+<part name="parameters" element="tns:getUser"/>
+</message>
+<message name="getUserResponse">
+<part name="parameters" element="tns:getUserResponse"/>
+</message>
 <message name="getUserByToken">
 <part name="parameters" element="tns:getUserByToken"/>
 </message>
@@ -16,19 +28,15 @@
 <message name="logoutUserResponse">
 <part name="parameters" element="tns:logoutUserResponse"/>
 </message>
-<message name="getUser">
-<part name="parameters" element="tns:getUser"/>
-</message>
-<message name="getUserResponse">
-<part name="parameters" element="tns:getUserResponse"/>
-</message>
-<message name="addUser">
-<part name="parameters" element="tns:addUser"/>
-</message>
-<message name="addUserResponse">
-<part name="parameters" element="tns:addUserResponse"/>
-</message>
 <portType name="UserWS">
+<operation name="addUser">
+<input wsam:Action="http://User/UserWS/addUserRequest" message="tns:addUser"/>
+<output wsam:Action="http://User/UserWS/addUserResponse" message="tns:addUserResponse"/>
+</operation>
+<operation name="getUser">
+<input wsam:Action="http://User/UserWS/getUserRequest" message="tns:getUser"/>
+<output wsam:Action="http://User/UserWS/getUserResponse" message="tns:getUserResponse"/>
+</operation>
 <operation name="getUserByToken">
 <input wsam:Action="http://User/UserWS/getUserByTokenRequest" message="tns:getUserByToken"/>
 <output wsam:Action="http://User/UserWS/getUserByTokenResponse" message="tns:getUserByTokenResponse"/>
@@ -37,17 +45,27 @@
 <input wsam:Action="http://User/UserWS/logoutUserRequest" message="tns:logoutUser"/>
 <output wsam:Action="http://User/UserWS/logoutUserResponse" message="tns:logoutUserResponse"/>
 </operation>
-<operation name="getUser">
-<input wsam:Action="http://User/UserWS/getUserRequest" message="tns:getUser"/>
-<output wsam:Action="http://User/UserWS/getUserResponse" message="tns:getUserResponse"/>
-</operation>
-<operation name="addUser">
-<input wsam:Action="http://User/UserWS/addUserRequest" message="tns:addUser"/>
-<output wsam:Action="http://User/UserWS/addUserResponse" message="tns:addUserResponse"/>
-</operation>
 </portType>
 <binding name="UserWSPortBinding" type="tns:UserWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+<operation name="addUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getUser">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="getUserByToken">
 <soap:operation soapAction=""/>
 <input>
@@ -58,24 +76,6 @@
 </output>
 </operation>
 <operation name="logoutUser">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="getUser">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="addUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
