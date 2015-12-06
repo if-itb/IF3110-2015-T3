@@ -39,52 +39,52 @@
             app.controller('VoteCtrl', function($scope, $http){
                 $scope.vote2 = [];
                 $scope.voteupQuestion = function(id,str){
-                        str = "<%= request.getParameter("token") %>";
-                  
+                        console.log(id+" asdf "+str);
                         $http({
-                                method:'POST',
+                                method:'GET',
                                 url: 'http://localhost:8001/VoteComment/VoteUpQuestionRSServlet?token='+ str + '&qid=' + id
                         }).
                         then(function(response){
+                            console.log(JSON.stringify(response));
                              $scope.vote = response.data.Vote;
                             
                         });
                 };
                 
                 $scope.votedownQuestion = function(id,str){
-                        str = "<%= request.getParameter("token") %>";
-               
+                        console.log(id+" asdf "+str);
                         $http({
-                                method:'POST',
+                                method:'GET',
                                 url: 'http://localhost:8001/VoteComment/VoteDownQuestionRSServlet?token='+ str + '&qid=' + id
                         }).
                         then(function(response){
+                            console.log(JSON.stringify(response));
                              $scope.vote = response.data.Vote;
                          
                         });
                 };
                 
                 $scope.voteupAnswer = function(id,index,str){
-                        str = "<%= request.getParameter("token") %>";
                      
                         $http({
-                                method:'POST',
+                                method:'GET',
                                 url: 'http://localhost:8001/VoteComment/VoteUpAnswerRSServlet?token='+ str + '&id=' + id
                         }).
                         then(function(response){
+                            console.log(JSON.stringify(response));
                              $scope.vote2[index] = response.data.Vote;
                           
                         });
                 };
                 
                 $scope.votedownAnswer = function(id,index,str){
-                        str = "<%= request.getParameter("token") %>";
                     
                         $http({
-                                method:'POST',
+                                method:'GET',
                                 url: 'http://localhost:8001/VoteComment/VoteDownAnswerRSServlet?token='+ str + '&id=' + id
                         }).
                         then(function(response){
+                            console.log(JSON.stringify(response));
                              $scope.vote2[index] = response.data.Vote;
                            
                         });
@@ -155,12 +155,12 @@
                             out.println("<div class='columnsmall left'>");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                               out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupQuestion("+result.get(i).getQuestionID()+","+request.getParameter(token)+")'>");
+                               out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupQuestion("+result.get(i).getQuestionID()+",\""+token+"\")'>");
                             }
                             //print number of votes
                             out.println("<p ng-bind='vote' ng-init='vote="+result.get(i).getVotes()+"'>" + result.get(i).getVotes() + "</p>");
                             if (!token.equals("")) {
-                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownQuestion("+result.get(i).getQuestionID()+","+request.getParameter(token)+")'>");
+                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownQuestion("+result.get(i).getQuestionID()+",\""+token+"\")'>");
                             }
                             out.println("</div>");
 
@@ -175,7 +175,7 @@
                                 out.println("<p>asked by" + result.get(i).getName() + " at " + result.get(i).getDatetime() + " </p>");
 
                             }
-                            out.println("<div class='comment' ng-controller='commentCtrl' ng-app='comment'>");
+                            out.println("<div class='comment' ng-controller='commentCtrl'>");
                             out.println("<div class='comments' ng-repeat='comment in comments'>");
                             out.println("{{comment.name + ' - ' + comment.comment + ' at ' + comment.time}}");
                             out.println("</div>");
@@ -206,12 +206,12 @@
                             out.println("<div class='columnsmall left' >");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                                 out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupAnswer("+result.get(i).getAnswerID()+","+i+","+request.getParameter(token)+")'>");
+                                 out.println("<img src='up.png' alt='up' height='42' width='42' data-ng-click='voteupAnswer("+result.get(i).getAnswerID()+","+i+",\""+token+"\")'>");
                             }
                             out.println("<p ng-bind='vote2["+i+"]' ng-init='vote2["+i+"]="+result.get(i).getVotes()+"'>" + result.get(i).getVotes() + "</p>");
                             //hide if token is not validated 
                             if (!token.equals("")) {
-                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownAnswer("+result.get(i).getAnswerID()+","+i+","+request.getParameter(token)+")'>");
+                                out.println("<img src='down.png' alt='up' height='42' width='42' data-ng-click='votedownAnswer("+result.get(i).getAnswerID()+","+i+",\""+token+"\")'>");
                             }
                             out.println("</div>");
 

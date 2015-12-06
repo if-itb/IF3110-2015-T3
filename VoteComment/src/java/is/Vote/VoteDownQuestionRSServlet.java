@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
-import ws.auth.Auth;
 
 
 /**
@@ -72,6 +71,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer Vote = null;
+        PrintWriter out = response.getWriter();
          try {
          /*final PrintWriter out = response.getWriter();
              StringBuffer jb = new StringBuffer();
@@ -85,7 +85,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
              int returnExecution = 0;
              String token = request.getParameter("token");
              int qid=Integer.parseInt(request.getParameter("qid"));
-            response.setContentType("text/html");
+            response.setContentType("application/json;charset=UTF-8");
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
             
@@ -98,8 +98,15 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
             String sql;
             PreparedStatement dbStatement;
             //take the email from session asumsi bahwa token selalu bersama email
-            Auth auth = new Auth();
-            currentEmail = auth.getEmail(token);
+            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, token);
+            ResultSet rsEmail = dbStatement.executeQuery();
+            //agar index berada di elemen pertama dan get email
+            if(rsEmail.next()) {
+                //returnExecution = returnExecution + 1;
+                currentEmail = rsEmail.getString("Email");
+            }
 
             //Melakukan pengecekan apakah sudah ada atau belum dalam database
             sql = "SELECT * FROM upquestion WHERE IDQuestion = ? AND email = ?";
@@ -147,7 +154,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
                 }
             }
             
-             sql = "SELECT * FROM questions WHERE IDQuestion = ?";
+             sql = "SELECT * FROM questions WHERE QuestionID = ?";
             dbStatement = conn.prepareStatement(sql);
             dbStatement.setInt(1, qid);
             rs = dbStatement.executeQuery();
@@ -193,7 +200,7 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
              int returnExecution = 0;
              String token = request.getParameter("token");
              int qid=Integer.parseInt(request.getParameter("qid"));
-            response.setContentType("text/html");
+            response.setContentType("application/json;charset=UTF-8");
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
             
@@ -206,8 +213,15 @@ public class VoteDownQuestionRSServlet extends HttpServlet {
             String sql;
             PreparedStatement dbStatement;
             //take the email from session asumsi bahwa token selalu bersama email
-            Auth auth = new Auth();
-            currentEmail = auth.getEmail(token);
+            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, token);
+            ResultSet rsEmail = dbStatement.executeQuery();
+            //agar index berada di elemen pertama dan get email
+            if(rsEmail.next()) {
+                //returnExecution = returnExecution + 1;
+                currentEmail = rsEmail.getString("Email");
+            }
 
             //Melakukan pengecekan apakah sudah ada atau belum dalam database
             sql = "SELECT * FROM upquestion WHERE IDQuestion = ? AND email = ?";

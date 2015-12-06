@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
-import ws.auth.Auth;
 
 
 /**
@@ -73,7 +72,8 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
             throws ServletException, IOException {
          int returnExecution = 0;
          int Vote=0;
-        
+         PrintWriter out = response.getWriter();
+        response.setCharacterEncoding("application/json;charset=UTF-8");
         String currentEmail = new String("");
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -82,9 +82,17 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
             String currentAccessToken = request.getParameter("token");
             String sql;
             PreparedStatement dbStatement;
-            Auth auth = new Auth();
-            int AnsId = Integer.parseInt(request.getParameter("aid"));
-            currentEmail = auth.getEmail(currentAccessToken);
+            
+            int AnsId = Integer.parseInt(request.getParameter("id"));
+            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, currentAccessToken);
+            ResultSet rsEmail = dbStatement.executeQuery();
+            //agar index berada di elemen pertama dan get email
+            if(rsEmail.next()) {
+                //returnExecution = returnExecution + 1;
+                currentEmail = rsEmail.getString("Email");
+            }
             //Melakukan pengecekan apakah sudah ada atau belum dalam database
             sql = "SELECT * FROM upanswer WHERE IDAns = ? AND email = ?";
             dbStatement = conn.prepareStatement(sql);
@@ -131,7 +139,16 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
                     dbStatement.executeUpdate();
                 }
             }
-          
+            sql = "SELECT * FROM answers WHERE AnswerID = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setInt(1, AnsId);
+            rs = dbStatement.executeQuery();
+            if (rs.next()) {
+                Vote = rs.getInt("Votes");
+            }
+            JSONObject objOut = new JSONObject();
+            objOut.put("Vote", Vote);
+            out.println(objOut);
             //stmt.close();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -163,9 +180,16 @@ public class VoteUpAnswerRSServlet extends HttpServlet {
             String currentAccessToken = request.getParameter("token");
             String sql;
             PreparedStatement dbStatement;
-            Auth auth = new Auth();
             int AnsId = Integer.parseInt(request.getParameter("id"));
-            currentEmail = auth.getEmail(currentAccessToken);
+            sql = "SELECT Email FROM sessions WHERE AccessToken = ?";
+            dbStatement = conn.prepareStatement(sql);
+            dbStatement.setString(1, currentAccessToken);
+            ResultSet rsEmail = dbStatement.executeQuery();
+            //agar index berada di elemen pertama dan get email
+            if(rsEmail.next()) {
+                //returnExecution = returnExecution + 1;
+                currentEmail = rsEmail.getString("Email");
+            }
             //Melakukan pengecekan apakah sudah ada atau belum dalam database
             sql = "SELECT * FROM upanswer WHERE IDAns = ? AND email = ?";
             dbStatement = conn.prepareStatement(sql);
