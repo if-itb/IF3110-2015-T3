@@ -4,20 +4,20 @@
 <xsd:import namespace="http://service/" schemaLocation="http://localhost:8082/StackExchangeService/StackExchangeService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="getQuestionWithoutValidation">
-<part name="parameters" element="tns:getQuestionWithoutValidation"/>
+<message name="getUserAgent">
+<part name="parameters" element="tns:getUserAgent"/>
 </message>
-<message name="getQuestionWithoutValidationResponse">
-<part name="parameters" element="tns:getQuestionWithoutValidationResponse"/>
-</message>
-<message name="Exception">
-<part name="fault" element="tns:Exception"/>
+<message name="getUserAgentResponse">
+<part name="parameters" element="tns:getUserAgentResponse"/>
 </message>
 <message name="getAllQuestion">
 <part name="parameters" element="tns:getAllQuestion"/>
 </message>
 <message name="getAllQuestionResponse">
 <part name="parameters" element="tns:getAllQuestionResponse"/>
+</message>
+<message name="Exception">
+<part name="fault" element="tns:Exception"/>
 </message>
 <message name="deleteQuestion">
 <part name="parameters" element="tns:deleteQuestion"/>
@@ -36,6 +36,12 @@
 </message>
 <message name="getQuestionResponse">
 <part name="parameters" element="tns:getQuestionResponse"/>
+</message>
+<message name="getQuestionWithoutValidation">
+<part name="parameters" element="tns:getQuestionWithoutValidation"/>
+</message>
+<message name="getQuestionWithoutValidationResponse">
+<part name="parameters" element="tns:getQuestionWithoutValidationResponse"/>
 </message>
 <message name="getAnswers">
 <part name="parameters" element="tns:getAnswers"/>
@@ -73,11 +79,16 @@
 <message name="createQuestionResponse">
 <part name="parameters" element="tns:createQuestionResponse"/>
 </message>
+<message name="getIP">
+<part name="parameters" element="tns:getIP"/>
+</message>
+<message name="getIPResponse">
+<part name="parameters" element="tns:getIPResponse"/>
+</message>
 <portType name="StackExchangeService">
-<operation name="getQuestionWithoutValidation">
-<input wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationRequest" message="tns:getQuestionWithoutValidation"/>
-<output wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationResponse" message="tns:getQuestionWithoutValidationResponse"/>
-<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidation/Fault/Exception"/>
+<operation name="getUserAgent">
+<input wsam:Action="http://service/StackExchangeService/getUserAgentRequest" message="tns:getUserAgent"/>
+<output wsam:Action="http://service/StackExchangeService/getUserAgentResponse" message="tns:getUserAgentResponse"/>
 </operation>
 <operation name="getAllQuestion">
 <input wsam:Action="http://service/StackExchangeService/getAllQuestionRequest" message="tns:getAllQuestion"/>
@@ -98,6 +109,11 @@
 <input wsam:Action="http://service/StackExchangeService/getQuestionRequest" message="tns:getQuestion"/>
 <output wsam:Action="http://service/StackExchangeService/getQuestionResponse" message="tns:getQuestionResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getQuestion/Fault/Exception"/>
+</operation>
+<operation name="getQuestionWithoutValidation">
+<input wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationRequest" message="tns:getQuestionWithoutValidation"/>
+<output wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidationResponse" message="tns:getQuestionWithoutValidationResponse"/>
+<fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/getQuestionWithoutValidation/Fault/Exception"/>
 </operation>
 <operation name="getAnswers">
 <input wsam:Action="http://service/StackExchangeService/getAnswersRequest" message="tns:getAnswers"/>
@@ -129,10 +145,14 @@
 <output wsam:Action="http://service/StackExchangeService/createQuestionResponse" message="tns:createQuestionResponse"/>
 <fault message="tns:Exception" name="Exception" wsam:Action="http://service/StackExchangeService/createQuestion/Fault/Exception"/>
 </operation>
+<operation name="getIP">
+<input wsam:Action="http://service/StackExchangeService/getIPRequest" message="tns:getIP"/>
+<output wsam:Action="http://service/StackExchangeService/getIPResponse" message="tns:getIPResponse"/>
+</operation>
 </portType>
 <binding name="StackExchangeServicePortBinding" type="tns:StackExchangeService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="getQuestionWithoutValidation">
+<operation name="getUserAgent">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -140,9 +160,6 @@
 <output>
 <soap:body use="literal"/>
 </output>
-<fault name="Exception">
-<soap:fault name="Exception" use="literal"/>
-</fault>
 </operation>
 <operation name="getAllQuestion">
 <soap:operation soapAction=""/>
@@ -181,6 +198,18 @@
 </fault>
 </operation>
 <operation name="getQuestion">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
+</operation>
+<operation name="getQuestionWithoutValidation">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -263,6 +292,15 @@
 <fault name="Exception">
 <soap:fault name="Exception" use="literal"/>
 </fault>
+</operation>
+<operation name="getIP">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
 </operation>
 </binding>
 <service name="StackExchangeService">

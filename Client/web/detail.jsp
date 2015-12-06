@@ -54,11 +54,11 @@
             <div ng-controller = 'commentCtrl'>
 
                 <form ng-submit='comment()'>
-                    <input type="text" id = "content" name="content" placeholder="Put Your Comment Here" ng-model="username">
+                    <input type="text" id = "content" name="content" placeholder="Put Your Comment Here" ng-model="content">
                     <button type="submit"> Submit </button>
                 </form>
                 <div ng-repeat = "comment in comments">
-                    <p>{{comment.content}} <strong>{{comment.name}}</strong> at {{comment.created_at}}</p>  
+			<p>{{comment}}</>
                 </div>
 
                 <a>Add a Comment</a>
@@ -100,6 +100,7 @@
 </div>
 
     <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="angular-cookies.min.js"></script>
     <script type="text/javascript" src="controller.js"></script>
     <script type="text/javascript" src="vote.js"></script>
 </body>

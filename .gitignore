@@ -11,3 +11,6 @@
 /IdentityService/build/
 *.class
 /IdentityService/dist/
+/CommentVoteService/nbproject/private/
+/CommentVoteService/build/
+/CommentVoteService/dist/

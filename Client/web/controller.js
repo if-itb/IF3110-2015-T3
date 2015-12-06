@@ -1,24 +1,34 @@
-var app =  angular.module('App',[]);
-app.controller('commentCtrl', function($scope, $http, $log) {
+var app =  angular.module('App',['ngCookies']);
+app.controller('commentCtrl', function($scope, $http, $log, $cookies) {
 
-	$scope.username;
+    $scope.username;
     $scope.comments = [];
+        
+    app.config(['$httpProvider', function ($httpProvider) {
+	    $httpProvider.defaults.headers.post = {'Content-Type': 'text/plain'}
+	}
+    ]);
 
-    $http.get("https://api.github.com/users/" + $scope.username)
-    	.success(function(data) {
-    		for(var i = 0; i < data.length; i++) {
-    			$scope.comments.push(new Comment(data.content, data.name, data.created_at));
-			}
-    	});
-
-    $scope.comment = function () {
-    	$log.log("Asss");
-    	$http.get("https://api.github.com/users/" + $scope.username)
-    		.success(function(data) {
-    			$log.log(data);
-    			$scope.comments.push(new Comment(data.login, data.id, data.avatar_url));
-    		});
-    }
+    
+    $scope.comment = function() {
+	$log.log("WEWs");
+	$http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+	$http({
+	    url: "http://localhost:8083/CommentVoteService/comment",
+	    method: "PUT",
+	    param: {
+		token: $cookies.get("token"),
+		name : $cookies.get("username"),
+		content : $scope.content
+	    },
+	    headres : {
+		'Content-Type ': 'text/plain'
+	    }
+	}).success(function(response){
+	    $scope.comments.push(response);
+	});
+    };
+    
 
     function Comment(content, name, date) {
     	this.content = content;
