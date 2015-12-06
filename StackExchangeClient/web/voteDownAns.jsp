@@ -15,10 +15,20 @@
         <%-- start web service invocation --%><hr/>
     <%
     try {
+        Cookie[] cookieArray = request.getCookies();
+                String theCookie = "null";
+                if (cookieArray != null){
+                    for (int i = 0; i < cookieArray.length; i++){
+                        if(cookieArray[i].getName().equals("access_token")){
+                            theCookie = cookieArray[i].getValue();
+                            break;
+                        }
+                    }
+                }
 	com.wbd.ans.AnswerWS_Service service = new com.wbd.ans.AnswerWS_Service();
 	com.wbd.ans.AnswerWS port = service.getAnswerWSPort();
 	 // TODO initialize WS operation arguments here
-	java.lang.String accessToken = request.getParameter("token");
+	java.lang.String accessToken = theCookie;
 	java.lang.String ansid = request.getParameter("ansid");
 	// TODO process result here
 	int result = port.voteDown(accessToken, ansid);

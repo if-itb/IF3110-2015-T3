@@ -14,10 +14,20 @@
     <body>
     <%
     try {
+        Cookie[] cookieArray = request.getCookies();
+                String theCookie = "null";
+                if (cookieArray != null){
+                    for (int i = 0; i < cookieArray.length; i++){
+                        if(cookieArray[i].getName().equals("access_token")){
+                            theCookie = cookieArray[i].getValue();
+                            break;
+                        }
+                    }
+                }
 	com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
 	com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
 	 // TODO initialize WS operation arguments here
-	java.lang.String accessToken = request.getParameter("token");
+	java.lang.String accessToken = theCookie;
 	// TODO process result here
         out.println("Hello WOrld");
 	int result = port.signout(accessToken);

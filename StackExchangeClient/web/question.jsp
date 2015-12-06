@@ -23,9 +23,19 @@
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
                 
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>Home</a>");%>
+            <% out.write("<a id='logo-container' href='index.jsp' class='brand-logo'>Home</a>");%>
             <%
-                if (request.getParameter("token").equals("null")){
+                Cookie[] cookieArray = request.getCookies();
+                String theCookie = "null";
+                if (cookieArray != null){
+                    for (int i = 0; i < cookieArray.length; i++){
+                        if(cookieArray[i].getName().equals("access_token")){
+                            theCookie = cookieArray[i].getValue();
+                            break;
+                        }
+                    }
+                }
+                if (theCookie.equals("null")){
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li><a href='login.jsp'>Login</a></li>"
                                         + "<li><a href='register.jsp'>Register</a></li>"
@@ -38,7 +48,7 @@
                 } else {
                     com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
                     com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
-                    java.lang.String accessToken = request.getParameter("token");
+                    java.lang.String accessToken = theCookie;
                     java.lang.String result = port.getUsername(accessToken);
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li>" + result + "</li>"
@@ -88,14 +98,14 @@
  
                     "<div  ng-controller='voteQuestionController' class='block-QA'>"
 			+"<div class='bQA-vote'>"
-                            +"<a ng-click='direction=1; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteQuestion( " + theCookie + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a ng-model='voteQuestionCounter' ng-init='loadInitial(" + request.getParameter("id") + ") ;' class='vote-value' id='question_vote-" + qid +"'>"
 				+ "{{voteQuestionCounter}}"
                             +"</a>"
                             +"<br><br>"
-                            +"<a ng-click='direction=0; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteQuestion( " + theCookie + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
                         +"</div>"
                         +"</a>"
 			+"</div>"
@@ -109,11 +119,11 @@
                             +result2
                             +"</a>"
                             +" | "
-                            +"<a id='color-orange' href=edit.jsp?id=" + result.get(i).getIDQ() + "&token=" + request.getParameter("token") + ">"
+                            +"<a id='color-orange' href=edit.jsp?id=" + result.get(i).getIDQ()  + ">"
                                 +"edit"
                             +"</a>"
                             +" | "
-                            +"<a id='color-red' href=delete.jsp?id=" + result.get(i).getIDQ() + "&token=" + request.getParameter("token") + ">"
+                            +"<a id='color-red' href=delete.jsp?id=" + result.get(i).getIDQ()  + ">"
                                 +"delete"
                             +"</a>"
 	    		+"</div>"
@@ -125,7 +135,7 @@
                         + "Add Comment"
                         + "<form >"
                             + "<textarea ng-model='comment_content' placeholder='Your Comment' style='width:550px'></textarea>"
-                            + "<button ng-click='addComment(" + request.getParameter("token") + "," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
+                            + "<button ng-click='addComment(" + theCookie + "," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
                             + "<h4>Comments</h4>"
 
                             + "<div ng-repeat='comment in comments' class='block-comment'>"
@@ -182,13 +192,13 @@
                 String answer = 
                     "<div ng-app ='voteApp' ng-controller='voteAnswerController' class='block-QA'>"
                         +"<div class='bQA-vote'>"
-                            +"<a ng-click='direction=1; voteAnswer(" + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
+                            +"<a ng-click='direction=1; voteAnswer(" + theCookie + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
                             +"<a ng-init='voteAnswerCounter=" + result.get(i).getVote() + ";' ng-model='voteAnswerCounter' class='vote-value' id='answer_vote-"+ 
                             "'>{{voteAnswerCounter}}" + "</a>"
                             +"<br><br>"
-                            +"<a ng-click='direction=0; voteAnswer( " + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
+                            +"<a ng-click='direction=0; voteAnswer( " + theCookie + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
                             +"</div></a>"
 			+"</div>"
                         +"<div class='bQA-content'>"
@@ -224,7 +234,7 @@
         </div>
 
         <div class="row">
-            <%out.write("<form class='col s12' name='loginForm' action='createAnswer.jsp?id="+ request.getParameter("id")+"&token="+ request.getParameter("token") +"' onsubmit='' method='POST'>");%>
+            <%out.write("<form class='col s12' name='loginForm' action='createAnswer.jsp?id="+ request.getParameter("id") +"' onsubmit='' method='POST'>");%>
             <%out.write("<input type='hidden' name='question_id' value='"+ request.getParameter("id") +"'>");%>  
             <div class="row">
                 <div class="input-field col s12">
@@ -239,7 +249,6 @@
           </div>
     </body>
 
-
     <script>
         var app = angular.module('voteApp',[]);
         
@@ -247,7 +256,7 @@
         app.controller('commentController', function($scope, $http) {
             var commentUrl = "http://localhost:8082/StackExchange_IS/allComments"; 
             var q_id = "<%= request.getParameter("id") %>";
-            var access_token = "<%= request.getParameter("token") %>";
+            var access_token = "<%= theCookie %>";
             console.log(q_id);
             var commentParameter = {question_id: q_id, access_token: access_token};
             console.log(JSON.stringify(commentParameter));
@@ -277,7 +286,7 @@
                     
                     console.log("Luminto Homo");
                     var addCommentUrl = "http://localhost:8082/StackExchange_IS/commentService";                                 
-                    var access_token = "<%= request.getParameter("token") %>";
+                    var access_token = "<%= theCookie %>";
                     var qid = "<%= request.getParameter("id") %>";
                     var content = $scope.comment_content;
                     var yourComment = {access_token: access_token ,question_id: qid, comment: content};
@@ -314,8 +323,8 @@
         });
 
         app.controller('voteQuestionController', function($scope,$http){
-         var voteUrl = "http://localhost:8082/StackExchange_IS/initiateQVote";
-            $scope.token = "<%= request.getParameter("token") %>";
+           var voteUrl = "http://localhost:8082/StackExchange_IS/initiateQVote";
+            $scope.token = "<%= theCookie %>";
             $scope.direction = -99;
 
             $scope.loadInitial = function(qid){
@@ -345,9 +354,9 @@
     
             console.log("Hello World");
             $scope.voteQuestion = function(access_token, qid, direction) {
-       
                 var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceQuestion";
-                var access_token = "<%= request.getParameter("token") %>";
+                console.log("Luminto Homo");
+                var access_token = "<%= theCookie %>";
                 var qid = "<%= request.getParameter("id") %>";
                 var commentParameter = {access_token: access_token ,question_id: qid,direction : $scope.direction};
                 console.log("Access Token : " + access_token);
@@ -382,11 +391,11 @@
 
         app.controller('voteAnswerController', function($scope,$http){
             var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceAnswer";
-            $scope.token = "<%= request.getParameter("token") %>";
+            $scope.token = "<%= theCookie %>";
             $scope.direction = -99;
             console.log("CUPU");
             $scope.voteAnswer = function(access_token, ansid, direction) {
-                var access_token = "<%= request.getParameter("token") %>";
+                var access_token = "<%= theCookie %>";
                 var commentParameter = {access_token: access_token ,answer_id: ansid,direction : $scope.direction};
                 console.log("Access Token : " + access_token);
                 console.log("Answer ID : " + ansid);

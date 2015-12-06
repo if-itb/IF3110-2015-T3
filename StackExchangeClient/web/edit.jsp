@@ -21,9 +21,19 @@
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
                 
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>Home</a>");%>
+            <% out.write("<a id='logo-container' href='index.jsp' class='brand-logo'>Home</a>");%>
             <%
-                if (request.getParameter("token").equals("null")){
+                Cookie[] cookieArray = request.getCookies();
+                String theCookie = "null";
+                if (cookieArray != null){
+                    for (int i = 0; i < cookieArray.length; i++){
+                        if(cookieArray[i].getName().equals("access_token")){
+                            theCookie = cookieArray[i].getValue();
+                            break;
+                        }
+                    }
+                }
+                if (theCookie.equals("null")){
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li><a href='login.jsp'>Login</a></li>"
                                         + "<li><a href='register.jsp'>Register</a></li>"
@@ -36,15 +46,16 @@
                 } else {
                     com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
                     com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
-                    java.lang.String accessToken = request.getParameter("token");
+                    
+                    java.lang.String accessToken = theCookie;
                     java.lang.String result = port.getUsername(accessToken);
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li>" + result + "</li>"
-                                        + "<li><a href='signout.jsp?token=" + accessToken +"'>Sign Out</a></li>"
+                                        + "<li><a href='signout.jsp'>Sign Out</a></li>"
                                     + " </ul>" + 
                                     "<ul id='nav-mobile' class='side-nav'>"
                                         + "<li>" + result + "</li>"
-                                        + "<li><a href='signout.jsp?token=" + accessToken +"'>Sign Out</a></li>"
+                                        + "<li><a href='signout.jsp'>Sign Out</a></li>"
                                     + " </ul>";
                     out.write(border);
                 }
@@ -85,7 +96,7 @@
         }
         String askForm =  
             "<div class='row'>" +
-            "<form name='editForm' action='updateQuestion.jsp?id=" + question_idLama + "&token="+ request.getParameter("token")+"' onsubmit='return validateQuestion()' method='post'>"
+            "<form name='editForm' action='updateQuestion.jsp?id=" + question_idLama +"' onsubmit='return validateQuestion()' method='post'>"
                 +"<input value='"+question_idLama+"' type='hidden' name='question_id'>"
                 + "<div class='row'><div class='input-field col s12'>" 
                 +"<input value='"+topicLama+"' type='text' class='form-text' name='topic' placeholder='The question topic goes here...' required><br>"

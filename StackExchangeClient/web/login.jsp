@@ -55,7 +55,13 @@
             <br><br>
         </div>
     
-
+        <%
+            /*Cookie[] cookArray = request.getCookies();
+            out.println("Ada cookie sebanyak: "+ cookArray.length);
+            for (int i = 0; i < cookArray.length; i++){
+                out.println("COOKIE JSP: " + cookArray[i].getName());
+            }*/
+        %>
         <div class="row">
             <form id="loginForm" class="col s12" name="loginForm" action="" onsubmit="" method="POST">
               <div class="row">
@@ -70,8 +76,8 @@
                   <label for="password">Password</label>
                 </div>
               </div>
-                  <input hidden name="user_agent"> 
-                  <input hidden name="user_ipaddress">
+                  <input hidden name="user_agent" value="<%= request.getHeader("User-Agent") %>"> 
+                  <input hidden name="user_ipaddress" value =" <%= request.getHeader("X-FORWARDED-FOR") %>">
               <button id = "button-post" class="btn waves-effect waves-light" type="submit" name="action">login
                 <i class="material-icons right">send</i>
             </button>
@@ -190,9 +196,8 @@
                                 //window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
                                 
                                 setCookie("access_token", token, 2*60);
-                                
-                                console.log("COOKIE : " + getCookie("access_token"));
-                                window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
+                                console.log("COOKIE: "+ getCookie("access_token"));
+                                window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp";
                             }
 
                         },
@@ -203,6 +208,7 @@
                 });
             });
         </script>
+        
         <%
             //String token = "INITOKENPALSU";
             //if (token != "tokengagal"){
