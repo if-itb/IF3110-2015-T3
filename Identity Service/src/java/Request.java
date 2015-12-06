@@ -88,9 +88,8 @@ public class Request extends HttpServlet {
                     int res = stmt.executeUpdate(sql);
                     System.out.println(res);
                 }
+                token = random_string;
                 
-                token = random_string + "#" + user_agent + "#" + ip_address;
-                System.out.println("OK 2");
            }
            else{ //INVALID email or password
                token = "";
