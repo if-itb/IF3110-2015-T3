@@ -29,19 +29,20 @@ $(document).ready(function(){
     // Buat AJAX request
     $.ajax({
       type: "POST",
-      url: "http://localhost:8082/Identity_Service/FrontEndTokenController",
-      data: dataString,
+      url: "http://localhost:8082/Identity_Service/LogInController",
+      data: {email: email, 
+            password: password},
       dataType: "json",
       // Hasil terima response dari server
       success: function(data, textStatus, jqXHR) {
        window.location.href = "http://localhost:8080/Frontend_WebApp/IndexController?token=" + data.access_token;
+       alert("You have log in.");
       },
       // Tidak ada response dari server
       error: function(jqXHR, textStatus, errorThrown) {
-        alert("Something really bad happened " + textStatus + "<br>Please reload this page");
+        alert("Something really bad happened " + textStatus + ". Please reload this page");
       },
       beforeSend: function(jqXHR, settings) {
-        // Menambah data dummy ke request
         $("#log-in-submit").attr("disabled", true);
       },
       complete: function(jqXHR, textStatus) {

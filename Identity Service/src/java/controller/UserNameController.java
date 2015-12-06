@@ -60,7 +60,7 @@ public class UserNameController extends HttpServlet {
       
       JSONObject obj = new JSONObject();
       obj.put("user_name", executor.getUserName(userAgent, ipAddress));
-      obj.put("token", token);
+      obj.put("token", executor.getToken().getRandomString());
       out.print(obj);
       executor.closeConnection();
       out.close();

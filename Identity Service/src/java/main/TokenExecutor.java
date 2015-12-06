@@ -39,6 +39,7 @@ public class TokenExecutor {
       // Connect database
       Database database = new Database();
       connection = database.connectDatabase();
+      System.out.println(email + "---" + password + "---" + userAgent + "---" + ipAddress);
         getIdUser(email, password);
         if (idUser != -999999) {
           // Email dan password pengguna benar
@@ -53,14 +54,18 @@ public class TokenExecutor {
         }
       connection.close();
     } catch (SQLException ex) {
+      // Kirim pesan error
+      token = new Token();
+      idUser = -999999;
+      isValid = false;
       System.out.println(ex.getMessage());
     }
   }
   
   // Konstruktor untuk validasi pada saat pengguna ingin melakukan suatu operasi pada web
-  public TokenExecutor(String accessToken, String userAgent, String ipAddress) {
+  public TokenExecutor(String randomString, String userAgent, String ipAddress) {
     token = new Token();
-    token.setAccessToken(accessToken);
+    token.setRandomString(randomString);
     if (token.isValid()) {
     // Format token valid, maka periksa apakah token ada di basis data
       try {
@@ -70,6 +75,10 @@ public class TokenExecutor {
         connection = database.connectDatabase();
         checkTokenValid(browserName, ipAddress);
       } catch (SQLException ex) {
+        // Kirim pesan error
+        token = new Token();
+        idUser = -999999;
+        isValid = false;
         System.out.println(ex.getMessage());
       }
     }
@@ -92,7 +101,7 @@ public class TokenExecutor {
     // Menjalankan query
     try (Statement statement = connection.createStatement()) {
       // Menjalankan query
-      String query = "UPDATE user SET token = '" + token.getRandomString() + "', lifetime = '" + token.getLifetime() + "' WHERE id_user = " + idUser;
+      String query = "UPDATE user SET token = '" + token.getAccessToken() + "', lifetime = '" + token.getLifetime() + "' WHERE id_user = " + idUser;
       statement.executeUpdate(query);
       statement.close();
     }

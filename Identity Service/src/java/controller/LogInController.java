@@ -21,7 +21,7 @@ import main.*;
 /**
  * Kelas yang menerima request servlet dari front-end saat melakukan log in.
  */
-public class FrontEndTokenController extends HttpServlet {
+public class LogInController extends HttpServlet {
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
