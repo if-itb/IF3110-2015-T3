@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+Laporan dapat diakses di [Laporan Tugas 3 WBD] (https://docs.google.com/document/d/1YfJVTx-Zfi4SOvPtQscl4igYkAIHpUU6W0fgrC6j1CQ/edit?usp=sharing)
 
 ### Arsitektur Umum Server
 

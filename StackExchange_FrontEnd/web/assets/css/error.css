@@ -1,0 +1,40 @@
+html{
+    min-height: 100%;
+}
+html,body{
+    height: 100%;
+    background: #fafafa;
+}
+
+@font-face {
+    font-family: "DroidSans";
+    src: url('/assets/font/DroidSans.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+#logo-container {
+    padding: 0 1em;
+    font-family: "DroidSans";
+    transition: all .2s ease-out;
+}
+
+img.responsive-img{
+    width: 40px;
+    margin: 12px 12px;
+}
+
+.register-card-wrapper{
+    height: 100%;
+    width:100%;
+}
+
+.register-card-wrapper div{
+    margin: 0 auto;
+}
+
+.card-panel{
+    padding: 20px 60px;
+}
+
+nav{
+    position: absolute;
+}

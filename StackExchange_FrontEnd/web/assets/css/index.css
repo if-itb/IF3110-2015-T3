@@ -1,0 +1,123 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+body{
+    background: #fafafa;
+}
+@font-face {
+    font-family: "DroidSans";
+    src: url('/assets/font/DroidSans.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+.btn,
+.btn-floating{
+    transition: all .2s ease-out;
+}
+.btn:hover,
+.btn-floating:hover{
+    transform: scale(1.1) !important;
+}
+
+#logo-container{
+    padding: 0 1em;
+    font-family: "DroidSans";
+    transition: all .2s ease-out;
+}
+
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #EF5350;
+    box-shadow: 0 1px 0 0 #EF5350;
+}
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #EF5350 !important;
+}
+
+input[type=text],
+textarea.materialize-textarea {
+    border-bottom: 1px solid #EF5350;
+}
+
+#search {
+    margin: 40px auto;
+}
+#search-btn-wrapper{
+    padding-top:22px;
+}
+
+#recent-post .card{
+    transition: all .1s ease-out;
+    cursor: pointer;
+}
+#recent-post .card:hover{
+    transform: scale(1.02);
+}
+#recent-post .card-content{
+    padding-top: 10px;
+}
+#recent-post .card hr{
+    margin: 0 auto 2em auto;
+    border-color: #fff;
+}
+
+#question-title{
+    width:90%;
+    margin:0 auto;
+    margin-bottom: 2em;
+}
+
+.create-date{
+    font-size: 1em !important;
+    font-style: italic;
+}
+
+/*section#recent-post .card .fixed-action-btn.horizontal ul li{*/
+    /*margin: 15px 45px 0 0;*/
+/*}*/
+section#recent-post .card:hover .question-close{
+    opacity: 1;
+}
+section#recent-post .card{
+    padding-bottom: 60px;
+}
+section#recent-post .card .fixed-action-btn{
+    bottom: 1em;
+    right: -60px;
+    position:absolute;
+}
+section#recent-post .card .fixed-action-btn > .btn-floating{
+    visibility: hidden;
+}
+
+.fixed-action-btn ul a.btn-floating {
+    opacity: 1;
+}
+section#recent-post .fixed-action-btn ul {
+    visibility: visible;
+}
+
+.thumb-btn-wrapper{
+    position:relative;
+}
+
+.thumbs-num{
+    /*position:absolute;*/
+    /*top:-1.1em;*/
+    /*left:1.6em;*/
+    border-radius: 0;
+    padding:7px 9px;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    line-height: 1;
+}
+
+img.responsive-img{
+    width: 40px;
+    margin: 12px 12px;
+}
+

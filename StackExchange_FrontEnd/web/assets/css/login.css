@@ -1,0 +1,57 @@
+html{
+    min-height: 100%;
+}
+html,body{
+    height: 100%;
+    background: #fafafa;
+}
+
+@font-face {
+    font-family: "DroidSans";
+    src: url('/assets/font/DroidSans.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+nav{
+    position: absolute;
+}
+
+#logo-container{
+    padding: 0 1em;
+    font-family: "DroidSans";
+    transition: all .2s ease-out;
+    font-size: 2.1rem;
+}
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #EF5350;
+    box-shadow: 0 1px 0 0 #EF5350;
+}
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #EF5350 !important;
+    border-bottom: 1px solid #EF5350;
+}
+
+input[type=text],
+textarea.materialize-textarea {
+    border-bottom: 1px solid #EF5350;
+}
+
+.register-card-wrapper{
+    height: 100%;
+}
+.register-card-wrapper, .register-card-wrapper form{
+    width:100%;
+}
+
+input[type=text]:focus:not([readonly]) + label,
+input[type=password]:focus:not([readonly]) + label,
+input[type=email]:focus:not([readonly]) + label,
+input[type=url]:focus:not([readonly]) + label,
+input[type=time]:focus:not([readonly]) + label,
+input[type=date]:focus:not([readonly]) + label,
+input[type=datetime-local]:focus:not([readonly]) + label,
+input[type=tel]:focus:not([readonly]) + label,
+input[type=number]:focus:not([readonly]) + label,
+input[type=search]:focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #EF5350 !important;
+}

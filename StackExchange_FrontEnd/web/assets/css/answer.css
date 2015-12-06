@@ -1,0 +1,189 @@
+body{
+    background: #fafafa;
+}
+
+@font-face {
+    font-family: "DroidSans";
+    src: url('/assets/font/DroidSans.ttf')  format('truetype'); /* Safari, Android, iOS */
+}
+
+#logo-container{
+    padding: 0 1em;
+    font-family: "DroidSans";
+    transition: all .2s ease-out;
+    font-size: 2.1rem;
+}
+
+.btn,
+.btn-floating{
+    transition: all .2s ease-out;
+}
+.btn:hover,
+.btn-floating:hover{
+    transform: scale(1.1) !important;
+}
+
+.question-close {
+    /*opacity: 0;*/
+    line-height: 2rem;
+    width: 2rem;
+    height: 2rem;
+    position:absolute;
+    right:-0.5rem;
+    top:-10px;
+}
+.question-close:hover{
+    transform: scale(1.15) !important;
+}
+.question-close i{
+    font-size: 2rem;
+    line-height: 2rem;
+}
+
+input[type=text]:focus:not([readonly]), input[type=password]:focus:not([readonly]), input[type=email]:focus:not([readonly]), input[type=url]:focus:not([readonly]), input[type=time]:focus:not([readonly]), input[type=date]:focus:not([readonly]), input[type=datetime-local]:focus:not([readonly]), input[type=tel]:focus:not([readonly]), input[type=number]:focus:not([readonly]), input[type=search]:focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #EF5350;
+    box-shadow: 0 1px 0 0 #EF5350;
+}
+input[type=text]:focus:not([readonly]) + label, input[type=password]:focus:not([readonly]) + label, input[type=email]:focus:not([readonly]) + label, input[type=url]:focus:not([readonly]) + label, input[type=time]:focus:not([readonly]) + label, input[type=date]:focus:not([readonly]) + label, input[type=datetime-local]:focus:not([readonly]) + label, input[type=tel]:focus:not([readonly]) + label, input[type=number]:focus:not([readonly]) + label, input[type=search]:focus:not([readonly]) + label, textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #EF5350 !important;
+}
+
+section#question{
+    margin: 20px auto;
+}
+.card{
+    transition: all .2s ease-out;
+}
+.card:hover{
+    /*cursor: pointer;*/
+    transform: scale(1.02);
+}
+section#question .card:hover .question-close{
+    opacity: 1;
+}
+section#question .card,
+section#answer .card{
+    padding-bottom: 60px;
+}
+section#question .card .fixed-action-btn,
+section#answer .card .fixed-action-btn{
+    bottom: 1em;
+    right: -60px;
+    position:absolute;
+}
+section#question .card .fixed-action-btn > .btn-floating,
+section#answer .card .fixed-action-btn > .btn-floating{
+    visibility: hidden;
+}
+
+.card-content .input-field{
+    margin-top: 0;
+}
+/*.input-content{*/
+/*white-space: pre;*/
+/*}*/
+
+.thumb-btn-wrapper{
+    position:relative;
+}
+
+.thumbs-num{
+    /*position:absolute;*/
+    /*top:-1.1em;*/
+    /*left:1.6em;*/
+    border-radius: 0;
+    padding:7px 9px;
+    overflow: visible;
+    width: auto;
+    height: auto;
+    line-height: 1;
+}
+
+/*section#question .card .fixed-action-btn.horizontal ul li:not(:last-child),*/
+/*section#answer .card .fixed-action-btn.horizontal ul li{*/
+    /*margin: 15px 45px 0 0;*/
+/*}*/
+
+#question-title{
+    width:90%;
+    margin:0 auto;
+}
+#answer-title{
+    width:90%;
+    margin:0 auto;
+}
+#answer-btn{
+    position:relative;
+    top:-2em;
+    right:2em;
+}
+
+section#answer .comments,
+section#question .comments{
+    padding-bottom: 0;
+}
+
+section#answer .comments > .card-panel,
+section#question .comments > .card-panel{
+    display: none;
+}
+
+section#answer .not-comment + .comment-wrapper > .comments:first-child,
+section#question .not-comment + .comment-wrapper > .comments:first-child{
+    padding:45px 0 5px 0;
+}
+
+section#answer .not-comment + .comment-wrapper > .comments:first-child > .card-panel,
+section#question .not-comment + .comment-wrapper > .comments:first-child > .card-panel{
+    display: block;
+}
+
+#add-answer-form input[type=text]:focus:not([readonly]) + label,
+#add-answer-form input[type=password]:focus:not([readonly]) + label,
+#add-answer-form input[type=email]:focus:not([readonly]) + label,
+#add-answer-form input[type=url]:focus:not([readonly]) + label,
+#add-answer-form input[type=time]:focus:not([readonly]) + label,
+#add-answer-form input[type=date]:focus:not([readonly]) + label,
+#add-answer-form input[type=datetime-local]:focus:not([readonly]) + label,
+#add-answer-form input[type=tel]:focus:not([readonly]) + label,
+#add-answer-form input[type=number]:focus:not([readonly]) + label,
+#add-answer-form input[type=search]:focus:not([readonly]) + label,
+#add-answer-form textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #fff !important;
+}
+
+#add-answer-form input[type=text]:focus:not([readonly]),
+#add-answer-form input[type=password]:focus:not([readonly]),
+#add-answer-form input[type=email]:focus:not([readonly]),
+#add-answer-form input[type=url]:focus:not([readonly]),
+#add-answer-form input[type=time]:focus:not([readonly]),
+#add-answer-form input[type=date]:focus:not([readonly]),
+#add-answer-form input[type=datetime-local]:focus:not([readonly]),
+#add-answer-form input[type=tel]:focus:not([readonly]),
+#add-answer-form input[type=number]:focus:not([readonly]),
+#add-answer-form input[type=search]:focus:not([readonly]),
+#add-answer-form textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 1px 0 0 #fff;
+}
+
+input[type=text],
+textarea.materialize-textarea {
+    border-bottom: 1px solid #EF5350;
+}
+
+#add-answer-form textarea.materialize-textarea {
+    border-bottom: 1px solid #fff;
+}
+
+.btn-floating i {
+    font-size: 1.25rem;
+}
+
+.chip {
+    background-color: #EF5350;
+}
+
+html body.ng-scope section#question.ng-scope div.row div.col.s10.offset-s1 div.card.not-comment a.btn-floating.waves-effect.red.question-close i.material-icons{
+    font-size: 1.7rem;
+}
