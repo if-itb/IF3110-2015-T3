@@ -91,6 +91,9 @@ angular.module("stackexchangeApp", [])
 
         this.addComment = function(id){
             commentService.addComment("answer", id, $scope.newComment).then(function(response){
+                console.log("===");
+                console.log(response);
+
                 if ($scope.comments[id].length == 0){
                     $scope.comments[id] = [];
                 }
@@ -103,7 +106,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -115,7 +118,7 @@ angular.module("stackexchangeApp", [])
                 console.log(response);
                 for (var i=0;i<$scope.comments[answerId].length;i++){
                     if ($scope.comments[answerId][i].comment_id == commentId){
-                        $scope.comments[i].vote = response.data.data.vote;
+                        $scope.comments[answerId][i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -125,7 +128,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -135,7 +138,7 @@ angular.module("stackexchangeApp", [])
             commentService.downvote("answer", commentId).then(function(response){
                 for (var i=0;i<$scope.comments[answerId].length;i++){
                     if ($scope.comments[answerId][i].comment_id == commentId){
-                        $scope.comments[i].vote = response.data.data.vote;
+                        $scope.comments[answerId][i].vote = response.data.data.vote;
                     }
                 }
             }, function(data){
@@ -145,7 +148,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -172,7 +175,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -194,7 +197,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -214,7 +217,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -238,7 +241,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -258,7 +261,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -312,7 +315,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
@@ -328,7 +331,7 @@ angular.module("stackexchangeApp", [])
                     window.location.href = "/login?token_invalid=true";
                 } else if (data.status == 442){
                     window.location.href = "/login?ua_conflict=true";
-                } else if (data.status == 441){
+                } else if (data.status == 443){
                     window.location.href = "/login?ip_conflict=true";
                 }
             })
