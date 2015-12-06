@@ -125,7 +125,7 @@ app.controller('commentCtrl',function($scope,$interval,$http){
             }, function errorCallback(response) {
                 var help = "";
                 if (response.status==401)
-                    help = "retry signing in" + at;
+                    help = "retry signing in";
                 alert("error posting comment:\n"+response.status + " " +
                     response.statusText+"\n"+response.data + help);
             });
