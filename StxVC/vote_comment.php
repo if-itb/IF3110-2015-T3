@@ -94,7 +94,7 @@
 		}
 	}
 	function get_Email_From_Token($token) {
-		$url = 'http://localhost:8082/StxISnew/Handler?token='.$token;
+		$url = 'http://localhost:8082/StxIS/Handler?token='.$token;
 		$respon_code =  getResposeCode($url);
 		if($respon_code == 200) { //OK
 			$xml_obj = simplexml_load_file($url);
