@@ -1,12 +1,12 @@
-Comment & Vote Service/build
-Comment & Vote Service/dist
-Comment & Vote Service/lib
-Comment & Vote Service/nbproject
-Comment & Vote Service/setup
-Comment & Vote Service/src/conf
-Comment & Vote Service/web/WEB-INF
-Comment & Vote Service/build.xml
-Comment & Vote Service/catalog.xml
+Comment Vote Service/build
+Comment Vote Service/dist
+Comment Vote Service/lib
+Comment Vote Service/nbproject
+Comment Vote Service/setup
+Comment Vote Service/src/conf
+Comment Vote Service/web/WEB-INF
+Comment Vote Service/build.xml
+Comment Vote Service/catalog.xml
 Frontend WebApp/build
 Frontend WebApp/dist
 Frontend WebApp/lib

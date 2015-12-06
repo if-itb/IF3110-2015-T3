@@ -48,35 +48,32 @@ public class VoteController extends HttpServlet {
     String voteType = request.getParameter("voteType");
     String token = request.getParameter("token");
     String userAgent = request.getHeader("user-agent");
-    String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-    if (ipAddress == null) {  
-      ipAddress = request.getRemoteAddr();  
-    }
+    String ipAddress = request.getRemoteAddr();
     Vote vote = new Vote();
     
     
     try (PrintWriter out = response.getWriter()) {
       JSONObject obj = new JSONObject();
       if ("answer-up".equals(voteType)) {
-        int idAnswer = Integer.parseInt(request.getParameter("answedId"));
+        int idAnswer = Integer.parseInt(request.getParameter("id"));
         boolean voteSuccess = vote.voteAnswer(idAnswer, token, ipAddress, userAgent, "up");
         
         obj.put("vote_success", voteSuccess);
         
       } else if ("answer-down".equals(voteType)) {
-        int idAnswer = Integer.parseInt(request.getParameter("answedId"));
+        int idAnswer = Integer.parseInt(request.getParameter("id"));
         boolean voteSuccess = vote.voteAnswer(idAnswer, token, ipAddress, userAgent, "down");
         
         obj.put("vote_success", voteSuccess);
         
       } else if ("question-up".equals(voteType)) {
-        int idQuestion = Integer.parseInt(request.getParameter("questionId"));
+        int idQuestion = Integer.parseInt(request.getParameter("id"));
         int voteSuccess = vote.voteQuestion(idQuestion, token, ipAddress, userAgent, "up");
         
         obj.put("vote_success", voteSuccess);
         
       } else if ("question-down".equals(voteType)) {
-        int idQuestion = Integer.parseInt(request.getParameter("questionId"));
+        int idQuestion = Integer.parseInt(request.getParameter("id"));
         int voteSuccess = vote.voteQuestion(idQuestion, token, ipAddress, userAgent, "down");
         
         obj.put("vote_success", voteSuccess);
