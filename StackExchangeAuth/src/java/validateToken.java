@@ -72,11 +72,9 @@ public class validateToken extends HttpServlet {
         
         String token_string = request.getParameter("token_string");
         String token[] = token_string.split("#");
-        String userAgent = request.getHeader("user-agent");
-        String ip = request.getHeader("X-FORWARDED-FOR");
-        if(ip==null){
-            ip = request.getRemoteAddr();
-        }
+        String userAgent = request.getParameter("user-agent");
+        String ip = request.getParameter("ip");
+       
         PrintWriter tw = response.getWriter();
         
         DB db = new DB();
