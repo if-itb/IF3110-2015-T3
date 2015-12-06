@@ -29,9 +29,20 @@ public class ConsumerREST {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8082/SimpleStackExchange_IdentityService/api";
+    private String BASE_URI;
     
     public ConsumerREST() {
+        BASE_URI = "http://localhost:8082/SimpleStackExchange_IdentityService/api";
+        client = javax.ws.rs.client.ClientBuilder.newClient();
+        webTarget = client.target(BASE_URI).path("user");
+    }
+    
+    public ConsumerREST(String service) {
+        if(service.equals("commentvote")) {
+            BASE_URI = "http://localhost:8083/SimpleStackExchange_CommentVoteService/api";
+        } else {
+            BASE_URI = "http://localhost:8082/SimpleStackExchange_IdentityService/api";
+        }
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("user");
     }
@@ -70,6 +81,10 @@ public class ConsumerREST {
         form.param("browser", browser);
         form.param("ip", ip);
         return webTarget.path("validate").request(MediaType.TEXT_PLAIN).post(Entity.entity(form,MediaType.APPLICATION_FORM_URLENCODED_TYPE), String.class);
+    }
+    
+    public void createComment(Object requestEntity) throws ClientErrorException {
+        webTarget.path("comment").request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
     public void close() {

@@ -16,12 +16,13 @@
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.3.min.js"></script>
     <script src="assets/js/angular.min.js"></script>
     <script src="assets/js/app.js"></script>
-
+    
   </head>
 
-  <body>
+  <body ng-app="simplestackexchange">
       
       <jsp:include page="template/navbar.jsp">
         <jsp:param name="isLogin" value="<%=Util.isLogin(request)%>"/>
@@ -128,20 +129,27 @@
                
             </div>
         </div><!-- end of col-sm-11 -->
-        
+        <h2>
+            Comments
+        </h2>
         <% if (Util.isLogin(request)) { %>
-          <form class="form-horizontal" role="form" method="POST">
+        
+          <form class="form-horizontal" role="form" ng-submit="submit()" ng-controller="commentform"
+                ng-init="qid = ${question.getKey().getQid()}; uid = <%=Util.getUid(request)%>">
                 <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
-                    <textarea class="form-control" rows="5" id="answer" name="answer"></textarea>
+                    <input ng-model="comment" class="form-control" rows="5" id="answer" name="answer"/>
                     </div>
-                  </div>
-                <input name="qid" value="${question.getKey().getQid()}" type="hidden" />
+                </div>
                 <div class="form-group"> 
                   <div class="col-md-10 col-md-offset-2">
-                    <button type="submit" class="btn btn-info btn-block">Post</button>
+                    <button ngClick="Submit" type="submit" class="btn btn-info btn-block">Comment</button>
                   </div>
                 </div>
+                {{comment}}
+                {{qid}}
+                {{uid}}
+                {{test}}
               </form>
             <%} else {%>
                 <div class="col-md-10 col-md-offset-2 alert alert-danger" role="alert">
