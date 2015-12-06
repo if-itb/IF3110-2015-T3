@@ -4,38 +4,40 @@
  * and open the template in the editor.
  */
 
-var app = angular.module('controller', [ ]);
+var app = angular.module('controller', []);
 
-app.controller('CommentController',[
-    $scope,$http,
-    function($scope,$http){
-        $scope.comment = {};
-        $scope.comments = [];
-        
-        $scope.getcomment = function(){
-            $http({
-                url: "http://localhost:8083/Vote_Comment/CommentServlet",
-                method: "GET",
-                params: {qid: $scope.comment.qid}
-            }).success(function(data) {
-                if (!data[0].error) {
-                    $scope.comments = data;
-                }
-            });
-        };
-        
-        $scope.addcommentasync = function(comments){
-           console.log($scope.comment);
-           comments.push($scope.comment);
-           var res = $http({
-                method : 'POST',
-                url : 'http://localhost:8083/Vote_Comment/CommentServlet',
-                data : $.param({
-                    'qid' : $scope.comment.qid,
-                    'comment' : $scope.comment.comment  
-                })
-           });
-           $scope.comment = {};
-        };
-    }
-]);
+app.controller("commentController", function($scope, $http) {
+    $scope.comments = [];
+    
+    $scope.init = function(idQuestion){
+        $http({
+            method  : "GET",
+            url     : "ListComment",
+            params  : {qid: idQuestion},
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .success(function(data){
+            $scope.comments = data;
+        });
+    };
+    
+    $scope.addComment = function(idQuestion) {
+        var theContent = $scope.content;
+        $scope.content = "";        
+        $http({
+            method  : "POST",
+            url     : "AddComment",
+            data    : $.param({qid: idQuestion, content: theContent}),
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .success(function(data){            
+            switch(data["status"]){
+                case 1 :                    
+                    if (data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
+                        $scope.comments = data.comments;
+                    }
+                    break;
+            }
+        });        
+    };
+});

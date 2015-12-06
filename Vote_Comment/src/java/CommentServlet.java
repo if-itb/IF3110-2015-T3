@@ -122,22 +122,9 @@ public class CommentServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
+        JSONArray ret = new JSONArray();
         JSONObject res = new JSONObject();
-            String token = "";
-            Cookie[] cookies = request.getCookies();
-            if(cookies==null) {      
-                System.out.println("COOKIES NULL");
-            }
-            else {                
-                for(Cookie cookie : cookies) {
-                    if("token".equals(cookie.getName())) { 
-                        token = cookie.getValue();
-                        System.out.println(token);
-                        break;
-                    }   
-                }
-            }
-        
+        String token = request.getParameter("token");
         int qid = Integer.valueOf(request.getParameter("qid"));
         String comment = request.getParameter("comment");
         Form form = new Form();
@@ -159,12 +146,28 @@ public class CommentServlet extends HttpServlet {
                     System.out.println("success!!");
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dadakandb?zeroDateTimeBehavior=convertToNull","root","");
-                    String sql = "INSERT INTO comments(id_question,id_user,comment) VALUES ('"+qid+"',(select userid from tokens where token='"+token+"'),'"+comment;
+                    String sql = "INSERT INTO comments(id_question,id_user,comment) VALUES ('"+qid+"',(select userid from tokens where token='"+token+"'),'"+comment+"')";
                     java.sql.Statement stmt = conn.createStatement();
                     stmt.executeUpdate(sql);
                     stmt.close();
-                    res.put("error", "success");  
-                    out.print(res);
+                    sql = "SELECT comments.id, id_question, comment, name FROM (SELECT * FROM comments WHERE id_question='"+qid+"') AS comments"
+                    +"LEFT JOIN (SELECT id, name FROM users) AS user ON comments.id_user = user.id";
+                    PreparedStatement dbStatement = conn.prepareStatement(sql);
+                    ResultSet rs = dbStatement.executeQuery();
+                    if(rs.next()){
+                        do {
+                            JSONObject obje = new JSONObject();
+                            obje.put("id", rs.getInt("id"));
+                            obje.put("q_id", rs.getInt("id_question"));
+                            obje.put("user", rs.getString("id_user"));
+                            obje.put("content", rs.getString("comment"));
+
+                            ret.add(obje);
+                        } while(rs.next());
+                    }
+                    res.put("status", 1);  
+                    res.put("comments", ret);
+                    out.println(res.toString());
                 } catch(Exception e) {}   
             }
             else if(message.equals("expired")) {

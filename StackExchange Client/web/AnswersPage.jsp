@@ -12,6 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
     </head>
     <body>
         <h1>Simple StackExchange</h1>
@@ -45,15 +46,16 @@
                     asked by <span>${asker}</span>|<!-- <a href="Edit.php?id=".$row["Q_id"]."\" class=\"color_yellow\">edit<a> | <a href=\"Delete.php?id=".$row["Q_id"]."\" class=\"delete\">delete<a> -->
 		</div>
                 <div>
-                    <div ng-controller="CommentController">
-                        <div ng-repeat="comment in comments">
-                            <p>{{ comment.comment }} - {{ comment.user }}</p>
-                        </div>
-                        <form name="commentForm" ng-submit="addcommentasync(comments)">
-                            <input ng-model="comment.qid" ng-init="comment.q_id=${question.id}" type="hidden">
-                            <input ng-model="comment.user"  type="hidden"> <!--ng-init="commentCtrl.comment.user= user.getName() %>"-->
-                            <input ng-model="comment.comment" type="text" placeholder="Your comment">
-                            <input type="submit" value="Add comment">
+                    <div ng-controller="commentController" ng-init="init(${question.id})">
+                        <ul>
+                            <li ng-repeat="comment in comments">{{comment.content }} - {{ comment.user }}</li>
+                            <!--<p>{{ comment.comment }} - {{ comment.user }}</p>-->
+                        </ul>
+                        <form name="commentForm" ng-submit="addComment(${question.id})">
+                            <!--<input ng-model="comment.qid" ng-init="data.q_id={question.id}" type="hidden">-->
+                            <!--<input ng-model="comment.user" ng-init="data.user={userid}" type="hidden"> <!--ng-init="commentCtrl.comment.user= user.getName() %>"-->
+                            <input ng-model="content" type="text" placeholder="Your comment">
+                            <input type="submit" value="Add comment" >
                         </form>
                     </div>
                 </div>
