@@ -153,7 +153,7 @@ public class CommentService extends HttpServlet {
             try {
                 connectDB();
                 Statement st = connection.createStatement();
-                String sql = ("SELECT *, (SELECT name FROM user WHERE user.id_user = answer.id_user) as name, (SELECT SUM(vote_answer.value) as votes FROM vote_answer WHERE vote_answer.id_answer = answer.id_answer) as votes FROM answer WHERE id ='" + id + "'");
+                String sql = ("SELECT *, (SELECT name FROM user WHERE user.id_user = answer.id_user) as name, (SELECT SUM(vote_answer.value) as votes FROM vote_answer WHERE vote_answer.id_answer = answer.id_answer) as votes FROM answer WHERE id ='" + id + "' AND content LIKE '" + request.getParameter("content")) + "'";
                 ResultSet rs = st.executeQuery(sql);
 
                 
@@ -192,6 +192,7 @@ public class CommentService extends HttpServlet {
         else{
             json.put("status", "invalid");
         }
+        System.out.println(json.toString());
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             out.println(json.toString());

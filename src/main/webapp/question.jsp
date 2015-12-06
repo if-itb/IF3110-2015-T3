@@ -39,6 +39,9 @@
             Cookie c1 = new Cookie("id", id);
             response.addCookie(c);
             response.addCookie(c1);
+            String vote = "";
+            if(name != null && !question.isHasVote()) vote = "enabled";
+            else vote = "disabled";
         %>
     </head>
     <body>
@@ -57,9 +60,9 @@
                 <tbody>
                     <tr>
                         <td>
-                            <%if(name != null && !question.isHasVote()){%><a class="vote-up" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=1">Up</a><%}%>
+                            <a class="vote-up-<%=vote%>" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=1">Up</a>
                             <div class="vote" id="votes"><%=question.getVote()%></div>
-                            <%if(name != null && !question.isHasVote()){%><a class="vote-down" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=-1">Down</a><%}%>
+                            <a class="vote-down-<%=vote%>" href="update_vote_question.jsp?id=<%=question.getId()%>&vote=-1">Down</a>
                         </td>
                         <td>
                             <table>
@@ -100,7 +103,7 @@
                         </table>
                     </li><br>
                 <%}%>
-                <li repeat="answer in answers">
+                <li ng-repeat="answer in answers">
                     <hr></hr>
                     <table>
                         <tbody>
@@ -145,7 +148,7 @@
                                 <td>
                                     <table>
                                         <tbody>
-                                            <tr><td><p class="content">{{formData.content}}</p></td></tr>
+                                            <tr><td><p class="content">{{formData.content}}<br>{{error}}</p></td></tr>
                                         </tbody>
                                     </table>
                                 </td>
@@ -159,15 +162,19 @@
     <script>
         var app1 = angular.module('answers',['ngCookies']);
         app1.controller('ajaxComment', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
+            $scope.vote = "enabled";
             $scope.answers = [];
             $scope.formData = {};
             $scope.formData.content = "";
+            $scope.error = "";
             $scope.processForm = function(){
                 var token = $cookies.get("token");
                 var id = $cookies.get("id");
                 $http.get("rest/comment?id=" + id + "&token=" + token + "&content=" + $scope.formData.content)
                     .then(function(response) {
-                        if(response.status === "ok") $scope.answers = response.answers;});
+                        if(response.data.status === "ok") {$scope.answers = response.data.answers; $scope.formData.content = "";}
+                        else{$scope.error = "Your session is invalid";}
+            });
             };
         }]);
     </script>
