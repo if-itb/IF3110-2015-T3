@@ -66,7 +66,16 @@
 				email at <c:out value="${question.date}"/> | <a href="/Stack_Exchange_Client/GetQuestion?qid=${question.id}" style="color:#FFA500"> edit </a> | <a href="#" onclick="validateDelete(${question.id})" style="color:#FF0000"> delete </a> </p>
 		</div>
 	</div>
+        <div class="comment" ng-controller="Comment" ng-init="init(${question.id})">
+            <div class="comment-item" ng-repeat="comment in comments">
+                <p>{{comment.content}} - <span class="author">{{ comment.user_id }}</span></p>
+            </div>
 
+            <form name="commentForm" ng-submit="insertComment(${question.id})">
+                <input name="content" ng-model="content" type="text" placeholder="Your Comment" required>
+                <input type="submit" class="btn btn-default" value="Add comment">
+            </form>
+        </div>
 	<br>
         
         <c:set var="count" value="${countAnswer}"/>
