@@ -102,15 +102,14 @@
 				  			</li>
 						</ul>
 					</div>
-<<<<<<< HEAD
-=======
+
 					<div ng-app="commenApp" ng-controller="MyController">
 				        <input type="button" value="Show Hide DIV" ng-click="ShowHide()" />
 				        <br />
 				        <br />
 				        <div ng-show = "IsVisible">My DIV</div>
 				    </div>
->>>>>>> 4b4de622600b389326ed0df8b6f4241eddd88003
+
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -162,7 +161,7 @@
 	    .then(function(response) {$scope.comments = response.data;});
 	});
 	
-<<<<<<< HEAD
+
 	<script>
 		var app = angular.module('commentApp', []);
 		app.controller('commentCtrl', function($scope, $http) {
@@ -182,7 +181,7 @@
 		        ;}
 		    }
 		});
-=======
+
     app.controller('MyController', function ($scope) {
         //This will hide the DIV by default.
         $scope.IsVisible = false;
@@ -191,7 +190,6 @@
             $scope.IsVisible = $scope.IsVisible ? false : true;
         }
     });
->>>>>>> 4b4de622600b389326ed0df8b6f4241eddd88003
 	</script>
 </body>
 	<% 	} else {

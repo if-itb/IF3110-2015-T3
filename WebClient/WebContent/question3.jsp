@@ -52,6 +52,7 @@
 		<jsp:param name="needDeleteQuestion" value="true" />
 		<jsp:param name="check" value="1" />
 	</jsp:include>
+	<script src="assets/js/vote.js"></script>
 	<script src="assets/js/validator.js"></script>
 	<% } %>
 </head>
@@ -76,10 +77,10 @@
 				<div class = 'q_details'>
 					<div class = 'only_q'>
 						<div class = 'a_left'>
-							<div class = 'vote_buttons'>
-								<div hidden class='up_button user' onclick='VoteUp(true,<%=q_id%>,<%=access_token%>)'><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
-									<div class = 'vote' id='q_vote<%=q_id%>'><%= q.getNumVote() %></div>
-								<div hidden class='down_button user' onclick='VoteDown(true,<%=q_id%>,<%=access_token%>)'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
+							<div class = 'vote_buttons' ng-app="voteApp" ng-controller="voteCtrl">
+								<div hidden class='up_button user' ng-click="VoteUp()"><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
+									<div class = 'vote' id='q_vote<%=q_id%>'>{{vote}}</div>
+								<div hidden class='down_button user'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -93,13 +94,6 @@
 			              	</span>
 		              	</div>
 					</div>
-					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-		<ul>
-  			<li ng-repeat="x in comments">
-    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-  			</li>
-		</ul>
-		</div>
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -142,11 +136,27 @@
 	</div>
 	
 	<script>
-var app = angular.module('commentApp', []);
-app.controller('commentCtrl', function($scope, $http) {
-    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-    .then(function(response) {$scope.comments = response.data;});
+var app = angular.module('voteApp', []);
+app.controller('voteCtrl', function($scope, $http) {
+    $scope.vote = <%= q.getNumVote()%>
+    $scope.access_token = "<%=access_token%>"
+    $scope.q_id = <%= q_id%>
+    $scope.VoteUp = function(){
+    	var voteUpUrl = "http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup";
+		var tokenData = {access_token:$scope.access_token, id_question:$scope.q_id}
+		$.ajax({
+	        url: voteUpUrl,
+	        data: tokenData,
+	        dataType: "json",
+	        type: "POST",
+	        success: function(data) {
+	        	$scope.vote= data;
+	        }
+	    });
+    }
 });
+	
+</script>
 </script>
 </body>
 	<% 	} else {
