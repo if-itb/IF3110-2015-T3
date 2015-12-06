@@ -7,8 +7,15 @@ import QuestionWS.QuestionWS_Service;
 import Token.TokenWS_Service;
 import UserWS.UserWS_Service;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -118,9 +125,9 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td>\n"
-                            + "                        <hr>\n"
-                            + "                        Comment\n"
-                            + "                    </td>\n"
+                            + "                        <hr>\n");
+                    
+                    out.print("                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "\n"
@@ -169,9 +176,9 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td>\n"
-                            + "                        <hr>\n"
-                            + "                        Comment\n"
-                            + "                    </td>\n"
+                            + "                        <hr>\n");
+                    out.print("                        <a class=\"blue\" href=\"\">Add comment</a>\n");
+                    out.print("                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
                             + "            <hr>");

@@ -8,6 +8,7 @@
             Simple StackExchange
         </title>
         <link rel="stylesheet" href="main.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     </head>
     <body>
         <div class="navbar-up">
