@@ -25,7 +25,7 @@ public class CommentListServlet extends HttpServlet {
       int qid = Integer.parseInt(request.getParameter("id"));
       JSONArray ja = new JSONArray();
       try(PrintWriter out = response.getWriter()){
-        String sql = "SELECT * FROM comment WHERE qid = ?";
+        String sql = "SELECT * FROM comment WHERE question_id = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
           stmt.setInt(1, qid);
           ResultSet result= stmt.executeQuery();

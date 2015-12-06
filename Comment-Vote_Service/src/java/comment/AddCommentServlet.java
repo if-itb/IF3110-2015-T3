@@ -37,16 +37,17 @@ public class AddCommentServlet extends HttpServlet {
           try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, qid);
             stmt.setString(2,content);
+            stmt.setInt(3,uid);
             int result= stmt.executeUpdate();
             if (result>0) {
-              String sql2 = "SELECT name, create_time FROM content NATURAL JOIN user WHERE question_id = ?, content=?, user_id=?";
+              String sql2 = "SELECT name, create_time FROM comment NATURAL JOIN user WHERE question_id=? AND content=? AND user_id=?";
               try(PreparedStatement stmt2 = conn.prepareStatement(sql2)) {
                 stmt2.setInt(1,qid);
                 stmt2.setString(2,content);
                 stmt2.setInt(3,uid);
-                ResultSet resultSet = stmt.executeQuery();
+                ResultSet resultSet = stmt2.executeQuery();
                 if (resultSet.next()) {
-                  jo.put("content",resultSet.getString("content"));
+                  jo.put("content",content);
                   jo.put("name",resultSet.getString("name"));
                   jo.put("create_time",resultSet.getString("create_time"));
                 }

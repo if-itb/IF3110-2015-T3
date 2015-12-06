@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 11:54 AM
+-- Generation Time: Dec 06, 2015 at 07:05 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`answer_id`),
   KEY `question_id` (`question_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -48,9 +48,19 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`comment_id`),
-  KEY `question_id` (`question_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `question_id` (`question_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`question_id`, `content`, `user_id`, `comment_id`, `create_time`) VALUES
+(3, 'lalalalalala', 1, 1, '2015-12-06 12:41:19'),
+(3, 'testesteshahaha', 1, 9, '2015-12-06 13:02:23');
 
 -- --------------------------------------------------------
 
@@ -92,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `token` (
 --
 
 INSERT INTO `token` (`token_id`, `user_id`, `token_expired`) VALUES
-('3140bb5cbfa84122a505e9c3d725013e', 1, '2015-11-28 09:30:40');
+('3140bb5cbfa84122a505e9c3d725013e', 1, '2015-12-28 09:30:40');
 
 -- --------------------------------------------------------
 
@@ -165,6 +175,7 @@ ALTER TABLE `answer`
 -- Constraints for table `comment`
 --
 ALTER TABLE `comment`
+  ADD CONSTRAINT `commentuserid` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `commentquestionid` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
