@@ -30,21 +30,29 @@ public class AddComment extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String access_token = "";
-        String content = "";
-        int QID = 0;
-        int AID = 0;
+        String access_token = "z21F#Mozilla/5.0 (Windows NT 10.0  WOW64  rv:42.0) Gecko/20100101 Firefox/42.0#127.0.0.1";
+        String content = "comment1";
+        int QID = 1;
+        int AID = 1;
         
         Connection conn = new Database().connect();
         Statement stmt;
-        String validation = new IS.CheckToken().checkToken(access_token);
+        String validation = "Oke!";//new IS.CheckToken().checkToken(access_token);
         PrintWriter out = response.getWriter();
         response.setContentType("application/xml;charset=UTF-8");
         switch (validation) {
-            case "access token error":
-                out.println("Expired token");
-            case "access token invalid":
-                out.println("Error");
+            case "accesstokenusedinotherbrowser":
+                out.println("Used in other browser");
+                break;
+            case "accesstokenusedwithotherconnection":
+                out.println("Used in other connection");
+                break;
+            case "accesstokennotvalid":
+                out.println("Invalid");
+                break;
+            case "accesstokenexpired":
+                out.println("Expired");
+                break;
             default:
                 int userID = Integer.valueOf(validation);
                 try {
@@ -63,6 +71,7 @@ public class AddComment extends HttpServlet {
                 } catch (SQLException se) {
                     out.println("Gagal!");
                 }
+                break;
         }
     }
 

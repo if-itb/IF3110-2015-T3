@@ -41,7 +41,7 @@ public class Login extends HttpServlet {
         // Set response content type
         //response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        response.setContentType("text/html");//application/xml;charset=UTF-8");
+        response.setContentType("application/xml;charset=UTF-8");
         try {
             // Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");

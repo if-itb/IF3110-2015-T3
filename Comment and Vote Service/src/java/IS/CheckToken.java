@@ -17,7 +17,7 @@ public class CheckToken {
         try {
             URL url = new URL("http://localhost:8082/Identity_Service/TokenValidator");
             URLConnection conn = url.openConnection();
-            conn.setRequestProperty("Cookie", "testCookie1="+token);
+            conn.setRequestProperty("Cookie", "testCookie1="+token);   
             conn.connect();
             InputStream is = conn.getInputStream();
             sb = new StringBuilder();

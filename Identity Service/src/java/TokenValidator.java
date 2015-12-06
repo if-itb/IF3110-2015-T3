@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -36,9 +35,8 @@ public class TokenValidator extends HttpServlet {
         Cookie[] cookies;
         cookies = request.getCookies();
         
-            response.setContentType("text/html");
+            response.setContentType("application/xml;charset=UTF-8");
             try (PrintWriter out = response.getWriter()) {
-            
                 String ip = request.getRemoteAddr();
                 if (ip.equalsIgnoreCase("0:0:0:0:0:0:0:1")) {
                     InetAddress inetAddress = InetAddress.getLocalHost();
@@ -65,7 +63,8 @@ public class TokenValidator extends HttpServlet {
                                 boolean found = false;
                                 while (rs.next()) {
                                     String AccessToken = rs.getString("AccessToken");
-                                    if (AccessToken.substring(0,4).equals(cookies[x].getValue().substring(0,4)));
+                                    if (AccessToken.substring(0,4).equals(cookies[x].getValue().substring(0,4)))
+                                        found=true;
                                 }
                                 if (found) {
                                     int i = 5;

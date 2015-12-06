@@ -30,23 +30,31 @@ public class VoteAnswer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String access_token = "";
+        String access_token = "g67M#Mozilla/5.0 (Windows NT 10.0  WOW64  rv:42.0) Gecko/20100101 Firefox/42.0#127.0.0.1";
         int AID = 0;
-        int QID = 0;
+        int QID = 1;
         boolean voteUp = true;
-        
+
         Connection conn = new Database().connect();
         Statement stmt;
         ResultSet rs;
         String validation = new IS.CheckToken().checkToken(access_token);
-        
+
         PrintWriter out = response.getWriter();
         response.setContentType("application/xml;charset=UTF-8");
         switch (validation) {
-            case "access token error":
-                out.println("Expired token");
-            case "access token invalid":
-                out.println("Error");
+            case "accesstokenusedinotherbrowser":
+                out.println("Used in other browser");
+                break;
+            case "accesstokenusedwithotherconnection":
+                out.println("Used in other connection");
+                break;
+            case "accesstokennotvalid":
+                out.println("Invalid");
+                break;
+            case "accesstokenexpired":
+                out.println("Expired");
+                break;
             default:
                 int userID = Integer.valueOf(validation);
                 try {
@@ -83,6 +91,7 @@ public class VoteAnswer extends HttpServlet {
                 } catch (SQLException se) {
                     out.println("Gagal!");
                 }
+                break;
         }
     }
 

@@ -126,7 +126,7 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "                    <td></td>\n"
                             + "                    <td>\n"
                             + "                        <hr>\n");
-                    
+                    out.print("                        <a class=\"blue\" href=\"\">Add comment</a>\n");
                     out.print("                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
@@ -237,8 +237,8 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td>\n"
-                            + "                        <hr>\n"
-                            + "                        Comment\n"
+                            + "                        <hr>\n");
+                    out.print("                        <a class=\"blue\" href=\"\">Add comment</a>\n"
                             + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
@@ -288,8 +288,8 @@ public class QuestionByQIDServlet extends HttpServlet {
                             + "                <tr>\n"
                             + "                    <td></td>\n"
                             + "                    <td>\n"
-                            + "                        <hr>\n"
-                            + "                        Comment\n"
+                            + "                        <hr>\n");
+                    out.print("                        <a class=\"blue\" href=\"\">Add comment</a>\n"
                             + "                    </td>\n"
                             + "                </tr>\n"
                             + "            </table>\n"
