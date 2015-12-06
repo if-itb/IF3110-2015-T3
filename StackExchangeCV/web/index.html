@@ -18,12 +18,39 @@ and open the template in the editor.
         </ul>
         
         <h1>Available service</h1>
+        <p>Add comment</p>
         <form action="/StackExchangeCV/addcomment" method="POST">
             <input name="id_question" type="text" placeholder="id_question" />
             <input name="content" type="text" placeholder="content" />
             <input name="username" type="text" placeholder="username" />
             <input name="submit" type="submit" value="submit" /> 
         </form>
-
+        <p>Vote Up Question</p>
+        <form action="/StackExchangeCV/VoteUpQuestion" method="POST">
+            <input name="id_question" type="text" placeholder="id_question" />
+            <input name="token" type="text" placeholder="token" />
+            <input name="submit" type="submit" value="submit" /> 
+        </form>
+        
+        <p>Vote Down Question</p>
+        <form action="/StackExchangeCV/VoteDownQuestion" method="POST">
+            <input name="id_question" type="text" placeholder="id_question" />
+            <input name="token" type="text" placeholder="token" />
+            <input name="submit" type="submit" value="submit" /> 
+        </form>
+        
+        <p>Vote Up Answer</p>
+        <form action="/StackExchangeCV/VoteUpAnswer" method="POST">
+            <input name="id_answer" type="text" placeholder="id_answer" />
+            <input name="token" type="text" placeholder="token" />
+            <input name="submit" type="submit" value="submit" /> 
+        </form>
+        
+        <p>Vote Down Answer</p>
+        <form action="/StackExchangeCV/VoteDownAnswer" method="POST">
+            <input name="id_answer" type="text" placeholder="id_answer" />
+            <input name="token" type="text" placeholder="token" />
+            <input name="submit" type="submit" value="submit" /> 
+        </form>
     </body>
 </html>
