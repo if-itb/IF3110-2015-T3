@@ -13,12 +13,12 @@
 <jsp:include page="header.jsp" flush="true"/>
             <div class="content">
                 <h2><%= question.getTopic() %></h2>
-                <div class="voting" ng-controller="questionvotecontroller as questionvote" ng-init="questionvote.getVote()">
-                    <div class="arrow-up" ng-init="questionvote.init(<%= question.getQuestionId() %>)" ng-click="questionvote.addVote(1)"></div>
+                <div class="voting" ng-controller="questionVoteController" ng-init ="questionVoteController.getVote()">
+                    <div class="arrow-up" ng-init="questionVoteController.init(<%= question.getQuestionId() %>)" ng-click="questionVoteController.addVote(1)"></div>
                     <!--<div class="arrow-up" onclick="return vote(<%= question.getQuestionId() %>,1,'question')"></div>-->
-                    <div class="votenumber" id="vote-q">{{ questionvote.vote }}</div>
+                    <div class="votenumber" id="vote-q">{{ questionVoteController.vote }}</div>
                     <!--<div class="votenumber" id="vote-q"><%= question.getVote() %></div>-->
-                    <div class="arrow-down" ng-init="questionvote.init(<%= question.getQuestionId() %>)" ng-click="questoinvote.addVote(-1)"></div>
+                    <div class="arrow-down" ng-init="questionVoteController.init(<%= question.getQuestionId() %>)" ng-click="questionVoteController.addVote(-1)"></div>
                     <!--<div class="arrow-down" onclick="return vote(<%= question.getQuestionId() %>,-1,'question')"></div>-->
 		</div>
 		<div class="question-content">
@@ -78,5 +78,6 @@
     <script src="js/functions.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/commentController.js"></script>
+    <script src="js/controllers/voteController.js"></script>
     </body>
 </html>
