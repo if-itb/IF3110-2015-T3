@@ -18,9 +18,9 @@
     <nav class="deep-purple darken-2" role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Stack Exchange</a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="register.jsp">Register</a></li>
-          <li><a href="login.jsp">Login</a></li>
-          <li><a href="index.jsp?token=null">Logout</a></li>
+            <li><a href='register.jsp'>Register</a></li>
+            <li><a href='login.jsp'>Login</a></li>
+            <li><a href='index.jsp?token=null'>Logout</a></li>
         </ul>
 
         <ul id="nav-mobile" class="side-nav">

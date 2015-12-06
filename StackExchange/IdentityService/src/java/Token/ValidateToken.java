@@ -5,6 +5,7 @@
  */
 package Token;
 
+import Login.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -30,11 +31,12 @@ public class ValidateToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String tokenValue = (String)request.getParameter("token");
+            UserService user = new UserService();
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
             String browser = userAgent.getBrowser().getName();
-            String address = request.getRemoteAddr();
+            String address = user.getClientIpAddr(request);
             String err = "";
-            
+
             Token token = new Token(tokenValue);
             if(!token.isTokenValid()){
                 err = "Token expired";
@@ -42,11 +44,11 @@ public class ValidateToken extends HttpServlet {
             }
             else if(!token.getAddress().equals(address)) {
                 err = "Sent from different ip address";
-                out.print("true");//
+                out.print("true");
             }
             else if(!token.getBrowser().equals(browser)) {
                 err = "Sent from different browser";
-                out.print("false");
+                out.print("true");
             }
             else {
                 out.print("true");

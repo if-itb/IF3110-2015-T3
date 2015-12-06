@@ -18,20 +18,11 @@
   <message name="checkTokenResponse">
     <part name="parameters" element="tns:checkTokenResponse"/>
   </message>
-  <message name="getAnswer">
-    <part name="parameters" element="tns:getAnswer"/>
+  <message name="getRecentQuestions">
+    <part name="parameters" element="tns:getRecentQuestions"/>
   </message>
-  <message name="getAnswerResponse">
-    <part name="parameters" element="tns:getAnswerResponse"/>
-  </message>
-  <message name="getQuestion">
-    <part name="parameters" element="tns:getQuestion"/>
-  </message>
-  <message name="getQuestionResponse">
-    <part name="parameters" element="tns:getQuestionResponse"/>
-  </message>
-  <message name="updateQuestion">
-    <part name="parameters" element="tns:updateQuestion"/>
+  <message name="getRecentQuestionsResponse">
+    <part name="parameters" element="tns:getRecentQuestionsResponse"/>
   </message>
   <message name="getIdByToken">
     <part name="parameters" element="tns:getIdByToken"/>
@@ -39,38 +30,47 @@
   <message name="getIdByTokenResponse">
     <part name="parameters" element="tns:getIdByTokenResponse"/>
   </message>
-  <message name="voteUpQuestion">
-    <part name="parameters" element="tns:voteUpQuestion"/>
+  <message name="getQuestion">
+    <part name="parameters" element="tns:getQuestion"/>
   </message>
-  <message name="voteDownAnswer">
-    <part name="parameters" element="tns:voteDownAnswer"/>
+  <message name="getQuestionResponse">
+    <part name="parameters" element="tns:getQuestionResponse"/>
   </message>
-  <message name="deleteQuestion">
-    <part name="parameters" element="tns:deleteQuestion"/>
+  <message name="getAnswer">
+    <part name="parameters" element="tns:getAnswer"/>
   </message>
-  <message name="voteUpAnswer">
-    <part name="parameters" element="tns:voteUpAnswer"/>
+  <message name="getAnswerResponse">
+    <part name="parameters" element="tns:getAnswerResponse"/>
   </message>
   <message name="insertQuestion">
     <part name="parameters" element="tns:insertQuestion"/>
   </message>
+  <message name="deleteQuestion">
+    <part name="parameters" element="tns:deleteQuestion"/>
+  </message>
+  <message name="updateQuestion">
+    <part name="parameters" element="tns:updateQuestion"/>
+  </message>
+  <message name="voteUpQuestion">
+    <part name="parameters" element="tns:voteUpQuestion"/>
+  </message>
+  <message name="voteUpAnswer">
+    <part name="parameters" element="tns:voteUpAnswer"/>
+  </message>
+  <message name="insertAnswer">
+    <part name="parameters" element="tns:insertAnswer"/>
+  </message>
   <message name="voteDownQuestion">
     <part name="parameters" element="tns:voteDownQuestion"/>
+  </message>
+  <message name="voteDownAnswer">
+    <part name="parameters" element="tns:voteDownAnswer"/>
   </message>
   <message name="getNameById">
     <part name="parameters" element="tns:getNameById"/>
   </message>
   <message name="getNameByIdResponse">
     <part name="parameters" element="tns:getNameByIdResponse"/>
-  </message>
-  <message name="insertAnswer">
-    <part name="parameters" element="tns:insertAnswer"/>
-  </message>
-  <message name="getRecentQuestions">
-    <part name="parameters" element="tns:getRecentQuestions"/>
-  </message>
-  <message name="getRecentQuestionsResponse">
-    <part name="parameters" element="tns:getRecentQuestionsResponse"/>
   </message>
   <portType name="StackExchangeWS">
     <operation name="register">
@@ -81,49 +81,49 @@
       <input wsam:Action="http://StackExchangeWS/StackExchangeWS/checkTokenRequest" message="tns:checkToken"/>
       <output wsam:Action="http://StackExchangeWS/StackExchangeWS/checkTokenResponse" message="tns:checkTokenResponse"/>
     </operation>
-    <operation name="getAnswer">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getAnswerRequest" message="tns:getAnswer"/>
-      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getAnswerResponse" message="tns:getAnswerResponse"/>
-    </operation>
-    <operation name="getQuestion">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getQuestionRequest" message="tns:getQuestion"/>
-      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getQuestionResponse" message="tns:getQuestionResponse"/>
-    </operation>
-    <operation name="updateQuestion">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/updateQuestion" message="tns:updateQuestion"/>
+    <operation name="getRecentQuestions">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getRecentQuestionsRequest" message="tns:getRecentQuestions"/>
+      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getRecentQuestionsResponse" message="tns:getRecentQuestionsResponse"/>
     </operation>
     <operation name="getIdByToken">
       <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getIdByTokenRequest" message="tns:getIdByToken"/>
       <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getIdByTokenResponse" message="tns:getIdByTokenResponse"/>
     </operation>
-    <operation name="voteUpQuestion">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteUpQuestion" message="tns:voteUpQuestion"/>
+    <operation name="getQuestion">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getQuestionRequest" message="tns:getQuestion"/>
+      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getQuestionResponse" message="tns:getQuestionResponse"/>
     </operation>
-    <operation name="voteDownAnswer">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteDownAnswer" message="tns:voteDownAnswer"/>
-    </operation>
-    <operation name="deleteQuestion">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/deleteQuestion" message="tns:deleteQuestion"/>
-    </operation>
-    <operation name="voteUpAnswer">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteUpAnswer" message="tns:voteUpAnswer"/>
+    <operation name="getAnswer">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getAnswerRequest" message="tns:getAnswer"/>
+      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getAnswerResponse" message="tns:getAnswerResponse"/>
     </operation>
     <operation name="insertQuestion">
       <input wsam:Action="http://StackExchangeWS/StackExchangeWS/insertQuestion" message="tns:insertQuestion"/>
     </operation>
-    <operation name="voteDownQuestion">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteDownQuestion" message="tns:voteDownQuestion"/>
+    <operation name="deleteQuestion">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/deleteQuestion" message="tns:deleteQuestion"/>
     </operation>
-    <operation name="getNameById">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getNameByIdRequest" message="tns:getNameById"/>
-      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getNameByIdResponse" message="tns:getNameByIdResponse"/>
+    <operation name="updateQuestion">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/updateQuestion" message="tns:updateQuestion"/>
+    </operation>
+    <operation name="voteUpQuestion">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteUpQuestion" message="tns:voteUpQuestion"/>
+    </operation>
+    <operation name="voteUpAnswer">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteUpAnswer" message="tns:voteUpAnswer"/>
     </operation>
     <operation name="insertAnswer">
       <input wsam:Action="http://StackExchangeWS/StackExchangeWS/insertAnswer" message="tns:insertAnswer"/>
     </operation>
-    <operation name="getRecentQuestions">
-      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getRecentQuestionsRequest" message="tns:getRecentQuestions"/>
-      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getRecentQuestionsResponse" message="tns:getRecentQuestionsResponse"/>
+    <operation name="voteDownQuestion">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteDownQuestion" message="tns:voteDownQuestion"/>
+    </operation>
+    <operation name="voteDownAnswer">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/voteDownAnswer" message="tns:voteDownAnswer"/>
+    </operation>
+    <operation name="getNameById">
+      <input wsam:Action="http://StackExchangeWS/StackExchangeWS/getNameByIdRequest" message="tns:getNameById"/>
+      <output wsam:Action="http://StackExchangeWS/StackExchangeWS/getNameByIdResponse" message="tns:getNameByIdResponse"/>
     </operation>
   </portType>
   <binding name="StackExchangeWSPortBinding" type="tns:StackExchangeWS">
@@ -146,7 +146,16 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="getAnswer">
+    <operation name="getRecentQuestions">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getIdByToken">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -164,13 +173,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="updateQuestion">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-    </operation>
-    <operation name="getIdByToken">
+    <operation name="getAnswer">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -179,13 +182,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="voteUpQuestion">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-    </operation>
-    <operation name="voteDownAnswer">
+    <operation name="insertQuestion">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -197,13 +194,25 @@
         <soap:body use="literal"/>
       </input>
     </operation>
+    <operation name="updateQuestion">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
+    <operation name="voteUpQuestion">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
     <operation name="voteUpAnswer">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
       </input>
     </operation>
-    <operation name="insertQuestion">
+    <operation name="insertAnswer">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -215,22 +224,13 @@
         <soap:body use="literal"/>
       </input>
     </operation>
+    <operation name="voteDownAnswer">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+    </operation>
     <operation name="getNameById">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-      <output>
-        <soap:body use="literal"/>
-      </output>
-    </operation>
-    <operation name="insertAnswer">
-      <soap:operation soapAction=""/>
-      <input>
-        <soap:body use="literal"/>
-      </input>
-    </operation>
-    <operation name="getRecentQuestions">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

@@ -32,13 +32,15 @@ public class GetComment extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try (PrintWriter out = response.getWriter()) {
-      CommentService cs = new CommentService();      
+      CommentService cs = new CommentService();
+      GetNameService gns = new GetNameService();
       int qid = Integer.parseInt(request.getParameter("qid"));
-      List<Comment> comments = (List<Comment>)cs.getComment(qid);
+      List<Comment> comments = (List<Comment>)cs.getComment(qid);      
+      
       out.print("[");
       int size = comments.size();
       for (Comment c : comments) {
-          out.print("{\"userId\" : " + c.userId + ", ");
+          out.print("{\"name\" : \"" + gns.getNameById(c.userId) + "\", ");
           out.print("\"content\" : " + "\"" + c.content + "\"}");
           size--;
           if(size > 0)

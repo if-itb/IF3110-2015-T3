@@ -104,6 +104,7 @@
                     $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=-1&token=' + $scope.token).then($scope.getAnswerVote(aid));
                 };
                 $scope.getAnswerVote = function(aid) {
+                    console.log("A");
                     $http.get('http://localhost:8081/CommentService/GetAnswerVote?aid=' + aid)
                         .then(function(response) {$scope.avote[aid] = response.data;});
                 };
@@ -121,8 +122,9 @@
         <div ng-init="getComment()" class="container center">
             <table>
                 <tr ng-repeat="x in comments">
-                    <td>{{ x.userId }}</td>
+                    <td>{{ x.name }}</td>
                     <td>{{ x.content }}</td>
+                <div class="divider"></div>
                 </tr>
             </table>
         </div>
