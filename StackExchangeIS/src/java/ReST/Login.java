@@ -75,11 +75,13 @@ public class Login extends HttpServlet {
 
               DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-              sql = "REPLACE INTO tokenlist (userId, token, expdate) VALUES (?, ?, ?)";
+              sql = "REPLACE INTO tokenlist (userId, token, expdate, ipaddr, uagent) VALUES (?, ?, ?, ?, ?)";
               dbStatement = conn.prepareStatement(sql);
               dbStatement.setInt(1, rs.getInt("userId"));
               dbStatement.setString(2, token);
               dbStatement.setString(3, df.format(expirationDate));
+              dbStatement.setString(4, request.getRemoteAddr());
+              dbStatement.setString(5, request.getHeader("user-agent"));
 
               dbStatement.executeUpdate();
 

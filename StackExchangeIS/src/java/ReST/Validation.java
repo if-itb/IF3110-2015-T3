@@ -55,9 +55,11 @@ public class Validation extends HttpServlet {
                 String sql;
                 
                 // Prepare for SQL statement
-                sql = "SELECT * FROM tokenlist WHERE token = ?";
+                sql = "SELECT * FROM tokenlist WHERE token = ? AND ipaddr = ? AND uagent=?";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setString(1, token);
+                dbStatement.setString(2, request.getRemoteAddr());
+                dbStatement.setString(3, request.getHeader("user-agent"));
                 
                 // Execute the SQL
                 ResultSet rs = dbStatement.executeQuery();
