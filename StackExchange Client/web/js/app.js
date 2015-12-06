@@ -18,7 +18,11 @@
         }).success(function(data) {
             if (!data[0].error){
                 questionCtrl.comments = data;
+            } else {
+                alert(data[0].error);
             }
+        }).error(function() {
+            alert("error.")
         });
     }]);
 
@@ -45,6 +49,8 @@
                 }
             }).success(function(data) {
                 console.log(data);
+            }).error(function() {
+                alert("error.");
             });
        }
     }]);
@@ -65,6 +71,8 @@
                 if ( data.vote_count != null ) {
                     questionVoteCtrl.vote = data.vote_count;
                 }
+            }).error(function() {
+                alert("error.");
             });      
         }
         
@@ -87,6 +95,8 @@
             }).success(function(data) {
                 console.log(data);
                 questionVoteCtrl.getVote();
+            }).error(function() {
+                alert("Error");
             });
             
         }
@@ -109,7 +119,11 @@
             }).success(function(data) {
                 if ( data.vote_count != null ) {
                     answerVoteCtrl.vote = data.vote_count;
+                } else {
+                    alert("error.;")
                 }
+            }).error(function() {
+                alert("error.");
             });      
         }
         
@@ -131,8 +145,9 @@
                 }
             }).success(function(data) {
                 answerVoteCtrl.getVote(answerVoteCtrl.aid);
+            }).error(function() {;
+                alert("error");
             });
-            
         }
     }]);
 
