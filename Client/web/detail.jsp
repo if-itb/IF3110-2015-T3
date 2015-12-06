@@ -66,12 +66,11 @@
             <div class='answer'>
                 <h2><c:out value="${answers.size()}" />  Answer</h2>
                 <div class='row clearfix'>
-
-                    <c:forEach items="${answers}" var="answer">
+                    <c:forEach items="${answers}" var="s">
 			<div class='colVote' ng-controller="voteAnswerCtrl">
-                        <div class='aVote arrow-up' id='<c:out value="${answer.getQid()}" />' ng-click='voteUp()'></div>
+                        <div class='aVote arrow-up' id='<c:out value="${answer.getAid()}" />' ng-click='voteUp(<c:out value="${answer.getAid()}" />)'></div>
                         <span class='voteVal'>{{ votes || "<c:out value="${answer.getVotes()}" />" }}</span>
-                        <div class='aVote arrow-down' id='<c:out value="${answer.getQid()}" />' ng-click='voteDown()'></div>
+                        <div class='aVote arrow-down' id='<c:out value="${answer.getAid()}" />' ng-click='voteDown(<c:out value="${answer.getAid()}" />)'></div>
                     </div>
                     <div class='elemQDetail'>
                         <div class='elemQuestion elemA'><c:out value="${answer.getContent()}" /></div>

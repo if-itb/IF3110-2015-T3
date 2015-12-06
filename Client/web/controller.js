@@ -187,7 +187,6 @@ app.controller('voteQuestionCtrl', function($scope, $http, $log, $cookies) {
 app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
     $scope.username;
     $scope.votes;
-    $scope.id;
 
     app.config(['$httpProvider', function ($httpProvider) {
 	    $httpProvider.defaults.headers.post = {'Content-Type': 'text/plain'};
@@ -195,49 +194,20 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 	}
     ]);
 
-    getVote();
-
-    function getVote() {
-	$http({
-	    url: "http://localhost:8083/CommentVoteService/votequestion",
-	    method: "GET",
-	    params: {
-		token: $cookies.get("token"),
-		qid: id,
-		userid: $cookies.get("id")
-	    },
-	    transformRequest: function (obj) {
-		var str = [];
-		for (var p in obj)
-		    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-		return str.join("&");
-	    },
-	    transformResponse: function (data) {
-		var x2js = new X2JS();
-		var json = x2js.xml_str2json(data);
-		return json;
-	    },
-	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
-	});
-    }
-    ;
-
-    $scope.voteDown = function () {
+    $scope.voteDown = function (id) {
 	console.log(JSON.stringify({
 	    token: $cookies.get("token"),
 	    userid: $cookies.get("id"),
-	    qid: id,
+	    aid: id,
 	    value: -1
 	}));
 	$http({
-	    url: "http://localhost:8083/CommentVoteService/votequestion",
+	    url: "http://localhost:8083/CommentVoteService/voteanswer",
 	    method: "POST",
 	    data: {
 		token: $cookies.get("token"),
 		userid: $cookies.get("id"),
-		qid: id,
+		aid: id,
 		value: -1
 	    },
 	    transformRequest: function (obj) {
@@ -253,7 +223,7 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
+	    $scope.votes = response.voteAnswer.vote;
 	});
     };
 
@@ -261,16 +231,16 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 	console.log(JSON.stringify({
 	    token: $cookies.get("token"),
 	    userid: $cookies.get("id"),
-	    qid: id,
+	    aid: id,
 	    value: 1
 	}));
 	$http({
-	    url: "http://localhost:8083/CommentVoteService/votequestion",
+	    url: "http://localhost:8083/CommentVoteService/voteanswer",
 	    method: "POST",
 	    data: {
 		token: $cookies.get("token"),
 		userid: $cookies.get("id"),
-		qid: id,
+		aid: id,
 		value: 1
 	    },
 	    transformRequest: function (obj) {
@@ -286,7 +256,7 @@ app.controller('voteAnswerCtrl', function ($scope, $http, $log, $cookies) {
 	    },
 	    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function (response) {
-	    $scope.vote = response.voteQuestion.vote;
+	    $scope.votes = response.voteAnswer.vote;
 	});
     };
 

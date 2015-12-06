@@ -22,7 +22,7 @@ public class Answer {
     
     public Answer() {}
         
-    public Answer(int qid,int aid, String name, String email, String content, int votes, String created_at ) {
+    public Answer(int aid,int qid, String name, String email, String content, int votes, String created_at ) {
         this.aid = aid;
         this.qid = qid;
         this.name = name;
@@ -30,5 +30,5 @@ public class Answer {
         this.content = content;
         this.votes = votes;
         this.created_at = created_at;        
-    }    
+    }
 }
