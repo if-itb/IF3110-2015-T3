@@ -190,6 +190,8 @@
                                 //window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
                                 
                                 setCookie("access_token", token, 2*60);
+                                
+                                console.log("COOKIE : " + getCookie("access_token"));
                                 window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
                             }
 

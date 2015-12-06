@@ -58,7 +58,6 @@ public class tokenGenerate {
                 UserAgent useragent = new UserAgent();
                 //useragent.requestUserAgent();
                 
-                System.out.println("Halo !!!!!!!!!!!!!!!!!!");
                 System.out.println(md5.Hash(password));
                 System.out.println(userip.getIPAddress());
                 System.out.println(useragent.getAgent());

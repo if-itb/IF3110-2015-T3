@@ -113,6 +113,7 @@ public class voteServiceQuestion extends HttpServlet {
             token_check.check(access_token);
 
             System.out.println("Validity : " + token_check.getValid());
+            int totalvote = 0;
             if (token_check.getExpired() == 1){
                 message = -2; //Expired
             } else {
@@ -159,6 +160,13 @@ public class voteServiceQuestion extends HttpServlet {
                                 pstmt.setInt(1, qid);
                                 pstmt.executeUpdate();
                                 conn.commit();
+                                String sql5 = "SELECT * FROM question WHERE IDQ = ?";
+                                PreparedStatement dbStatement3 = conn.prepareStatement(sql5);
+                                dbStatement3.setInt(1,qid);
+                                ResultSet rs3 = dbStatement3.executeQuery();
+                                while (rs3.next()){
+                                    totalvote = rs3.getInt("Vote");
+                                }
                                 message = 1;
                                 conn.close();
                         }
@@ -177,6 +185,7 @@ public class voteServiceQuestion extends HttpServlet {
             }
             
             JSONObject objOut = new JSONObject();
+            objOut.put("vote",totalvote);
             objOut.put("message", message);
             out.println(objOut);
             

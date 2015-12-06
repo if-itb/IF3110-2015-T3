@@ -91,8 +91,8 @@
                             +"<a ng-click='direction=1; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
-                            +"<a class='vote-value' id='question_vote-" + qid +"'>"
-				+result.get(i).getVote()
+                            +"<a ng-model='voteQuestionCounter' ng-init='loadInitial(" + request.getParameter("id") + ") ;' class='vote-value' id='question_vote-" + qid +"'>"
+				+ "{{voteQuestionCounter}}"
                             +"</a>"
                             +"<br><br>"
                             +"<a ng-click='direction=0; voteQuestion( " + request.getParameter("token") + "," + request.getParameter("id") + "," + "direction)" + "'><div class='vote-down'>"
@@ -185,8 +185,8 @@
                             +"<a ng-click='direction=1; voteAnswer(" + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-up'>"
                             +"</div></a>"
                             +"<br>"
-                            +"<a class='vote-value' id='answer_vote-"+ result.get(i).getIDAns() +"'>" + result.get(i).getVote()
-                            +"</a>"
+                            +"<a ng-init='voteAnswerCounter=" + result.get(i).getVote() + ";' ng-model='voteAnswerCounter' class='vote-value' id='answer_vote-"+ 
+                            "'>{{voteAnswerCounter}}" + "</a>"
                             +"<br><br>"
                             +"<a ng-click='direction=0; voteAnswer( " + request.getParameter("token") + "," + result.get(i).getIDAns() + "," + "direction)" + "'><div class='vote-down'>"
                             +"</div></a>"
@@ -273,8 +273,6 @@
                      console.log("Error : " + err);
                  });    
                 
-                $scope.comment_content = "Initialization";
-                
                 $scope.addComment = function(access_token, qid,comment_content) {
                     
                     console.log("Luminto Homo");
@@ -316,12 +314,39 @@
         });
 
         app.controller('voteQuestionController', function($scope,$http){
-            var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceQuestion";
+         var voteUrl = "http://localhost:8082/StackExchange_IS/initiateQVote";
             $scope.token = "<%= request.getParameter("token") %>";
             $scope.direction = -99;
+
+            $scope.loadInitial = function(qid){
+                var access_token = "<%= request.getParameter("token") %>";
+
+            var qid = "<%= request.getParameter("id") %>";
+
+            var commentParameter = {question_id: qid};
+             console.log("Question ID - Quesr=tion: " + qid);
+             console.log(JSON.stringify(commentParameter));
+             $http({
+                 url: voteUrl,
+                 data: JSON.stringify(commentParameter),
+                 method: 'POST',
+                 dataType: "json",
+                 crossDomain: true
+             })
+             .then(function (response){
+                 console.log("Success");
+                  console.log("DEBUG 1 : " + JSON.stringify(response));
+                $scope.voteQuestionCounter = response.data.vote;    
+             },function (err){
+                 console.log("Error : " + err);
+             });
+         };
+
+    
             console.log("Hello World");
             $scope.voteQuestion = function(access_token, qid, direction) {
-                console.log("Luminto Homo");
+       
+                var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceQuestion";
                 var access_token = "<%= request.getParameter("token") %>";
                 var qid = "<%= request.getParameter("id") %>";
                 var commentParameter = {access_token: access_token ,question_id: qid,direction : $scope.direction};
@@ -339,7 +364,9 @@
                     console.log("Success");
                     $scope.message = response.data.message;
                     console.log("Message " + $scope.message);
-                    if ($scope.message == 1 || $scope.message == -5){
+                    if ($scope.message == 1){
+                        $scope.voteQuestionCounter = response.data.vote;
+                    } else if ($scope.message == -5) {
                         
                     } else {
                         window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
@@ -357,12 +384,12 @@
             var voteUrl = "http://localhost:8082/StackExchange_IS/voteServiceAnswer";
             $scope.token = "<%= request.getParameter("token") %>";
             $scope.direction = -99;
-            console.log("Hello World");
+            console.log("CUPU");
             $scope.voteAnswer = function(access_token, ansid, direction) {
                 var access_token = "<%= request.getParameter("token") %>";
                 var commentParameter = {access_token: access_token ,answer_id: ansid,direction : $scope.direction};
                 console.log("Access Token : " + access_token);
-                console.log("Question ID : " + ansid);
+                console.log("Answer ID : " + ansid);
                 console.log(JSON.stringify(commentParameter));
                 $http({
                     url: voteUrl,
@@ -375,7 +402,9 @@
                     console.log("Success");
                     $scope.message = response.data.message;
                     console.log("Message " + $scope.message);
-                    if ($scope.message == 1 || $scope.message == -5){
+                    if ($scope.message == 1){
+                        $scope.voteAnswerCounter = response.data.vote;
+                    } else if ($scope.message == -5) {
                         
                     } else {
                         window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;

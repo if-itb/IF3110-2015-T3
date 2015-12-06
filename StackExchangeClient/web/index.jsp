@@ -22,7 +22,8 @@
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
                 
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>LeeMinCha©</a>");%>
+            <% 
+                out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>LeeMinCha©</a>");%>
             <%
                 if (request.getParameter("token").equals("null")){
                     String border = "<ul class='right hide-on-med-and-down'>"
@@ -168,7 +169,23 @@
 	// TODO handle custom exceptions here
     }
     %>
+    <script>
+            $(document).ready(function(){
+                        console.log("COOKIE BARU : " + getCookie("access_token"));
+            });
 
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+            }
+            return "";
+        }
 
+                                
+    </script>
     </body>
 </html>

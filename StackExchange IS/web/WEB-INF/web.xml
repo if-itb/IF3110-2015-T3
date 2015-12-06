@@ -34,6 +34,10 @@
         <servlet-name>allComments</servlet-name>
         <servlet-class>com.wbd.service.allComments</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>initiateQVote</servlet-name>
+        <servlet-class>com.wbd.service.initiateQVote</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ValidateUser</servlet-name>
         <url-pattern>/ValidateUser</url-pattern>
@@ -53,6 +57,10 @@
     <servlet-mapping>
         <servlet-name>allComments</servlet-name>
         <url-pattern>/allComments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>initiateQVote</servlet-name>
+        <url-pattern>/initiateQVote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -110,6 +110,7 @@ public class voteServiceAnswer extends HttpServlet {
             System.out.println("ACCESS TOKEN : " + access_token);
             token_check.check(access_token);
             System.out.println("Validity : " + token_check.getValid());
+            int totalvote = 0;
             if (token_check.getExpired() == 1){
                 message = -2; //Expired
             } else {
@@ -156,6 +157,13 @@ public class voteServiceAnswer extends HttpServlet {
                             pstmt.setInt(1, ansid);
                             pstmt.executeUpdate();
                             conn.commit();
+                            String sql5 = "SELECT * FROM answer WHERE IDAns = ?";
+                            PreparedStatement dbStatement3 = conn.prepareStatement(sql5);
+                            dbStatement3.setInt(1,ansid);
+                            ResultSet rs3 = dbStatement3.executeQuery();
+                            while (rs3.next()){
+                                totalvote = rs3.getInt("Vote");
+                            }
                             message = 1;
                             conn.close();
                         }
@@ -174,6 +182,7 @@ public class voteServiceAnswer extends HttpServlet {
             }
             
             JSONObject objOut = new JSONObject();
+            objOut.put("vote",totalvote);
             objOut.put("message", message);
             out.println(objOut);
             
