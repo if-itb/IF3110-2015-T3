@@ -6,6 +6,24 @@
 <%@ page import="QuestionWS.Question" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<% 
+    Cookie[] cookies = null;
+    Cookie cookie = null;
+    String token = "";
+    
+    cookies = request.getCookies();
+    if (cookies != null) {
+        for (int i=0; i < cookies.length; i++) {
+            cookie = cookies[i];
+            if ("token".equals(cookie.getName())) {
+                token = cookie.getValue();
+            }
+        }
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +36,8 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
+
+
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
@@ -26,6 +46,7 @@
         <li><a href="about.jsp">About Us</a></li>
         <li><a href="login.jsp">Log In</a></li>
         <li><a href="register.jsp">Sign Up</a></li>
+        
       </ul>
     </div>
   </nav>

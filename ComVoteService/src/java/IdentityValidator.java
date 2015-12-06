@@ -29,13 +29,19 @@ public class IdentityValidator {
             
             if ("valid".equals(message)) {                
                 uid = obj.getInt("User_ID");
+            } else if ("invalid".equals(message)) {
+                uid = -1; // Return -1 if invalid token;
+            } else if ("invalidagent".equals(message)) {
+                uid = -2; // Return -2 if invalid user agent;
+            } else if ("invalidip".equals(message)) {
+                uid = -3; // Return -3 if invalid IP address;
             }
             
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException ex) {     
-            Logger.getLogger(IdentityValidator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }      
         
         return uid;
         

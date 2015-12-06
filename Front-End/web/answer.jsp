@@ -8,7 +8,9 @@
 <%@ page import="AnswerWS.Answer" %>
 <%@ page import="java.util.List" %>
 <%@ page import="javax.servlet.http.Cookie" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
 <% 
     Cookie[] cookies = null;
@@ -26,7 +28,7 @@
     }
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="CommentAndVoteApp" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
@@ -37,7 +39,7 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
-<body>
+<body  ng-controller="CommentVoteCtrl" ng-init="qid=<% out.print(request.getParameter("qid"));%>; token='<% out.print(token);%>'">
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="index" class="brand-logo">RestingSOAP</a>
@@ -70,11 +72,35 @@
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
               <span class="card-title"><%= question.getTopic() %></span>
-                <p class="right vote"><%= question.getVote()%> vote</p>
-                <a href="voteDownQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
-                <a href="voteUpQuestionServlet?qid=<%= question.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
+                <p ng-init="qvote=<% out.print(question.getVote());%>" class="right vote"> {{qvote}} vote</p>
+                <a ng-init="qvote=<% out.print(question.getVote());%>" ng-click="voteDownQ()" href="" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
+                <a ng-init="qvote=<% out.print(question.getVote());%>" ng-click="voteUpQ()" href="" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
                 <p><%= question.getContent() %></p>
             </div>
+            
+            <script>
+            var app = angular.module('CommentAndVoteApp', []);
+            app.controller('CommentVoteCtrl', ['$scope', '$http', function($scope, $http) {
+                    
+                    
+                $scope.voteUpQ = function() {
+                    console.log("A");
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?token=' + $scope.token + '&q_id=' + $scope.qid + '&voteid=1').then($scope.getVote);
+                    
+                };
+                $scope.voteDownQ = function() {
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?token=' + $scope.token + '&q_id=' + $scope.qid + '&voteid=-1').then($scope.getVote);
+                    console.log("B");
+                };
+                $scope.getVote = function() {
+                    console.log("C");
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?q_id=' + $scope.qid)
+                        .then(function(response) {$scope.qvote = response.data;});
+                
+                };
+            }]);
+        </script>
+            
             <div class="card-action">
               <p class="blue-text text-lighten-1 right">Asked by <%= question.getUsername() %> at <%= question.getTimestamp() %></p>
               <a href="editQuestion?qid=<%= question.getQuestionid() %>">Edit</a>
@@ -98,9 +124,10 @@
         <div class="col s12">
           <div class="card blue-grey darken-1">
             <div class="card-content white-text">
-              <p class="right vote"><%= answer.getVote()%> vote</p>
-              <a href="voteDownAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
-              <a href="voteUpAnswerServlet?aid=<%= answer.getAnswerid() %>&qid=<%= answer.getQuestionid() %>&token=<%= token %>" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
+              <p ng-init="avote=<% out.print(answer.getVote());%>" class="right vote">{{avote}} vote</p>
+              <a href="" ng-click="voteDownA(<c:out value="1"/>)" class="btn-floating btn-large waves-effect waves-light red right"><i class="material-icons">thumb_down</i></a>
+
+              <a href="" ng-click="voteUpA(<c:out value="1"/>)" class="btn-floating btn-large waves-effect waves-light green right"><i class="material-icons">thumb_up</i></a>
               <p><%= answer.getContent() %></p>
             </div>
             <div class="card-action">
@@ -112,6 +139,29 @@
     </div>
   </div>
   <% } %>
+  
+        <script>
+            var app = angular.module('CommentAndVoteApp', []);
+            app.controller('CommentVoteCtrl', ['$scope', '$http', function($scope, $http) {
+                    
+                    
+                $scope.voteUpA = function(aid) {
+                    console.log("A");
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?token=' + $scope.token + '&a_id=' + aid + '&voteid=1').then($scope.getVote);
+                    
+                };
+                $scope.voteDownA = function(aid) {
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?token=' + $scope.token + '&a_id=' + aid + '&voteid=-1').then($scope.getVote);
+                    console.log("B");
+                };
+                $scope.getVote = function() {
+                    console.log("C");
+                    $http.get('http://localhost:8080/ComVoteService/VoteServlet?a_id=' + aid)
+                        .then(function(response) {$scope.avote = response.data;});
+                
+                };
+            }]);
+        </script>
   
   <div class="divider"></div>
  
@@ -167,6 +217,9 @@
 
 
   <!--  Scripts-->
+  
+        
+  
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>

@@ -37,32 +37,7 @@ public class VoteServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Statement statement;
         
@@ -71,7 +46,7 @@ public class VoteServlet extends HttpServlet {
         
         if (request.getParameter("token") != null) {
             int uid = IdentityValidator.getUID(request.getParameter("token"));
-            if (uid != 0 && request.getParameter("q_id") != null && request.getParameter("voteid") != null) {
+            if (uid > 0 && request.getParameter("q_id") != null && request.getParameter("voteid") != null) {
                 try {
                     String query1 = "SELECT * FROM question WHERE Q_ID = '" + request.getParameter("q_id") + "'";
                     
@@ -169,13 +144,17 @@ public class VoteServlet extends HttpServlet {
                                 statement1.executeUpdate();
                             }
                         }
+                        rd.close();
                     }
+                    rs.close();
+                    statement.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(VoteServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                response.sendRedirect("http://localhost:8082/Front-End/index");
             }
             else {
-                if (uid != 0 && request.getParameter("a_id") != null && request.getParameter("voteid") != null) {
+                if (uid > 0 && request.getParameter("a_id") != null && request.getParameter("voteid") != null) {
                     try {
                         String query1 = "SELECT * FROM answer WHERE A_ID = '" + request.getParameter("a_id") + "'";
 
@@ -277,9 +256,44 @@ public class VoteServlet extends HttpServlet {
                     } catch (SQLException ex) {
                         Logger.getLogger(VoteServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    response.sendRedirect("http://localhost:8082/Front-End/index");
                 }
+                else {
+                    response.sendRedirect("http://localhost:8082/Front-End/index?fail");
+                }
+//                response.sendRedirect("http://localhost:8082/Front-End/index");
             }
+            //response.sendRedirect("http://localhost:8082/Front-End/index?fail2");
         }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request,response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request,response);
     }
 
     /**
