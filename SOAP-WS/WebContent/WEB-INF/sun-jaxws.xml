@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+	version="2.0">
+	<endpoint name="question"
+		implementation="org.tusiri.ws.question.Question"
+		url-pattern="/question" />
+	<endpoint name="user"
+		implementation="org.tusiri.ws.user.User"
+		url-pattern="/user" />
+	<endpoint name="answer"
+		implementation="org.tusiri.ws.answer.Answer"
+		url-pattern="/answer" />
+</endpoints>
