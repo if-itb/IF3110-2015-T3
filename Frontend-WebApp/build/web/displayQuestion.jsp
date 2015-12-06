@@ -80,6 +80,10 @@
                         <span class="commenttime">{{c.created_at}}</span>
                     </span>
                 </div>
+                <form novalidate class="commentform">
+                    <input type="text" ng-model="newcomment"/>
+                    <input type="submit" ng-click="postnew()" value="Comment" />
+                </form>
             </div>
                         
         <h2><%= na %> Answer</h2>

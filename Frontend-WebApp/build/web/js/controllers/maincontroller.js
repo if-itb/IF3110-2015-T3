@@ -3,24 +3,47 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//create request
-function createRequest() {
-  var result = null;
-  if (window.XMLHttpRequest) {
-    // FireFox, Safari, etc.
-    result = new XMLHttpRequest();
-    if (typeof result.overrideMimeType != 'undefined') {
-      result.overrideMimeType('text/xml'); // Or anything else
+//access token
+function getCookie(cname) {
+    console.log(document.cookie);
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
-  }
-  else if (window.ActiveXObject) {
-    // MSIE
-    result = new ActiveXObject("Microsoft.XMLHTTP");
-  } 
-  else {
-    // No known mechanism -- consider aborting the application
-  }
-  return result;
+    return "";
+}
+
+function getAccessToken(){
+    return getCookie("access_token");
+}
+
+function serializeData( data ) { 
+    // If this is not an object, defer to native stringification.
+    if ( ! angular.isObject( data ) ) { 
+        return( ( data == null ) ? "" : data.toString() ); 
+    }
+
+    var buffer = [];
+
+    // Serialize each key in the object.
+    for ( var name in data ) { 
+        if ( ! data.hasOwnProperty( name ) ) { 
+            continue; 
+        }
+
+        var value = data[ name ];
+
+        buffer.push(
+            encodeURIComponent( name ) + "=" + encodeURIComponent( ( value == null ) ? "" : value )
+        ); 
+    }
+
+    // Serialize the buffer and clean it up for transportation.
+    var source = buffer.join( "&" ).replace( /%20/g, "+" ); 
+    return( source ); 
 }
 
 
@@ -79,6 +102,35 @@ app.controller('commentCtrl',function($scope,$interval,$http){
         $interval.cancel(promise);
     },firstupdate_interval);
     $interval(updateComments,update_interval);
+   
+   $scope.newcomment;
+   $scope.postnew = function(){
+       var at;
+               at = window.getAccessToken();
+       if (at===""){
+           alert("sign in first");
+       }else{
+            $http({
+                method: 'POST',
+                url: "../CommentandVoteService/Comment",
+                params: 
+                {
+                    'qid': $scope.qid,
+                    'access_token': at,
+                    'qcomment': $scope.newcomment
+                }
+            }).then(function successCallback(response){
+                updateComments();
+            // ... and use it as needed by your app.
+            }, function errorCallback(response) {
+                var help = "";
+                if (response.status==401)
+                    help = "retry signing in" + at;
+                alert("error posting comment:\n"+response.status + " " +
+                    response.statusText+"\n"+response.data + help);
+            });
+       }
+   }
     
 });
 

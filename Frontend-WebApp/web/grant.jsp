@@ -84,6 +84,10 @@
                     session.setAttribute("access_token", access_token);
                     session.setAttribute("lifetime", lifetime);
                     session.setAttribute("start", Calendar.getInstance());
+                    
+                    Cookie cookie = new Cookie("access_token",access_token);
+                    cookie.setMaxAge(lifetime);
+                    response.addCookie(cookie);
         
                 default:
                     result = connection.getResponseMessage();
