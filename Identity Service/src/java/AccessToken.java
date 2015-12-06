@@ -30,7 +30,7 @@ public class AccessToken{
     
     //ini bikin one way?
     public String toString(){
-        return getUuid().toString()+"#"+getUser_agent()+"#"+getUser_ip();
+        return (getUuid().toString()+"#"+getUser_agent()+"#"+getUser_ip()).replaceAll("[\\s;,]", "illegalcookiechar");
     }
 
     /**
