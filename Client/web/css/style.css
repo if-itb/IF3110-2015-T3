@@ -76,7 +76,7 @@ a:hover {
 
 .detail{
 	text-align: right;
-	width: 41%;
+	width: 100%;
 	vertical-align: bottom;
 }
 
@@ -102,6 +102,10 @@ a:hover {
 	width: 91.5%;
 	vertical-align: middle;
 	text-align: justify;
+}
+
+.stackquestion>.content {
+	min-height: 100px;
 }
 
 .stackquestion>.detail, .stackanswer>.detail{

@@ -22,6 +22,8 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @WebServlet(name = "CommentVoteServiceAPI", urlPatterns = {"/v1/*"} )
@@ -39,39 +41,95 @@ public class CommentVoteServiceAPI extends HttpServlet {
 
     }
 
+    protected void doOptions(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+        res.setHeader("Access-Control-Allow-Origin", "*");
+    }
+
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        switch (req.getPathInfo()) {
-            case "/comment":
-                postComment(req, res);
-                break;
-            case "/vote":
-                doVote(req, res);
-                break;
-            default:
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        String path = req.getPathInfo();
+
+        if (path.equals("/")) {
+            index(req, res);
+        } else if (path.matches("/comment/(\\d+)")) {
+
+            String pComment = "/comment/(\\d+)";
+            Pattern rComment = Pattern.compile(pComment);
+            Matcher mComment = rComment.matcher(path);
+
+            if (mComment.find()) {
+                String qid = mComment.group(1);
+                postComment(req, res, qid);
+            } else {
                 show404(req,res);
+            }
+
+        } else if (path.matches("/vote/([.*])/(\\d+)")) {
+
+            String pVote = "/vote/([.*])/(\\d+)";
+            Pattern rVote = Pattern.compile(pVote);
+            Matcher mVote = rVote.matcher(path);
+
+            if (mVote.find()) {
+                String type = mVote.group(1);
+                String id = mVote.group(2);
+
+                doVote(req, res);
+            } else {
+                show404(req,res);
+            }
+
+        } else {
+            show404(req,res);
         }
+
     }
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        switch (req.getPathInfo()) {
-            case "/":
-                index(req, res);
-                break;
-            case "/comment":
-                getComment(req,res);
-                break;
-            case "/vote":
-                getVote(req,res);
-                break;
-            default:
+        res.setHeader("Access-Control-Allow-Origin", "*");
+
+        String path = req.getPathInfo();
+
+        if (path.equals("/")) {
+            index(req, res);
+        } else if (path.matches("/comment/(\\d+)")) {
+
+            String pComment = "/comment/(\\d+)";
+            Pattern rComment = Pattern.compile(pComment);
+            Matcher mComment = rComment.matcher(path);
+
+            if (mComment.find()) {
+                String qid = mComment.group(1);
+                getComment(req,res,qid);
+            } else {
                 show404(req,res);
+            }
+
+        } else if (path.matches("/vote/([.*])/(\\d+)")) {
+
+            String pVote = "/vote/([.*])/(\\d+)";
+            Pattern rVote = Pattern.compile(pVote);
+            Matcher mVote = rVote.matcher(path);
+
+            if (mVote.find()) {
+                String type = mVote.group(1);
+                String id = mVote.group(2);
+
+                getVote(req,res,type,id);
+            } else {
+                show404(req,res);
+            }
+
+        } else {
+            show404(req,res);
         }
     }
 
-    protected void getComment (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+    protected void getComment (HttpServletRequest req, HttpServletResponse res, String qid) throws ServletException, IOException{
         serve((request, out) -> {
             try {
-                String qid = req.getParameter("qid");
                 PreparedStatement stmt=conn.prepareStatement("SELECT comments.content, fullname, time_created FROM comments JOIN question ON comments.qid = question.id JOIN user ON comments.uid = user.id WHERE comments.qid = ? ");
                 stmt.setString(1, qid);
                 ResultSet result = stmt.executeQuery();
@@ -112,12 +170,10 @@ public class CommentVoteServiceAPI extends HttpServlet {
         }, req, res);
     }
 
-    protected void getVote (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+    protected void getVote (HttpServletRequest req, HttpServletResponse res, String type, String id) throws ServletException, IOException{
         serve((request, out) -> {
             try {
                 PreparedStatement stmt = conn.prepareStatement("");
-                int id = Integer.parseInt(req.getParameter("id"));
-                String type = req.getParameter("type");
                 if (type.equals("question")){
                     stmt=conn.prepareStatement("SELECT vote FROM question WHERE id = ?");
                 }
@@ -142,10 +198,8 @@ public class CommentVoteServiceAPI extends HttpServlet {
         }, req, res);
     }
 
-    protected void postComment (HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException{
+    protected void postComment (HttpServletRequest req, HttpServletResponse res, String qid) throws ServletException, IOException{
         serve((request, out) -> {
-
-            String qid = req.getParameter("qid");
             String content = req.getParameter("content");
             String token = req.getParameter("token");
 

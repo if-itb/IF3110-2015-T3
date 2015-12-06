@@ -25,14 +25,18 @@
 %>
 <!DOCTYPE HTML>
 
-	<html>
+	<html ng-app="myApp">
 	<head>
 
 		<title><% out.println(q.getTopic());%></title>
 		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script>
+			var token='<%=token%>';
+			var qid='<%=id%>';
+		</script>
 		</head>
-		<body>
+		<body ng-controller="MainController">
 			<div class="container">
 				<a class="homelink" href="index.jsp"><h1 id="title">My StackExchange</h1></a>
 				<div class="content">
@@ -40,13 +44,24 @@
 					<hr>
 					<div class="stackquestion">
 						<div class="votes"><a href="vote.jsp?type=0&spin=1&id=<%out.println(id);%>"><div class="arrow-up" onclick=""></div></a><div id="votequestion"><% out.println(q.getVote());%></div><a href="vote.jsp?type=0&spin=-1&id=<%out.println(id);%>"><div class="arrow-down"  onclick=""></div></a></div>
-						<div class="content"><% out.println(q.getContent());%></div>
+						<div class="content"><% out.println(q.getContent());%>
 						<% System.out.println(q.getUser().getId()); %>
 						<%if (uid == q.getUser().getId()){%>
 						<div class="detail">asked by <% out.println(q.getUser().getName()); %> <a class="linkname"></a> at <% out.println(q.getDate());%> | <a class="linkedit" href="editpost.jsp?id=<%out.println(q.getId());%>">edit</a> | <a class="linkdelete" onclick="" href="deletequestion.jsp?id=<%out.println(q.getId());%>">delete</a></div>
 						<%} else {%>
 						<div class="detail">asked by <% out.println(q.getUser().getName()); %> <a class="linkname"></a> at <% out.println(q.getDate());%></div>
 						<%}%>
+						<hr/>
+						<div ng-repeat="comment in comments">
+							{{comment.content}}
+							{{comment.name}}
+							{{comment.time_created}}
+						</div>
+						<div ng-show="addComment">
+							<textarea ng-model="content"></textarea><button ng-click="submit()">Add comment</button>
+						</div>
+						<a ng-click="show()" ng-show="!addComment">Add Comment</a>
+						</div>
 					</div>
 					<br>
 					<h2><% out.println(answerList.getItem().size());%> Answers</h2>
@@ -76,6 +91,9 @@
 				</div>
 			</div>
 			<script src="js/script.js"></script>
+			<script src="js/angular.min.js"></script>
+			<script src="js/angular-resource.min.js"></script>
+			<script src="js/questiondetails.js"></script>
 		</body>
 	</html>
 
