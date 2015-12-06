@@ -35,6 +35,15 @@ a:hover {
 	text-decoration: none;
 }
 
+.comment:first-child {
+	border-top: solid 1px #000;
+}
+
+.comment {
+	border-bottom: solid 1px #000;
+	min-height: 30px;
+}
+
 .linkdelete{
 	color: #FF244E;
 }

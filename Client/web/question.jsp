@@ -56,15 +56,14 @@
 						<div class="detail">asked by <% out.println(q.getUser().getName()); %> <a class="linkname"></a> at <% out.println(q.getDate());%></div>
 						<%}%>
 						<hr/>
-						<div ng-repeat="comment in comments">
-							{{comment.content}}
-							{{comment.name}}
-							{{comment.time_created}}
+						<div ng-repeat="comment in comments" class="comment">
+							{{comment.content}}<br/>
+							<div style="width:100%; text-align:right;">{{comment.name}} | {{comment.time_created}}</div>
 						</div>
-						<div ng-show="addComment">
-							<textarea ng-model="content"></textarea><button ng-click="submit()">Add comment</button>
+						<div ng-show="addComment" style="padding-top: 20px;">
+							<textarea style="width: 80%; float: left; min-height:100px;" ng-model="content"></textarea><button class="width: 20%; float: left;" ng-click="submit()">Add comment</button>
 						</div>
-						<a ng-click="show()" ng-show="!addComment">Add Comment</a>
+						<a style="width: 20%;" ng-click="show()" ng-show="!addComment">Add Comment</a>
 						</div>
 					</div>
 					<br>

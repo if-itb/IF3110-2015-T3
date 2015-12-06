@@ -8,6 +8,8 @@ function invResult(status){
     } else if (status==-3) {
         alert("invalid ip");
     }
+
+    window.location.replace("/login.jsp");
 }
 
 app.factory('CommentFactory', function ($resource) {
