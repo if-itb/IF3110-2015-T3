@@ -110,7 +110,6 @@ public class IdentityService extends HttpServlet {
         }
         else{
             json.put("status", "invalid");
-            json.put("detail", "not a valid token");
         }
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
@@ -133,15 +132,13 @@ public class IdentityService extends HttpServlet {
         if(user != null){
             HttpSession session = request.getSession(true);
             
-            String token = generateToken();
+            String token = session.getId();
             session.setAttribute("name", user.name);
             System.out.println("token : " + token);
             session.setAttribute("token", token);
             session.setAttribute("id_user", user.id_user);
-            session.setMaxInactiveInterval(43200);
+            session.setMaxInactiveInterval(4320);
             sessions.add(session);
-            request.setAttribute("token", token);
-            request.setAttribute("name", user.name);
             response.sendRedirect("../index.jsp");
         }
     }

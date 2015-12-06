@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import static java.lang.Math.toIntExact;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -116,7 +118,7 @@ public class CommentService extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -130,24 +132,62 @@ public class CommentService extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("There it is, Jun!!");
         org.json.JSONObject json = new org.json.JSONObject();
         String token = request.getParameter("token");
         int id_user = whoIs(token);
+        int id = Integer.parseInt(request.getParameter("id"));
         if(id_user != 0){
             try {
                 connectDB();
                 Statement st = connection.createStatement();
-                String sql = "INSERT INTO answer (id, id_user, content) VALUES ('"+ request.getParameter("id") +"', '"+ id_user +"', '"+ request.getParameter("content") +"')";
+                String sql = "INSERT INTO answer (id, id_user, content) VALUES ('"+ id +"', '"+ id_user +"', '"+ request.getParameter("content") +"')";
                 st.execute(sql);
                 closeDB();
             }catch(SQLException ex){
                 ex.printStackTrace();
             }
             json.put("status", "ok");
-            
+            org.json.JSONArray allAnswerTemp = new org.json.JSONArray();
+            try {
+                connectDB();
+                Statement st = connection.createStatement();
+                String sql = ("SELECT *, (SELECT name FROM user WHERE user.id_user = answer.id_user) as name, (SELECT SUM(vote_answer.value) as votes FROM vote_answer WHERE vote_answer.id_answer = answer.id_answer) as votes FROM answer WHERE id ='" + id + "'");
+                ResultSet rs = st.executeQuery(sql);
+
+                
+                while(rs.next()){
+                    org.json.JSONObject j = new org.json.JSONObject();
+                    j.put("id", rs.getInt("id"));
+                    j.put("id_answer", rs.getInt("id_answer"));
+                    j.put("name", rs.getString("name"));
+                    j.put("content", rs.getString("content"));
+                    j.put("timestamp", rs.getString("timestamp"));
+                    j.put("vote", rs.getInt("votes"));
+                    allAnswerTemp.put(j);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            org.json.JSONArray allAnswer = new org.json.JSONArray();
+            if(id_user != 0){
+                for(int i = 0; i < allAnswerTemp.length(); i++){
+                    try{
+                        org.json.JSONObject j = (org.json.JSONObject) allAnswerTemp.get(i);
+                        connectDB();
+                        Statement st = connection.createStatement();
+                        String sql = "SELECT * FROM vote_answer WHERE id_answer = '" + j.getInt("id_answer") + "' AND id_user = '" + id_user + "'";
+                        ResultSet rs = st.executeQuery(sql);
+                        j.put("hasVote", rs.next());
+                        closeDB();
+                        allAnswer.put(j);
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            json.put("answers", allAnswer);
         }
         else{
             json.put("status", "invalid");

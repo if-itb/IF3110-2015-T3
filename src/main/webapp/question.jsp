@@ -23,6 +23,7 @@
 	<script src="js/delete_question.js"></script>
 	<script src="js/ajax.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
         <%
             String name = (String) session.getAttribute("name");
             String token = (String) session.getAttribute("token");
@@ -34,6 +35,10 @@
             Question question = stackExchange.getQuestion(token, i);
             AnswerArray allAnswer = stackExchange.getAllAnswer(token, i);
             List<Answer> items = allAnswer.getItem();
+            Cookie c = new Cookie("token", token);
+            Cookie c1 = new Cookie("id", id);
+            response.addCookie(c);
+            response.addCookie(c1);
         %>
     </head>
     <body>
@@ -60,7 +65,7 @@
                             <table>
                                 <tbody>
                                     <tr><td><p class="content"><%=question.getContent()%></p></td></tr>
-                                    <tr><td><div class="credential">asked by <%=question.getName()%> at <%=question.getTimestamp()%> | <a class="yellow" href="edit.jsp?id=<%=question.getId()%>">edit</a> | <a class="delete" href="javascript:confirmDelete(<%=question.getId()%>)">delete</a></div></td></tr>
+                                    <tr><td><div class="credential">asked by <%=question.getName()%> at <%=question.getTimestamp()%><%if(name != null && name.equals(question.getName())){%> | <a class="yellow" href="edit.jsp?id=<%=question.getId()%>">edit</a> | <a class="delete" href="javascript:confirmDelete(<%=question.getId()%>)">delete</a></div></td></tr><%}%>
                                 </tbody>
                             </table>
                         </td>
@@ -123,8 +128,6 @@
                         <div class="title">Your Answer</div>
                         <%if (name != null) {%>
                         <form name="answer" ng-submit="processForm()">
-                            <input type="hidden" name="token" ng-model="formData.token" value="<%=token%>"><br>
-                            <input type="hidden" name="id" ng-model="formData.id" value="<%=question.getId()%>">
                             <textarea class="inputform" type="text" ng-model="formData.content" placeholder="Content"></textarea><br>
                             <input class="button" type="submit" value="Post">
                         </form>
@@ -154,43 +157,18 @@
         </div>
     </body>
     <script>
-        var app1 = angular.module('answers',[]);
-        app1.controller('ajaxComment', function($scope, $http) {
+        var app1 = angular.module('answers',['ngCookies']);
+        app1.controller('ajaxComment', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
             $scope.answers = [];
             $scope.formData = {};
             $scope.formData.content = "";
-            $scope.processForm = function() {
-//                var data = $.param({
-//                    json: JSON.stringify({
-//                        id: $scope.formData.id,
-//                        token: $scope.formData.token,
-//                        content: $scope.formData.content
-//                    })
-//                });
-//                $http.post("rest/comment", data).success(function(data, status) {
-//                    $scope.answers = data;
-//                });
-//            };
-//                
-                $http({
-                    method  : 'POST',
-                    url     : 'rest/comment',
-                    data    : $.param($scope.formData),  // pass in data as strings
-                    headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-                   })
-                    .success(function(data) {
-                      console.log(data);
-
-                      if (!data.success) {
-                        // if not successful, bind errors to error variables
-//                        $scope.errorName = data.errors.name;
-//                        $scope.errorSuperhero = data.errors.superheroAlias;
-                      } else {
-                        // if successful, bind success message to message
-                        $scope.answers = data;
-                      }
-                    });
-                };
-        });
+            $scope.processForm = function(){
+                var token = $cookies.get("token");
+                var id = $cookies.get("id");
+                $http.get("rest/comment?id=" + id + "&token=" + token + "&content=" + $scope.formData.content)
+                    .then(function(response) {
+                        if(response.status === "ok") $scope.answers = response.answers;});
+            };
+        }]);
     </script>
 </html>
