@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Xml.InformationToken"%>
 <%@page import="Xml.XmlResponse"%>
+
 <!DOCTYPE html>
 <%
 	 // TODO initialize WS operation arguments here
@@ -26,7 +27,7 @@
     
 
 	// TODO process result here
-        String url = "http://localhost:8082/StxIS1/Handler";
+        String url = "http://localhost:8082/StxIS/Handler";
         String urlParameter = "email="+email+"&pass="+password;
         InformationToken it = new InformationToken();
         String token = it.getToken(url, urlParameter);
