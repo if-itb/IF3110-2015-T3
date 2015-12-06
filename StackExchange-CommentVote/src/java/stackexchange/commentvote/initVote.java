@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import stackexchange.webservice.auth.Auth;
 import stackexchange.webservice.util.CVote;
@@ -77,15 +78,17 @@ public class initVote extends HttpServlet {
                 Connection conn = db.getConnection();
                 try{
                     //Get Votes
-                    String sql = "select * from answers where id=" + id + " and questionId=" + qid;
+                    String sql = "select * from answers where questionId=" + qid;
 
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();
-                    if(rs.next()){
-                        json.put("newVote", rs.getInt("vote"));
-                        json.put("status", "success");
+                    JSONArray votes = new JSONArray();
+                    
+                    while(rs.next()){
+                        votes.add(rs.getInt("vote"));
                     }
-
+                    json.put("votes", votes);
+                    json.put("status", "success");
                 }catch(Exception e){
                     json.put("status", "get database failure");
                 }finally{

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 import stackexchange.identity.security.SessionIdentifierGenerator;
+import stackexchange.identity.security.Validate;
 import stackexchange.webservice.util.Database;
 
 /**
@@ -43,27 +44,32 @@ public class Check extends HttpServlet {
             response.setContentType("application/json");
             String email = request.getParameter("email");
             String token = request.getParameter("token");
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
+            }
             
             //Akses database menggunakan query DB
             Database db = new Database();
             Connection conn = db.getConnection();
             JSONObject json = new JSONObject();
             try{
+               
                 String sql="select * from tokens where email='" + email + "' and token='" + token + "'";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
-                    if(rs.getTimestamp("expdate").after(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()))){
+                    if(rs.getTimestamp("expdate").after(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()))&&token.contains(ipAddress)){
                         json.put("status", "accept");
                     }else{
                         json.put("status", "expire");
                         SessionIdentifierGenerator sig = new SessionIdentifierGenerator();
                         String newToken = sig.nextSessionId();
-                        
+
                         sql = "delete from tokens where email='"+email+"'";
                         ps = conn.prepareStatement(sql);
                         ps.executeUpdate();
-                        
+
                         java.sql.Timestamp currentTime = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
                         sql = "insert into tokens (email,token,expdate) values (?,?,? + interval '30' minute)"; 
                         ps = conn.prepareStatement(sql);
@@ -71,7 +77,7 @@ public class Check extends HttpServlet {
                         ps.setString(2, newToken);
                         ps.setTimestamp(3, currentTime);
                         ps.executeUpdate();
-                        
+
                         json.put("token", newToken);
                     }
                 }else{
@@ -85,7 +91,6 @@ public class Check extends HttpServlet {
                 db.closeConnection();
                 db = null;
             }
-            
         } finally {
             out.close();
         }

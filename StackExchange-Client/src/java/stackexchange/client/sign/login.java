@@ -51,6 +51,16 @@ public class login extends HttpServlet {
           String charset = "UTF-8";
           String email = request.getParameter("email");
           String password = request.getParameter("password");
+          String browser;
+            if(request.getHeader("User-Agent").toLowerCase().contains("chrome/")){
+                browser = "chrome";
+            }else if(request.getHeader("User-Agent").toLowerCase().contains("firefox/")){
+                browser = "firefox";
+            }else if(request.getHeader("User-Agent").toLowerCase().contains("safari/")){
+                browser = "safari";
+            }else{
+                browser = "unknown";
+            }
 
           URL url = new URL("http://localhost:8082/StackExchange-IdentityServices/Login");
           HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -59,9 +69,10 @@ public class login extends HttpServlet {
           conn.setRequestProperty("Accept-Charset", charset);
           conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
 
-          String query = String.format("email=%s&password=%s", 
+          String query = String.format("email=%s&password=%s&browser=%s", 
                                         URLEncoder.encode(email, charset), 
-                                        URLEncoder.encode(password, charset));
+                                        URLEncoder.encode(password, charset),
+                                        URLEncoder.encode(browser, charset));
 
           try (OutputStream output = conn.getOutputStream()) {
               output.write(query.getBytes(charset));

@@ -21,16 +21,37 @@
 			</a>
                     
                         <%
+                            String agent;
+                            if(request.getHeader("User-Agent").toLowerCase().contains("chrome/")){
+                                agent = "chrome";
+                            }else if(request.getHeader("User-Agent").toLowerCase().contains("firefox/")){
+                                agent = "firefox";
+                            }else if(request.getHeader("User-Agent").toLowerCase().contains("safari/")){
+                                agent = "safari";
+                            }else{
+                                agent = "unknown";
+                            }
                             
                             Cookie[] cookies;
                             cookies = request.getCookies();
-                            String token = "", email = "";
-                            boolean isTokenEx = false, isEmailEx = false;
+                            String token = "", email = "", browser="";
+                            boolean isTokenEx = false, isEmailEx = false, isValidAgent=true;
                             if (cookies != null) {
                                 for (Cookie cookie: cookies) {
                                     if (cookie.getName().equals("token")) {
                                         isTokenEx = true;
                                         token = cookie.getValue();
+                                        if(!cookie.getValue().contains(agent)){
+                                            Cookie tokCook = new Cookie("token", "");
+                                            Cookie emaCook = new Cookie("email", "");
+                                            tokCook.setMaxAge(0);
+                                            emaCook.setMaxAge(0);
+                                            response.addCookie(tokCook);
+                                            response.addCookie(emaCook);
+                                            isValidAgent = false;
+                                        }else{
+                                            isValidAgent = true;
+                                        }
                                     }else if(cookie.getName().equals("email")){
                                         isEmailEx = true;
                                         email = cookie.getValue();
@@ -50,7 +71,7 @@
                                 response.addCookie(tokCook);
                                 response.addCookie(emaCook);
                             }
-                            if(user.getId()>-1){
+                            if(user.getId()>-1&&isValidAgent){
                             %>
                         <nav class="ut-nav">
                                 <div class="nav-menu askhere">

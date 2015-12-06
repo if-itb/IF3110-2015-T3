@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import stackexchange.client.security.Validate;
 import stackexchange.webservice.Question;
 import stackexchange.webservice.QuestionWS_Service;
 
@@ -47,24 +48,30 @@ public class editQuestion extends HttpServlet {
                 token = cookie.getValue();
             }
         }
-        if(!request.getParameter("id").isEmpty()){
-            int id = Integer.parseInt(request.getParameter("id"));
-            String topic = request.getParameter("topic");
-            String content = request.getParameter("content");
-            Question question = new Question();
+        
+        Validate val = new Validate();
+        if(val.check(token, val.getBrowser(request.getHeader("User-Agent")))){
+            if(!request.getParameter("id").isEmpty()){
+                int id = Integer.parseInt(request.getParameter("id"));
+                String topic = request.getParameter("topic");
+                String content = request.getParameter("content");
+                Question question = new Question();
 
-            question.setId(id);
-            question.setTopic(topic);
-            question.setEmail(email);
-            question.setContent(content);
-            
-            updateQuestion(question, token);
-            String withanswer = request.getParameter("withanswer");
-            if(withanswer.equals("false")){
-                response.sendRedirect(request.getContextPath() + "/home");
-            } else if(withanswer.equals("true")) {
-                response.sendRedirect(request.getContextPath() + "/singleQuestion?id=" + id);
+                question.setId(id);
+                question.setTopic(topic);
+                question.setEmail(email);
+                question.setContent(content);
+
+                updateQuestion(question, token);
+                String withanswer = request.getParameter("withanswer");
+                if(withanswer.equals("false")){
+                    response.sendRedirect(request.getContextPath() + "/home");
+                } else if(withanswer.equals("true")) {
+                    response.sendRedirect(request.getContextPath() + "/singleQuestion?id=" + id);
+                }
             }
+        }else{
+            response.sendRedirect(request.getContextPath() + "/signIn");   
         }
         
     }

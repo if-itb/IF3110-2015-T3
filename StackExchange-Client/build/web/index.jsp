@@ -46,7 +46,7 @@
 					<p>
                                             asked by You <br> 
                                             <a class="link edit" href="questionedit?id=<%= question.getId() %>"> edit</a> <br> 
-                                            <a class="link delete" href="questiondelete?id=<%= question.getId() %>" onclick="return validateDelete();"> delete </a>
+                                            <a class="link delete" href="questiondelete?id=<%= question.getId() %>&ip=<%= request.getRemoteAddr() %>" onclick="return validateDelete();"> delete </a>
 					</p>
                                     <% }else{ %>
                                         <p>

@@ -14,6 +14,8 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
         $scope.browser = "unknown";
     }
     
+    $cookies.put("browser",$scope.browser);
+    
     //hard code for get param
     if ($location.absUrl().indexOf("?") > -1){
         var temp = $location.absUrl().split("?");
@@ -33,6 +35,16 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
                     }
             });
             
+    $scope.query = "type=answer&qid="+$scope.id;
+    $scope.url = "http://localhost:8080/StackExchange-CommentVote/initVote?"+$scope.query;
+    $http.get($scope.url)
+            .then(function(response){
+                console.log(response.data);
+                    if(response.data.status === "success"){
+                        $scope.voteAnswers = response.data.votes;
+                    }
+            });       
+            
     $scope.query = "qid="+$scope.id;
     $scope.url = "http://localhost:8080/StackExchange-CommentVote/initComment?"+$scope.query;
     $http.get($scope.url)
@@ -42,6 +54,8 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
                         $scope.comments = response.data.comments;
                     }
             });
+            
+    
     
     $scope.email = $cookies.get('email');
     $scope.token = $cookies.get('token');
@@ -69,6 +83,19 @@ app.controller('voteCtrl',function($scope, $cookies, $http, $location, $window){
                     console.log(response.data);
                     if(response.data.status === "success"){
                         $scope.value = response.data.newVote;
+                    }
+                });
+    };
+    $scope.voteUpA = function(id){
+        $scope.query = "email="+$scope.email;
+        $scope.query += "&token="+$scope.token;
+        $scope.query += "&type=answer&inc=up&id="+id+"&qid="+$scope.id;
+        $scope.url = "http://localhost:8080/StackExchange-CommentVote/Vote?"+$scope.query;
+        $http.get($scope.url)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.status === "success"){
+                        $scope.voteAnswer = response.data.newVote;
                     }
                 });
     };

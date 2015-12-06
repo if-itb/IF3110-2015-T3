@@ -42,7 +42,16 @@ public class Login extends HttpServlet {
             response.setContentType("application/json");
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            String browser = request.getParameter("browser");
+            String browser;
+            if (request.getParameterMap().containsKey("browser")){
+                browser = request.getParameter("browser");
+            }else{
+                browser ="nothinghere";
+            }
+            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+            if (ipAddress == null) {  
+                ipAddress = request.getRemoteAddr();  
+            }
             
             //Akses database menggunakan query DB
             Database db = new Database();
@@ -57,7 +66,7 @@ public class Login extends HttpServlet {
                     ps.executeUpdate();
                     
                     SessionIdentifierGenerator sig = new SessionIdentifierGenerator();
-                    String token = sig.nextSessionId();
+                    String token = sig.nextSessionId()+"|-|"+browser+"|-|"+ipAddress;
                     java.sql.Timestamp sqlDate = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
                     
                     sql = "insert into tokens (email,token,expdate) values (?,?,? + interval '30' minute)"; 

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import stackexchange.client.security.Validate;
 import stackexchange.webservice.QuestionWS_Service;
 
 /**
@@ -44,8 +45,13 @@ public class questionDelete extends HttpServlet {
                 token = cookie.getValue();
             }
         }
-        deleteQuestion(Integer.parseInt(request.getParameter("id")),email,token);
-        response.sendRedirect(request.getContextPath() + "/home");
+        Validate val = new Validate();
+        if(val.check(token, val.getBrowser(request.getHeader("User-Agent")))){
+            deleteQuestion(Integer.parseInt(request.getParameter("id")),email,token);
+            response.sendRedirect(request.getContextPath() + "/home");
+        }else{
+            response.sendRedirect(request.getContextPath() + "/signIn");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

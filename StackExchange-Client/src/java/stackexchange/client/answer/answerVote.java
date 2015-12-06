@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import stackexchange.client.security.Validate;
 import stackexchange.webservice.Answer;
 import stackexchange.webservice.AnswerWS_Service;
 
@@ -45,24 +46,30 @@ public class answerVote extends HttpServlet {
                 token = cookie.getValue();
             }
         }
-        String id = request.getParameter("id");
-        String questionid = request.getParameter("questionid");
-        boolean isUp;
-        if(request.getParameter("dir").equals("up")){
-            isUp = true;
+        Validate val = new Validate();
+        if(val.check(token, val.getBrowser(request.getHeader("User-Agent")))){
+        
+            String id = request.getParameter("id");
+            String questionid = request.getParameter("questionid");
+            boolean isUp;
+            if(request.getParameter("dir").equals("up")){
+                isUp = true;
+            }else{
+                isUp = false;
+            }
+            if(email.equals("") || token.equals("")){
+                response.sendRedirect(request.getContextPath() + "/signIn");
+            }else{
+                Answer answer = new Answer();
+                answer.setId(Integer.parseInt(id));
+                answer.setEmail(email);
+                answer.setQuestionId(Integer.parseInt(questionid));
+
+                voteAnswer(answer, isUp, token);
+                response.sendRedirect(request.getContextPath() + "/singleQuestion?id=" + questionid);
+            }
         }else{
-            isUp = false;
-        }
-        if(email.equals("") || token.equals("")){
-            response.sendRedirect(request.getContextPath() + "/signIn");
-        }else{
-            Answer answer = new Answer();
-            answer.setId(Integer.parseInt(id));
-            answer.setEmail(email);
-            answer.setQuestionId(Integer.parseInt(questionid));
-            
-            voteAnswer(answer, isUp, token);
-            response.sendRedirect(request.getContextPath() + "/singleQuestion?id=" + questionid);
+            response.sendRedirect(request.getContextPath() + "/signIn");   
         }
     }
 

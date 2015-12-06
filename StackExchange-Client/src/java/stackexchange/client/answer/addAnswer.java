@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import stackexchange.client.security.Validate;
 import stackexchange.webservice.Answer;
 import stackexchange.webservice.AnswerWS_Service;
 
@@ -45,16 +46,22 @@ public class addAnswer extends HttpServlet {
                 token = cookie.getValue();
             }
         }
-        int questionId = Integer.parseInt(request.getParameter("id"));
-        String content = request.getParameter("content");
-        Answer answer = new Answer();
-        answer.setQuestionId(questionId);
-        answer.setEmail(email);
-        answer.setContent(content);
+        Validate val = new Validate();
+        if(val.check(token, val.getBrowser(request.getHeader("User-Agent")))){
         
-        addAnswer(answer, token);
-        
-        response.sendRedirect(request.getContextPath() + "/singleQuestion?id="+questionId);
+            int questionId = Integer.parseInt(request.getParameter("id"));
+            String content = request.getParameter("content");
+            Answer answer = new Answer();
+            answer.setQuestionId(questionId);
+            answer.setEmail(email);
+            answer.setContent(content);
+
+            addAnswer(answer, token);
+
+            response.sendRedirect(request.getContextPath() + "/singleQuestion?id="+questionId);
+        }else{
+            response.sendRedirect(request.getContextPath() + "/signIn");   
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

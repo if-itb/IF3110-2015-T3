@@ -51,38 +51,40 @@
 		</div>
 		<div class="containerAnswer">
                     <h1 class="tag"><%= answers.size() %> Answer</h1>
+                    
                     <% for(stackexchange.webservice.Answer answer : answers){ 
                     %>
-                    <div id="answer<%= answer.getId() %>" class="innerContent fAnswer">
-                            <div class="col votesCount">
-                                    <div class="up vote">
-                                            <a class="voteDes" href="answerVote?questionid=<%= question.getId()%>&id=<%= answer.getId() %>&dir=up"><i class="material-icons md-48">arrow_drop_up</i></a>
-                                    </div>
-                                    <div id="answerVote<%= answer.getId() %>">
-                                            <%= answer.getVote() %>
-                                    </div>
-                                    <div class="down vote">
-                                        <a class="voteDes" href="answerVote?questionid=<%= question.getId()%>&id=<%= answer.getId() %>&dir=down"><i class="material-icons md-48">arrow_drop_down</i></a>
-                                    </div>
-                            </div>
-                            <div class="col content">
-                                    <p>
-                                            <%= answer.getContent() %>
-                                    </p>
-                            </div>
-                            <div class="navPost2">
-                                <% if(user.getEmail().equals(answer.getEmail())){ %>
-                                    <p>
-                                        answered by You <span><%= answer.getEmail() %></span>
-                                    </p>
-                                <% }else{ %>
-                                    <p>
-                                        answered by <%= answer.getName() %> <span><%= answer.getEmail() %></span>
-                                    </p>
-                                <% } %>
-                            </div>
-                    </div>
+                        <div id="answer<%= answer.getId() %>" class="innerContent fAnswer">
+                                <div class="col votesCount">
+                                        <div class="up vote">
+                                                <a class="voteDes" ng-click="voteUpA()"><i class="material-icons md-48">arrow_drop_up</i></a>
+                                        </div>
+                                        <div id="answerVote<%= answer.getId() %>">
+                                                <%= answer.getVote() %>
+                                        </div>
+                                        <div class="down vote">
+                                            <a class="voteDes" ng-click="voteDownA()"><i class="material-icons md-48">arrow_drop_down</i></a>
+                                        </div>
+                                </div>
+                                <div class="col content">
+                                        <p>
+                                                <%= answer.getContent() %>
+                                        </p>
+                                </div>
+                                <div class="navPost2">
+                                    <% if(user.getEmail().equals(answer.getEmail())){ %>
+                                        <p>
+                                            answered by You <span><%= answer.getEmail() %></span>
+                                        </p>
+                                    <% }else{ %>
+                                        <p>
+                                            answered by <%= answer.getName() %> <span><%= answer.getEmail() %></span>
+                                        </p>
+                                    <% } %>
+                                </div>
+                        </div>
                     <% } %>
+                    
 		</div>
                 
                 <% 
