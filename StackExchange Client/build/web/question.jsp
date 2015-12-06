@@ -82,11 +82,12 @@
                 <c:if test="${user!=null}"> 
 		<div class="center">
 			<form class="basic-grey" name= "answer" action="answer" onsubmit="return validateAnswerForm()" method="post">
-				<input type="hidden" name="q_id" value="<c:out value='${question.getQId()}'/>">
-				<textarea id="content" name="content" placeholder="Content" ></textarea><br>
-				<div class="div-right-button">
-					<input type="submit" class="right-button" value="Post">
-				</div>
+                            <input type="hidden" name="q_id" value="<c:out value='${question.getQId()}'/>">
+                            <input type="hidden" name="token" value="<c:out value='${token}'/>">
+                            <textarea id="content" name="content" placeholder="Content" ></textarea><br>
+                            <div class="div-right-button">
+                                    <input type="submit" class="right-button" value="Post">
+                            </div>
 			</form>
 		</div>
                 </c:if>

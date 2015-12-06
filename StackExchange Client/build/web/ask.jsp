@@ -15,6 +15,7 @@
             <div class="center">
                 <form name="ask" class="basic-grey" action="ask" 
                           onsubmit="return validateAskForm()" method="post">
+                            <input type="hidden" name="token" value="<c:out value='${token}'/>">
                             <input type="text" id="topic" name="topic" placeholder="Question Topic"><br>
                             <textarea id="content" name="content" placeholder="Content"></textarea><br>
                             <div class="div-right-button">
