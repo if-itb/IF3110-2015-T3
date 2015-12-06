@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://www.dropbox.com/s/4xax77fadlvls3b/IF3110-13513003-JonathanBenedict.pdf?dl=0
 
 ### Arsitektur Umum Server
 
