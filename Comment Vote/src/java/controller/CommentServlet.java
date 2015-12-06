@@ -83,8 +83,7 @@ public class CommentServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             return;
-        }
-        System.out.println("content " + content);
+        }        
 
         JSONObject result = new JSONObject();
         JSONObject identity = IdentityService.requestAuth(token);

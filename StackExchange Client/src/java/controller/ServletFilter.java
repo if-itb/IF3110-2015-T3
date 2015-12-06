@@ -58,8 +58,13 @@ public class ServletFilter implements Filter {
                     break;
                 }
             if (auth != null) {
-                JSONObject object = ISConnector.requestAuth(auth);
-                if (object != null && object.containsKey("status")) {
+                String userAgent = httpRequest.getHeader("User-Agent");
+                String remoteAddr = httpRequest.getRemoteAddr();
+                if (userAgent == null) userAgent = "";
+                if (remoteAddr == null) remoteAddr = "";                
+                System.out.println("From filter: " + auth);
+                JSONObject object = ISConnector.requestAuth(auth, userAgent, remoteAddr);
+                if (object != null && object.containsKey("status")) {                    
                     long status = (long)object.get("status");
                     switch ((int)status) {
                         // expired access token

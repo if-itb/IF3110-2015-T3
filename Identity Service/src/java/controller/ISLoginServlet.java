@@ -71,7 +71,7 @@ public class ISLoginServlet extends HttpServlet {
                             PreparedStatement deleteStatement = conn.prepareStatement(deleteQuery);
                             PreparedStatement insertStatement = conn.prepareStatement(insertQuery)) {
                             String userAgent = request.getHeader("User-Agent");
-                            String clientIP = request.getRemoteAddr();
+                            String clientIP = request.getHeader("Remote-Address");
                             String auth = uuid + "#" +
                                     (userAgent == null? "" : userAgent) + "#" +
                                     (clientIP == null? "" : clientIP);
@@ -81,7 +81,7 @@ public class ISLoginServlet extends HttpServlet {
                             insertStatement.setTimestamp(3, expire_date);                            
                             deleteStatement.execute();
                             insertStatement.execute();                                                                                
-                            object.put("auth", auth);
+                            object.put("auth", uuid);
                             object.put("expire_date", expire_date.getTime());
                             conn.commit();                            
                         }

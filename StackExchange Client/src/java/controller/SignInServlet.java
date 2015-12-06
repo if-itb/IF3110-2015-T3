@@ -90,7 +90,7 @@ public class SignInServlet extends HttpServlet {
                     password = request.getParameter("password");
 
             JSONObject object = null;
-            if (email != null && password != null && (object = ISConnector.requestLogin(email, password)) != null) {
+            if (email != null && password != null && (object = ISConnector.requestLogin(email, password, request.getHeader("User-Agent"), request.getRemoteAddr())) != null) {
                 if (object.containsKey("auth")){
                     Cookie cookie = new Cookie("auth", (String)object.get("auth"));
                     cookie.setPath("/");

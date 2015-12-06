@@ -114,6 +114,11 @@ public class VoteServlet extends HttpServlet {
                     if (auth != null) {
                         type = type.toLowerCase();
                         action = action.toLowerCase();
+                        String userAgent = request.getHeader("User-Agent");
+                        String remoteAddr = request.getRemoteAddr();
+                        if (userAgent == null) userAgent = "";
+                        if (remoteAddr == null) remoteAddr = "";
+                        auth = auth + "#" + userAgent + "#" + remoteAddr;
                         jsonResponse = VCConnector.requestVote(auth, questionId, type, action);
                     }
                 }
