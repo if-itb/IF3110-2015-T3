@@ -7,6 +7,7 @@ package Container;
 
 import Security.MD5;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +40,16 @@ public class registers extends HttpServlet {
         String password = MD5.crypt(request.getParameter("password")); 
         
         addUser(name, email, password);
-        response.sendRedirect("home");
+        if (addUser(name, email, password)==0) {
+            PrintWriter out = response.getWriter();  
+            response.setContentType("text/html");  
+                out.println("<script type=\"text/javascript\">");  
+                out.println("alert('Email already exist please input other email ');");
+                out.println("location='register.jsp';");
+                out.println("</script>");
+        }
+        else
+            response.sendRedirect("home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -16,7 +16,15 @@
         <input class="btn" type="submit" id="searchbutton" value="Search" name="search">
 			</form>
 
-      <p>Cannot find what you are looking for? <a href="/StackExchangeClient/askquestion.jsp" style="color:pink">Ask here</a></p>
+      <p>Cannot find what you are looking for? 
+          <c:choose>
+              <c:when test="${name != null}">
+                <a href="/StackExchangeClient/askquestion.jsp" style="color:pink">Ask here</a></p>
+              </c:when> 
+              <c:otherwise> 
+                <a href="/StackExchangeClient/login.jsp" style="color:pink">Login First</a></p>
+              </c:otherwise>
+          </c:choose>
 		</div>
     
     <div class="wrapper">
