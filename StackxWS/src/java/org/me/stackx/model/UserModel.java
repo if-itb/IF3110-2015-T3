@@ -7,14 +7,11 @@ package org.me.stackx.model;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import static org.me.stackx.model.QuestionModel.DB_URL;
-import org.me.stackx.module.Question;
 import org.me.stackx.module.User;
 
 /**

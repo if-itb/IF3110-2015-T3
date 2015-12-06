@@ -17,8 +17,9 @@ router.route('/answer/comment/:id/upvote').post(function(req,res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: req.body.ip_address
+        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
     };
+    console.log(auth);
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
             answerComment.vote({commentId: req.params.id, userId: usr.data.user_id, value: 1}, function(r) {
@@ -36,7 +37,7 @@ router.route('/answer/comment/:id/downvote').post(function(req,res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: req.body.ip_address
+        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
