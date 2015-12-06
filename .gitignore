@@ -1,0 +1,12 @@
+/out
+/.idea
+/.idea/workspace.xml
+/.idea/task.xml
+*.iws
+*.iml
+*.ipr
+Client/src/com/
+Client/Client.iml
+.idea/artifacts/Client_war_exploded.xml
+IdentityService/IdentityService.iml
+IdentityService/web/web/WEB-INF/web.xml
