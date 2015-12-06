@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://www.dropbox.com/s/ly3vv4sfugqx9gv/Laporan%20Tugas%20Besar%20III%20-%20WBD.pdf?dl=0
 
 ### Arsitektur Umum Server
 
@@ -140,4 +140,3 @@ Silakan googling "user agent parser", "how to get my IP from HTTPServletRequest"
 #### Prosedur Demo
  
 Sebelum demo, asisten akan melakukan checkout ke hash commit terakhir yang dilakukan sebelum deadline. Hal ini digunakan untuk memastikan kode yang akan didemokan adalah kode yang terakhir disubmit sebelum deadline.
-
