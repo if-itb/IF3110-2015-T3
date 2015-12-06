@@ -12,10 +12,6 @@
 <%@page import="QuestionWS.Question"%>
 
 
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-
 <%@include file="include/header.jsp" %>
 <%
     String sid = request.getParameter("id");
@@ -31,14 +27,16 @@
 	// TODO process result here
 	Question Q = port.getQuestionById(id);
     %>
+
 	<div class="section">	
 		<h2><% out.print(Q.getTopic());%></h2>
 		<div class="row">
-                    <div class="col vote" ng-controller="xvote">
-				<div class = "vote-btn">                                   
-				<button type="button" onclick="vote(q, id, email, 1)"><i class="fa fa-chevron-up"></i></button>
-                                <p class = "number-vote" > {{vote_num}}</p>
-				<button type="button" onclick="vote(q, id, email, -1))"><i class="fa fa-chevron-down"></i></button>
+                    <div class="col vote" ng-app="xapp" ng-controller="xvote">
+                        <div class = "vote-btn" ng-init="voteNum = 10">                  
+                                
+				<button type="button" ng-click="vote(1)"><i class="fa fa-chevron-up"></i></button>
+                                <p class = "number-vote" > {{voteNum}}</p>
+				<button type="button" ng-click="vote(1))"><i class="fa fa-chevron-down"></i></button>
 				</div>
 			</div>
 			<div class="col content">
@@ -85,11 +83,11 @@
                 <%
                     for(Answer Ans : result2) {
                 %>
-                    <div class = "row">
-				<div class = "col vote">
-                                    <button type="button" onclick="vote(a, id, email, 1)"><i class="fa fa-chevron-up"></i></button>
-                                    <p class = "number-vote" > {{vote_num}}</p>
-                                    <button type="button" onclick="vote(a, id, email, -11)"><i class="fa fa-chevron-down"></i></button>
+                    <div class = "row" ng-app="xapp" ng-controller="xvote">
+				<div class = "col vote" ng-init="voteNum = 10">
+                                    <button type="button" ng-click="vote(1)"><i class="fa fa-chevron-up"></i></button>
+                                    <p class = "number-vote" > {{voteNum}}</p>
+                                    <button type="button" ng-click="vote(-1)"><i class="fa fa-chevron-down"></i></button>
 				</div>
 				<div class = "col content">
 					<p> <% out.print(Ans.getAnsContent());%></p>
