@@ -10,7 +10,9 @@ router.route('/question/:id/upvote').post(function(req, res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
+        ip_address: "0:0:0:0:0:0:0:1",
+        //ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
+    };
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
@@ -29,7 +31,9 @@ router.route('/question/:id/downvote').post(function(req, res) {
     var auth = {
         token: req.query.token,
         user_agent: req.headers['user-agent'],
-        ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
+        ip_address: "0:0:0:0:0:0:0:1",
+        //ip_address: (req.headers['x-forwarded-for'] || req.connection.remoteAddress).replace("::ffff:", "")
+    };
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
