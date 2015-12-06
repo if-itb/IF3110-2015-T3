@@ -76,8 +76,8 @@
                   <label for="password">Password</label>
                 </div>
               </div>
-                  <input hidden name="user_agent"> 
-                  <input hidden name="user_ipaddress">
+                  <input hidden name="user_agent" value="<%= request.getHeader("User-Agent") %>"> 
+                  <input hidden name="user_ipaddress" value =" <%= request.getHeader("X-FORWARDED-FOR") %>">
               <button id = "button-post" class="btn waves-effect waves-light" type="submit" name="action">login
                 <i class="material-icons right">send</i>
             </button>
