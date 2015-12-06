@@ -153,7 +153,7 @@ public class VoteQuestion extends HttpServlet {
             statement.close();
 
             //Kalau sudah ada di tabel vote question (sudah pernah vote)
-            if (result.next()) {
+            if (result.next() || tokenUserId==0) {
                 message.put("status", "fail");  
                 message.put("error", "You have voted before");  
             

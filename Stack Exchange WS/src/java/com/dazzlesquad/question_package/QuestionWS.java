@@ -203,9 +203,8 @@ public class QuestionWS {
     public int insertQuestion(@WebParam(name = "Question") Question q, @WebParam(name = "token") String token) {
         int insertsuccessful = 0; // nanti diganti fungsi validasi
         StringBuilder response = new StringBuilder();
+        JSONParser parser = new JSONParser();
         try {
-            JSONParser parser = new JSONParser();
-            //try{
             URL url = new URL("http://localhost:8082/Stack_Exchange_IS/Validation");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
@@ -223,8 +222,7 @@ public class QuestionWS {
             }
             writer.close();
             reader.close();
-            Object obj = 0;
-            obj = parser.parse(response.toString());
+            Object obj = parser.parse(response.toString());
             JSONObject obj2 = (JSONObject)obj;
             System.out.println(obj2.toString());
             int user_id = 0;
