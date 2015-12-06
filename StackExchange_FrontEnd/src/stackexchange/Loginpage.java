@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -35,13 +36,10 @@ public class Loginpage extends HttpServlet {
             JSONObject responseObject = new JSONObject(requestResponse);
             token = responseObject.getString("token");
 
-            System.out.println(requestResponse);
-            System.out.println(token);
-
             if (!token.isEmpty()){
                 response.sendRedirect("/?token=" + token);
             }else{
-                response.sendRedirect("/login");
+                response.sendRedirect("/login?invalid=true");
             }
 
             return;
