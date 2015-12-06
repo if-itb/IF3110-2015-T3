@@ -75,9 +75,9 @@ public class LoginServlet extends HttpServlet {
                     cal.setTime(dt);
                     cal.add(Calendar.MINUTE, 2);
                     String lifetime = sdf.format(cal.getTime());
-                    String query = "INSERT INTO token (value,user_id,lifetime,browser,address) "
-                            + "VALUES ('"+token+"','"+user.getUserIDFromEmail(email)+"','"+lifetime+
-                            "','"+browser+"','"+address+"')";
+                    String query = "UPDATE token SET value='"+token+"', lifetime='"+lifetime+
+                            "', browser='"+browser+"', address='"+address+"' "
+                            + "WHERE user_id="+user.getUserIDFromEmail(email);
                     user.executeQuery(query);
                 }
                 
