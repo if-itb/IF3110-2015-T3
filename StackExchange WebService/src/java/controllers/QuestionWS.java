@@ -19,7 +19,7 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import models.Question;
 //import sun.util.logging.PlatformLogger;
-
+import static connector.ISConnector.validateToken;
 /**
  *
  * @author Tifani
@@ -105,8 +105,14 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "addNewQuestion")
-    public int addNewQuestion(@WebParam(name = "token") int token, @WebParam(name = "topic") String topic,  @WebParam(name = "content") String content) {
-        try {
+    @WebResult(name="User ID")
+    public int addNewQuestion(@WebParam(name = "token") String token, @WebParam(name = "topic") String topic,  @WebParam(name = "content") String content) {
+        int u_id = validateToken(token);
+        if(u_id==-1) {
+            return -1;
+        }
+        else {
+            try {
                 String sql = "INSERT INTO question(u_id,topic,content,date_created) VALUE (?,?,?,now())";
                 PreparedStatement dbStatement = conn.prepareStatement(sql);
                 dbStatement.setInt(1,u_id);
@@ -119,11 +125,11 @@ public class QuestionWS {
                 while(rs.next()) {
                     return rs.getInt("q_id");
                 }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
+            }
         }
-        
         return 1;
     }
 
@@ -132,43 +138,49 @@ public class QuestionWS {
      */
     @WebMethod(operationName = "voteQuestion")
     @WebResult(name="Vote")
-    public String voteQuestion(@WebParam(name = "q_id") int q_id, @WebParam(name = "u_id") int u_id) {
+    public String voteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
         String vote = "null";
-        try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT vote FROM vote_question WHERE q_id="+q_id+" and u_id="+u_id;
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            ResultSet rs = dbStatement.executeQuery();
-            boolean empty = true;
-            while (rs.next()) {
-                empty = false;
-                vote = Integer.toString(rs.getInt("vote"));
-            }
-            if(!empty && (vote.equals("1"))) return "null";
-            sql = "UPDATE question SET vote = vote+1 WHERE q_id=?";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, q_id);
-            dbStatement.executeUpdate();
-            if(!empty) {
-                sql = "UPDATE vote_question SET vote = vote+1 WHERE q_id=? and u_id=?";
-            }
-            else {
-                sql = "INSERT INTO vote_question VALUE (?,?,1)";
-            }
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, q_id);
-            dbStatement.setInt(2, u_id);
-            dbStatement.executeUpdate();
-            sql = "SELECT vote FROM question WHERE q_id="+q_id;
-            dbStatement = conn.prepareStatement(sql);
-            rs = dbStatement.executeQuery();
-            while (rs.next()) {
-                vote = Integer.toString(rs.getInt("vote"));
-            }
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int u_id = validateToken(token);
+        if(u_id==-1) {
             return "null";
+        }
+        else {
+            try {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT vote FROM vote_question WHERE q_id="+q_id+" and u_id="+u_id;
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                ResultSet rs = dbStatement.executeQuery();
+                boolean empty = true;
+                while (rs.next()) {
+                    empty = false;
+                    vote = Integer.toString(rs.getInt("vote"));
+                }
+                if(!empty && (vote.equals("1"))) return "null";
+                sql = "UPDATE question SET vote = vote+1 WHERE q_id=?";
+                dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+                dbStatement.executeUpdate();
+                if(!empty) {
+                    sql = "UPDATE vote_question SET vote = vote+1 WHERE q_id=? and u_id=?";
+                }
+                else {
+                    sql = "INSERT INTO vote_question VALUE (?,?,1)";
+                }
+                dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+                dbStatement.setInt(2, u_id);
+                dbStatement.executeUpdate();
+                sql = "SELECT vote FROM question WHERE q_id="+q_id;
+                dbStatement = conn.prepareStatement(sql);
+                rs = dbStatement.executeQuery();
+                while (rs.next()) {
+                    vote = Integer.toString(rs.getInt("vote"));
+                }
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "null";
+            }
         }
         return vote;
     }
@@ -177,42 +189,49 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "devoteQuestion")
-    public String devoteQuestion(@WebParam(name = "q_id") int q_id, @WebParam(name = "u_id") int u_id) {
+    @WebResult(name="Vote")
+    public String devoteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
         String vote = "null";
-        try {
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT vote FROM vote_question WHERE q_id="+q_id+" and u_id="+u_id;
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            ResultSet rs = dbStatement.executeQuery();
-            boolean empty = true;
-            while (rs.next()) {
-                empty = false;
-                vote = Integer.toString(rs.getInt("vote"));
-            }
-            if(!empty && (vote.equals("-1"))) return "null";
-            sql = "UPDATE question SET vote = vote-1 WHERE q_id=?";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, q_id);
-            dbStatement.executeUpdate();
-            if(!empty) {
-                sql = "UPDATE vote_question SET vote = vote-1 WHERE q_id=? and u_id=?";
-            }
-            else {
-                sql = "INSERT INTO vote_question VALUE (?,?,-1)";
-            }
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, q_id);
-            dbStatement.setInt(2, u_id);
-            dbStatement.executeUpdate();
-            sql = "SELECT vote FROM question WHERE q_id="+q_id;
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                vote = Integer.toString(rs.getInt("vote"));
-            }
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int u_id = validateToken(token);
+        if(u_id==-1) {
             return "null";
+        }
+        else {
+            try {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT vote FROM vote_question WHERE q_id="+q_id+" and u_id="+u_id;
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                ResultSet rs = dbStatement.executeQuery();
+                boolean empty = true;
+                while (rs.next()) {
+                    empty = false;
+                    vote = Integer.toString(rs.getInt("vote"));
+                }
+                if(!empty && (vote.equals("-1"))) return "null";
+                sql = "UPDATE question SET vote = vote-1 WHERE q_id=?";
+                dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+                dbStatement.executeUpdate();
+                if(!empty) {
+                    sql = "UPDATE vote_question SET vote = vote-1 WHERE q_id=? and u_id=?";
+                }
+                else {
+                    sql = "INSERT INTO vote_question VALUE (?,?,-1)";
+                }
+                dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+                dbStatement.setInt(2, u_id);
+                dbStatement.executeUpdate();
+                sql = "SELECT vote FROM question WHERE q_id="+q_id;
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    vote = Integer.toString(rs.getInt("vote"));
+                }
+                stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "null";
+            }
         }
         return vote;
     }
@@ -220,17 +239,33 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "deleteQuestion")
-    public int deleteQuestion(@WebParam(name = "q_id") int q_id) {
-        try {
-            try (Statement stmt = conn.createStatement()) {
-                String sql = "DELETE FROM question WHERE q_id=?";
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, q_id);
-                dbStatement.executeUpdate();
+    @WebResult(name="User ID")
+    public int deleteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
+        int u_id = validateToken(token);
+        if(u_id  == -1) {
+            return -1;
+        } else {
+            try {
+                try (Statement stmt = conn.createStatement()) {
+                    String sql = "SELECT FROM question WHERE q_id=?";
+                    PreparedStatement dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setInt(1, q_id);
+                    ResultSet rs = dbStatement.executeQuery();
+                    if(rs.next()) {
+                        if(u_id == rs.getInt(u_id)) {
+                            sql = "DELETE FROM question WHERE q_id=?";
+                            dbStatement = conn.prepareStatement(sql);
+                            dbStatement.setInt(1, q_id);
+                            dbStatement.executeUpdate();
+                        } else {
+                            return -1;
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
         }
         return 1;
     }
@@ -239,6 +274,7 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "getCountAnswer")
+    @WebResult(name="Answer")
     public int getCountAnswer(@WebParam(name = "q_id") int q_id) {
         int count = 0;
         try {
@@ -259,18 +295,35 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "updateQuestion")
-    public int updateQuestion(@WebParam(name = "q_id") int q_id, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
-        try {
-            Statement stmt = conn.createStatement();
-            String sql = "UPDATE question SET topic = ?, content = ?, date_edited=now() WHERE q_id="+q_id;
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setString(1,topic);
-            dbStatement.setString(2,content);
-            dbStatement.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+    @WebResult(name="User ID")
+    public int updateQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
+        int u_id = validateToken(token);
+        if(u_id  == -1) {
+            return -1;
+        } else {
+            try {
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT FROM question WHERE q_id=?";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, q_id);
+                ResultSet rs = dbStatement.executeQuery();
+                if(rs.next()) {
+                    if(u_id == rs.getInt(u_id)) {
+                        sql = "UPDATE question SET topic = ?, content = ?, date_edited=now() WHERE q_id=?";
+                        dbStatement = conn.prepareStatement(sql);
+                        dbStatement.setString(1,topic);
+                        dbStatement.setString(2,content);
+                        dbStatement.setInt(3, q_id);
+                        dbStatement.executeUpdate();
+                        stmt.close();
+                    }
+                } else {
+                    
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            }
         }
         return q_id;
     }
@@ -279,6 +332,7 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "searchQuestion")
+    @WebResult(name="List Question")
     public ArrayList<Question> searchQuestion(@WebParam(name = "keyword") String keyword) {
         ArrayList<Question> questions = new ArrayList<Question>();
         try {
