@@ -25,8 +25,23 @@ public class login extends HttpServlet {
         response.setContentType("application/xml;charset=UTF-8");
         String uname = request.getParameter("user");
         String pass = request.getParameter("pass");
-        String useragent = request.getHeader("user-agent");
+        String useragent = request.getHeader("User-Agent");
         String ip = request.getHeader("X-FORWARDED-FOR");
+        
+        if (ip==null) {
+           ip = request.getRemoteAddr();
+        }
+        
+//        Cookie ipCookie = new Cookie("ipCookie", ip);
+//        ipCookie.setMaxAge(6*60*60);
+//        ipCookie.setPath("/");
+//        response.addCookie(ipCookie);
+//        Cookie uaCookie = new Cookie("uaCookie", useragent);
+//        uaCookie.setMaxAge(6*60*60);
+//        uaCookie.setPath("/");
+//        response.addCookie(uaCookie);
+                
+        
         
         Form form = new Form();
         form.param("uname", uname);
@@ -34,9 +49,9 @@ public class login extends HttpServlet {
         form.param("useragent", useragent);
         form.param("ip", ip);
         
-        if (ip == null) {
-            ip = request.getRemoteAddr();
-        }
+        //if (ip == null) {
+        //    ip = request.getRemoteAddr();
+        //}
        
         Client client = ClientBuilder.newClient();
         String url = "http://localhost:21568/StackExchangeAuth/getToken";

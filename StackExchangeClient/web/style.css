@@ -141,13 +141,18 @@ form.search-box > input[type="submit"]{
     padding: 20px;
 }
 
+#question {
+    width:100%;
+}
 #question #countvote {
     width:15%;
     text-align:center;
     padding: 20px;
+    vertical-align: top;
 }
 #question #display {
     vertical-align:top;
+    width: 80%;
 }
 
 form.RegisterForm > input[type="text"], form.RegisterForm > input[type="password"] {
@@ -189,4 +194,9 @@ form.AnswerForm > textarea {
     border: 1px solid;
     resize: none;
     padding-left:1%;
+}
+
+#comment {
+    border-top: 1px solid lightgray;
+    padding-top: 5px;
 }

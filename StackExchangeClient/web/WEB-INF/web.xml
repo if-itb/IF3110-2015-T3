@@ -52,6 +52,30 @@
         <servlet-name>search</servlet-name>
         <servlet-class>Servlet.search</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>getcomments</servlet-name>
+        <servlet-class>Servlet.getcomments</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>voteupquestion</servlet-name>
+        <servlet-class>Servlet.voteupquestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>votedownquestion</servlet-name>
+        <servlet-class>Servlet.votedownquestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>voteupanswer</servlet-name>
+        <servlet-class>Servlet.voteupanswer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>votedownanswer</servlet-name>
+        <servlet-class>Servlet.votedownanswer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>addcomment</servlet-name>
+        <servlet-class>Servlet.addcomment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>viewpost</servlet-name>
         <url-pattern>/viewpost</url-pattern>
@@ -103,6 +127,30 @@
     <servlet-mapping>
         <servlet-name>search</servlet-name>
         <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>getcomments</servlet-name>
+        <url-pattern>/getcomments</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>voteupquestion</servlet-name>
+        <url-pattern>/voteupquestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>votedownquestion</servlet-name>
+        <url-pattern>/votedownquestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>voteupanswer</servlet-name>
+        <url-pattern>/voteupanswer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>votedownanswer</servlet-name>
+        <url-pattern>/votedownanswer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>addcomment</servlet-name>
+        <url-pattern>/addcomment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
