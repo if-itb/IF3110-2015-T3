@@ -50,25 +50,14 @@ public class VoteAnswer extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int question_id = Integer.parseInt(request.getParameter("qid"));
             int answer_id = Integer.parseInt(request.getParameter("aid"));
             int flag = Integer.parseInt(request.getParameter("flag"));
-            Cookie[] cookies = request.getCookies();
-
-            String token = "";
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("token")) {
-                        token = cookie.getValue();
-                        break;
-                    }
-                }
-            }
+            String token = request.getHeader("X-Token");
             
-            JSONObject message = voteAnswer(answer_id, token, flag);
-            message.put("token", token);
-            
+            JSONObject message = voteAnswer(answer_id, token, flag);            
+            out.flush();
             out.print(message);
+            out.close();
 
             
         }

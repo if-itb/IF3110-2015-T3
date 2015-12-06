@@ -19,6 +19,7 @@
     </head>
 
     <body>
+        <div ng-app="stackexchange" >
     <div id="edit-delete" style="text-align:right">
             <c:choose>
                 <c:when test="${token.length()==0}">
@@ -47,12 +48,12 @@
 	<div class="boxarea">
 		<h2><c:out value="${question.topic}"/><hr></h2>
 	
-		<div ng-app="stackexchange" ng-controller="voteQuestion" ng-init="init(${question.vote})"> 
+		<div ng-controller="vote" ng-init="initQuestion(${question.vote})"> 
                     <div class="vote">
                         
-                        <div class="arrow-up" ng-click="vote(${question.id},1)" ng-model="question_vote"></div>
-                        <h3> <span ng-bind="question_vote"></span> <span ng-bind="question_status"></span> <span ng-bind="question_error"></span></h3>
-                        <div class="arrow-down" ng-click="vote(${question.id},-1)"></div>
+                        <div class="arrow-up" ng-click="voteQuestion(${question.id},1)" ng-model="question_vote"></div>
+                        <h3> <span ng-bind="question_vote"></span></h3>
+                        <div class="arrow-down" ng-click="voteQuestion(${question.id},-1)"></div>
                     </div>
                 </div>
 
@@ -69,23 +70,27 @@
 	<br>
         
         <c:set var="count" value="${countAnswer}"/>
+        
         <c:choose>
             <c:when test="${count == 0}">
                 <h2><c:out value="0 Answer"/><hr></h2>
             </c:when>
             <c:otherwise>
                 <h2><c:out value="${count} Answers"/><hr></h2>
-                <c:forEach var="answer" items="${answers}">
-                <div class="boxarea">
-                    <div class="vote">
-			<a href="http://localhost:8084/Stack%20Exchange%20VC/VoteAnswer?qid=${question.id}&flag=1&aid=${answer.id}">
-                            <div class="arrow-up"></div>
-                        </a>
-			<h3> <div id="answer-vote-${answer.id}"><c:out value="${answer.vote}"/></div> </h3>
-			<a href="http://localhost:8084/Stack%20Exchange%20VC/VoteAnswer?qid=${question.id}&flag=-1&aid=${answer.id}">
-                            <div class="arrow-down"></div>
-                        </a>
-                    </div>
+                
+                    <c:forEach var="answer" items="${answers}">
+                    <div class="boxarea">
+                        
+                        <div ng-controller="vote" ng-init="initAnswer(${answer.id},${answer.vote})"> 
+                            <div class="vote">
+                        
+                                <div class="arrow-up" ng-click="voteAnswer(${answer.id},1)" ng-model="answer_vote[${answer.id}]"></div>
+                                <h3> <span ng-bind="answer_vote[${answer.id}]"></span></h3>
+                                <div class="arrow-down" ng-click="voteAnswer(${answer.id},-1)" ng-model="answer_vote[${answer.id}]"></div>
+                            </div>
+                        </div>
+                        
+               
 
                     <div class="question-page-content">
                         <p><c:out value="${answer.content}"/></p>
@@ -100,6 +105,7 @@
 		</div>
 		<br><hr>
                 </c:forEach>
+            
             </c:otherwise>
         </c:choose>
 	
@@ -114,5 +120,6 @@
         
 
 </div>
+        </div>
     </body>
 </html>

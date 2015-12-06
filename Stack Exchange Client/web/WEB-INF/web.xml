@@ -36,6 +36,10 @@
         <servlet-name>VoteQuestion</servlet-name>
         <servlet-class>com.dazzlesquad.servlet.VoteQuestion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VoteAnswer</servlet-name>
+        <servlet-class>com.dazzlesquad.servlet.VoteAnswer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>QuestionServlet</servlet-name>
         <url-pattern>/QuestionServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>VoteQuestion</servlet-name>
         <url-pattern>/VoteQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteAnswer</servlet-name>
+        <url-pattern>/VoteAnswer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

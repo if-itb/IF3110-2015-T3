@@ -57,17 +57,6 @@ public class VoteQuestion extends HttpServlet {
             int flag = Integer.parseInt(request.getParameter("flag"));
             String token = request.getHeader("X-Token");
            
-            /*Cookie[] cookies = request.getCookies();
-            
-            String token = "";
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("token")) {
-                        token = cookie.getValue();
-                        break;
-                    }
-                }
-            }*/
             
             
             JSONObject message = voteQuestion(question_id, token, flag);
