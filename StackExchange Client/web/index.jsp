@@ -155,7 +155,12 @@
                                         %>
                                             |
                                             <a href="editForm.jsp?id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link edit"> edit </span></a> |
-                                            <a onclick="confirm('Are you sure to delete this question ?');" href="deleteQuestion.jsp?id=<%=request.getParameter("id")%>&qid=<%= result.get(i).getQuestionId()%>"><span class="link delete"> delete </span></a>
+                                            <% 
+                                            String uid = request.getParameter("id"); 
+                                            int qid = result.get(i).getQuestionId();
+                                            String ip = request.getRemoteHost();
+                                            %> 
+                                            <a onclick="confirm('Are you sure to delete this question ?');" href="deleteQuestion.jsp?id=<%= uid %>&qid=<%= qid %>&ip=<%= ip %>"><span class="link delete"> delete </span></a>
                                         <%
                                         } 
                                         %>
