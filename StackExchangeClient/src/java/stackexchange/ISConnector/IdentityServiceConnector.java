@@ -22,6 +22,8 @@ public class IdentityServiceConnector {
         String message = "";
         int uid = -1;
         
+        System.out.println("Masuk ke sini");
+        
         try {
             JSON = String.valueOf(ConnectionHelper.executeGET("http://localhost:8080/StackExchangeIS/Validation?token=" + URLEncoder.encode(token, "UTF-8")));
             obj = new JSONObject(JSON);             

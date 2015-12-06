@@ -10,6 +10,13 @@
                 $scope.comments = data.comments;
             });
         };
+        
+        $scope.submitComment = function(token, questionId){
+            console.log($scope.commentArea);
+            $http.get('http://localhost:8080/StackExchangeCommentVote/CreateComment?questionId=' + questionId + "&token=" + encodeURIComponent(token) + "&comment=" + $scope.commentArea).success(function(data){
+                console.log("Success");
+            });
+        };
        
     }]);
     

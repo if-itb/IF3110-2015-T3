@@ -48,13 +48,13 @@
                             </div>
                         </div>
                         <hr>
-                        <form name ="commentForm" ng-submit="">
+                        <form name ="commentForm" ng-submit="submitComment('${token}', ${question.questionId})">
                             <p>Add your comment here</p>
-                            <textarea ng-model="commentArea.body"></textarea>
+                            <textarea ng-model="commentArea"></textarea>
                             <input type = "submit" value="add comment"/>
                             <p>Comment preview:</p>
                             <blockquote>
-                                {{commentArea.body}}
+                                {{commentArea}}
                             </blockquote>
                         </form>
                     </div>

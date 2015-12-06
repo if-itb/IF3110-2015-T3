@@ -52,6 +52,10 @@ public class CreateComment extends HttpServlet {
         int questionId = Integer.parseInt(request.getParameter("questionId"));
         String comment = request.getParameter("comment");
         
+        System.out.println(token);
+        System.out.println(questionId);
+        System.out.println(comment);
+        
         int userId = IdentityServiceConnector.getUID(token);
         
         if(userId >= 0){
