@@ -27,4 +27,26 @@ public class Comment {
         this.content = content;
         this.dateCreated = dateCreated;
     }
+
+    public int getcId() {
+        return cId;
+    }
+
+    public int getqId() {
+        return qId;
+    }
+
+    public int getuId() {
+        return uId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+    
+    
 }

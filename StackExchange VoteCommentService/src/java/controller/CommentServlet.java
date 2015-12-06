@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Comment;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -45,8 +46,19 @@ public class CommentServlet extends HttpServlet {
         
         int qId = Integer.parseInt(request.getParameter("q_id"));
         
-        JSONObject comments = new JSONObject();
-        comments.put("comments", getComments(qId));
+        ArrayList<Comment> commentList = getComments(qId);
+        
+        JSONArray comments = new JSONArray();
+        for (Comment comment: commentList) {
+            JSONObject object = new JSONObject();
+            object.put("c_id", comment.getcId());
+            object.put("q_id", comment.getqId());
+            object.put("u_id", comment.getuId());
+            object.put("content", comment.getContent());
+            object.put("date_created", comment.getDateCreated());
+            comments.add(object);
+        }
+        
         try(PrintWriter out = response.getWriter()) {
             out.print(comments.toString());
         }

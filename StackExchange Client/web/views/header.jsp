@@ -13,7 +13,8 @@
 <c:set var="uri" value="${req.requestURI}" />
 <!DOCTYPE html>
 <html lang="en">
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="assets/js/angular.min.js"></script>
+<script src="assets/js/comment.controller.js"></script>
 <head>
 	<meta content="text/html; charset=utf-8">
 	<link REL="SHORTCUT ICON" HREF="assets/img/icon.ico"/>
