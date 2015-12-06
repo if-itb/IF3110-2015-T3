@@ -6,4 +6,5 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Token{
 	public String access_token;
 	public int lifetime;
+        public String errMessage = "";
 }

@@ -141,6 +141,11 @@ and open the template in the editor.
 	}
 	.block-QA{
 		font-family: calibri;
+                position: relative;
+                min-height: 71px;
+                word-wrap: break-word;
+                    
+                pading-bottom: 10 px;
 	}
 	.bQA-vote{
 		margin-left:17.5%;

@@ -9,6 +9,7 @@ import MD5Hashing.MD5Hashing;
 import com.wbd.db.DBConnection;
 import com.wbd.rest.UserAgent;
 import com.wbd.rest.UserIP;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,12 +30,13 @@ import javax.ws.rs.core.MediaType;
 @Path("/token")
 public class tokenGenerate {
         
-	public static Token generateToken(String email, String password,String user_agent, String user_ipaddress){
+	public static Token generateToken(String email, String password, String user_agent, String user_ipaddress){
 		Token token = new Token();
 
 		DBConnection dbc = new DBConnection();
 		PreparedStatement stmt = dbc.getStatement();
 		Connection conn = dbc.getConnection();
+                String availablecookies = "";
 		try{
 			String sql = "SELECT * FROM user WHERE Email = ? AND Password = ?";
 			
@@ -49,36 +51,53 @@ public class tokenGenerate {
 			//System.out.println(sql);
 			//System.out.println("Luminto homo");
 			if(rs.next()){
-                //User is not unique
-                MD5Hashing md5 = new MD5Hashing();
-                System.out.println("Setelah Hashing");
-                UserIP userip = new UserIP();
-                System.out.println("setelah hashing 2");
-                //userip.requestIPAddress();
+                            //User is not unique
+                            MD5Hashing md5 = new MD5Hashing();
+
+                        // Pemeriksaan Security Browser dan IP agent saat login
+                            String sql2 = "SELECT * FROM token NATURAL JOIN user WHERE Email = ? AND Password = ?";
+                                PreparedStatement stmt2 = dbc.getStatement();
+                                stmt2 = conn.prepareStatement(sql2);
+                                stmt2.setString(1, email);
+                                stmt2.setString(2, password);
+                                ResultSet rs2 = stmt2.executeQuery();
+                            if (rs2.next()){
+                                availablecookies = rs2.getString("access_token");
+                                System.out.println("LELAH");
+                                String[] temp = URLDecoder.decode(availablecookies,"UTF-8").split("#");
+                                if (!temp[1].equals(user_agent)){
+                                    token.errMessage = "Browser Beda dengan akun yang sama";
+                                }
+                                else if (!temp[2].equals(user_ipaddress)){
+                                    token.errMessage = "IP Address Beda dengan akun yang sama";
+                                }
+                                sql = "DELETE FROM token WHERE access_token = ?";
+                                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                                dbStatement.setString(1, availablecookies);
+                                dbStatement.executeUpdate();
+                                System.out.println("SUPER LELAH HIKS");
+                                return token;
+                            } else {
+                                System.out.println("SAMPAI DISINI SAJA");
+                                //System.out.println("Sebelum encode : " + ("a" + md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress));
+                                token.access_token = URLEncoder.encode( (md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress), "UTF-8");
+                                token.errMessage = "";
+                                //token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
+                                System.out.println("TOken : " + token.access_token);
+
+                                token.lifetime = 5;
+                                sql = "DELETE FROM token WHERE access_token = ?";
+                                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                                dbStatement.setString(1, token.access_token);
+                                dbStatement.executeUpdate();
+                                System.out.println("SUPER LELAH");
+                                sql = "INSERT INTO token(access_token,IDUser) VALUES (?,?)";
+                                dbStatement = conn.prepareStatement(sql);
+                                dbStatement.setString(1, token.access_token);
+                                dbStatement.setInt(2, rs.getInt("IDUser"));
+                                dbStatement.executeUpdate();
+                            }  
                 
-                UserAgent useragent = new UserAgent();
-                //useragent.requestUserAgent();
-                
-                System.out.println(md5.Hash(password));
-                System.out.println(userip.getIPAddress());
-                System.out.println(useragent.getAgent());
-                //System.out.println("Sebelum encode : " + ("a" + md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress));
-                token.access_token = URLEncoder.encode( (md5.Hash(password) + "#" + user_agent +"#" + user_ipaddress), "UTF-8");
-                
-                //token.access_token = md5.Hash(password) + "#" + userip.getIPAddress() + "#" + useragent.getAgent();
-                System.out.println("TOken : " + token.access_token);
-                
-                token.lifetime = 5;
-                sql = "DELETE FROM token WHERE access_token = ?";
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, token.access_token);
-                dbStatement.executeUpdate();
-        
-                sql = "INSERT INTO token(access_token,IDUser) VALUES (?,?)";
-                dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, token.access_token);
-                dbStatement.setInt(2, rs.getInt("IDUser"));
-                dbStatement.executeUpdate();
             }
 
 		} catch(SQLException se){

@@ -197,14 +197,18 @@
                         type: "POST",
                         success: function(data){
                             var token = data.access_token;
-                            
+                            console.log("DEBUG LELAH : " + data.errMessage);
                             //expired = null;
                             if (token == null){
+                                if (data.errMessage != ""){
+                                    alert(data.errMessage);
+                                } else {
+                                    alert("Invalid Username and Password");
+                                }
                                 //Username password gak sama
                                 //window.location.href = "IVanWeteng.jsp"
-                                alert("Invalid Username and Password");
-                            }
-                            else{
+                                
+                            } else {
                                 //Berhasil login
                                 //window.location.href = "index.jsp";
                                 //window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;

@@ -33,7 +33,7 @@ import javax.ws.rs.core.Response;
 public class tokenValidate{
 	
     ///lifeTim of tokenin minutes
-    public static int lifetimeToken = 2;
+    public static int lifetimeToken = 5;
     
 	public static class Identity{
         //Checkig the user is valid or not
