@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="UserWS">
+      <implementation-class>com.dazzlesquad.user_package.UserWS</implementation-class>
+    </service>
+    <service name="AnswerWS">
+      <implementation-class>com.dazzlesquad.answer_package.AnswerWS</implementation-class>
+    </service>
+    <service name="QuestionWS">
+      <implementation-class>com.dazzlesquad.question_package.QuestionWS</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>

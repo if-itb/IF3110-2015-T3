@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+http://bit.ly/DazzleSquad_3
 
 ### Arsitektur Umum Server
 
