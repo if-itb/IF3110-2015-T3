@@ -7,6 +7,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<div ng-app="stackexchange">
 <jsp:include page="/views/header.jsp" flush="true"/>
 	<div class="container">
             <div class="center">
@@ -62,6 +63,7 @@
             </c:forEach>
 	</div>
         </div>
+</div>
 <script src="assets/js/confirmation.js"></script>
 <jsp:include page="/views/footer.jsp" flush="true"/>
 
