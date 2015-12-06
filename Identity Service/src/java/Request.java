@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class Request extends HttpServlet {
    //  Database credentials
    static final String USER = "root";
    static final String PASS = "";
+    private Object yourString;
    
    public void createNewToken(String email, String password){
         Connection conn = null;
@@ -89,7 +91,7 @@ public class Request extends HttpServlet {
                     int res = stmt.executeUpdate(sql);
                     System.out.println(res);
                 }
-                token = random_string + "#" + user_agent + "#" + ip_address;
+                token = random_string;
                 
            }
            else{ //INVALID email or password
@@ -147,8 +149,16 @@ public class Request extends HttpServlet {
                 ip_address = (String) input.get("ip_address");
                 createNewToken(email, password);
                 
-                //encode token
-                token = URLEncoder.encode(token, "UTF-8");
+                String original = user_agent + ip_address;
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(original.getBytes());
+		byte[] digest = md.digest();
+		StringBuffer sb = new StringBuffer();
+		for (byte b : digest) {
+			sb.append(String.format("%02x", b & 0xff));
+		}
+                
+                token += sb.toString();
                 
                 response.setContentType("application/json;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
