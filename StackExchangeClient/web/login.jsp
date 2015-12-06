@@ -79,9 +79,11 @@
           </div>   
        
         <% 
-            Cookie cookie = null;
+            /*Cookie cookie = null;
             Cookie[] cookies = null;
             String access_token = null;
+            
+            
             
             if (cookies != null){
                 for (int i=0; i< cookies.length; i++){
@@ -92,15 +94,18 @@
                 }
 
                 if (access_token != null && access_token.length() > 0){
-                    //check access_token validity to server    
+                    //check access_token validity to server    */
         %>
+        
+        
+        
 
         <script>
             //Fungsi java script untuk pengecekan Validitas Token 
 
             //Java script, JQuery, and AJAX Initialization
-            function checkTokenValidity(){
-                var token = {access_token: "<%= access_token %>" };
+            /*function checkTokenValidity(){
+                var token = {access_token: "<%//= access_token %>" };
                 var url = "http://localhost:8082/StackExchange_IS/rest/tokenValidate";
 
                 $.ajax({
@@ -128,18 +133,35 @@
             //Document ready function, java script function
             $(document).ready(function(){
                 checkTokenValidity();
-            });
+            });*/
         </script>
             
         <%
-            }
+        /*    }
         }
         else{
             //out.println("Tidak ada cookies");
-        }
+        }*/
         %>
-
+        
         <script>
+            function setCookie(cname, cvalue, exsecond) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exsecond*1000));
+                var expires = "expires="+d.toUTCString();
+                document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";//coba gapake plus terakhir kalo gabisa
+}           
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i=0; i<ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0)==' ') c = c.substring(1);
+                    if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+                }
+                return "";
+            }
+            
             $(document).ready(function(){
                 var url = "http://localhost:8082/StackExchange_IS/rest/token";
                 $('#button-post').click(function(e){
@@ -155,7 +177,7 @@
                         type: "POST",
                         success: function(data){
                             var token = data.access_token;
-                            document.cookie = "access_token" + token;
+                            
                             //expired = null;
                             if (token == null){
                                 //Username password gak sama
@@ -165,6 +187,9 @@
                             else{
                                 //Berhasil login
                                 //window.location.href = "index.jsp";
+                                //window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
+                                
+                                setCookie("access_token", token, 2*60);
                                 window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
                             }
 
@@ -176,6 +201,15 @@
                 });
             });
         </script>
+        <%
+            //String token = "INITOKENPALSU";
+            //if (token != "tokengagal"){
+                //Cookie tokenCookie = new Cookie("tokenCookie", token);
+                //tokenCookie.setMaxAge(2*60);//detik expirednya, = 120 detik = 2 menit
+                //tokenCookie.setPath("/");
+                //response.addCookie(tokenCookie);
+            //}
+        %>
 
 
     </body>
