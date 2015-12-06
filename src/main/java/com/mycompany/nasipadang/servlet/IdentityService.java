@@ -35,8 +35,20 @@ public class IdentityService extends HttpServlet {
         public String name;
         public String email;
         public String password;
+        public String user_agent;
+        public String ipAddress;
+        
     }
+    
+    private class UA{
+        public String audience;
+        public String scope;
+        public String userid;
+        public int expires_in;
+    }
+    
     private Connection connection;
+    
     private void connectDB() throws SQLException{
         try {
             System.out.println("Loading driver...");
@@ -76,6 +88,13 @@ public class IdentityService extends HttpServlet {
         }
         return user;
     }
+    
+    private String getUA(String user_agent){
+        
+        
+        return user_agent;
+    }
+    
     private String generateToken(){
         UUID token = UUID.randomUUID();
         return token.toString();
@@ -160,5 +179,29 @@ public class IdentityService extends HttpServlet {
     }// </editor-fold>
     
     
+    protected boolean IsExpired(int exp){
+        
+        UA ua = new UA();
+        if (exp == ua.expires_in){
+        return true;
+        } else {
+            return false;
+            }
+    }
+    
+    protected boolean IsDiffBrowser(){
+    
+        return true;
+    }
+    
+    protected boolean IsDiffConnection(){
+        
+        return true;
+    }
+    
+    public void parseUA(){
+       
+    
+    }
 
 }
