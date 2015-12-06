@@ -238,17 +238,20 @@ app.controller('questionCtrl', function($scope, $http) {
      		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup/', data, config)
      		.success(function (data, status, headers, config) {
         		 $scope.PostDataResponse = data;
-        		 $scope.vote = data;
-        		 
-        		 if($scope.q_status ==1){
-        			 $scope.q_status = 0;
-	    		 }
-	    		 else{
-	    			 $scope.q_status = 1;
-	    		 }
-        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
-        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
-        		 
+        		 if(data==-9999){
+        			 alert("Maaf sedang terjadi masalah pada halaman anda, silahkan refresh page");
+        		 }
+        		 else{
+	        		 $scope.vote = data;
+	        		 if($scope.q_status ==1){
+	        			 $scope.q_status = 0;
+		    		 }
+		    		 else{
+		    			 $scope.q_status = 1;
+		    		 }
+	        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
+	        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
+        		 }
      		})
   		};
   		
@@ -262,17 +265,22 @@ app.controller('questionCtrl', function($scope, $http) {
      		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/votedown/', data, config)
      		.success(function (data, status, headers, config) {
         		 $scope.PostDataResponse = data;
-        		 $scope.vote = data;
         		 
-        		 if($scope.q_status ==-1){
-        			 $scope.q_status = 0;
-	    		 }
-	    		 else{
-	    			 $scope.q_status = -1;
-	    		 }
-        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
-        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
-        		 
+        		 if(data==-9999){
+        			 alert("Maaf sedang terjadi masalah pada halaman anda, silahkan refresh page");
+        		 }
+        		 else{
+	        		 $scope.vote = data;
+	        		 
+	        		 if($scope.q_status ==-1){
+	        			 $scope.q_status = 0;
+		    		 }
+		    		 else{
+		    			 $scope.q_status = -1;
+		    		 }
+	        		 $scope.imageup = "assets/img/up"+$scope.q_status+".png";
+	        		 $scope.imagedown = "assets/img/down"+$scope.q_status+".png";
+        		 }
      		})
   		};
     
@@ -286,15 +294,20 @@ app.controller('questionCtrl', function($scope, $http) {
 	 		$http.post('http://localhost:8081/Comment_Vote-WS/rest/voteanswer/voteup/', data, config)
 	 		.success(function (data, status, headers, config) {
 	    		 $scope.PostDataResponse = data;
-	    		 answer.vote = data;
-	    		 if(answer.status ==1){
-	    			 answer.status = 0;
-	    		 }
+	    		 if(data==-9999){
+        			 alert("Maaf sedang terjadi masalah pada halaman anda, silahkan refresh page");
+        		 }
 	    		 else{
-	    			 answer.status = 1;
+		    		 answer.vote = data;
+		    		 if(answer.status ==1){
+		    			 answer.status = 0;
+		    		 }
+		    		 else{
+		    			 answer.status = 1;
+		    		 }
+		    		 answer.imageup = "assets/img/up"+answer.status+".png";
+		    		 answer.imagedown = "assets/img/down"+answer.status+".png";
 	    		 }
-	    		 answer.imageup = "assets/img/up"+answer.status+".png";
-	    		 answer.imagedown = "assets/img/down"+answer.status+".png";
 	 		})
 		};
 		
@@ -308,15 +321,20 @@ app.controller('questionCtrl', function($scope, $http) {
 		 		$http.post('http://localhost:8081/Comment_Vote-WS/rest/voteanswer/votedown/', data, config)
 		 		.success(function (data, status, headers, config) {
 		    		 $scope.PostDataResponse = data;
-		    		 answer.vote = data;
-		    		 if(answer.status ==-1){
-		    			 answer.status = 0;
-		    		 }
+		    		 if(data==-9999){
+	        			 alert("Maaf sedang terjadi masalah pada halaman anda, silahkan refresh page");
+	        		 }
 		    		 else{
-		    			 answer.status = -1;
+			    		 answer.vote = data;
+			    		 if(answer.status ==-1){
+			    			 answer.status = 0;
+			    		 }
+			    		 else{
+			    			 answer.status = -1;
+			    		 }
+			    		 answer.imageup = "assets/img/up"+answer.status+".png";
+			    		 answer.imagedown = "assets/img/down"+answer.status+".png";
 		    		 }
-		    		 answer.imageup = "assets/img/up"+answer.status+".png";
-		    		 answer.imagedown = "assets/img/down"+answer.status+".png";
 		 		})
 			};
 });
