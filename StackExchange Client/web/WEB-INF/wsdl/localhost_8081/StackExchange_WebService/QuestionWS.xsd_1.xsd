@@ -47,7 +47,7 @@
 
 <xs:complexType name="voteQuestionResponse">
 <xs:sequence>
-<xs:element name="Vote" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -59,7 +59,7 @@
 
 <xs:complexType name="getCountAnswerResponse">
 <xs:sequence>
-<xs:element name="Answer" type="xs:int"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -73,7 +73,7 @@
 
 <xs:complexType name="addNewQuestionResponse">
 <xs:sequence>
-<xs:element name="User ID" type="xs:int"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -86,7 +86,7 @@
 
 <xs:complexType name="deleteQuestionResponse">
 <xs:sequence>
-<xs:element name="User ID" type="xs:int"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -98,7 +98,7 @@
 
 <xs:complexType name="searchQuestionResponse">
 <xs:sequence>
-<xs:element name="List Question" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="Question" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -140,7 +140,7 @@
 
 <xs:complexType name="updateQuestionResponse">
 <xs:sequence>
-<xs:element name="User ID" type="xs:int"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -163,7 +163,7 @@
 
 <xs:complexType name="devoteQuestionResponse">
 <xs:sequence>
-<xs:element name="Vote" type="xs:string" minOccurs="0"/>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>

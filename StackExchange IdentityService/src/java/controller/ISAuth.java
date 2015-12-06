@@ -40,8 +40,12 @@ public class ISAuth extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        JSONObject object = new JSONObject();
+        object.put("HU", "HU");
+        
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
+            object.put("HA", "HA");
             String token = request.getParameter("token");
             String sql = "SELECT * FROM token WHERE access_token = ?";
             String ipAddress = request.getHeader("X-FORWARDED-FOR");  
@@ -51,7 +55,6 @@ public class ISAuth extends HttpServlet {
             String userAgent = request.getHeader("User-Agent");
             String[] parsedToken = token.split("[#]");
             
-            JSONObject object = new JSONObject();
             
             try (PreparedStatement statement = conn.prepareStatement(sql)){
                statement.setString(1, token);
@@ -84,17 +87,16 @@ public class ISAuth extends HttpServlet {
                        }
                    }
                    catch(SQLException | ParseException e){
-                       
+                       object.put("error", "SQL Exception");
                    }
                    
                }
             }
             catch (SQLException e){
+                object.put("error", "SQL Exception");
             }
             out.println(object.toString());
         }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

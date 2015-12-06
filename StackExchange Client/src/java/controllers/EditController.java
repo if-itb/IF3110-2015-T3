@@ -107,14 +107,12 @@ public class EditController extends HttpServlet {
                 }
                 else {
                     request.setAttribute("message","Error: Question cannot be edited");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/question?q_id"+qId);
-                    dispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/question?q_id=" + qId);
                 }
             }
             else {
                 request.setAttribute("message","You have no right to edit");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/question?q_id"+q_id);
-                dispatcher.forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/question?q_idu=" + user.getUId());
             }
         }
         else {

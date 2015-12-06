@@ -36,13 +36,15 @@
                 </c:choose>
                 <br><br>
                 <span class="question-info">
-                    asked by <span class="author"><c:out value="${q.getName()}"/></span> | 
-                    <a href="edit?q_id=<c:out value='${q.getQId()}'/>" class="edit-question">edit</a> | 
+                    asked by <span class="author"><c:out value="${q.getName()}"/></span>
+                    <c:if test="${user != null && user.getUId() == q.getUId()}">
+                    | <a href="edit?q_id=<c:out value='${q.getQId()}'/>" class="edit-question">edit</a> | 
                     <a href="delete?q_id=<c:out value='${q.getQId()}'/>" class="delete-question"
                     onclick="return deleteConfirmation(<c:out value='${q.getQId()}'/>)">delete</a>
+                    </c:if>
                    <br>
                 </span>
-            </span> 
+            </span>
             </c:forEach>
 	</div>
 <script src="assets/js/confirmation.js"></script>

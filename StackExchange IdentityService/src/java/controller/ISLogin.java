@@ -84,7 +84,7 @@ public class ISLogin extends HttpServlet {
                             deleteStatement.setInt(1, u_id);
                             
                             Timestamp timestamp = new Timestamp(time.getTimeInMillis());
-                            insertStatement.setString(1, uuid);
+                            insertStatement.setString(1, token);
                             insertStatement.setInt(2, u_id);
                             insertStatement.setTimestamp(3, timestamp);
                             

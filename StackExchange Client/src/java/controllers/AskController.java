@@ -76,8 +76,10 @@ public class AskController extends HttpServlet {
             String topic = request.getParameter("topic");
             String content = request.getParameter("content");
             int qId = addNewQuestion(token, topic, content);
-            if (qId != -1 ) {
+            if (qId > 0 ) {
                 response.sendRedirect("question?q_id=" + qId);
+            } else {
+                response.sendRedirect(request.getContextPath());
             }
         } else { // Timeout
             response.sendRedirect(request.getContextPath() + "/login?st=0");

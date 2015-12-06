@@ -105,7 +105,6 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "addNewQuestion")
-    @WebResult(name="User ID")
     public int addNewQuestion(@WebParam(name = "token") String token, @WebParam(name = "topic") String topic,  @WebParam(name = "content") String content) {
         int u_id = validateToken(token);
         if(u_id==-1) {
@@ -119,10 +118,11 @@ public class QuestionWS {
                 dbStatement.setString(2,topic);
                 dbStatement.setString(3,content);
                 dbStatement.executeUpdate();
-                sql = "SELECT q_id FROM question WHERE u_id="+u_id+" ORDER BY date_created DESC LIMIT 1";
+                sql = "SELECT q_id FROM question WHERE u_id=? ORDER BY date_created DESC LIMIT 1";
                 dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1,u_id);
                 ResultSet rs = dbStatement.executeQuery();
-                while(rs.next()) {
+                if(rs.next()) {
                     return rs.getInt("q_id");
                 }
             } catch (SQLException e) {
@@ -137,7 +137,6 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "voteQuestion")
-    @WebResult(name="Vote")
     public String voteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
         String vote = "null";
         int u_id = validateToken(token);
@@ -189,7 +188,6 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "devoteQuestion")
-    @WebResult(name="Vote")
     public String devoteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
         String vote = "null";
         int u_id = validateToken(token);
@@ -239,27 +237,24 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "deleteQuestion")
-    @WebResult(name="User ID")
     public int deleteQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id) {
         int u_id = validateToken(token);
         if(u_id  == -1) {
-            return -1;
+            return u_id;
         } else {
             try {
-                try (Statement stmt = conn.createStatement()) {
-                    String sql = "SELECT FROM question WHERE q_id=?";
-                    PreparedStatement dbStatement = conn.prepareStatement(sql);
-                    dbStatement.setInt(1, q_id);
-                    ResultSet rs = dbStatement.executeQuery();
-                    if(rs.next()) {
-                        if(u_id == rs.getInt(u_id)) {
-                            sql = "DELETE FROM question WHERE q_id=?";
-                            dbStatement = conn.prepareStatement(sql);
-                            dbStatement.setInt(1, q_id);
-                            dbStatement.executeUpdate();
-                        } else {
-                            return -1;
-                        }
+                String selectSQL = "SELECT * FROM question WHERE q_id=?";
+                PreparedStatement selectStatement = conn.prepareStatement(selectSQL);
+                String deleteSQL = "DELETE FROM question WHERE q_id=?";
+                PreparedStatement deleteStatement = conn.prepareStatement(deleteSQL);
+                selectStatement.setInt(1, q_id);
+                ResultSet rs = selectStatement.executeQuery();
+                if(rs.next()) {
+                    if(u_id == rs.getInt("u_id")) {
+                        deleteStatement.setInt(1, q_id);
+                        deleteStatement.executeUpdate();
+                    } else {
+                        return -1;
                     }
                 }
             } catch (SQLException e) {
@@ -274,7 +269,6 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "getCountAnswer")
-    @WebResult(name="Answer")
     public int getCountAnswer(@WebParam(name = "q_id") int q_id) {
         int count = 0;
         try {
@@ -295,27 +289,24 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "updateQuestion")
-    @WebResult(name="User ID")
     public int updateQuestion(@WebParam(name = "token") String token, @WebParam(name = "q_id") int q_id, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
         int u_id = validateToken(token);
         if(u_id  == -1) {
             return -1;
         } else {
             try {
-                Statement stmt = conn.createStatement();
-                String sql = "SELECT FROM question WHERE q_id=?";
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                dbStatement.setInt(1, q_id);
-                ResultSet rs = dbStatement.executeQuery();
+                String selectSQL = "SELECT * FROM question WHERE q_id=?";
+                PreparedStatement selectStatement = conn.prepareStatement(selectSQL);
+                selectStatement.setInt(1, q_id);
+                ResultSet rs = selectStatement.executeQuery();
                 if(rs.next()) {
-                    if(u_id == rs.getInt(u_id)) {
-                        sql = "UPDATE question SET topic = ?, content = ?, date_edited=now() WHERE q_id=?";
-                        dbStatement = conn.prepareStatement(sql);
-                        dbStatement.setString(1,topic);
-                        dbStatement.setString(2,content);
-                        dbStatement.setInt(3, q_id);
-                        dbStatement.executeUpdate();
-                        stmt.close();
+                    if(u_id == rs.getInt("u_id")) {
+                        String updateSQL = "UPDATE question SET topic = ?, content = ?, date_edited=now() WHERE q_id=?";
+                        PreparedStatement updateStatement = conn.prepareStatement(updateSQL);
+                        updateStatement.setString(1,topic);
+                        updateStatement.setString(2,content);
+                        updateStatement.setInt(3, q_id);
+                        updateStatement.executeUpdate();
                     }
                 } else {
                     
@@ -332,7 +323,7 @@ public class QuestionWS {
      * Web service operation
      */
     @WebMethod(operationName = "searchQuestion")
-    @WebResult(name="List Question")
+    @WebResult(name="Question")
     public ArrayList<Question> searchQuestion(@WebParam(name = "keyword") String keyword) {
         ArrayList<Question> questions = new ArrayList<Question>();
         try {
