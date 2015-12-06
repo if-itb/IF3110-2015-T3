@@ -6,19 +6,22 @@
 package Vote;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.WebServiceRef;
+import stackexchangews.StackExchangeWS_Service;
 
 /**
  *
- * @author Gerry
+ * @author Calvin
  */
-@WebServlet(name = "VoteServlet", urlPatterns = {"/VoteServlet"})
-public class VoteServlet extends HttpServlet {
+@WebServlet(name = "VoteAnswerServlet", urlPatterns = {"/voteanswer"})
+public class VoteAnswerServlet extends HttpServlet {
+  @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeWS/StackExchangeWS.wsdl")
+  private StackExchangeWS_Service service;
 
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,20 +33,17 @@ public class VoteServlet extends HttpServlet {
    * @throws IOException if an I/O error occurs
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
+      throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
-    try (PrintWriter out = response.getWriter()) {
-      /* TODO output your page here. You may use following sample code. */
-      out.println("<!DOCTYPE html>");
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet VoteServlet</title>");      
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<h1>Servlet VoteServlet at " + request.getContextPath() + "</h1>");
-      out.println("</body>");
-      out.println("</html>");
-    }
+    int type = Integer.parseInt(request.getParameter("type"));
+    int qid = Integer.parseInt(request.getParameter("qid"));
+    int aid = Integer.parseInt(request.getParameter("aid"));
+    String token = request.getParameter("token");
+    if (type == 1)
+        voteUpAnswer(token, aid);
+    else
+        voteDownAnswer(token, aid);
+    response.sendRedirect("questionpage.jsp?qid=" + qid + "&token=" + token);
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,7 +58,7 @@ public class VoteServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    processRequest(request, response);
+      processRequest(request, response);
   }
 
   /**
@@ -72,7 +72,7 @@ public class VoteServlet extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-    processRequest(request, response);
+      processRequest(request, response);
   }
 
   /**
@@ -82,7 +82,20 @@ public class VoteServlet extends HttpServlet {
    */
   @Override
   public String getServletInfo() {
-    return "Short description";
+      return "Short description";
   }// </editor-fold>
 
+  private void voteUpAnswer(String token, int id) {
+    // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+    // If the calling of port operations may lead to race condition some synchronization is required.
+    stackexchangews.StackExchangeWS port = service.getStackExchangeWSPort();
+    port.voteUpAnswer(token, id);
+  }
+
+  private void voteDownAnswer(String token, int id) {
+    // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+    // If the calling of port operations may lead to race condition some synchronization is required.
+    stackexchangews.StackExchangeWS port = service.getStackExchangeWSPort();
+    port.voteDownAnswer(token, id);
+  }
 }
