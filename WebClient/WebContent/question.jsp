@@ -102,18 +102,14 @@
 				 			</li>
 						</ul>
 						<form ng-submit="submitComment()">
-						  <input type="text" ng-model="comment" />
+							<input type="text" ng-model="comment" />
 						  <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
 						  <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
-						   
 						</form>
 					</div>
 					
 				</div>
 			
-			<div>aaaa</div>
-				
-				
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
 				<% for (int i = 0; i < a.size(); i++) { %>

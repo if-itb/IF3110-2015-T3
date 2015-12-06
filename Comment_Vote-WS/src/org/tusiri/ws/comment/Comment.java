@@ -32,11 +32,13 @@ public class Comment {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public int addComment(@FormParam("access_token") String access_token, @FormParam("id_question") int id_question, @FormParam("comment") String comment){
+	public CommentItem addComment(@FormParam("access_token") String access_token, @FormParam("id_question") int id_question, @FormParam("comment") String comment){
 		System.out.println("Add comment called");
 		System.out.println("id_question " + id_question);
 		System.out.println("comment " + comment);
+		CommentItem ci = new CommentItem();
 		int result = -1;
+		int comment_id = -1;
 		CheckTokenValidity checker = new CheckTokenValidity(access_token);
 		try {
 			TokenValidity validity = checker.check();
@@ -54,6 +56,25 @@ public class Comment {
 					stmt.setInt(2, id_question);
 					stmt.setString(3, comment);
 					stmt.executeUpdate();
+					ResultSet rs = stmt.getGeneratedKeys();
+					 while (rs.next()) {
+			               comment_id = rs.getInt(1);
+			            } 	
+					System.out.println("comment_id = " + comment_id);
+					
+					sql = "SELECT * FROM question_comment NATURAL JOIN user WHERE id_comment = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, comment_id);
+					rs = stmt.executeQuery();
+					System.out.println(stmt);
+					if(rs.next()){
+						System.out.println("found  ketemu");
+						ci.setIDComment(comment_id);
+						ci.setComment(rs.getString("comment"));
+						ci.setUsername(rs.getString("username"));
+						ci.setCommentDate(rs.getDate("comment_time").toString());
+					}
+					
 					stmt.close();
 					conn.close();
 				} catch (SQLException e1) {
@@ -87,7 +108,7 @@ public class Comment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		return ci;
 	}
 	
 	@GET
