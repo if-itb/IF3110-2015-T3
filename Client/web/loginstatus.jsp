@@ -21,7 +21,8 @@
 
 					String email = request.getParameter("email");
 					String password = request.getParameter("password");
-					String userAgent= request.getParameter("User-Agent");
+					String userAgent= request.getHeader("User-Agent");
+					System.out.println(userAgent);
 					if ((email!=null)&&(password!=null))
 					{
 						HttpClient httpClient = HttpClientBuilder.create().build();
@@ -46,7 +47,9 @@
 							int status = Integer.parseInt((String)responseJSON.get("status"));
 							if (status==1){
 								String token = (String) responseJSON.get("token");
+								out.println(token);
 								Cookie TokenCookie = new Cookie("token",token);
+								out.println(TokenCookie.getValue());
 								TokenCookie.setMaxAge(1800);
 								response.addCookie(TokenCookie);
 								out.println("Login Success!");

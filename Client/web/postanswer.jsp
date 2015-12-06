@@ -20,7 +20,12 @@
 		QName qname = new QName("http://ws.sstackex.yangnormal.com/","WebServiceImplService");
 		WebServiceImplService webService = new WebServiceImplService(url,qname);
 		WebServiceInterface ws = webService.getWebServiceImplPort();
-		int status = ws.postAnswer(id,token,content);
+		String userAgent = request.getHeader("User-Agent");
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");
+		if (ipAddress == null) {
+			ipAddress = request.getRemoteAddr();
+		}
+		int status = ws.postAnswer(id,token,content,userAgent,ipAddress);
 		request.setAttribute("status",status);
 		request.setAttribute("name","Post Answer");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("status.jsp");
