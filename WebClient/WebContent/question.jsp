@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<% 
 		Cookie cookie = null;
 		Cookie[] cookies = null;
@@ -53,7 +52,6 @@
 		<jsp:param name="needDeleteQuestion" value="true" />
 		<jsp:param name="check" value="1" />
 	</jsp:include>
-	<script src="assets/js/vote.js"></script>
 	<script src="assets/js/validator.js"></script>
 	<% } %>
 </head>

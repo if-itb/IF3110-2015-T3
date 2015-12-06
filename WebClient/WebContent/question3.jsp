@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-</script>
 	<% 
 		Cookie cookie = null;
 		Cookie[] cookies = null;
@@ -56,11 +55,11 @@
 	<script src="assets/js/vote.js"></script>
 	<script src="assets/js/validator.js"></script>
 	<% } %>
-	
 </head>
 <% if (q.getIdQuestion() != -1){ %>
 <body class="contact">
-
+	
+	
 		<article id="main">
 			<header class="special container">
 				<span class="icon fa-github-alt"></span>
@@ -78,10 +77,10 @@
 				<div class = 'q_details'>
 					<div class = 'only_q'>
 						<div class = 'a_left'>
-							<div class = 'vote_buttons'>
-								<div hidden class='up_button user' onclick='VoteUp(true,<%=q_id%>,<%=access_token%>)'><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
-									<div class = 'vote' id='q_vote<%=q_id%>'><%= q.getNumVote() %></div>
-								<div hidden class='down_button user' onclick='VoteDown(true,<%=q_id%>,<%=access_token%>)'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
+							<div class = 'vote_buttons' ng-app="voteApp" ng-controller="voteCtrl">
+								<div hidden class='up_button user' ng-click="VoteUp()"><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
+									<div class = 'vote' id='q_vote<%=q_id%>'>{{vote}}</div>
+								<div hidden class='down_button user'ng-click="VoteDown()"><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -95,21 +94,6 @@
 			              	</span>
 		              	</div>
 					</div>
-					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-						<ul>
-				  			<li ng-repeat="x in comments">
-				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-				  			</li>
-						</ul>
-					</div>
-
-					<div ng-app="commenApp" ng-controller="MyController">
-				        <input type="button" value="Show Hide DIV" ng-click="ShowHide()" />
-				        <br />
-				        <br />
-				        <div ng-show = "IsVisible">My DIV</div>
-				    </div>
-
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -146,51 +130,47 @@
 				</form>
 				
 			</div>
-			<div ng-controller="ctrl">
-			    <mydirc></mydirc>
-			    <button ng-click="clickMe()">call clickMe()</button>
-			</div>
 		</article>
 		<%@include file="footer.jsp" %>
 		
 	</div>
-	<script type="text/javascript">
-	var app = angular.module('commentApp', []);
-	app.controller('commentCtrl', function($scope, $http) {
-	    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-	    .then(function(response) {$scope.comments = response.data;});
-	});
 	
-
 	<script>
-		var app = angular.module('commentApp', []);
-		app.controller('commentCtrl', function($scope, $http) {
-		    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-		    .then(function(response) {$scope.comments = response.data;});
-		});
-		
-		app.directive('mydirc', function() {
-		    return {
-		        restrict: 'E',
-		        replace: true,
-		        template: '<div></div>',
-		        link: function($scope, element, attrs) {
-		            $scope.clickMe= function() {
-		                alert('inside click');
-		            }
-		        ;}
-		    }
-		});
-
-    app.controller('MyController', function ($scope) {
-        //This will hide the DIV by default.
-        $scope.IsVisible = false;
-        $scope.ShowHide = function () {
-            //If DIV is visible it will be hidden and vice versa.
-            $scope.IsVisible = $scope.IsVisible ? false : true;
-        }
+var app = angular.module('voteApp', []);
+app.controller('voteCtrl', function($scope, $http) {
+    $scope.vote = <%= q.getNumVote()%>
+    $scope.access_token = "<%=access_token%>"
+    $scope.id_question = <%= q_id%>
+    $scope.VoteUp = function(){
+    	var data = $.param({
+ 		   	access_token: $scope.access_token,
+         	id_question: $scope.id_question
+     	});
+    	var config = { headers : {
+            	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+     		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/voteup/', data, config)
+     		.success(function (data, status, headers, config) {
+        		 $scope.PostDataResponse = data;
+     		})
+  		};
+  		
+	$scope.VoteDown = function(){
+    	var data = $.param({
+ 		   	access_token: $scope.access_token,
+         	id_question: $scope.id_question
+     	});
+    	var config = { headers : {
+            	 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'}}
+     		$http.post('http://localhost:8081/Comment_Vote-WS/rest/votequestion/votedown/', data, config)
+     		.success(function (data, status, headers, config) {
+        		 $scope.PostDataResponse = data;
+     		})
+  		};
+  		
     });
-	</script>
+	
+</script>
+</script>
 </body>
 	<% 	} else {
 			%>
