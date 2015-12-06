@@ -65,32 +65,33 @@ public class Vote {
     return hasVote;
   }
   
-  public int voteQuestion(int idQuestion, String token, String ipAddress, String userAgent, String voteType) {
+  public int voteQuestion(int idQuestion, String token, String userAgent, String voteType) {
     int isVoted = -1;
     User user = new User();
     
     // Request User ke Identity Service
     String urlString = "http://localhost:8082/Identity_Service/TokenController";
-    user = user.getUserFromIS(token, ipAddress, userAgent, urlString);
+    user = user.getUserFromIS(token, userAgent, urlString);
     int userId = user.getIdUser();
     
-    if (userId > 0) {
-      if (!hasUserVoteQuestion(idQuestion, userId)) {
-        try {
-          Database database = new Database();
-          Connection conn = database.connectDatabase();
-          Statement stmt = conn.createStatement();
-          String sql;
-          int voteNum=0;
-          sql = "SELECT vote_num FROM question WHERE id_question = ?";
-          PreparedStatement dbStatement1 = conn.prepareStatement(sql);
-          dbStatement1.setInt(1, idQuestion);
-          ResultSet rs = dbStatement1.executeQuery();
+    
+    try {
+      Database database = new Database();
+      Connection conn = database.connectDatabase();
+      Statement stmt = conn.createStatement();
+      String sql;
+      int voteNum=0;
+      sql = "SELECT vote_num FROM question WHERE id_question = ?";
+      PreparedStatement dbStatement1 = conn.prepareStatement(sql);
+      dbStatement1.setInt(1, idQuestion);
+      ResultSet rs = dbStatement1.executeQuery();
 
-          while (rs.next()) {
-            voteNum = rs.getInt("vote_num");
-          }
-
+      while (rs.next()) {
+        voteNum = rs.getInt("vote_num");
+      }
+      
+      if (userId > 0) {
+        if (!hasUserVoteQuestion(idQuestion, userId)) {
           if ("up".equals(voteType)) {
             voteNum++;
           } else {
@@ -113,33 +114,30 @@ public class Vote {
           isVoted = 1;
           rs.close();
           stmt.close();
-
-        } catch (SQLException ex) {
-          Logger.getLogger(Vote.class.getName()).log(Level.SEVERE, null, ex);
         }
-      } else {
-        isVoted = 0;
       }
+
+    } catch (SQLException ex) {
+      Logger.getLogger(Vote.class.getName()).log(Level.SEVERE, null, ex);
     }
     return isVoted;
   }
   
-  public boolean voteAnswer(int idAnswer, String token, String ipAddress, String userAgent, String voteType) {
-    boolean isVoted = false;
+  public int voteAnswer(int idAnswer, String token, String userAgent, String voteType) {
     User user = new User();
-    
+    int voteNum=0;
     // Request User ke Identity Service
     String urlString = "http://localhost:8082/Identity_Service/TokenController";
-    user = user.getUserFromIS(token, ipAddress, userAgent, urlString);
+    user = user.getUserFromIS(token, userAgent, urlString);
     int userId = user.getIdUser();
     
-    if (userId > 0) {
+    
       try {
         Database database = new Database();
         Connection conn = database.connectDatabase();
         Statement stmt = conn.createStatement();
         String sql;
-        int voteNum=0;
+        
         sql = "SELECT vote_num FROM answer WHERE id_answer = ?";
         PreparedStatement dbStatement1 = conn.prepareStatement(sql);
         dbStatement1.setInt(1, idAnswer);
@@ -148,28 +146,27 @@ public class Vote {
         while (rs.next()) {
           voteNum = rs.getInt("vote_num");
         }
+        if (userId > 0) {
+          if ("up".equals(voteType)) {
+            voteNum++;
+          } else {
+            voteNum--;
+          }
 
-        if ("up".equals(voteType)) {
-          voteNum++;
-        } else {
-          voteNum--;
+          // Mengubah vote number
+          sql = "UPDATE answer SET vote_num = ? WHERE id_answer = ?";
+          PreparedStatement dbStatement2 = conn.prepareStatement(sql);
+          dbStatement2.setInt(1, voteNum);
+          dbStatement2.setInt(2, idAnswer);
+          dbStatement2.executeUpdate();
+
+          rs.close();
+          stmt.close();
         }
-
-        // Mengubah vote number
-        sql = "UPDATE answer SET vote_num = ? WHERE id_answer = ?";
-        PreparedStatement dbStatement2 = conn.prepareStatement(sql);
-        dbStatement2.setInt(1, voteNum);
-        dbStatement2.setInt(2, idAnswer);
-        dbStatement2.executeUpdate();
-        isVoted = true;
-
-        rs.close();
-        stmt.close();
-
       } catch (SQLException ex) {
         Logger.getLogger(Vote.class.getName()).log(Level.SEVERE, null, ex);
       }
-    }
-    return isVoted;
+    
+    return voteNum;
   }
 }

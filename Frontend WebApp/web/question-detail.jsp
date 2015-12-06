@@ -19,7 +19,7 @@ Author:
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
 
   </head>
-  <body>
+  <body ng-app="stackExchange" ng-controller="VoteController">
     <% if ((request.getParameter("token") != null) && (request.getParameter("token") != "not-valid")) { %>
       <!--User Name-->
       <div class="user-identity">
@@ -42,7 +42,7 @@ Author:
 
     <div class="content">
       <!-- Question -->
-      <div class="stacked">
+      <div class="stacked" >
         <div class="subtitle">
           <%
             List<QuestionWS.Question> questions = new ArrayList<QuestionWS.Question>();
@@ -56,11 +56,11 @@ Author:
         <!-- Questions Content -->
         <div class="same-height-row">
           <div class="vote-number">
-              <a href = 'VoteController?name=question-up&qid=<%= questions.get(i).getIdQuestion()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/up.png" name="question-up" /><br></a>
-            <div class="big-number">
-                <%= questions.get(i).getVoteNum() %>
+              <div ng-click="vote(<%= questions.get(i).getIdQuestion() %>, 'question-up');"><img class="small-icon" src="img/up.png" name="question-up" /><br></div>
+            <div class="big-number" ng-init="voteNum=<%= questions.get(i).getVoteNum() %>" ng-model="voteNum">
+                {{ voteNum }}
             </div>
-              <a href = 'VoteController?name=question-down&qid=<%= questions.get(i).getIdQuestion()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/down.png" name="question-down"/><br></a>
+              <div ng-click="vote(<%= questions.get(i).getIdQuestion() %>, 'question-up');"><img class="small-icon" src="img/down.png" name="question-down"/><br></div>
           </div>
           <div class="right-position">
             <div class="answer-question-detail">
@@ -154,12 +154,12 @@ No wonder retailers wanted to make the name "Black Friday" mean something positi
               for (int i = 0; i < answers.size(); i++) {
         %>
         <div class="same-height-row border-bottom">
-          <div class="vote-number" ng-app="stackExchange" ng-controller="VoteController">
+          <div class="vote-number">
               <div ng-click="vote(<%= answers.get(i).getIdAnswer() %>, 'answer-up');"><img class="small-icon" src="img/up.png" onclick=""/><br></div>
-            <div class="big-number" id="answer-1">
-                <%= answers.get(i).getVoteNum() %>
+            <div class="big-number" id="answer-1" ng-init="voteNum=<%= answers.get(i).getVoteNum() %>" ng-model="voteNum">
+                {{ voteNum }}
             </div>
-              <a href = 'VoteController?name=answer-down&qid=<%= request.getParameter("qid") %>&aid=<%= answers.get(i).getIdAnswer()%>&token=<%= request.getParameter("token") %>'><img class="small-icon" src="img/down.png" name="answer-up"/><br></a>
+              <div ng-click="vote(<%= answers.get(i).getIdAnswer() %>, 'answer-down');"><img class="small-icon" src="img/down.png" name="answer-up"/><br></div>
           </div>
           <!-- Answers Content -->
           <div class="right-position">

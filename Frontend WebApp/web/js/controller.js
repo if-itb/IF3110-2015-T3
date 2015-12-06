@@ -12,31 +12,31 @@
 
 var stackExchange = angular.module('stackExchange', []);
 
-stackExchange.controller('VoteController', function ($scope, $http, $location) {
-    
-    $scope.vote = function(id, voteType) { 
-        dataString = "voteType=" + voteType + "&id=" + id;
-        
-        var token = $location.search().token;
-        var questionId = $location.search().qid;
+stackExchange.config(['$httpProvider', function ($httpProvider) {
+  //Reset headers to avoid OPTIONS request (aka preflight)
+  $httpProvider.defaults.headers.common = {};
+  $httpProvider.defaults.headers.post = {};
+  $httpProvider.defaults.headers.put = {};
+  $httpProvider.defaults.headers.patch = {};
+}]);
 
+stackExchange.controller('VoteController', function ($scope, $http) {
+    // Jika tombol vote di klik
+    $scope.vote = function(id, voteType) { 
         // Membuat http request
         $http({
           method: "POST",
-          url: "http://localhost:8083/Comment___Vote_Service/VoteController",
-          dataType: "json",
-          data: dataString,
-
-          // Hasil terima response dari server
-          success: function(data, textStatus, jqXHR) {
-           window.location.href = "http://localhost:8080/Frontend_WebApp/QusetionDetailController?token=" + token + "&qid=" +questionId;
-          },
-
-          // Tidak ada response dari server
-          error: function(jqXHR, textStatus, errorThrown) {
-            console.log("Something really bad happened " + textStatus + "<br>Please reload ths page");
-            alert(jqXHR.responseText);
-          }
+          url: "http://localhost:8083/Comment_Vote_Service/VoteController",
+          data: { voteType: voteType, 
+                  id: id},
+          
+          success: function(data, status, headers, config) {
+            $scope.voteNum = data;
+           },
+           // Tidak ada response dari server
+           error: function(data, status, headers, config) {
+             $scope.status = status;
+           }
         });
     };
 });

@@ -42,13 +42,12 @@ public class VoteController extends HttpServlet {
     
     response.setHeader("Access-Control-Allow-Origin", "*");
     response.setHeader("Access-Control-Allow-Methods", "POST");
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Requested-With");
     response.setHeader("Access-Control-Max-Age", "86400");
     
     String voteType = request.getParameter("voteType");
     String token = request.getParameter("token");
-    String userAgent = request.getHeader("user-agent");
-    String ipAddress = request.getRemoteAddr();
+    String userAgent = request.getHeader("User-Agent");
     Vote vote = new Vote();
     
     
@@ -56,25 +55,25 @@ public class VoteController extends HttpServlet {
       JSONObject obj = new JSONObject();
       if ("answer-up".equals(voteType)) {
         int idAnswer = Integer.parseInt(request.getParameter("id"));
-        boolean voteSuccess = vote.voteAnswer(idAnswer, token, ipAddress, userAgent, "up");
+        int voteNum = vote.voteAnswer(idAnswer, token, userAgent, "up");
         
-        obj.put("vote_success", voteSuccess);
+        obj.put("voteNum", voteNum);
         
       } else if ("answer-down".equals(voteType)) {
         int idAnswer = Integer.parseInt(request.getParameter("id"));
-        boolean voteSuccess = vote.voteAnswer(idAnswer, token, ipAddress, userAgent, "down");
+        int voteNum = vote.voteAnswer(idAnswer, token, userAgent, "down");
         
-        obj.put("vote_success", voteSuccess);
+        obj.put("voteNum", voteNum);
         
       } else if ("question-up".equals(voteType)) {
         int idQuestion = Integer.parseInt(request.getParameter("id"));
-        int voteSuccess = vote.voteQuestion(idQuestion, token, ipAddress, userAgent, "up");
+        int voteSuccess = vote.voteQuestion(idQuestion, token, userAgent, "up");
         
         obj.put("vote_success", voteSuccess);
         
       } else if ("question-down".equals(voteType)) {
         int idQuestion = Integer.parseInt(request.getParameter("id"));
-        int voteSuccess = vote.voteQuestion(idQuestion, token, ipAddress, userAgent, "down");
+        int voteSuccess = vote.voteQuestion(idQuestion, token, userAgent, "down");
         
         obj.put("vote_success", voteSuccess);
         
