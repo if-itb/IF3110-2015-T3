@@ -1,6 +1,7 @@
 <%@page import="stackexchange.webservice.User"%>
 <%@page import="stackexchange.webservice.UserWS"%>
 <%@page import="stackexchange.webservice.UserWS_Service"%>
+<?php header('Access-Control-Allow-Origin: *'); ?>
 <html>
 	<head>
 		<title>StackExchange</title>
@@ -10,7 +11,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	</head>
-	<body>
+    <body ng-app="commentApp">
 	<div class="container-brand">
 		<div class="container-br-in">
 			<a href="../">
@@ -76,4 +77,4 @@
 			</div>
 		</div>
 	</div>
-	<div class="inner">
+	<div class="inner" ng-controller="voteCtrl">

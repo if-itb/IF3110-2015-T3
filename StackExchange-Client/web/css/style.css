@@ -469,6 +469,24 @@ span .submitButton{
     color : #B3B3B3;
 }
 
-
-
-
+.comment-container{
+	text-align: left;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #ccc;
+}
+.comment{
+	margin: 0;
+	padding: 10px 40px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #ccc;
+	font-size: 13px;
+}
+.addCom{
+	margin-top: 20px;
+}
+.userCom{
+	color: #1F68DF;
+	font-weight: 400;
+}

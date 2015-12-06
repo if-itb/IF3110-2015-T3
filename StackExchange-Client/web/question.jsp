@@ -7,30 +7,38 @@
 		<div class="innerContent fQuestion">
 			<div class="col votesCount">
 				<div class="up vote">
-                                    <a class="voteDes" href="questionVote?id=<%= question.getId()%>&dir=up"><i class="material-icons md-48">arrow_drop_up</i></a>
+                                    <a class="voteDes" href="" ng-click="voteUpQ()"><i class="material-icons md-48">arrow_drop_up</i></a>
 				</div>
-				<div id="questionVote<%= question.getId()%>">
-					<%= question.getVote()%>
+                                <div id="questionVote<%= question.getId()%>" questionVote>
+                                    {{value}}
 				</div>
 				<div class="down vote">
-                                    <a class="voteDes" href="questionVote?id=<%= question.getId()%>&dir=down"><i class="material-icons md-48">arrow_drop_down</i></a>
+                                    <a class="voteDes" href="" ng-click="voteDownQ()"><i class="material-icons md-48">arrow_drop_down</i></a>
 				</div>
 			</div>
 			<div class="col content">
 				<p>
 					<%= question.getContent()%>
 				</p>
-			</div>
-			<div class="navPost2">
-                            <% if(user.getEmail().equals(question.getEmail())){ %>
-				<p>
-					asked by You <span><%= question.getEmail()%></span> | <a class="link edit" href="questionedit?withanswer=true&id=<%= question.getId()%>"> edit</a> | <a class="link delete" href="questiondelete?id=<%= question.getId()%>" onclick="return validateDelete();"> delete </a>
-				</p>
-                            <% }else{ %>
-                                <p>
-					asked by <%= question.getName()%> <span><%= question.getEmail()%></span> 
-				</p>
-                            <% } %>
+                                <div class="navPost2">
+                                    <% if(user.getEmail().equals(question.getEmail())){ %>
+                                        <p>
+                                                asked by You <span><%= question.getEmail()%></span> | <a class="link edit" href="questionedit?withanswer=true&id=<%= question.getId()%>"> edit</a> | <a class="link delete" href="questiondelete?id=<%= question.getId()%>" onclick="return validateDelete();"> delete </a>
+                                        </p>
+                                    <% }else{ %>
+                                        <p>
+                                                asked by <%= question.getName()%> <span><%= question.getEmail()%></span> 
+                                        </p>
+                                    <% } %>
+                                </div>
+                                <div class="comment-container">
+                                    <p class="comment">
+                                        Give is more source code, it's not enough - <span class="userCom"> fauzan </span>
+                                    </p>
+                                    <div class="addCom">
+                                        <span><a class="submitButton" href="#"> add comment </a></span>
+                                    </div>
+                                </div>
 			</div>
 		</div>
 		<div class="containerAnswer">
