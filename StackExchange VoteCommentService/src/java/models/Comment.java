@@ -13,6 +13,7 @@ public class Comment {
     private int cId;
     private int qId;
     private int uId;
+    private String email;
     private String content;
     private String dateCreated;
     
@@ -20,10 +21,11 @@ public class Comment {
         
     }
 
-    public Comment(int cId, int qId, int uId, String content, String dateCreated) {
+    public Comment(int cId, int qId, int uId, String email, String content, String dateCreated) {
         this.cId = cId;
         this.qId = qId;
         this.uId = uId;
+        this.email = email;
         this.content = content;
         this.dateCreated = dateCreated;
     }
@@ -47,6 +49,9 @@ public class Comment {
     public String getDateCreated() {
         return dateCreated;
     }
-    
+
+    public String getUsername() {
+        return email;
+    }
     
 }

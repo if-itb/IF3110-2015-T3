@@ -47,28 +47,26 @@
                 </span>
                     
                 <div ng-controller="ViewCommentsController">   
-                    <script>alert("ViewCommentsController.comments")</script>
                     <!-- Show comments -->                
                     <span class="question-info" ng-repeat = "comment in comments">
                             {{ comment.content }}
                             <br>
-                            <span class="author">{{ comment.u_id }}</span> at {{ comment.date_created }}
+                            <span class="author">{{ comment.email }}</span> at {{ comment.date_created }}
                     </span>
                 </div>
                 
 		<!-- Add comment -->
 		<a href="#" ng-click="showBox = ! showBox">Add Comment</a>
-		<div class="comment-box" ng-show="showBox">
-			<form>
-			<input type="hidden" name="q_id" value="<c:out value='${question.getQId()}'/>">
-            <input type="hidden" name="token" value="<c:out value='${token}'/>">
-            <textarea id="content" name="content" placeholder="Content" ></textarea><br>
-            <div class="div-right-button">
-                <input type="submit" class="right-button" value="Post">
-            </div>
-			</form>
-		
-		</div>
+                <div class="comment-box" ng-show="showBox" ng-controller="AddCommentController">
+                    <form class="basic-grey" ng-submit="addComment('<c:out value='${question.getQId()}'/>', content, '<c:out value='${token}'/>')">
+                    <input type="hidden" name="q_id" ng-value="q_id" value="<c:out value='${question.getQId()}'/>">
+                    <input type="hidden" name="token" ng-value="token" value="<c:out value='${token}'/>">
+                    <textarea id="content" name="content" ng-model="content" placeholder="Content" ></textarea><br>
+                    <div class="div-right-button">
+                        <input type="submit" class="right-button" value="Post">
+                    </div>
+                    </form>
+                </div>
 		
 		
         <br><br><br>

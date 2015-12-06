@@ -75,7 +75,48 @@ public class CommentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String q_id = request.getParameter("q_id");
+        String content = request.getParameter("content");
+        String token = request.getParameter("token");
         
+        String query = String.format("q_id=%s&content=%s&token=%s",
+                q_id, content, token);
+        
+        try (PrintWriter output = response.getWriter()){
+            // Establish HTTP connection with Identity Service
+            URL url = new URL(CONTEXT_PATH + "comment");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            
+            //Create the form content
+            try (OutputStream out = conn.getOutputStream()) {
+                out.write(query.getBytes());
+                out.close();
+            }
+            
+            // Buffer the result into a string
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            
+            rd.close();
+            //conn.disconnect();
+            
+            //Print result
+            output.print(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+  
     }
 
     /**
