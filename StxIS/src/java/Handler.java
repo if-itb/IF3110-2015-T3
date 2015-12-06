@@ -49,12 +49,16 @@ public class Handler extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
 
+    private String clearAgent(String agent){
+      return agent.replace(" ","");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String tokenStr = request.getParameter("token");
-        String userAgent = request.getHeader("user-agent");
+        String userAgent = clearAgent(request.getHeader("user-agent"));
         String userIP = request.getRemoteAddr();
 
         TokenExtractor TokExt= new TokenExtractor();
@@ -123,7 +127,7 @@ public class Handler extends HttpServlet {
         email = request.getParameter("email");
         pass = request.getParameter("pass");
 
-        String userAgent = request.getHeader("user-agent");
+        String userAgent = clearAgent(request.getHeader("user-agent"));
         String userIP = request.getRemoteAddr();
         String userData[]= {userAgent, userIP};
 
