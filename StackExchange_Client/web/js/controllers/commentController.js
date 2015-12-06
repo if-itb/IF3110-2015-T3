@@ -48,4 +48,3 @@ app.controller('commentController', ['$scope','$http','$location','$cookies',
     }
   }
 }]); 
-

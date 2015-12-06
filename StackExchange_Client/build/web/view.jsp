@@ -11,13 +11,15 @@
 <jsp:useBean id="a_user" type="java.util.Map<Integer, model.user.User>" scope="request"/>
 <jsp:useBean id="uid" type="Integer" scope="request"/>
 <jsp:include page="header.jsp" flush="true"/>
-
             <div class="content">
                 <h2><%= question.getTopic() %></h2>
-                <div class="voting">
-                    <div class="arrow-up" onclick="return vote(<%= question.getQuestionId() %>,1,'question')"></div>
-                    <div class="votenumber" id="vote-q"><%= question.getVote() %></div>
-                    <div class="arrow-down" onclick="return vote(<%= question.getQuestionId() %>,-1,'question')"></div>
+                <div class="voting" ng-controller="questionvotecontroller as questionvote" ng-init="questionvote.getVote()">
+                    <div class="arrow-up" ng-init="questionvote.init(<%= question.getQuestionId() %>)" ng-click="questionvote.addVote(1)"></div>
+                    <!--<div class="arrow-up" onclick="return vote(<%= question.getQuestionId() %>,1,'question')"></div>-->
+                    <div class="votenumber" id="vote-q">{{ questionvote.vote }}</div>
+                    <!--<div class="votenumber" id="vote-q"><%= question.getVote() %></div>-->
+                    <div class="arrow-down" ng-init="questionvote.init(<%= question.getQuestionId() %>)" ng-click="questoinvote.addVote(-1)"></div>
+                    <!--<div class="arrow-down" onclick="return vote(<%= question.getQuestionId() %>,-1,'question')"></div>-->
 		</div>
 		<div class="question-content">
                     <p><%= question.getContent() %></p>
@@ -26,24 +28,18 @@
                     <p>asked by <font color="#008080"><%= q_user.getName() %> (<%= q_user.getEmail() %>)</font> at <%= question.getCreateTime() %><br> 
                     <% if (question.getUserId() == uid) { %><a class="edit" href="edit?id=<%= question.getQuestionId() %>">edit</a><a class="delete" href="delete?id=<%= question.getQuestionId() %>" onclick="return confirm('Are you sure you want delete this question?')">delete</a></span></div><% } %>
             </div>
-            <div class="content">
-                <div class="comment-list">
+            <div class="content" ng-controller="commentController">
+                <div ng-repeat="comment in comments">
                 <div class="comment">
-                    <p>Commentnya di sini lorem ipsum dolor sit amet — <font color="#008080">username</font> at  2015-11-18 11:36:38.0 </p>
-                </div>
-                <div class="comment">
-                    <p>Commentnya di sini lorem ipsum dolor sit amet — <font color="#008080">username</font> at  2015-11-18 11:36:38.0 </p>
+                    <p>{{comment.content}} — <font color="#008080">{{comment.name}}</font> at {{comment.create_time}} </p>
                 </div>
                 </div>
                 <div class="comment" style="width:95%">
                     <p align="right"><a href = "#" onclick="showCommentForm()"><font color="#008080">add comment</font></a></p>
                 </div>
-                <form class="inputform" method="post" name="savecomment" action="" style="display:none;" id="savecomment">
-                    <input type="hidden" name="question_id" value="<%= question.getQuestionId() %>">
-                    <textarea placeholder="Content" rows="2" name="content"></textarea>
-                    <div class="button-bottom">
-                        <button type="submit" name="savecomment" value="Submit">Post</button>
-                    </div>
+                <form class="inputform" name="savecomment" ng-submit="submitComment()" style="display:none;" id="savecomment">
+                    <textarea placeholder="Content" rows="2" name="content" ng-model="newcontent"></textarea>
+                    <div class="button-bottom"><input type="submit" value="Submit" /></div>
                 </form>
             </div>
             <div class="content">
@@ -78,7 +74,9 @@
                 </form>
             </div>
 	</div>
-                    
+
     <script src="js/functions.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/commentController.js"></script>
     </body>
 </html>
