@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</script>
 	<% 
 		Cookie cookie = null;
 		Cookie[] cookies = null;
@@ -56,11 +56,11 @@
 	<script src="assets/js/vote.js"></script>
 	<script src="assets/js/validator.js"></script>
 	<% } %>
+	
 </head>
 <% if (q.getIdQuestion() != -1){ %>
 <body class="contact">
-	
-	
+
 		<article id="main">
 			<header class="special container">
 				<span class="icon fa-github-alt"></span>
@@ -79,9 +79,9 @@
 					<div class = 'only_q'>
 						<div class = 'a_left'>
 							<div class = 'vote_buttons'>
-								<div hidden class='up_button user' onclick='VoteUp(true,<%=q_id%>)'><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
+								<div hidden class='up_button user' onclick='VoteUp(true,<%=q_id%>,<%=access_token%>)'><img id='q_up' src='assets/img/up<%=q.getStatus() %>.png' width='30' height='30'></div>
 									<div class = 'vote' id='q_vote<%=q_id%>'><%= q.getNumVote() %></div>
-								<div hidden class='down_button user' onclick='VoteDown(true,<%=q_id%>)'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
+								<div hidden class='down_button user' onclick='VoteDown(true,<%=q_id%>,<%=access_token%>)'><img id='q_down' src='assets/img/down<%=q.getStatus() %>.png' width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -96,12 +96,12 @@
 		              	</div>
 					</div>
 					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-		<ul>
-  			<li ng-repeat="x in comments">
-    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-  			</li>
-		</ul>
-		</div>
+						<ul>
+				  			<li ng-repeat="x in comments">
+				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+				  			</li>
+						</ul>
+					</div>
 				</div>
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
@@ -109,9 +109,9 @@
 					<div class = 'row q_or_a'>
 						<div class = 'a_left'>
 							<div class = 'vote_buttons'>
-								<div hidden class='up_button user' onclick='VoteUp(false,<%=a.get(i).getNumAnswer()%>)'><img id='a_up<%=a.get(i).getNumAnswer() %>' src='assets/img/up<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
+								<div hidden class='up_button user' onclick='VoteUp(false,<%=a.get(i).getNumAnswer()%>,"<%=access_token%>")'><img id='a_up<%=a.get(i).getNumAnswer() %>' src='assets/img/up<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
 									<div class = 'vote' id='vote<%=a.get(i).getNumAnswer()%>'><%= a.get(i).getNumVotes() %></div>
-								<div hidden class='down_button user' onclick='VoteDown(false,<%=a.get(i).getNumAnswer()%>)'><img id='a_down<%=a.get(i).getNumAnswer() %>' src='assets/img/down<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
+								<div hidden class='down_button user' onclick='VoteDown(false,<%=a.get(i).getNumAnswer()%>,"<%=access_token%>")'><img id='a_down<%=a.get(i).getNumAnswer() %>' src='assets/img/down<%=a.get(i).getStatus()%>.png' width='30' height='30'></div>
 							</div>
 						</div>
 						<div class = 'a_mid'>
@@ -138,18 +138,35 @@
 				</form>
 				
 			</div>
+			<div ng-controller="ctrl">
+			    <mydirc></mydirc>
+			    <button ng-click="clickMe()">call clickMe()</button>
+			</div>
 		</article>
 		<%@include file="footer.jsp" %>
 		
 	</div>
 	
 	<script>
-var app = angular.module('commentApp', []);
-app.controller('commentCtrl', function($scope, $http) {
-    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-    .then(function(response) {$scope.comments = response.data;});
-});
-</script>
+		var app = angular.module('commentApp', []);
+		app.controller('commentCtrl', function($scope, $http) {
+		    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
+		    .then(function(response) {$scope.comments = response.data;});
+		});
+		
+		app.directive('mydirc', function() {
+		    return {
+		        restrict: 'E',
+		        replace: true,
+		        template: '<div></div>',
+		        link: function($scope, element, attrs) {
+		            $scope.clickMe= function() {
+		                alert('inside click');
+		            }
+		        ;}
+		    }
+		});
+	</script>
 </body>
 	<% 	} else {
 			%>
