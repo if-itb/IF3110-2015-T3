@@ -19,7 +19,7 @@
       <p>Cannot find what you are looking for? 
           <c:choose>
               <c:when test="${name != null}">
-                <a href="/StackExchangeClient/askquestion.jsp" style="color:pink">Ask here</a></p>
+                <a href="/StackExchangeClient/askform" style="color:pink">Ask here</a></p>
               </c:when> 
               <c:otherwise> 
                 <a href="/StackExchangeClient/login.jsp" style="color:pink">Login First</a></p>

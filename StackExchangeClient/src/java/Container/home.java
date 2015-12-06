@@ -63,19 +63,7 @@ public class home extends HttpServlet {
             User user = getUserByToken(token);
             request.setAttribute("name", user.getName());
         }
-//       if (cookies != null) {
-//                while (!found && i < cookies.length){
-//                    String[] parts = cookies[i].getValue().split("#");
-//                    if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ipAddress) && parts[2].equals(useragent)) {
-//                        User user = getUserByToken(parts[0]);
-//                        request.setAttribute("name", user.getName());
-//                        found = true; 
-//                         
-//                    }
-//                    i++;
-//                    
-//                }
-//            }
+        
         HashMap<Integer, Integer> hmap = new HashMap<>();
         HashMap<Integer, Integer> answermap = new HashMap<>();
         HashMap<Integer, String> askmap = new HashMap<>();

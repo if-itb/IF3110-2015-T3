@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Login;
+package Container;
 
 import ClientValidate.ClientValidate;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import user.User;
 import user.UserWS_Service;
 
 /**
  *
- * @author Ahmad Naufal Farhan
+ * @author mochamadtry
  */
-public class Logout extends HttpServlet {
+public class askform extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl")
     private UserWS_Service service;
@@ -36,28 +38,24 @@ public class Logout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String token =""; 
-        boolean found = false; 
-        int i = 0; 
-        Cookie[] cookies = request.getCookies();
+        response.setContentType("text/html;charset=UTF-8");
+        Cookie[] cookies;
+        cookies = request.getCookies();
         String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
         useragent = useragent.replace(',', '$');
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
-        if (ipAddress == null)
-           ipAddress = request.getRemoteAddr();  
-//        
-        token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        if (ipAddress == null) ipAddress = request.getRemoteAddr();
         
+        // validate the token
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
         if (token != null) {
-            int res = logoutUser(token);
-            if (res > 0) {
-                Cookie cookie = new Cookie("token_cookie", null);
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
-            }
+            User user = getUserByToken(token);
+            request.setAttribute("name", user.getName());
         }
-
-        response.sendRedirect("home");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/askquestion.jsp"); 
+        dispatcher.forward(request, response); 
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -99,11 +97,11 @@ public class Logout extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int logoutUser(java.lang.String token) {
+    private User getUserByToken(java.lang.String token) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         user.UserWS port = service.getUserWSPort();
-        return port.logoutUser(token);
+        return port.getUserByToken(token);
     }
 
 }
