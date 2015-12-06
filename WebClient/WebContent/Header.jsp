@@ -122,6 +122,12 @@ function checkToken(check,allow){
                   if (valid == 0){
               	  	alert("Token Expired");
               	  	regenerateToken();
+                  } else if (valid == -1) {
+                	  alert("Token not valid");
+                  } else if (valid == -2) {
+                	  alert("IP Address not valid");
+                  } else if (valid == -3) {
+                	  alert("User agent not valid");
                   }
                   if((valid == 1) || (valid == 0)){
                 	   for (var i = 0; i < user_buttons.length; i ++) {
@@ -137,7 +143,7 @@ function checkToken(check,allow){
 					   $('#navPanel nav a:nth-child(2)').attr("href", "signout.jsp");
                   }
                   
-                  if(valid == -1 && allow){
+                  if(valid <= -1 && allow){
         	  		window.location.href = "index.jsp";
         	  		$('body').remove();
 					alert("Anda tidak berhak mengakses");

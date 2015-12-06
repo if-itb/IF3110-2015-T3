@@ -56,7 +56,7 @@ public class TokenValidity {
 			System.out.println("gila = " + stmt);
 	
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()){
+			if(rs.next()){ //ketemu yg sesuai token, user_agent, dan ip_address
 				//cek tanngal expire
 				java.util.Date date = rs.getTimestamp("timestamp");
 				Date expire = new Date(date.getTime() + TimeUnit.MINUTES.toMillis( 5 ));//2 minutes validity
@@ -69,6 +69,25 @@ public class TokenValidity {
 					identity.valid = 0;
 				}
 				identity.id_user = rs.getInt("id_user");
+			} else { //coba cek ketemu token e ga?
+				sql = "SELECT * FROM token WHERE access_token = ?";
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, token);
+				rs = stmt.executeQuery();
+				if(rs.next()){//cek token dan ip_address
+					sql = "SELECT * FROM token WHERE access_token = ? AND user_agent = ?";
+					stmt = conn.prepareStatement(sql);
+					stmt.setString(1, token);
+					stmt.setString(2, user_agent);
+					rs = stmt.executeQuery();
+					if(rs.next()){//yang salah ip_address
+						identity.valid = -2;
+					} else {//yang salah user_agent
+						identity.valid = -3;
+					}
+				} else {
+					identity.valid = -1;
+				}
 			}
 			stmt.close();
 			conn.close();
@@ -173,6 +192,7 @@ public class TokenValidity {
 		@FormParam("id_question") int id_question) {
 		AccessValidity a = new AccessValidity();
 		Identity identity = getIdentity(access_token);
+		//a.valid = identity.valid;
 		if (identity.valid == 1){
 			if(getQuestionUserId(id_question) == identity.id_user){
 				a.valid = 1;
