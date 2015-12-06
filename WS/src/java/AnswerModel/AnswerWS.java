@@ -235,26 +235,30 @@ public class AnswerWS {
      @WebResult(name = "Answer")
     public int InsertAnswer(@WebParam(name = "qid") int qid ,@WebParam(name = "token") String token, @WebParam(name = "content") String content) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
-            Statement stmt = conn.createStatement();
-            String sql;
-            sql = "INSERT INTO answers (QuestionID ,Votes,Answer,Name,Email,Datetime) VALUES(?,0,?,?,?,NOW())";
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, qid);
-            dbStatement.setString(2, content);
-            Auth auth=new Auth();
-            dbStatement.setString(3, auth.getName(token));
-            dbStatement.setString(4, auth.getEmail(token));
-            dbStatement.executeUpdate();
-            /* Get every data returned by SQL query */
+            if (token.equals("") || qid == 0 || content.equals("")) {
+                return 0;
+            } else {
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
+                Statement stmt = conn.createStatement();
+                String sql;
+                sql = "INSERT INTO answers (QuestionID ,Votes,Answer,Name,Email,Datetime) VALUES(?,0,?,?,?,NOW())";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, qid);
+                dbStatement.setString(2, content);
+                Auth auth=new Auth();
+                dbStatement.setString(3, auth.getName(token));
+                dbStatement.setString(4, auth.getEmail(token));
+                dbStatement.executeUpdate();
+                /* Get every data returned by SQL query */
 
-                
-            sql = "UPDATE questions SET Answers=Answers+1 WHERE QuestionID = ?  ";
-            dbStatement = conn.prepareStatement(sql);
-            dbStatement.setInt(1, qid);
-            dbStatement.executeUpdate();
-            stmt.close();
+
+                sql = "UPDATE questions SET Answers=Answers+1 WHERE QuestionID = ?  ";
+                dbStatement = conn.prepareStatement(sql);
+                dbStatement.setInt(1, qid);
+                dbStatement.executeUpdate();
+                stmt.close();
+            }
         } catch (SQLException ex) {
             //Logger.getLogger(RegisterWS.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);

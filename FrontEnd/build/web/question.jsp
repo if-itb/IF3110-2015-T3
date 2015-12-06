@@ -73,7 +73,7 @@
                         // TODO process result here
                         java.util.List<questionmodel.Question> result = port.getQuestionbyID(id);
                         for (int i = 0; i < result.size(); i++) {
-                            out.println("<form name='question' action='updatequestion.jsp' method='post' class='form'>");
+                            out.println("<form name='question' action='updatequestion.jsp?id="+qid+"' method='post' class='form'>");
                             out.println("<input type='text' maxlength='30' name='topic' placeholder='Question Topic' value='"+result.get(i).getTopic()+"'><br>");
                             out.println("<textarea name='content' placeholder='Content' maxlength='1500'>"+result.get(i).getQuestion()+"</textarea>");
                             out.println("<input type='submit' value='Post'>");

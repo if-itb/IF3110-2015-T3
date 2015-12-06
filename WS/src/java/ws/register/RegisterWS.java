@@ -27,28 +27,32 @@ public class RegisterWS {
         String sql = "";
         int result = 0;
         try {
-            //TODO write your implementation code here:
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
-            Statement stmt = conn.createStatement();
-            sql = "SELECT * FROM users WHERE Email = ?";
-            
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setString(1, email);
-            ResultSet rs = dbStatement.executeQuery();
-            //jika email belum teregister
-            if (!rs.next()) {
-                sql = "INSERT INTO users (Name, Email, Password) VALUES (?,?,?)";
+            if (name.equals("") || email.equals("") || password.equals("")) {
+                return 0;
+            } else {
+                //TODO write your implementation code here:
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
+                Statement stmt = conn.createStatement();
+                sql = "SELECT * FROM users WHERE Email = ?";
 
-                dbStatement = conn.prepareStatement(sql);
-                dbStatement.setString(1, name);
-                dbStatement.setString(2, email);
-                dbStatement.setString(3, password);
-                result = dbStatement.executeUpdate();
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setString(1, email);
+                ResultSet rs = dbStatement.executeQuery();
+                //jika email belum teregister
+                if (!rs.next()) {
+                    sql = "INSERT INTO users (Name, Email, Password) VALUES (?,?,?)";
+
+                    dbStatement = conn.prepareStatement(sql);
+                    dbStatement.setString(1, name);
+                    dbStatement.setString(2, email);
+                    dbStatement.setString(3, password);
+                    result = dbStatement.executeUpdate();
+                }
+                conn.close();
+                stmt.close();
+                dbStatement.close();
             }
-            conn.close();
-            stmt.close();
-            dbStatement.close();
         } catch (SQLException ex) {
             //Logger.getLogger(RegisterWS.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);

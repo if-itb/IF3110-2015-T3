@@ -43,7 +43,6 @@
     try {
        
         // TODO initialize WS operation arguments here
-        
         java.lang.String topic = request.getParameter("topic");
         java.lang.String content = request.getParameter("content");
         int id = Integer.parseInt(request.getParameter("id"));

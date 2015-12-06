@@ -151,21 +151,25 @@ public class QuestionWS {
     @WebResult(name = "Question")
     public int InsertQuestion(@WebParam(name = "token") String token, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
-            Statement stmt = conn.createStatement();
-            String sql;
-            sql = "INSERT INTO questions (Votes,Answers,Topic,Question,Name,Email,Datetime) VALUES(0,0,?,?,?,?,NOW())";
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            dbStatement.setString(1, topic);
-            dbStatement.setString(2, content);
-            Auth auth = new Auth();
-            dbStatement.setString(3, auth.getName(token));
-            dbStatement.setString(4, auth.getEmail(token));
-            dbStatement.executeUpdate();
-            /* Get every data returned by SQL query */
-
-            stmt.close();
+            if (token.equals("") || topic.equals("") || content.equals("")) {
+                return 0;
+            } else {
+                Class.forName("com.mysql.jdbc.Driver");
+                conn = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/stackexchange?zeroDateTimeBehavior=convertToNull", "root", "");
+                Statement stmt = conn.createStatement();
+                String sql;
+                sql = "INSERT INTO questions (Votes,Answers,Topic,Question,Name,Email,Datetime) VALUES(0,0,?,?,?,?,NOW())";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                dbStatement.setString(1, topic);
+                dbStatement.setString(2, content);
+                Auth auth = new Auth();
+                dbStatement.setString(3, auth.getName(token));
+                dbStatement.setString(4, auth.getEmail(token));
+                dbStatement.executeUpdate();
+                /* Get every data returned by SQL query */
+                stmt.close();
+            }
+            
         } catch (SQLException ex) {
             //Logger.getLogger(RegisterWS.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex);
