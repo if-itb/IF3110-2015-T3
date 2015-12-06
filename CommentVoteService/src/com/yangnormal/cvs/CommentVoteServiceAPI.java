@@ -41,10 +41,10 @@ public class CommentVoteServiceAPI extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         switch (req.getPathInfo()) {
-            case "/postcomment":
+            case "/comment":
                 postComment(req, res);
                 break;
-            case "/doVote":
+            case "/vote":
                 doVote(req, res);
                 break;
             default:
