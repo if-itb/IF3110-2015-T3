@@ -76,24 +76,24 @@ public class ServiceAuth extends HttpServlet {
                             out.print(object);
                         }else{
                             object.put("auth", -2);
-                            object.put("message", "Token From Different Browser");
+                            object.put("error", "Token From Different Browser");
                             out.print(object);
                         }
                     }else{
                         object.put("auth", -1);
-                        object.put("message", "Token From Different IP");
+                        object.put("error", "Token From Different IP");
                         out.print(object);      
                     }
                 } else {
                     object.put("auth", 0);
-                    object.put("message", "Token Expired");
+                    object.put("error", "Token Expired");
                     out.print(object);
                 }
                 
 
             } else {
                 object.put("auth", -3);
-                object.put("message", "Token Invalid");
+                object.put("error", "Please LOG IN FIRST");
                 out.print(object);
             }
             

@@ -11,10 +11,10 @@
 
 	<div class="main">
     <div class="wrapper" id="searchbox">
-			<form role="form" action="/StackExchangeClient/home" method="GET">
-        <input type="text" id="searchbox" name="keyword" required>
-        <input class="btn" type="submit" id="searchbutton" value="Search" name="search">
-			</form>
+        <form role="form" action="/StackExchangeClient/home" method="GET">
+            <input type="text" id="searchbox" name="keyword" required>
+            <input class="btn" type="submit" id="searchbutton" value="Search" name="search">
+	</form>
 
       <p>Cannot find what you are looking for? 
           <c:choose>
@@ -25,7 +25,7 @@
                 <a href="/StackExchangeClient/login.jsp" style="color:pink">Login First</a></p>
               </c:otherwise>
           </c:choose>
-		</div>
+    </div>
     
     <div class="wrapper">
       <div class="content-header">

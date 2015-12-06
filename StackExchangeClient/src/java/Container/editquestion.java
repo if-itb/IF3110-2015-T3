@@ -55,10 +55,7 @@ public class editquestion extends HttpServlet {
             ipAddress = request.getRemoteAddr();  
         String token = ClientValidate.tokenExtract(cookies);
         
-        if (token == null) {
-            request.setAttribute("error", "You have to log in first!");
-            response.sendRedirect("login.jsp");
-        } else {
+        if (token != null) {
             // get user and compare it with the token ID
             User user = getUserByToken(token);
             Question question = getQuestionById(qid);
@@ -74,6 +71,10 @@ public class editquestion extends HttpServlet {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + request.getRequestURL().toString()); 
                 dispatcher.forward(request, response);
             }
+        } else {
+            
+            request.setAttribute("error", "You have to log in first!");
+            response.sendRedirect("login.jsp");
         }
     }
 
