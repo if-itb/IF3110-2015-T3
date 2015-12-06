@@ -34,6 +34,8 @@ public class Authentication extends HttpServlet {
     private String user_agent;
     private String ip_address;
     
+    private String token;
+    
     //info of user agent and ip address from sender
     private String realUserAgent;
     private String realIpAddress;
@@ -62,10 +64,11 @@ public class Authentication extends HttpServlet {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE random_string='" + random_string + "'";
+            sql = "SELECT * FROM user_token INNER JOIN user ON user.user_id=user_token.user_id WHERE random_string='" + random_string + "' AND user_agent='" + user_agent +"' AND ip_address='" + ip_address + "'";
             ResultSet rs = stmt.executeQuery(sql);
-           
-            if(!rs.next()){ //INVALID TOKEN
+            
+            // check token is on DB or not
+            if(!rs.next()){ //INVALID TOKEN, not found in DB
                 
                 name = "";
                 email = "";
@@ -73,8 +76,9 @@ public class Authentication extends HttpServlet {
                 create_time= "";
                 is_valid ="-2"; // token rejected, invalid token
             }
-            else{
+            else{ //token valid, next checking...
                 
+                // check validity of user agent and IP address
                 user_agent = rs.getString("user_agent");
                 ip_address = rs.getString("ip_address");
                 
@@ -162,10 +166,14 @@ public class Authentication extends HttpServlet {
             try {
                 Object obj = parser.parse(jb.toString());
                 JSONObject input = (JSONObject) obj;
-                random_string = (String) input.get("token"); // full token
+                token = (String) input.get("token"); // full token
                 realUserAgent = (String) input.get("user_agent"); // real user agent
                 realIpAddress = (String) input.get("ip_address"); // real ip address
                 
+                String temp[] = token.split("#");
+                random_string = temp[0];
+                user_agent = temp[1];
+                ip_address = temp[2];
                 
                 // check user agent and ip address in token is valid
                 

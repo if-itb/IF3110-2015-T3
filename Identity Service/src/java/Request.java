@@ -88,7 +88,7 @@ public class Request extends HttpServlet {
                     int res = stmt.executeUpdate(sql);
                     System.out.println(res);
                 }
-                token = random_string;
+                token = random_string + "#" + user_agent + "#" + ip_address;
                 
            }
            else{ //INVALID email or password
@@ -126,15 +126,15 @@ public class Request extends HttpServlet {
     
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         
-        // get user agent (browser information)
-        user_agent = request.getHeader("User-Agent");
-        
-        // get IP address
-        //is client behind something?
-        ip_address = request.getHeader("X-FORWARDED-FOR");  
-        if (ip_address == null) {  
-                ip_address = request.getRemoteAddr();  
-        }
+//        // get user agent (browser information)
+//        user_agent = request.getHeader("User-Agent");
+//        
+//        // get IP address
+//        //is client behind something?
+//        ip_address = request.getHeader("X-FORWARDED-FOR");  
+//        if (ip_address == null) {  
+//                ip_address = request.getRemoteAddr();  
+//        }
         
         // get input
         StringBuffer jb = new StringBuffer();
@@ -152,6 +152,8 @@ public class Request extends HttpServlet {
                 JSONObject input = (JSONObject) obj;
                 email = (String) input.get("email");
                 password = (String) input.get("password");
+                user_agent = (String) input.get("user_agent");
+                ip_address = (String) input.get("ip_address");
                 createNewToken(email, password);
                 
                 response.setContentType("application/json;charset=UTF-8");
