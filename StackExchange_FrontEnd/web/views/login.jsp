@@ -70,6 +70,14 @@
 
     if (getParameterByName("invalid") == "true"){
         alert("Invalid email or password");
+    } else if (getParameterByName("expired") == "true"){
+        alert("Token Expired. Please re-login");
+    } else if (getParameterByName("token_invalid") == "true"){
+        alert("Invalid token");
+    } else if (getParameterByName("ua_conflict") == "true"){
+        alert("Someone is trying to login as you from different browser");
+    } else if (getParameterByName("ip_conflict") == "true"){
+        alert("Someone is trying to login as you using different IP Address");
     }
 </script>
 
