@@ -57,8 +57,9 @@
                     <button type="submit"  ng-click='comment()'> Submit </button>
                 </form>
 		
-                <div ng-repeat = "comment in comments">
-		    <p>{{comment.content}} by {{comment.name}} at {{comment.createdAt}}</p>
+                <div ng-repeat = "comment in comments" class="comment">
+                    <div class="line-separator"></div>
+		              <p>{{comment.content}} by <strong>{{comment.name}}</strong> at {{comment.createdAt}}</p>
                 </div>
             </div>
 

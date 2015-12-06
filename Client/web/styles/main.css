@@ -488,3 +488,16 @@ a:visited {
     clear: both;
     *zoom: 1;
 }
+
+.comment
+{
+    margin-top: 6%;
+    font: Arial;
+    font-size: 16px;
+}
+
+.line-separator{
+    height:1px;
+    background:#717171;
+    border-bottom:1px solid #313030;
+}
