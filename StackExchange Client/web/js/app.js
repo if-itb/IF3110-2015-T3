@@ -72,3 +72,34 @@ app.controller("voteController", function($scope, $http) {
         $scope.vote(id, "answer", "down");
     };
 });
+
+app.controller("commentController", function($scope, $http)) {
+    $scope.comments = [];
+    
+    $scope.addComment = function(idQuestion, content){
+        $http({
+            method  : "POST",
+            url     : "comment",
+            data    : "id=" + id + "&content=" + content,
+            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .success(function(data){
+            switch(data["status"]){
+                case 1 :
+                    alert("alhamdulillah");
+                    if(data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
+                        $scope.comments = data["comments"];
+                    }
+                    break;
+                default :
+                    if(data.hasOwnProperty("detail")){ // ketika ada detail di dalam data (ada error)
+                        alert("astaghfirullah, " + data["details"]);
+                    }
+                    break;
+            }
+        });
+        .error(function(data)){
+            alert("Insert comment failed");
+        }
+    }
+}
