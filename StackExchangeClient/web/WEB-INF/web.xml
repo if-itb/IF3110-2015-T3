@@ -68,6 +68,10 @@
         <servlet-name>loginform</servlet-name>
         <servlet-class>Container.loginform</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>comment</servlet-name>
+        <servlet-class>Container.comment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>loginform</servlet-name>
         <url-pattern>/loginform</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>comment</servlet-name>
+        <url-pattern>/comment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

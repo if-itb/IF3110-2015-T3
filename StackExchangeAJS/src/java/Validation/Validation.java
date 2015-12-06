@@ -25,8 +25,10 @@ import org.json.simple.parser.ParseException;
 public class Validation {
     // authorization flag
     public static final int AUTH_VALID = 1;
-    public static final int AUTH_INVALID = 0;
-    public static final int AUTH_ERROR = -1;
+    public static final int AUTH_EXPIRED = 0;
+    public static final int AUTH_DIFFIP = -1;
+    public static final int AUTH_DIFFBROWSER = -2;
+    public static final int AUTH_INVALID = -3;
     
     /* URL TO ServiceAuth CONTROLLER IN IDENTITY SERVICE */
     private static final String URL_AUTH = "http://localhost:8082/StackExchangeIS/ServiceAuth";
@@ -36,10 +38,11 @@ public class Validation {
      * @param token
      * @return 
      */
-    public static long validateToken(String token) {
+    public static long validateToken(String token, String ipaddress, String useragent) {
         long user_id = -1;
         
         try {
+            
             // establish a connection with the identity service that handles login
             URL url = new URL(URL_AUTH);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -49,8 +52,10 @@ public class Validation {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
      
-            String params = String.format("token_str=%s",
-                                            URLEncoder.encode(token, "UTF-8"));
+            String params = String.format("token_str=%s&ipaddress=%s&useragent=%s",
+                                            URLEncoder.encode(token, "UTF-8"),
+                                            URLEncoder.encode(ipaddress, "UTF-8"),
+                                            URLEncoder.encode(useragent, "UTF-8"));
       
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(params.getBytes("UTF-8"));
@@ -70,10 +75,13 @@ public class Validation {
             
                 // get the attributes and add the cookie
             long isAuth = (Long) object.get("auth");
-                
+            
             if (isAuth > 0)
                 user_id = (Long) object.get("user_id");
-            
+            else{
+                user_id = (Long) object.get("auth");
+            }
+                
             conn.disconnect();
         } catch (IOException | ParseException ex) {
             Logger.getLogger(Validation.class.getName()).log(Level.SEVERE, null, ex);

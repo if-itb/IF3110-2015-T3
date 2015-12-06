@@ -17,6 +17,7 @@
         </style>
     </head>
     <body>
+        <script src="app.js" type="text/javascript"></script>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
               <div class="navbar-header">

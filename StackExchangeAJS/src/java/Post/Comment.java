@@ -118,11 +118,13 @@ public class Comment extends HttpServlet {
         String token = request.getParameter("token");
         int qid = Integer.parseInt(request.getParameter("qid"));
         int content = Integer.parseInt(request.getParameter("content"));
+        String ipAddress = request.getParameter("ipaddress");
+        String useragent = request.getParameter("uagent");
         
         JSONObject obj = new JSONObject();
         
-        int res = Validation.AUTH_ERROR;       // initialize result with error first (assumption)
-        long user_id = Validation.validateToken(token); // validate token and get the user id
+        int res = Validation.AUTH_INVALID;       // initialize result with error first (assumption)
+        long user_id = Validation.validateToken(token, ipAddress, useragent); // validate token and get the user id
         
         try (PrintWriter out = response.getWriter()) {
             // token is valid if user_id value is not -1

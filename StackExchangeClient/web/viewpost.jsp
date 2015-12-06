@@ -9,7 +9,7 @@
 
 <%@include file="includes/header.jsp" %>
 
-<div class="container">
+<div class="container" ng-app="stackExchange">
     <div id="header">
         <a href="index.php"><h1>Simple StackExchange</h1></a>
     </div>
@@ -43,6 +43,10 @@
                             asked by <span class="user-question">${asker}</span> at ${result.getQuestionTimestamp()}
                             </c:otherwise>
                         </c:choose>
+                    </div>
+                    
+                    <div class="comments">
+                        
                     </div>
                 </div>
             </div>  

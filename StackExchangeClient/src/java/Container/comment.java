@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ClientValidate.ClientValidate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,15 +23,15 @@ import java.util.logging.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import ClientValidate.ClientValidate;
 
 /**
  *
  * @author Bimo
  */
-public class voteanswer extends HttpServlet {
+public class comment extends HttpServlet {
 
-    private static final String URL_VOTE_ANSWER = "http://localhost:8083/StackExchangeAJS/VoteAnswer";
+    private static final String URL_COMMENT = "http://localhost:8083/StackExchangeAJS/Comment";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,7 +42,8 @@ public class voteanswer extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException  {
+            throws ServletException, IOException {
+        
         
     }
 
@@ -59,10 +59,10 @@ public class voteanswer extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int aid = Integer.parseInt(request.getParameter("aid"));
+        int qid = Integer.parseInt(request.getParameter("qid"));
         try {
             // establish a connection with the identity service that handles login
-            URL url = new URL(URL_VOTE_ANSWER);
+            URL url = new URL(URL_COMMENT);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
            // set the request property
             conn.setDoOutput(true);
@@ -70,7 +70,7 @@ public class voteanswer extends HttpServlet {
             conn.setRequestProperty("Content-Type", "text/plain");
             conn.setRequestProperty("charset", "utf-8");
 
-            String params = String.format("aid=%d", aid);
+            String params = String.format("qid=%d", qid);
 
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(params.getBytes("UTF-8"));
@@ -92,10 +92,12 @@ public class voteanswer extends HttpServlet {
                 out.print(object);
             }
             
+
             conn.disconnect();
         } catch (IOException | ParseException ex) {
-            Logger.getLogger(voteanswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         
     }
 
@@ -110,7 +112,6 @@ public class voteanswer extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         Cookie[] cookies = request.getCookies();
         String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
         useragent = useragent.replace(',', '$');
@@ -126,9 +127,11 @@ public class voteanswer extends HttpServlet {
         } else {
             // do the vote
             int qid = Integer.parseInt(request.getParameter("qid"));
-            int aid = Integer.parseInt(request.getParameter("aid"));
-            int value = Integer.parseInt(request.getParameter("jlhvote"));
-            int ins = voteanswers(token, ipAddress, useragent, aid, value);
+            String content = request.getParameter("content");
+            int ins = addcomment(token, ipAddress, useragent, qid, content);
+            try (PrintWriter out = response.getWriter()) {
+                
+            }
         }
     }
 
@@ -142,14 +145,14 @@ public class voteanswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteanswers(String token, String ipAddress, String useragent, int aid, int value) {
+    private int addcomment(String token, String ipAddress, String useragent, int qid, String content) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         int res = -3;
 
         try {
             // establish a connection with the identity service that handles login
-            URL url = new URL(URL_VOTE_ANSWER);
+            URL url = new URL(URL_COMMENT);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
            // set the request property
             conn.setDoOutput(true);
@@ -157,11 +160,12 @@ public class voteanswer extends HttpServlet {
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("charset", "utf-8");
 
-            String params = String.format("token=%s&uagent=%s&ipaddress=%s&aid=%d&value=%d",
+            String params = String.format("token=%s&uagent=%s&ipaddress=%s&qid=%d&content=%s",
                                             URLEncoder.encode(token, "UTF-8"), 
                                             URLEncoder.encode(ipAddress, "UTF-8"),
                                             URLEncoder.encode(useragent, "UTF-8"), 
-                                            aid, value);
+                                            qid,
+                                            URLEncoder.encode(content, "UTF-8"));
 
             try (OutputStream output = conn.getOutputStream()) {
                 output.write(params.getBytes("UTF-8"));
@@ -183,9 +187,11 @@ public class voteanswer extends HttpServlet {
 
             conn.disconnect();
         } catch (IOException | ParseException ex) {
-            Logger.getLogger(voteanswer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return res;
-    }    
+    }
+
+    
 }
