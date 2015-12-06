@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://WSModel/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://WSModel/">
+
+<xs:element name="addAnswer" type="tns:addAnswer"/>
+
+<xs:element name="addAnswerResponse" type="tns:addAnswerResponse"/>
+
+<xs:element name="addQuestion" type="tns:addQuestion"/>
+
+<xs:element name="addQuestionResponse" type="tns:addQuestionResponse"/>
+
+<xs:element name="addUser" type="tns:addUser"/>
+
+<xs:element name="addUserResponse" type="tns:addUserResponse"/>
+
+<xs:element name="answeritem" type="tns:answerClass"/>
+
+<xs:element name="deleteQuestion" type="tns:deleteQuestion"/>
+
+<xs:element name="deleteQuestionResponse" type="tns:deleteQuestionResponse"/>
+
+<xs:element name="getAllQuestion" type="tns:getAllQuestion"/>
+
+<xs:element name="getAllQuestionResponse" type="tns:getAllQuestionResponse"/>
+
+<xs:element name="getAnswerByID" type="tns:getAnswerByID"/>
+
+<xs:element name="getAnswerByIDResponse" type="tns:getAnswerByIDResponse"/>
+
+<xs:element name="getAnswerByQID" type="tns:getAnswerByQID"/>
+
+<xs:element name="getAnswerByQIDResponse" type="tns:getAnswerByQIDResponse"/>
+
+<xs:element name="getAnswerUserName" type="tns:getAnswerUserName"/>
+
+<xs:element name="getAnswerUserNameResponse" type="tns:getAnswerUserNameResponse"/>
+
+<xs:element name="getQuestionByID" type="tns:getQuestionByID"/>
+
+<xs:element name="getQuestionByIDResponse" type="tns:getQuestionByIDResponse"/>
+
+<xs:element name="getSumAnswer" type="tns:getSumAnswer"/>
+
+<xs:element name="getSumAnswerResponse" type="tns:getSumAnswerResponse"/>
+
+<xs:element name="questionitem" type="tns:questionClass"/>
+
+<xs:element name="updateQuestion" type="tns:updateQuestion"/>
+
+<xs:element name="updateQuestionResponse" type="tns:updateQuestionResponse"/>
+
+<xs:element name="voteDownAnswer" type="tns:voteDownAnswer"/>
+
+<xs:element name="voteDownAnswerResponse" type="tns:voteDownAnswerResponse"/>
+
+<xs:element name="voteDownQuestion" type="tns:voteDownQuestion"/>
+
+<xs:element name="voteDownQuestionResponse" type="tns:voteDownQuestionResponse"/>
+
+<xs:element name="voteUpAnswer" type="tns:voteUpAnswer"/>
+
+<xs:element name="voteUpAnswerResponse" type="tns:voteUpAnswerResponse"/>
+
+<xs:element name="voteUpQuestion" type="tns:voteUpQuestion"/>
+
+<xs:element name="voteUpQuestionResponse" type="tns:voteUpQuestionResponse"/>
+
+<xs:complexType name="getAllQuestion">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getAllQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:questionClass" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="questionClass">
+<xs:sequence>
+<xs:element name="questionContent" type="xs:string" minOccurs="0"/>
+<xs:element name="questionDate" type="xs:string" minOccurs="0"/>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="questionTitle" type="xs:string" minOccurs="0"/>
+<xs:element name="questionUserId" type="xs:int"/>
+<xs:element name="questionVote" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addUser">
+<xs:sequence>
+<xs:element name="userName" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByID">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionByIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:questionClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteDownQuestion">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteDownQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerByID">
+<xs:sequence>
+<xs:element name="answer_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerByIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:answerClass" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answerClass">
+<xs:sequence>
+<xs:element name="answerVote" type="xs:int"/>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="answerContent" type="xs:string" minOccurs="0"/>
+<xs:element name="answerDate" type="xs:string" minOccurs="0"/>
+<xs:element name="questionId2" type="xs:int"/>
+<xs:element name="answerUserId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerByQID">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerByQIDResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:answerClass" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addQuestion">
+<xs:sequence>
+<xs:element name="access_token" type="xs:string" minOccurs="0"/>
+<xs:element name="questionTitle" type="xs:string" minOccurs="0"/>
+<xs:element name="questionContent" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestion">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteDownAnswer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteDownAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateQuestion">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="questionTitle" type="xs:string" minOccurs="0"/>
+<xs:element name="questionContent" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteUpAnswer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteUpAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addAnswer">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+<xs:element name="answerContent" type="xs:string" minOccurs="0"/>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="addAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSumAnswer">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getSumAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteUpQuestion">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteUpQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerUserName">
+<xs:sequence>
+<xs:element name="userID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerUserNameResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

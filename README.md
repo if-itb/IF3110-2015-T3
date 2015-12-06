@@ -23,6 +23,8 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 *Masukkan link laporan anda di sini*
 
+https://docs.google.com/a/std.stei.itb.ac.id/document/d/1coQXUA5hyYoE3HniLXTlDXHzmdcGDGsW3SVgggpRiW0/edit?usp=sharing
+
 ### Arsitektur Umum Server
 
 ```
