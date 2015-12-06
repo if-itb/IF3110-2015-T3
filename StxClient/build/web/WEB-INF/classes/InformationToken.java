@@ -9,8 +9,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Muhtar H
- */
+ * @author Muhtar H */
 public class InformationToken {
     private int status;
     public InformationToken() {
@@ -19,7 +18,7 @@ public class InformationToken {
     public String getEmail(String token) {
         String email = "";
         try {
-            XmlResponse xr = new XmlResponse("http://localhost:8082/StxIS1/Handler?token="+token);
+            XmlResponse xr = new XmlResponse("http://localhost:8082/StxIS/Handler?token="+token);
             status = xr.sendGET();
             
             System.out.println(xr);

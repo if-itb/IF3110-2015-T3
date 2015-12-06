@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="css/font-awesome.min.css">
         <script src="js/angular.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/app2.js" type="text/javascript"></script>
 </head>
 <body>
 <div id = "wrapper">

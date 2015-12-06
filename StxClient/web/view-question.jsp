@@ -22,8 +22,7 @@
     <%
 	QuestionWS_Service service = new QuestionWS_Service();
 	QuestionWS port = service.getQuestionWSPort();
-	 // TODO initialize WS operation arguments here
-	
+	 // TODO initialize WS operation arguments here	
 	// TODO process result here
 	Question Q = port.getQuestionById(id);
     %>
@@ -31,12 +30,11 @@
 	<div class="section">	
 		<h2><% out.print(Q.getTopic());%></h2>
 		<div class="row">
-                    <div class="col vote" ng-app="xapp" ng-controller="xvote">
-                        <div class = "vote-btn" ng-init="voteNum = 10">                  
-                                
-				<button type="button" ng-click="vote(1)"><i class="fa fa-chevron-up"></i></button>
-                                <p class = "number-vote" > {{voteNum}}</p>
-				<button type="button" ng-click="vote(1))"><i class="fa fa-chevron-down"></i></button>
+                    <div class="col vote">
+                        <div class = "vote-btn" ng-init="voteNum() = <% out.print(Q.getVote()); %>" ng-app="" ng-controller="qvote">                                                  
+				<button type="button" ng-click="vote('q',<% out.print(id); %>, 1)"><i class="fa fa-chevron-up"></i></button>
+                                <p class = "number-vote" > {{voteNum()}}</p>
+				<button type="button" ng-click="vote('q',<% out.print(id); %>, -1)"><i class="fa fa-chevron-down"></i></button>
 				</div>
 			</div>
 			<div class="col content">
@@ -53,7 +51,8 @@
 		</div>
 		<br>
 	</div>
-<!-- Jawaban --> 
+                            
+<!-- Jawaban -->         
 	<div class="section" id="answers">
 		<%
                 try {
@@ -83,12 +82,13 @@
                 <%
                     for(Answer Ans : result2) {
                 %>
-                    <div class = "row" ng-app="xapp" ng-controller="xvote">
-				<div class = "col vote" ng-init="voteNum = 10">
-                                    <button type="button" ng-click="vote(1)"><i class="fa fa-chevron-up"></i></button>
-                                    <p class = "number-vote" > {{voteNum}}</p>
-                                    <button type="button" ng-click="vote(-1)"><i class="fa fa-chevron-down"></i></button>
-				</div>
+                    <div class = "row">
+                                <div class = "col vote" ng-init="voteNum = 10" ng-app="xapp" ng-controller="qvote">                                                  
+                                         <button type="button" ng-click="vote(1)"><i class="fa fa-chevron-up"></i></button>
+                                         <p class = "number-vote" > {{voteNum}}</p>
+                                         <button type="button" ng-click="vote(-1)"><i class="fa fa-chevron-down"></i></button>
+                                         </div>
+                                 </div>
 				<div class = "col content">
 					<p> <% out.print(Ans.getAnsContent());%></p>
 					<br>

@@ -7,36 +7,36 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-    String site;
     if(session.getAttribute("sessionName") != null){
         String category = request.getParameter("c");
         int id = Integer.parseInt(request.getParameter("id"));
         int value = Integer.parseInt(request.getParameter("val"));
-        java.lang.String usermail = request.getParameter("email");
 
         if (category.equals("q")){
             QuestionWS.QuestionWS_Service service = new QuestionWS.QuestionWS_Service();
             QuestionWS.QuestionWS port = service.getQuestionWSPort();
              // TODO initialize WS operation arguments here
             // TODO process result here
-            int result = port.vote(id, usermail, value);
+            int result = port.vote(id, session.getAttribute("token"), value);
             if(result < 0) {
-                site = "../login.jsp";
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", "../login.jsp");
             } else{
-                site = "../view-question.jsp?id="+id;
+                out.print(result);
             }       
         } else {
 
-            int q_id = Integer.parseInt(request.getParameter("q_id"));
+            int q_id = id;
             AnswerWS.AnswerWS_Service service = new AnswerWS.AnswerWS_Service();
             AnswerWS.AnswerWS port = service.getAnswerWSPort();
              // TODO initialize WS operation arguments here
             // TODO process result here
-            int result = port.voteAns(q_id, usermail, value);
+            int result = port.voteAns(id, session.getAttribute("token"), value);
             if(result < -5) {
-                site = "../login.jsp";
+                response.setStatus(response.SC_MOVED_TEMPORARILY);
+                response.setHeader("Location", "../login.jsp");
             } else{
-                site = "../view-question.jsp?id="+id;
+                out.print(result);
             }
         }
             
@@ -44,8 +44,7 @@
     } else {
         site = "../login.jsp";
     }
-    response.setStatus(response.SC_MOVED_TEMPORARILY);
-    response.setHeader("Location", site);
+    
 %> 
     <%-- start web service invocation --%><hr/>
 
