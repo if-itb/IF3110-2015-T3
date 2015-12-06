@@ -8,6 +8,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServlet;
 import java.sql.*;
@@ -167,6 +169,10 @@ public class Authentication extends HttpServlet {
                 Object obj = parser.parse(jb.toString());
                 JSONObject input = (JSONObject) obj;
                 token = (String) input.get("token"); // full token
+                
+                //decode token
+                token = URLDecoder.decode(token, "UTF-8");
+                
                 realUserAgent = (String) input.get("user_agent"); // real user agent
                 realIpAddress = (String) input.get("ip_address"); // real ip address
                 

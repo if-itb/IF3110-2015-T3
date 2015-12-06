@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -125,17 +126,7 @@ public class Request extends HttpServlet {
     }
     
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        
-//        // get user agent (browser information)
-//        user_agent = request.getHeader("User-Agent");
-//        
-//        // get IP address
-//        //is client behind something?
-//        ip_address = request.getHeader("X-FORWARDED-FOR");  
-//        if (ip_address == null) {  
-//                ip_address = request.getRemoteAddr();  
-//        }
-        
+
         // get input
         StringBuffer jb = new StringBuffer();
         String line = null;
@@ -155,6 +146,9 @@ public class Request extends HttpServlet {
                 user_agent = (String) input.get("user_agent");
                 ip_address = (String) input.get("ip_address");
                 createNewToken(email, password);
+                
+                //encode token
+                token = URLEncoder.encode(token, "UTF-8");
                 
                 response.setContentType("application/json;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
