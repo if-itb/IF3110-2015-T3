@@ -55,6 +55,7 @@ public class CommentServlet extends HttpServlet {
             object.put("c_id", comment.getcId());
             object.put("q_id", comment.getqId());
             object.put("u_id", comment.getuId());
+            object.put("email", comment.getUsername());
             object.put("content", comment.getContent());
             object.put("date_created", comment.getDateCreated());
             comments.add(object);
@@ -94,7 +95,23 @@ public class CommentServlet extends HttpServlet {
                 int status = addComment(qId, uId, content);
                 result.put("status", status);
                 if (status==0) result.put("message", "Error");
-                else result.put("message", "Success");
+                else {
+                    result.put("message", "Success");
+                    ArrayList<Comment> commentList = getComments(qId);
+        
+                    JSONArray comments = new JSONArray();
+                    for (Comment comment: commentList) {
+                        JSONObject object = new JSONObject();
+                        object.put("c_id", comment.getcId());
+                        object.put("q_id", comment.getqId());
+                        object.put("u_id", comment.getuId());
+                        object.put("username", comment.getUsername());
+                        object.put("content", comment.getContent());
+                        object.put("date_created", comment.getDateCreated());
+                        comments.add(object);
+                    }
+                    result.put("comments", comments);
+                }
             }
             try(PrintWriter out = response.getWriter()) {
                 out.print(result.toString());
@@ -115,7 +132,7 @@ public class CommentServlet extends HttpServlet {
     
     private ArrayList<Comment> getComments(int qId) {
         ArrayList<Comment> comments = new ArrayList<>();
-        String query = "SELECT * FROM comment WHERE q_id = ?";
+        String query = "SELECT * FROM comment JOIN user ON comment.u_id = user.u_id WHERE q_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, qId);
             ResultSet result = stmt.executeQuery();
@@ -124,6 +141,7 @@ public class CommentServlet extends HttpServlet {
                         result.getInt("c_id"),
                         result.getInt("q_id"),
                         result.getInt("u_id"),
+                        result.getString("email"),
                         result.getString("content"),
                         result.getString("date_created")));
             }
@@ -147,5 +165,5 @@ public class CommentServlet extends HttpServlet {
         }
         return status;
     }
-
+ 
 }

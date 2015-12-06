@@ -24,4 +24,24 @@
             $scope.comments = response.data.comments;
           });
     }]);
+
+    app.controller('AddCommentController', ['$scope', '$http', '$window',
+        function($scope, $http, $window) {
+        $scope.addComment = function(q_id, content, token) {
+            $http({url: "http://localhost:8080/StackExchange_Client/comment", 
+                method: "POST",
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {q_id: q_id, content: content, token: token}
+            }).success(function(response){ 
+                    $scope.comments = response.data;
+             });    
+        }
+                
+    }]);
 })();
