@@ -25,7 +25,10 @@ function createRequest() {
 
 
 //convert
-function xmlToClist(xmlDoc){
+function xmlToClist(xmlStr){
+    parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(xmlStr,"text/xml");
+    
     var comments = xmlDoc.getElementsByTagName("comment");
     var arr = [];
     for (i=0;i<comments.length;i++){
@@ -52,30 +55,22 @@ var app = angular.module("CommentAndVoteApp",[]);
 var update_interval = 3000;
 var firstupdate_interval = 10;
 
-app.controller('commentCtrl',function($scope,$interval){
+app.controller('commentCtrl',function($scope,$interval,$http){
     $scope.qid;
     $scope.clist=[];
     $scope.clisterror="";
     
     function updateComments(){
-        var req = createRequest(); // defined above
-        // Create the callback:
-        req.onreadystatechange = function() {
-          if (req.readyState != 4) return; // Not there yet
-          if (req.status != 200) {
-            $scope.clisterror=req.status;
-              alert("error getting comments");
-            // Handle request failure here...
-            return;
-          }
-          // Request successful, read the response
-          var xmlDoc = req.responseXML;
-          $scope.clist = xmlToClist(xmlDoc);
+        $http.get("../CommentandVoteService/Comment?qid="+$scope.qid)
+                .then(function successCallback(response){
+          console.log(response.data);
+          $scope.clist = xmlToClist(response.data);
           // ... and use it as needed by your app.
+        }, function errorCallback(response) {
+            alert("error getting comments");
         }
+        );
         
-        req.open("GET","../CommentandVoteService/Comment?qid="+$scope.qid,true);
-        req.send();
     }
     
     
@@ -87,35 +82,27 @@ app.controller('commentCtrl',function($scope,$interval){
     
 });
 
-app.controller('voteCtrl',function($scope,$interval){
+app.controller('voteCtrl',function($scope,$interval,$http){
    $scope.qid;
    $scope.aid=-1;
    $scope.votenum="...";
    
    function updateVote(){
-       var req = createRequest(); // defined above
-        // Create the callback:
-        req.onreadystatechange = function() {
-          if (req.readyState != 4) return; // Not there yet
-          if (req.status != 200) {
-            $scope.clisterror=req.status;
-              alert("error getting votes");
-            // Handle request failure here...
-            return;
-          }
-          // Request successful, read the response
-          var reqstr = req.responseText;
-          $scope.votenum = Number(reqstr);
-          // ... and use it as needed by your app.
-        }
-        
-        var url="../CommentandVoteService/Vote?qid="+$scope.qid;
+       var url="../CommentandVoteService/Vote?qid="+$scope.qid;
         if ($scope.aid>=0){
             url += "&aid="+$scope.aid;
         }
+        $http.get(url)
+                .then(function successCallback(response){
+          console.log(response.data);
+          $scope.votenum= Number(response.data);
+          // ... and use it as needed by your app.
+        }, function errorCallback(response) {
+            alert("error getting comments");
+        });
         
-        req.open("GET",url,true);
-        req.send();
+        
+        
    };
    
    var promise = $interval(function(){
