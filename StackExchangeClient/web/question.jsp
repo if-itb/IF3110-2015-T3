@@ -263,6 +263,7 @@
                      $scope.comments = [];
                      $scope.comments = response.data.comments;
                      console.log(JSON.stringify($scope.comments));
+                     console.log(JSON.stringify($scope.message));
                      /*if ($scope.message == 1 || $scope.message == -5){
 
                      } else {
@@ -301,11 +302,11 @@
                         console.log(JSON.stringify(response));
                         console.log("Message " + $scope.message);
                         console.log("Cba" + JSON.stringify($scope.comments))
-                        /*if ($scope.message == 1 || $scope.message == -5){
+                        if ($scope.message == 1 || $scope.message == -5 || $scope.message == undefined){
 
                         } else {
                             window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
-                        }*/
+                        }
                     },function (err){
                         console.log("Error : " + err);
                     });
@@ -338,11 +339,11 @@
                     console.log("Success");
                     $scope.message = response.data.message;
                     console.log("Message " + $scope.message);
-                    /*if ($scope.message == 1 || $scope.message == -5){
+                    if ($scope.message == 1 || $scope.message == -5){
                         
                     } else {
                         window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
-                    }*/
+                    }
                 },function (err){
                     console.log("Error : " + err);
                 });
@@ -374,11 +375,11 @@
                     console.log("Success");
                     $scope.message = response.data.message;
                     console.log("Message " + $scope.message);
-                    /*if ($scope.message == 1 || $scope.message == -5){
+                    if ($scope.message == 1 || $scope.message == -5){
                         
                     } else {
                         window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
-                    }*/
+                    }
                 },function (err){
                     console.log("Error : " + err);
                 });
