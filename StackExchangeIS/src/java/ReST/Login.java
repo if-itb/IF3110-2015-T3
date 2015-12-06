@@ -84,8 +84,7 @@ public class Login extends HttpServlet {
               dbStatement.executeUpdate();
 
               stmt.close();
-              
-              System.out.println(token);
+
               obj.put("token", token);
               out.print(obj);
 

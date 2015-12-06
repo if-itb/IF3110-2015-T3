@@ -7,6 +7,7 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,7 +53,7 @@ public class Home extends HttpServlet {
             }
 
             request.setAttribute("questions", questions);
-            request.setAttribute("token", token);
+            request.setAttribute("token", URLEncoder.encode(token, "UTF-8"));
             request.getRequestDispatcher("view/home.jsp").forward(request, response);
         }
         else{

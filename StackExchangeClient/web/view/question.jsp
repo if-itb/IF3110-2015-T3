@@ -37,7 +37,7 @@
                                     </p>
                             </div>
                     </div>
-                    <div ng-controller="CommentController as commentCtrl">
+                    <div ng-controller="CommentController as commentCtrl" ng-init="getComments(${question.questionId})">
                         <div class= 'comments' ng-repeat="comment in comments">
                             <div class = 'comment'>
                                 <div class = 'row'>
@@ -48,10 +48,19 @@
                             </div>
                         </div>
                         <hr>
-                        <p><a href = "#">add a comment</a></p>
+                        <form name ="commentForm" ng-submit="">
+                            <p>Add your comment here</p>
+                            <textarea ng-model="commentArea.body"></textarea>
+                            <input type = "submit" value="add comment"/>
+                            <p>Comment preview:</p>
+                            <blockquote>
+                                {{commentArea.body}}
+                            </blockquote>
+                        </form>
                     </div>
+
                 </div>
-                
+                <hr>
 
                 <h2>${answers.size()} Answers</h2>
                 <c:forEach items="${answers}" var="answer">

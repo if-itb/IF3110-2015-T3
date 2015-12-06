@@ -42,6 +42,7 @@ public class ViewQuestion extends HttpServlet {
         
         //Get userId using token
         String token = request.getParameter("token");
+        System.out.println("ViewQuestion Token: " + token);
         int userId = IdentityServiceConnector.getUID(token);
         int questionId = Integer.parseInt(request.getParameter("id"));
         
