@@ -4,4 +4,21 @@
  * and open the template in the editor.
  */
 
-
+// var app = angular.module('comment-vote', []);
+// app.controller('vote', function ($scope, $http) {
+//   $scope.voteQuestionUp = 
+// });
+// 
+window.onload = function (qid, uid) {
+    // var vote = parseInt(document.getElementById(id).innerHTML) + 1;
+    var param = {
+      asd
+    }
+    $http({
+      url : "http://localhost:8083/webresources/wbd.commentvote.votequestion/",
+      method : get,
+      params : param,
+      success : console.log('success'),
+      fail : console.log('failed')
+    })
+  };
