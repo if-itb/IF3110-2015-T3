@@ -43,9 +43,9 @@ public class ActiveuserFacadeREST extends AbstractFacade<Activeuser> {
     @Path("getuid/{token}")
     @Produces(MediaType.TEXT_PLAIN)
     public int getUidByToken(@PathParam("token") String token) {
-        Activeuser au= new Activeuser();
+        Activeuser au = new Activeuser();
         try {
-        au = (Activeuser) this.getEntityManager().createNamedQuery("Activeuser.findByToken")
+        au = (Activeuser) getEntityManager().createNamedQuery("Activeuser.findByToken")
                 .setParameter("token", token)
                 .getSingleResult();
         }catch(NoResultException e) {
@@ -59,10 +59,6 @@ public class ActiveuserFacadeREST extends AbstractFacade<Activeuser> {
     @Produces(MediaType.TEXT_PLAIN)
     public String auth(@PathParam("token") String token) throws ParseException
     {
-        StringTokenizer st = new StringTokenizer(token, "#");
-        while (st.hasMoreTokens()) {
-            System.out.println(st.nextToken());
-        }
  
         Activeuser auser = new Activeuser();
         try {
