@@ -23,13 +23,13 @@
                     <c:if test="${user != null}"><a href="ask">Ask here</a></c:if>
                     <c:if test="${user == null}">Please <a href="login">login</a> before asking a new question</c:if>
             </div>
-
+            <div ng-controller="ViewVoteController">
             <br>
             <h2>Recently Asked Questions</h2>
             <c:forEach items="${questions}" var="q">
             <hr>
-            <span id="vote"><br>
-                <span class="number"><c:out value="${q.getVote()}"/></span><br>
+            <span id="vote" ng-init="init(${q.getQId()}, 'question')"><br>
+                <span class="number">{{vote}}</span><br>
                 Votes
             </span>
             <span id="answer"><br>
@@ -61,6 +61,7 @@
             </span> 
             </c:forEach>
 	</div>
+        </div>
 <script src="assets/js/confirmation.js"></script>
 <jsp:include page="/views/footer.jsp" flush="true"/>
 

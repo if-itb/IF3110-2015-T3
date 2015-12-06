@@ -97,7 +97,7 @@ public class VoteServlet extends HttpServlet {
         String type = request.getParameter("type");
         String id = request.getParameter("id"); // q_id or a_id
         String token = request.getParameter("token");
-        String direction = request.getParameter("up");
+        String direction = request.getParameter("direction");
         
         // CHECK IF TOKEN HAS BEEN EXPIRED
         JSONObject object = validateUserID(token);

@@ -57,6 +57,16 @@
         }).then(function successCallback(response) {
             $scope.vote = response.data.vote;
         });
+        $scope.vote = function(id, type, token, direction) {
+        $http({
+            method: "POST",
+            url: "http://localhost:8080/StackExchange_Client/vote",
+            params: {id: id, type: type, token: token, direction: direction},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            $scope.vote = response.data.vote;
+        });
+        };
     };
     }]);
 })();
