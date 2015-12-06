@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
    */
   private void addRestResourceClasses(Set<Class<?>> resources) {
     resources.add(wbd.commentvote.service.AnswerFacadeREST.class);
+    resources.add(wbd.commentvote.service.CommentFacadeREST.class);
     resources.add(wbd.commentvote.service.QuestionFacadeREST.class);
     resources.add(wbd.commentvote.service.UserFacadeREST.class);
     resources.add(wbd.commentvote.service.VoteAnswerFacadeREST.class);
