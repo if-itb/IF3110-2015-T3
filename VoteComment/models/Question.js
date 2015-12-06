@@ -53,7 +53,6 @@ question.vote = function(req, callback) {
                         callback(resp);
                     });
                 }
-                callback(resp);
             });
         } else {
             if (results[0].value !== req.value) {
