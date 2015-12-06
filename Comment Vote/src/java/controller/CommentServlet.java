@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import model.Comment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -54,21 +53,11 @@ public class CommentServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             System.err.println(e.getMessage());
             return;
-        }
-        
-        JSONArray result = new JSONArray();
-        for (Comment comment: getComments(idQuestion)) {
-            JSONObject object = new JSONObject();
-            object.put("id", comment.getId());
-            object.put("id_question", comment.getIdQuestion());
-            object.put("id_user", comment.getIdUser());
-            object.put("content", comment.getContent());
-            result.add(object);
-        }
+        }                
         
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
-            out.print(result.toString());
+            out.print(getJSONComments(idQuestion));
         }
     }
 
@@ -84,7 +73,7 @@ public class CommentServlet extends HttpServlet {
             throws ServletException, IOException {
         String token = request.getParameter("auth");
         String content = request.getParameter("content");
-        String sIdQuestion = request.getParameter("id_question");
+        String sIdQuestion = request.getParameter("id");
 
         if (token == null || content == null || sIdQuestion == null)
             return;
@@ -120,8 +109,10 @@ public class CommentServlet extends HttpServlet {
                 catch (SQLException ex) {
                     System.err.println(ex.getMessage());
                 }
-                if (success)
+                if (success) {
                     result.put("status", 1);
+                    result.put("comments", getJSONComments(idQuestion));
+                }
                 else {
                     result.put("status", 0);
                     result.put("detail", "Failed to create comment");
@@ -137,6 +128,19 @@ public class CommentServlet extends HttpServlet {
                 out.println(result.toString());
             }
         }
+    }
+
+    private JSONArray getJSONComments(int idQuestion) {
+        JSONArray result = new JSONArray();
+        for (Comment comment: getComments(idQuestion)) {
+            JSONObject object = new JSONObject();
+            object.put("id", comment.getId());
+            object.put("id_question", comment.getIdQuestion());
+            object.put("id_user", comment.getIdUser());
+            object.put("content", comment.getContent());
+            result.add(object);
+        }
+        return result;
     }
 
     private List<Comment> getComments(int idQuestion) {
