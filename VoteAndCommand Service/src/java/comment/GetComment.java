@@ -32,7 +32,34 @@ public class GetComment extends HttpServlet {
     
     private String getCommentByAnswerId(int id) {
         String result = null;
-        String query = "SELECT * FROM comment WHERE answer_id = " + id;
+        String query = "SELECT * FROM answer_comment WHERE answer_id = " + id;
+        JSONObject json = new JSONObject();
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        Database database = new Database();
+        database.connect(path);
+        ResultSet rs = database.fetchData(query);
+        try {
+            while(rs.next()) {
+                JSONObject temp = new JSONObject();
+                temp.put("content", rs.getString("comment_content"));
+                temp.put("user_name",rs.getString("user_name"));
+                list.add(temp);
+            }
+            rs.close();
+            json.put("comment", list);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddComment.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(GetComment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        database.closeDatabase();
+        result = json.toString();
+        return result;
+    }
+    
+    private String getCommentByQuestionId(int id) {
+        String result = null;
+        String query = "SELECT * FROM question_comment WHERE question_id = " + id;
         JSONObject json = new JSONObject();
         List<JSONObject> list = new ArrayList<JSONObject>();
         Database database = new Database();
@@ -72,12 +99,21 @@ public class GetComment extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int id = Integer.parseInt(request.getParameter("id"));
-            String result = getCommentByAnswerId(id);
-            request.setAttribute("result", result);
-            request.getRequestDispatcher("target.jsp").forward(request, response);
+            String target = request.getParameter("target");
+            String result = null;
+            switch (target) {
+                case "question":
+                    result = getCommentByQuestionId(id);
+                    break;
+                case "answer":
+                    result = getCommentByAnswerId(id);
+                    break;
+                default :
+                    result = "target not found";
+            }
+            response.getWriter().write(result);
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

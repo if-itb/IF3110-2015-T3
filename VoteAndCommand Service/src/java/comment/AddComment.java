@@ -29,14 +29,31 @@ public class AddComment extends HttpServlet {
     /* Atribut */
     private final String path = "jdbc:mysql://localhost:3306/stack_exchange";
     
-    private String addComment(int id, String content, int userId ) {
+    private String addAnswerComment(int id, String content, int userId ) {
         try {
             Database database = new Database();
             database.connect(path);
             String query = "SELECT * FROM user WHERE user_id = " + userId;
             ResultSet rs = database.fetchData(query);
             rs.next();
-            query = "INSERT INTO comment(answer_id, comment_content, user_name) VALUES (" + id + ", '" + content + "', '" + rs.getString("nama") + "')";
+            query = "INSERT INTO answer_comment(answer_id, comment_content, user_name) VALUES (" + id + ", '" + content + "', '" + rs.getString("nama") + "')";
+            database.changeData(query);
+            rs.close();
+            database.closeDatabase();
+        } catch (SQLException ex) {
+            Logger.getLogger(AddComment.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "executed";
+    }
+    
+    private String addQuestionComment(int id, String content, int userId ) {
+        try {
+            Database database = new Database();
+            database.connect(path);
+            String query = "SELECT * FROM user WHERE user_id = " + userId;
+            ResultSet rs = database.fetchData(query);
+            rs.next();
+            query = "INSERT INTO question_comment(question_id, comment_content, user_name) VALUES (" + id + ", '" + content + "', '" + rs.getString("nama") + "')";
             database.changeData(query);
             rs.close();
             database.closeDatabase();
@@ -61,9 +78,20 @@ public class AddComment extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             int id = Integer.parseInt(request.getParameter("id"));
+            String target = request.getParameter("target");
             String content = request.getParameter("content");
             int userId = Integer.parseInt(request.getParameter("userId"));
-            String result = addComment(id,content,userId);
+            String result = null;
+            switch (target) {
+                case "question":
+                    result = addQuestionComment(id,content,userId);
+                    break;
+                case "answer":
+                    result = addAnswerComment(id,content,userId);
+                    break;
+                default :
+                    result = "target not found";
+            }
             response.getWriter().write(result);
         }
     }
