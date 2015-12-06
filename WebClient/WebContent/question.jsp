@@ -93,14 +93,24 @@
 			              	</span>
 		              	</div>
 					</div>
-					<div ng-app="commentApp" ng-controller="commentCtrl"> 
-		<ul>
-  			<li ng-repeat="x in comments">
-    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
-  			</li>
-		</ul>
-		</div>
+					<div ng-app="commentShowApp" ng-controller="commentShowCtrl" ng-init="init()">
+						<ul>
+				  			<li ng-repeat="x in comments">
+				    			{{ x.comment }} | {{ x.commentDate }}  | {{ x.username }}
+				  			</li>
+						</ul>
+						<form ng-submit="submitComment()">
+						   <input type="text" ng-model="comment" />
+						   <input type="hidden" ng-model="idQuestion" value="{{id_question}}" />
+						   <input type="hidden" ng-model="accessToken" value="{{access_token}}" />
+						    <button type="submit" class="btn btn-primary">Save</button>
+						</form>
+					</div>
+					
 				</div>
+				
+				
+				
 			<div class = 'container wrapper style3'>
 				<h3><%=a.size()%> Answer</h3>
 				<% for (int i = 0; i < a.size(); i++) { %>
@@ -142,12 +152,45 @@
 	</div>
 	
 	<script>
-var app = angular.module('commentApp', []);
-app.controller('commentCtrl', function($scope, $http) {
-    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
-    .then(function(response) {$scope.comments = response.data;});
-});
-</script>
+	var app = angular.module('commentShowApp', []);
+	app.controller('commentShowCtrl', function($scope, $http) {
+		
+		$scope.init = function() {
+		    $scope.id_question = <%=q_id_string%>;
+		    $scope.access_token = '<%=access_token %>';
+		}
+		
+	    $http.get("http://localhost:8081/Comment_Vote-WS/comment/question/show/<%=q_id_string%>")
+	    .then(function(response) {$scope.comments = response.data;});
+	    
+	    
+	    $scope.submitComment = function() {
+			 alert($scope.comment);
+			var data = $.param({
+			   access_token: $scope.access_token,
+               comment: $scope.comment,
+               id_question: $scope.id_question
+           });
+			alert(data);
+       
+           var config = {
+        		   
+               headers : {
+                   'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+               }
+           }
+
+           $http.post('http://localhost:8081/Comment_Vote-WS/comment/question/add/', data, config)
+           .success(function (data, status, headers, config) {
+               $scope.PostDataResponse = data;
+           })
+	    };
+	});
+	var app2 = angular.module('commentAddApp', []);
+	app2.controller('commentAddCtrl', function($scope, $http) {
+		
+	});
+	</script>
 </body>
 	<% 	} else {
 			%>

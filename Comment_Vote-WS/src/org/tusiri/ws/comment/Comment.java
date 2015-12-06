@@ -15,7 +15,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.simple.parser.ParseException;
@@ -30,7 +32,10 @@ public class Comment {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public int addComment(@FormParam("access_token") String access_token, @FormParam("id_question") int id_question, @FormParam("content") String comment){
+	public int addComment(@FormParam("access_token") String access_token, @FormParam("id_question") int id_question, @FormParam("comment") String comment){
+		System.out.println("Add comment called");
+		System.out.println("id_question " + id_question);
+		System.out.println("comment " + comment);
 		int result = -1;
 		CheckTokenValidity checker = new CheckTokenValidity(access_token);
 		try {
@@ -42,7 +47,7 @@ public class Comment {
 				PreparedStatement stmt = dbc.getDBStmt();
 				Connection conn = dbc.getConn();
 				try{
-					String sql = "INSERT INTO comment(id_user,id_question,comment,comment_time)"
+					String sql = "INSERT INTO question_comment(id_user,id_question,comment,comment_time)"
 							+ "VALUES(?,?,?,NOW())";
 					stmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 					stmt.setInt(1, validity.getIdUser());
