@@ -4,6 +4,7 @@
     Author     : yoga
 --%>
 
+<%@page import="java.net.URLDecoder"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -16,6 +17,26 @@
                             token = cookies[i].getValue();
                             break;
                         }
+                    }
+                }
+                
+                //decode token
+                String realtoken = URLDecoder.decode(token, "UTF-8");
+                //parse token
+                String[] tableRT = realtoken.split("#");
+                //if user have token then validate UA and IP
+                if (tableRT.length > 1){
+                    //check User agent. If not equals with token then redirect to login
+                    if( !tableRT[1].equals(request.getHeader("User-Agent")) ){
+                        String site = "http://localhost:8000/FrontEnd/login.jsp";
+                        response.setStatus(response.SC_MOVED_TEMPORARILY);
+                        response.setHeader("Location", site);
+                    }
+                    //check IPAddress. If not equals with token then redirect to login
+                    if( !tableRT[2].equals(request.getRemoteAddr()) ){
+                        String site = "http://localhost:8000/FrontEnd/login.jsp";
+                        response.setStatus(response.SC_MOVED_TEMPORARILY);
+                        response.setHeader("Location", site);
                     }
                 }
             questionmodel.QuestionWS_Service service = new questionmodel.QuestionWS_Service();

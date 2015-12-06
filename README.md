@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://www.dropbox.com/s/9ny3cz0fiu0o76a/LaporanTuBES3WBD.pdf?dl=0
 
 ### Arsitektur Umum Server
 
@@ -39,7 +39,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 |REST API                 |       |REST API        |           |SOAP                    |                   
 *-------------------------*       *----------------*           *------------------------*                   
            ^                            ^                           ^          
-           | consume                    | consume          consume  | 
+           | consume                    | consume          consume  |
            |                            |                           |
            |  *----------------------------------*                  |
            |  |    Frontend WebApp               |                  |
