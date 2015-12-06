@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
-import stackexchangews.StackExchangeWS_Service;
 
 /**
  *
@@ -20,9 +19,6 @@ import stackexchangews.StackExchangeWS_Service;
  */
 @WebServlet(name = "VoteAnswerServlet", urlPatterns = {"/voteanswer"})
 public class VoteAnswerServlet extends HttpServlet {
-  @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchangeWS/StackExchangeWS.wsdl")
-  private StackExchangeWS_Service service;
-
   /**
    * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
    * methods.
@@ -34,16 +30,14 @@ public class VoteAnswerServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
+    VoteAnswerService vas = new VoteAnswerService();
     int type = Integer.parseInt(request.getParameter("type"));
-    int qid = Integer.parseInt(request.getParameter("qid"));
     int aid = Integer.parseInt(request.getParameter("aid"));
     String token = request.getParameter("token");
     if (type == 1)
-        voteUpAnswer(token, aid);
+        vas.voteUpAnswer(token, aid);
     else
-        voteDownAnswer(token, aid);
-    response.sendRedirect("questionpage.jsp?qid=" + qid + "&token=" + token);
+        vas.voteDownAnswer(token, aid);
   }
 
   // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -58,6 +52,7 @@ public class VoteAnswerServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
+      response.addHeader("Access-Control-Allow-Origin", "*");
       processRequest(request, response);
   }
 
@@ -84,18 +79,4 @@ public class VoteAnswerServlet extends HttpServlet {
   public String getServletInfo() {
       return "Short description";
   }// </editor-fold>
-
-  private void voteUpAnswer(String token, int id) {
-    // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-    // If the calling of port operations may lead to race condition some synchronization is required.
-    stackexchangews.StackExchangeWS port = service.getStackExchangeWSPort();
-    port.voteUpAnswer(token, id);
-  }
-
-  private void voteDownAnswer(String token, int id) {
-    // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-    // If the calling of port operations may lead to race condition some synchronization is required.
-    stackexchangews.StackExchangeWS port = service.getStackExchangeWSPort();
-    port.voteDownAnswer(token, id);
-  }
 }

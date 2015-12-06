@@ -26,83 +26,81 @@ import java.util.logging.Logger;
  * @author Gerry
  */
 public class CommentService {
-  public Connection conn;
-  public PreparedStatement stmt;
-  
-  public boolean checkToken(String token) {
-    try {
-      HttpURLConnection connection;
-      URL url = new URL("http://localhost:8082/IdentityService/ValidateToken?token=" + token);
-      connection = (HttpURLConnection)url.openConnection();
-      connection.setRequestMethod("GET");
-
-      InputStream is = connection.getInputStream();
-      StringBuffer response;
-      try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
-        response = new StringBuffer();
-        String line;
-        while((line = rd.readLine()) != null) {
-          response.append(line);
-        }
-      }
-      return response.toString().equals("true");
-    }
-    catch (MalformedURLException ex) {
-        Logger.getLogger(StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
-        return false;
-    }
-    catch (IOException ex) {
-        Logger.getLogger(StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
-        return false;
-    }
-  }
-  
-  public int getUserIDFromToken(String token){
-        String query = "SELECT * FROM token WHERE value='"+ token +"'";
-        int user_id = -1;
-        DatabaseConnect dbc = new DatabaseConnect();
-        try{
-          stmt =  dbc.getConn().prepareStatement(query);
-          try (ResultSet rs = stmt.executeQuery()) {
-            if(rs.next()){
-              user_id = rs.getInt("user_id"); 
-            }
-          }
-            stmt.close();
-        } catch (SQLException se){
-            se.printStackTrace();
-	}
-        finally{
-            return user_id;
-        }
-    }
-  
+    private Connection conn;
     
-    public void insertComment(String token, Integer qid, String content){
-        if (checkToken(token)) {
-            try {
-                String sql = "INSERT INTO comment(questionId, userId, content) VALUES(?, ?, ?)";
-                PreparedStatement dbStatement = conn.prepareStatement(sql);
-                int userId = getUserIDFromToken(token);
-                dbStatement.setInt(1, qid);
-                dbStatement.setInt(2, userId);
-                dbStatement.setString(3, content);
+    public CommentService() {
+        DatabaseConnect dbc = new DatabaseConnect();
+        conn = dbc.getConn();
+    }
+    
+    public boolean checkToken(String token) {
+      try {
+        HttpURLConnection connection;
+        URL url = new URL("http://localhost:8082/IdentityService/ValidateToken?token=" + token);
+        connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("GET");
 
-                dbStatement.executeUpdate();
+        InputStream is = connection.getInputStream();
+        StringBuffer response;
+        try (BufferedReader rd = new BufferedReader(new InputStreamReader(is))) {
+          response = new StringBuffer();
+          String line;
+          while((line = rd.readLine()) != null) {
+            response.append(line);
+          }
+        }
+        return response.toString().equals("true");
+      }
+      catch (MalformedURLException ex) {
+          return false;
+      }
+      catch (IOException ex) {
+          return false;
+      }
+    }
+    
+    public int getUserIDFromToken(String token){
+          String query = "SELECT * FROM token WHERE value='"+ token +"'";
+          int user_id = -1;
+          DatabaseConnect dbc = new DatabaseConnect();
+          try{
+            PreparedStatement stmt =  dbc.getConn().prepareStatement(query);
+            try (ResultSet rs = stmt.executeQuery()) {
+              if(rs.next()){
+                user_id = rs.getInt("user_id"); 
+              }
             }
-            catch(SQLException ex) {
-            }
+              stmt.close();
+          } catch (SQLException se){
+              se.printStackTrace();
+          }
+          finally{
+              return user_id;
+          }
+    }
+    
+    public void insertComment(Integer qid, String content){
+        try {
+            String sql = "INSERT INTO comment(questionId, userId, content) VALUES(?, ?, ?)";
+            PreparedStatement dbStatement = conn.prepareStatement(sql);
+            //int userId = getUserIDFromToken(token);
+            dbStatement.setInt(1, qid);
+            dbStatement.setInt(2, 4);
+            dbStatement.setString(3, content);
+
+            dbStatement.executeUpdate();
+        }
+        catch(SQLException ex) {
         }
     }
     
     public ArrayList<Comment> getComment(int qid) {
       ArrayList<Comment> comments = new ArrayList<>();
       try {
-        String sql = "SELECT * FROM comment WHERE questionId = ?";
-
+        String sql = "SELECT * FROM comment WHERE questionId=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
         dbStatement.setInt(1, qid);
-
+        
         ResultSet rs = dbStatement.executeQuery();  
         while(rs.next()) {
           Comment temp = new Comment(
@@ -112,29 +110,11 @@ public class CommentService {
             rs.getString("content"));
           comments.add(temp);
         }
-
+        
         return comments;
       }
       catch (SQLException ex) {
-        return null;
+          return null;
       }
     }
-    public void executeQuery(String query){
-      PreparedStatement statement;
-      DatabaseConnect dbc = new DatabaseConnect();
-      try{
-        statement =  dbc.getConn().prepareStatement(query);
-        statement.executeUpdate();
-
-        statement.close();
-      }catch (SQLException se){
-        se.printStackTrace();
-      }
-    }
-
-  private static class StackExchangeWS {
-
-    public StackExchangeWS() {
-    }
-  }
 }

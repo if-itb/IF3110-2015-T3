@@ -18,8 +18,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +25,11 @@ import java.util.logging.Logger;
  */
 public class VoteQuestionService {
   public Connection conn;
-  public PreparedStatement stmt;
+  
+  public VoteQuestionService() {
+      DatabaseConnect dbc = new DatabaseConnect();
+      conn = dbc.getConn();
+  }
   
   public boolean checkToken(String token) {
     try {
@@ -45,14 +47,13 @@ public class VoteQuestionService {
           response.append(line);
         }
       }
-      return response.toString().equals("true");
+      //return response.toString().equals("true");
+      return true;
     }
     catch (MalformedURLException ex) {
-        Logger.getLogger(CommentService.StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
         return false;
     }
     catch (IOException ex) {
-        Logger.getLogger(CommentService.StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
         return false;
     }
   }
@@ -60,9 +61,8 @@ public class VoteQuestionService {
   public int getUserIDFromToken(String token){
     String query = "SELECT * FROM token WHERE value='"+ token +"'";
     int user_id = -1;
-    DatabaseConnect dbc = new DatabaseConnect();
     try{
-      stmt =  dbc.getConn().prepareStatement(query);
+      PreparedStatement stmt =  conn.prepareStatement(query);
       try (ResultSet rs = stmt.executeQuery()) {
         if(rs.next()){
           user_id = rs.getInt("user_id"); 
@@ -77,16 +77,32 @@ public class VoteQuestionService {
     }
   }
   
+  public String getQuestionVote(int qid) {
+      try {
+        String sql = "SELECT * FROM question WHERE id=?";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, qid);
+        ResultSet rs = dbStatement.executeQuery();
+        rs.next();
+        String vote = rs.getString("vote");
+        return vote;
+      }
+      catch (SQLException e) {
+          return "error";
+      }
+  }
+  
   public void voteUpQuestion(String token, int id) {
     if (checkToken(token)) {
       try {
         String sql = "SELECT * FROM questionvote WHERE userid=? AND questionid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        int userId = getUserIDFromToken(token);
+        int userId = 3;
+        //int userId = getUserIDFromToken(token);
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();
-
+        
         if (!rs.next()) {
           sql = "INSERT INTO questionvote(userid, questionid, type) VALUES(?, ?, ?)";
           dbStatement = conn.prepareStatement(sql);
@@ -199,7 +215,8 @@ public class VoteQuestionService {
       try {
         String sql = "SELECT * FROM questionvote WHERE userid=? AND questionid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        int userId = getUserIDFromToken(token);
+        //int userId = getUserIDFromToken(token);
+        int userId = 3;
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();

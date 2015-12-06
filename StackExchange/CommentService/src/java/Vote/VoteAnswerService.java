@@ -28,7 +28,11 @@ import javax.jws.WebParam;
  */
 public class VoteAnswerService {
   public Connection conn;
-  public PreparedStatement stmt;
+  
+  public VoteAnswerService() {
+      DatabaseConnect dbc = new DatabaseConnect();
+      conn = dbc.getConn();
+  }
   
   public boolean checkToken(String token) {
     try {
@@ -46,14 +50,13 @@ public class VoteAnswerService {
           response.append(line);
         }
       }
-      return response.toString().equals("true");
+      //return response.toString().equals("true");
+      return true;
     }
     catch (MalformedURLException ex) {
-        Logger.getLogger(CommentService.StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
         return false;
     }
     catch (IOException ex) {
-        Logger.getLogger(CommentService.StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);
         return false;
     }
   }
@@ -63,7 +66,7 @@ public class VoteAnswerService {
     int user_id = -1;
     DatabaseConnect dbc = new DatabaseConnect();
     try{
-      stmt =  dbc.getConn().prepareStatement(query);
+      PreparedStatement stmt =  conn.prepareStatement(query);
       try (ResultSet rs = stmt.executeQuery()) {
         if(rs.next()){
           user_id = rs.getInt("user_id"); 
@@ -78,12 +81,28 @@ public class VoteAnswerService {
     }
   }
   
+  public String getAnswerVote(int aid) {
+      try {
+        String sql = "SELECT * FROM answer WHERE id=?";
+        PreparedStatement dbStatement = conn.prepareStatement(sql);
+        dbStatement.setInt(1, aid);
+        ResultSet rs = dbStatement.executeQuery();
+        rs.next();
+        String vote = rs.getString("vote");
+        return vote;
+      }
+      catch (SQLException e) {
+          return "error";
+      }
+  }
+  
   public void voteUpAnswer(@WebParam(name = "token") String token, @WebParam(name = "id") int id) {
     if (checkToken(token)) {
       try {
         String sql = "SELECT * FROM answervote WHERE userid=? AND answerid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        int userId = getUserIDFromToken(token);
+        //int userId = getUserIDFromToken(token);
+        int userId = 3;
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();
@@ -200,7 +219,8 @@ public class VoteAnswerService {
       try {
         String sql = "SELECT * FROM answervote WHERE userid=? AND answerid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        int userId = getUserIDFromToken(token);
+        //int userId = getUserIDFromToken(token);
+        int userId = 3;
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();

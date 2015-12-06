@@ -6,6 +6,7 @@
 package Vote;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,17 +28,17 @@ public class VoteQuestionServlet extends HttpServlet {
    * @throws ServletException if a servlet-specific error occurs
    * @throws IOException if an I/O error occurs
    */
-  protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-          throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    int type = Integer.parseInt(request.getParameter("type"));
-    int qid = Integer.parseInt(request.getParameter("qid"));
-    String token = request.getParameter("token");
-    if (type == 1)
-      voteUpQuestion(token, qid);
-    else
-      voteDownQuestion(token, qid);
-    response.sendRedirect("questionpage.jsp?qid="+ qid + "&token=" + token);
+  protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    try (PrintWriter out = response.getWriter()) {
+        VoteQuestionService vqs = new VoteQuestionService();
+        int type = Integer.parseInt(request.getParameter("type"));
+        int qid = Integer.parseInt(request.getParameter("qid"));
+        String token = request.getParameter("token");
+        if (type == 1)
+          vqs.voteUpQuestion(token, qid);
+        else
+          vqs.voteDownQuestion(token, qid);
+    }
   }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -52,6 +53,7 @@ public class VoteQuestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         processRequest(request, response);
     }
 
