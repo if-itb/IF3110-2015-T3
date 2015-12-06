@@ -16,10 +16,11 @@
                 <c:out value="${question.getTopic()}"/>
             </a></h2>
             <hr>
-            <span id="question-vote"><br>
+            <span ng-controller="ViewVoteController" ng-init="init(${question.getQId()}, 'question')" id="question-vote"><br>
                 <div onclick="location.href='vote?id=<c:out value="${question.getQId()}"/>&type=q&vote=1';" class="arrow-up">
                 </div><br>
-                <span id="questvote" class="question-number"><c:out value="${question.getVote()}"/></span><br>
+                <span id="questvote" class="question-number">
+                    {{vote}}</span><br>
                 <br>
 		<div onclick="location.href='vote?id=<c:out value="${question.getQId()}"/>&type=q&vote=-1';" class="arrow-down">
                 </div><br></span>
@@ -43,10 +44,9 @@
                             delete
                         </a></c:if>
                         <br></span>
-                    
                 </span>
-                    
                 <div ng-controller="ViewCommentsController">   
+
                     <!-- Show comments -->                
                     <span class="question-info" ng-repeat = "comment in comments">
                             {{ comment.content }}
@@ -54,7 +54,7 @@
                             <span class="author">{{ comment.email }}</span> at {{ comment.date_created }}
                     </span>
                 </div>
-                
+
 		<!-- Add comment -->
 		<a href="#" ng-click="showBox = ! showBox">Add Comment</a>
                 <div class="comment-box" ng-show="showBox" ng-controller="AddCommentController">
@@ -78,11 +78,11 @@
                 </c:if>
                 
 		<c:forEach items="${answers}" var="answer">
-                    <span id="question-vote"><br>
+                    <span ng-controller="ViewVoteController" ng-init="init(${answer.getAId()}, 'answer')" id="question-vote"><br>
                         <div onclick="location.href='vote?id=<c:out value="${answer.getAId()}"/>&type=a&vote=1&q_id=<c:out value="${question.getQId()}"/>';" class="arrow-up">
                         </div><br>
 			<span id="ansvote-<c:out value='${answer.getAId()}'/>" class="question-number">
-                            <c:out value="${answer.getVote()}"/></span><br>
+                            {{ vote }}</span><br>
                         <br>
                         <div onclick="location.href='vote?id=<c:out value="${answer.getAId()}"/>&type=a&vote=-1&q_id=<c:out value="${question.getQId()}"/>';" class="arrow-down"></div>
                         <br>

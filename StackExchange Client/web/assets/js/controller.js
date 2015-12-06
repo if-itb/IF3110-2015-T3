@@ -1,3 +1,4 @@
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +6,8 @@
  */
 
 (function() {
+    var app = angular.module('stackexchange', []);
+
     function getUrlParameter(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -12,8 +15,6 @@
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
     
-    var app = angular.module('stackexchange', []);
-
     app.controller('ViewCommentsController', ['$scope', '$http',
         function($scope, $http) {
         $scope.comments = [];
@@ -43,5 +44,19 @@
              });    
         }
                 
+    }]);
+
+    app.controller('ViewVoteController', ['$scope', '$http',
+        function($scope, $http) {
+        $scope.init = function(id, type) {
+        $http({
+            method: "GET",
+            url: "http://localhost:8080/StackExchange_Client/vote",
+            params: {id: id, type: type},
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            $scope.vote = response.data.vote;
+        });
+    };
     }]);
 })();

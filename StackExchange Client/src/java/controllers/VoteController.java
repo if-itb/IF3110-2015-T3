@@ -9,7 +9,12 @@ import AnswerWS.AnswerWS_Service;
 import QuestionWS.QuestionWS_Service;
 import UserWS.User;
 import connector.ISConnector;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -27,7 +32,7 @@ public class VoteController extends HttpServlet {
     private AnswerWS_Service service_1;
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/StackExchange_WebService/QuestionWS.wsdl")
     private QuestionWS_Service service;
-
+    private final static String CONTEXT_PATH = "http://localhost:8083/StackExchange_VoteComment/";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,37 +44,18 @@ public class VoteController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getAttribute("user");
-        
-        String type = request.getParameter("type");
-        String id = request.getParameter("id");
-        String up = request.getParameter("up");
-        
-        if(user!=null) {
-            HttpServletRequest httpRequest = (HttpServletRequest) request;
-            Cookie[] cookies = httpRequest.getCookies();
-            String status = "No cookie";
-            // Check cookie with name auth
-            if (cookies != null) {
-                String token = null;
-                for (Cookie cookie : cookies) {
-                    status = "No token cookie";
-                    if (cookie.getName().equals("token")) {
-                        token = cookie.getValue();
-                        break;
-                    }
-                }
-            }
-            //TODO:
-            JSONObject result = ISConnector.vote(type, id, type, up);
-            response.sendRedirect("question?q_id="+id);
-        }
-        else {
-            String message = "Please log in before ";
-            String url = request.getContextPath() + "question?q_id=" + id;
-            request.setAttribute("message", message);
-            request.setAttribute("url", url);
-            response.sendRedirect(request.getContextPath() + "/login?st=0");
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet VoteServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet VoteServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -84,7 +70,31 @@ public class VoteController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String id = request.getParameter("id");
+        String type = request.getParameter("type");
+        
+        try (PrintWriter out = response.getWriter()){
+            String query = String.format("?id=%s&type=%s", id, type);
+            URL url = new URL(CONTEXT_PATH + "/vote"+query);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            // Buffer the result into a string
+            BufferedReader rd = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            //conn.disconnect();
+            
+            //Print result
+            out.print(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -98,7 +108,7 @@ public class VoteController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /**

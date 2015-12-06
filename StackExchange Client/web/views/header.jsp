@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <script src="assets/js/angular.min.js"></script>
-<script src="assets/js/comment.controller.js"></script>
+<script src="assets/js/controller.js"></script>
 <head>
 	<meta content="text/html; charset=utf-8">
 	<link REL="SHORTCUT ICON" HREF="assets/img/icon.ico"/>
