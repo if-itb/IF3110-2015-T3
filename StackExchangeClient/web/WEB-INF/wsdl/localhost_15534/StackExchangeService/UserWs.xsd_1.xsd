@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://UserModel/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://UserModel/">
+
+<xs:element name="createAccount" type="tns:createAccount"/>
+
+<xs:element name="createAccountResponse" type="tns:createAccountResponse"/>
+
+<xs:element name="getPasswordById" type="tns:getPasswordById"/>
+
+<xs:element name="getPasswordByIdResponse" type="tns:getPasswordByIdResponse"/>
+
+<xs:complexType name="createAccount">
+<xs:sequence>
+<xs:element name="username" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="nama" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createAccountResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPasswordById">
+<xs:sequence>
+<xs:element name="username" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPasswordByIdResponse">
+<xs:sequence>
+<xs:element name="Password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

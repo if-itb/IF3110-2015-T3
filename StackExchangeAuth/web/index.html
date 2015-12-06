@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Create token</h1>
+        <form action="/StackExchangeAuth/getToken" method="POST">
+            <input name="uname" type="text" placeholder="username" />
+            <input name="pass" type="password" placeholder="password" />
+            <input name="submit" type="submit" value="submit" />
+        </form>
+        
+        <hr>
+        <br>
+        <h1>Check token</h1>
+        <form action="/StackExchangeAuth/validateToken" method="POST">
+            <input name="token_string" type="text" placeholder="token_string" />
+            <input name="submit" type="submit" value="check" />
+        </form>
+        
+        <hr>
+        <br>
+        <h1>Delete Token by Username</h1>
+        <form action="/StackExchangeAuth/deleteToken" method="POST">
+            <input name="uname" type="text" placeholder="username" />
+            <input name="submit" type="submit" value="delete" />
+        </form>
+        
+    </body>
+</html>

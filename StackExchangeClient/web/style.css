@@ -1,0 +1,202 @@
+.container {
+    width:50%;
+    margin:auto;
+    padding:1% 5% 5% 5%; 
+    border: 1px solid #000000;
+}
+a {
+    text-decoration:none;
+    color: black;
+}
+h1 {
+    margin-bottom: 10%;
+    margin-top: 10%;
+}
+
+.arrow-up {
+    margin: auto;
+    width: 0; 
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid grey;
+}
+.arrow-down {
+    margin: auto;
+    width: 0; 
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 15px solid grey;
+}
+
+.login {
+    float: right;
+    padding: 5px;
+    width: 100px;
+    background-color: #F7F7F7;
+    margin: 0 auto 10px;
+    border-radius: 2px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+.login h1 {
+  margin: 0;
+  font-weight: 100;
+  font-size: 1em;
+}
+.login input[type=submit] {
+  width: 100%;
+  display: block;
+  margin-bottom: 10px;
+  position: relative;
+  padding:1% 5% 5% 5%; 
+}
+.login input[type=text], .login input[type=password] {
+  height: 20px;
+  font-size: 10px;
+  width: 100%;
+  margin-bottom: 5px;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  padding: 0 8px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.login input[type=submit] {
+  border: 0px;
+  color: #fff;
+  text-shadow: 0 1px rgba(0,0,0,0.1); 
+  background-color: #4d90fe;
+}
+.login a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 400;
+  text-align: center;
+  display: inline-block;
+  opacity: 0.6;
+  transition: opacity ease 0.5s;
+}
+.login-help {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+}
+
+form.search-box > input[type="text"]{
+    width:82%;
+    display:block;
+    border: 2px solid;
+    height: 25px;
+    padding-left:1%;
+    float: left;
+}
+form.search-box > input[type="submit"]{
+    width:15%;
+    height: 30px;
+    border: 2px solid;
+    float: right;
+}
+
+#listQuestions {
+    width: 100%;
+    border-collapse:collapse;
+    table-layout: fixed;
+}
+#listQuestions tr {
+    border-top: 2px solid #000;
+    height: 80px;
+}
+#listQuestions #countanswer, #listQuestions #countvote {
+    width:10%;
+    text-align:center;
+}
+#listQuestions #gap {
+    width:2%;
+}
+#listQuestions #display {
+    vertical-align:top;
+    padding-top:5px;
+    width:78%;
+    text-align:left;
+}
+
+#listAnswers {
+    width: 100%;
+    border-collapse:collapse;
+}
+#listAnswers tr {
+    border-bottom: 2px solid #000;
+}
+#listAnswers #countvote {
+    width: 15%;
+    text-align: center;
+    padding: 20px;
+}
+#listAnswers #display {
+    vertical-align: top;
+    padding: 20px;
+}
+
+#question {
+    width:100%;
+}
+#question #countvote {
+    width:15%;
+    text-align:center;
+    padding: 20px;
+    vertical-align: top;
+}
+#question #display {
+    vertical-align:top;
+    width: 80%;
+}
+
+form.RegisterForm > input[type="text"], form.RegisterForm > input[type="password"] {
+    width:99%;
+    display:block;
+    border: 1px solid;
+    height: 25px;
+    padding-left:1%;
+}
+form.RegisterForm > input[type="submit"] {
+    width:80px;
+    border: 1px solid;
+    float: right;
+}
+
+form.QuestionForm > input[type="text"] {
+    width:99%;
+    display:block;
+    border: 1px solid;
+    height: 25px;
+    padding-left:1%;
+}
+form.QuestionForm > textarea {
+    width:99%;
+    height:150px;
+    border: 1px solid;
+    resize: none;
+    padding-left:1%;
+}
+form.QuestionForm > input[type="submit"] {
+    width:80px;
+    border: 1px solid;
+    float: right;
+}
+
+form.AnswerForm > textarea {
+    width:99%;
+    height:150px;
+    border: 1px solid;
+    resize: none;
+    padding-left:1%;
+}
+
+#comment {
+    border-top: 1px solid lightgray;
+    padding-top: 5px;
+}
