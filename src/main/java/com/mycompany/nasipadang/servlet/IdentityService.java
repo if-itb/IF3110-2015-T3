@@ -189,14 +189,25 @@ public class IdentityService extends HttpServlet {
             }
     }
     
-    protected boolean IsDiffBrowser(){
-    
-        return true;
+    protected boolean IsDiffBrowser(String browser){
+        UA ua = new UA();
+        if (browser == ua.audience){
+            return false;
+        }
+        else {
+            return true;
+        } 
     }
     
-    protected boolean IsDiffConnection(){
+    protected boolean IsDiffConnection(String koneksyen){
         
-        return true;
+        UA ua = new UA();
+        if (koneksyen == ua.userid){
+            return false;
+        }
+        else {
+            return true;
+        } 
     }
     
     public void parseUA(){
