@@ -45,9 +45,13 @@ question.vote = function(req, callback) {
             connection.query(sql, [req.questionId, req.userId, req.value], function(err, results) {
                 var resp;
                 if (err) {
-                    resp = Response(err.errno, err.message, {});
+                    resp = Response(err.errno, err.message);
+                    callback(resp);
                 } else {
-                    resp = Response(Const.STATUS_OK, '', results);
+                    question.getById(req.questionId, function(r) {
+                        resp = r;
+                        callback(resp);
+                    });
                 }
                 callback(resp);
             });

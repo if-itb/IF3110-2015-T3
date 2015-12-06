@@ -26,7 +26,6 @@ user.get = function(req, callback) {
     }, function(error, response, body) {
         if (!error && response.statusCode == 200) {
             var resp;
-            console.log(body);
             if (body.is_valid == -2) {
                 resp = Response(Const.STATUS_INVALID_TOKEN, 'Token is invalid. Please login.');
             } else if (body.is_valid == -1) {
