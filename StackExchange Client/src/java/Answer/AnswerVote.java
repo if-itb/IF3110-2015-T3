@@ -7,13 +7,21 @@ package Answer;
 
 import AnswerWS.AnswerWS_Service;
 import Tools.Tools;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -36,12 +44,55 @@ public class AnswerVote extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     
-        Tools tools = new Tools();
-        String access_token = tools.getCookie("access_token", request);
+      
+    JSONParser parser = new JSONParser();
+        try (PrintWriter out = response.getWriter()) {
+            Tools tools = new Tools();
+            String access_token = tools.getCookie("access_token", request);
 
-        voteAnswer(access_token, Integer.parseInt(request.getParameter("aid")), Integer.parseInt(request.getParameter("value")));
-
-        response.sendRedirect(request.getContextPath() + "/question?id=" + Integer.parseInt(request.getParameter("qid")));
+            String userIP = request.getHeader("X-FORWARDED-FOR");
+            if (userIP == null) {
+                userIP = request.getRemoteAddr();
+            }
+            String userAgent = request.getHeader("User-Agent");
+            
+            String charset = "UTF-8";
+            String uid = request.getParameter("uid");
+            String aid = request.getParameter("aid");
+            String value = request.getParameter("value");
+                   
+            URL url = new URL("http://localhost:8083/CV_Service/vote/question");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Accept-Charset", charset);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=" + charset);
+            
+            String query = String.format("uid=%s&aid=%s&value=%s&token=%s&userIP=%s&userAgent=%s",
+                    URLEncoder.encode(uid, charset),
+                    URLEncoder.encode(aid, charset),
+                    URLEncoder.encode(value, charset),
+                    URLEncoder.encode(access_token, charset),
+                    URLEncoder.encode(userIP, charset),
+                    URLEncoder.encode(userAgent, charset));
+            
+            try (OutputStream output = conn.getOutputStream()) {
+                output.write(query.getBytes(charset));
+            }
+            
+            InputStream res = conn.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+            
+            String output;
+            
+            while ((output = br.readLine()) != null) {
+                out.println(output);
+            }
+            
+            conn.disconnect();
+            
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,12 +134,5 @@ public class AnswerVote extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int voteAnswer(java.lang.String token, int aid, int value) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        AnswerWS.AnswerWS port = service.getAnswerWSPort();
-        //return port.voteAnswer(token, aid, value);
-        return 0;
-    }
 
 }

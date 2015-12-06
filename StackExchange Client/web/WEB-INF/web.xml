@@ -28,6 +28,14 @@
         <servlet-class>Question.QuestionView</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>QuestionVote</servlet-name>
+        <servlet-class>Question.QuestionVote</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuestionGetVote</servlet-name>
+        <servlet-class>Question.QuestionGetVote</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>QuestionNew</servlet-name>
         <servlet-class>Question.QuestionNew</servlet-class>
     </servlet>
@@ -54,6 +62,10 @@
     <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>User.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AnswerGetVote</servlet-name>
+        <servlet-class>Answer.AnswerGetVote</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AnswerVote</servlet-name>
@@ -136,6 +148,10 @@
         <url-pattern>/answervote</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>QuestionVote</servlet-name>
+        <url-pattern>/questionvote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AnswerNew</servlet-name>
         <url-pattern>/newanswer</url-pattern>
     </servlet-mapping>
@@ -154,6 +170,14 @@
     <servlet-mapping>
         <servlet-name>QuestionAddComment</servlet-name>
         <url-pattern>/QuestionAddComment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuestionGetVote</servlet-name>
+        <url-pattern>/QuestionGetVote</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnswerGetVote</servlet-name>
+        <url-pattern>/AnswerGetVote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
