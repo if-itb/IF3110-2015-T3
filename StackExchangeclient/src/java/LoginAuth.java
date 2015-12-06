@@ -111,7 +111,7 @@ public class LoginAuth extends HttpServlet {
                 .build();
                 WebTarget resource2 = client.target("http://localhost:8082/IS/webresources").path("wbd.identity.token");
                 String token = resource2.request(MediaType.APPLICATION_JSON).post(entity(model1, MediaType.APPLICATION_JSON), String.class);
-                out.println(valToken);out.println(token);
+                out.println(token);
                 if(token.equals("fail")){
                   found = false;
                 }
