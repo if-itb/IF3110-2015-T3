@@ -21,7 +21,7 @@ Diharapkan dengan tugas ini anda dapat mengerti:
 
 ### Link Laporan
 
-*Masukkan link laporan anda di sini*
+https://drive.google.com/file/d/0BwcZ0htekfXMMjc5dFJoMHhLdFU/view?usp=sharing
 
 ### Arsitektur Umum Server
 
