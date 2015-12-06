@@ -23,14 +23,18 @@ public class viewpost extends HttpServlet {
         
         // Check if already log in
         boolean found = false;
-        int i=0;
+        int i=0, count=0;
         Cookie[] cookies = null;
         cookies = request.getCookies();
         if (cookies != null) {
-            while (!found && i < cookies.length){
+            while (count < 2 && i < cookies.length){
                 if (cookies[i].getName().equals("usernameCookie")) {
                     request.setAttribute("username", cookies[i].getValue());
-                    found = true;
+                    count++;
+                }
+                else if (cookies[i].getName().equals("tokenCookie")) {
+                    request.setAttribute("token", cookies[i].getValue());
+                    count++;
                 }
                 i++;
             }
@@ -44,8 +48,8 @@ public class viewpost extends HttpServlet {
         List<Answer> answers = getAnswerByQID(id);
         request.setAttribute("answers", answers);
         
-        int count = getAnswerById(id);
-        request.setAttribute("count", count);
+        int countAnswer = getAnswerById(id);
+        request.setAttribute("count", countAnswer);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/viewpost.jsp");
         dispatcher.forward(request, response);
