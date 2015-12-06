@@ -1,12 +1,13 @@
 package comment;
 
-import com.sun.faces.action.RequestMapping;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,53 +18,92 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
 import model.CommentModel;
+import mysql.ConnectDb;
 
 @WebServlet(urlPatterns = {"/comment"})
 public class Comment extends HttpServlet {
 
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-	    throws ServletException, IOException, SQLException {
+	    throws ServletException, IOException, SQLException {	
+	String token = request.getParameter("token");
+	String content = request.getParameter("content");
+	String name = request.getParameter("name");
+	String qid = request.getParameter("qid");
+
+	System.out.println("Token : " + token);
+	System.out.println("content : " + content);
+	System.out.println("Name : " + name);
+	System.out.println("qid : " + qid);
 	
-	try {
-	    
-	    PrintWriter out = response.getWriter();
-	    
-	    String token = request.getParameter("token");
-	    String content = request.getParameter("content");
-	    String name = request.getParameter("name");
-	    
-	    String result = isValidToken(token, this.getUserAgent(request), this.getIP(request));
-	    if ("UserNotFound".equals(result.trim())) {
-		response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-		// Redirect to the login page with error message
-		request.setAttribute("errorMessage", "Invalid Email / Password !");
+	if(request.getMethod().equals("POST")){
+	    System.out.println("Token : " + token);
+	    System.out.println("content : " + content);
+	    System.out.println("Name : " + name);
+	    System.out.println("qid : " + qid);
+	    System.out.println("POST COMMENT");
+	    try {
+		PrintWriter out = response.getWriter();
+
+		String result = isValidToken(token, this.getUserAgent(request), this.getIP(request));
+		if ("UserNotFound".equals(result.trim())) {
+		    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		    // Redirect to the login page with error message
+		    request.setAttribute("errorMessage", "Invalid Email / Password !");
+		    request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+		
+		String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
+		if (null != tokenStatus) {
+		    switch (tokenStatus) {
+			case "valid":
+			    System.out.println("VALID TOKEN");
+			    CommentModel cm = new CommentModel(name, content, Integer.parseInt(qid));
+			    cm.addToDatabase();
+			    out.println(cm.toXML());
+			    break;
+			case "invalid":
+			    System.out.println("INVALID TOKEN");
+			    out.println("invalidtoken");
+			    break;
+			default:
+			    System.out.println("EXPIRED_TOKEN");
+			    out.println("expiredtoken");
+		    }
+		}
+	    } catch (ServletException | IOException ex) {
+		request.setAttribute("errorMessage", ex.getMessage());
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	    }
-
-	    String tokenStatus = isValidToken(token, this.getUserAgent(request), this.getIP(request)).trim();
-	    if (null != tokenStatus) {
-		switch (tokenStatus) {
-		    case "valid":
-			System.out.println("VALID TOKEN");
-			CommentModel cm = new CommentModel(name, content);
-			out.println(cm.toXML());
-                        break;
-		    case "invalid":
-			System.out.println("INVALID TOKEN");
-			out.println("invalidtoken");
-                        break;
-		    default:
-			System.out.println("EXPIRED_TOKEN");
-			out.println("expiredtoken");
-		}
+	} else if(request.getMethod().equals("GET")) {
+	    System.out.println("GET COMMENT");	    
+	    Connection conn = ConnectDb.connect();
+	    String sql = "select * from comments where qid = ? ";
+	    PreparedStatement dbStatement = conn.prepareStatement(sql);
+	    dbStatement.setInt(1, Integer.parseInt(qid));
+	    ResultSet res = dbStatement.executeQuery();
+	    
+	    String hasil = "";
+	    String nama = "";
+	    String konten = "";
+	    String tanggal= "";
+	    int qId = 0;
+	    
+	    if (res.next()) {
+		nama = res.getString("name");
+		konten = res.getString("content");
+		tanggal = res.getString("created_at");
+		qId = res.getInt("created_at");
+		CommentModel c = new CommentModel(name, content, qId, Long.parseLong(tanggal));
+		System.out.println("HAsil1 : " + c.toXML());
+		hasil += c.toXML();
 	    }
-	} catch (ServletException | IOException ex) {
-	    request.setAttribute("errorMessage", ex.getMessage());
-	    request.getRequestDispatcher("/login.jsp").forward(request, response);
+	    
+	    PrintWriter o = response.getWriter();
+	    System.out.println("HAsil : " + hasil);
+	    o.println(hasil);
+	    
 	}
     }
     

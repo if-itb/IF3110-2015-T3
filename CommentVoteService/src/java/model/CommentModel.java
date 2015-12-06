@@ -22,15 +22,24 @@ public final class CommentModel {
     private String name;
     private String content;
     private long created_at;
+    private int qid;
     
     private final long lifetime = 15000;
     
     public CommentModel() { }
-        
-    public CommentModel(String name, String content) throws SQLException {
+    
+    public CommentModel(String name, String content, int qid, long createdAt) throws SQLException {
+	this.name = name;
+	this.content = content;
+	this.created_at = createdAt;
+	this.qid = qid;
+    }
+    
+    public CommentModel(String name, String content,int qid) throws SQLException {
         this.name = name;
 	this.content = content;
 	this.created_at= System.currentTimeMillis() / 1000;
+	this.qid = qid;
     }
     
     @XmlElement
@@ -69,15 +78,16 @@ public final class CommentModel {
 	try {
 	    Connection conn = ConnectDb.connect();
 	    Statement stmt = null;
-	    String sql = "insert into comments(id, name, content, created_at)"
-		       + "values (null, ?, ?, now())";
+	    String sql = "insert into comments(id, name, content, created_at, qid)"
+		       + "values (null, ?, ?, now(), ?)";
 	    PreparedStatement dbStatement = conn.prepareStatement(sql);
 	    dbStatement = conn.prepareStatement(sql);
 	    dbStatement.setString(1, this.name);
 	    dbStatement.setString(2, this.content);
+	    dbStatement.setInt(3, this.qid);
 	    int rs = dbStatement.executeUpdate();
 	} catch (Exception ex) {
 	    System.out.println("Error Add Comment to Database : " + ex);
 	}
-    }    
+    }
 }
