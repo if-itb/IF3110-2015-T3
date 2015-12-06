@@ -143,7 +143,7 @@ public class allComments extends HttpServlet {
             }
    
     }   catch (ParseException ex) {
-            Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

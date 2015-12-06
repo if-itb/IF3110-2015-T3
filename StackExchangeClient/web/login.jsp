@@ -70,6 +70,8 @@
                   <label for="password">Password</label>
                 </div>
               </div>
+                  <input hidden name="user_agent"> 
+                  <input hidden name="user_ipaddress">
               <button id = "button-post" class="btn waves-effect waves-light" type="submit" name="action">login
                 <i class="material-icons right">send</i>
             </button>

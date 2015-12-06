@@ -127,7 +127,7 @@ public class commentService extends HttpServlet {
             }
    
     }   catch (ParseException ex) {
-            Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -152,7 +152,8 @@ public class commentService extends HttpServlet {
             while ((line = reader.readLine()) != null)
                 jb.append(line);
         } catch (Exception e) {}
-        
+        String author = "";
+        String timestamp = "";
         System.out.println(jb.toString());
         try {
             System.out.println("Hello World");
@@ -161,7 +162,6 @@ public class commentService extends HttpServlet {
             JSONObject obj = (JSONObject) tempObj;
             String access_token = (String) obj.get("access_token");
             int qid = Integer.parseInt(obj.get("question_id").toString());
-            int userid = Integer.parseInt(obj.get("user_id").toString());
             String comment = (String) obj.get("comment");
             int message = 0;
             TokenChecker token_check = new TokenChecker();
@@ -173,14 +173,36 @@ public class commentService extends HttpServlet {
                 if (token_check.getValid() == 1){
                     //Can access. Right Identity
                     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wbd","root","");
-                    Statement stmt = conn.createStatement();
-                    String sql = "INSERT INTO comment_question(IDQ, IDUser, Comment) VALUES (?,?,?)";
+                    
+                    String sql;
+                    sql = "SELECT IDUser FROM token WHERE access_token = ?";
                     PreparedStatement dbStatement = conn.prepareStatement(sql);
-                    dbStatement.setInt(1, qid);
-                    dbStatement.setInt(2, userid);
-                    dbStatement.setString(3, comment);
-                    dbStatement.executeUpdate();
+                    dbStatement.setString(1,access_token);
+                    ResultSet rs = dbStatement.executeQuery();
+                    int i = 0;
+
+                    JSONArray listOfComment = new JSONArray();
+                    int userid = 0;
+                    if (rs.next()){
+                        userid = rs.getInt("IDUser");
+                    }
+                    
+                    Statement stmt = conn.createStatement();
+                    String sql2 = "INSERT INTO comment_question(IDQ, IDUser, Comment) VALUES (?,?,?)";
+                    PreparedStatement dbStatement2 = conn.prepareStatement(sql2);
+                    dbStatement2.setInt(1, qid);
+                    dbStatement2.setInt(2, userid);
+                    dbStatement2.setString(3, comment);
+                    dbStatement2.executeUpdate();
                     stmt.close();
+                    String sql3 = "SELECT * FROM comment_question NATURAL JOIN user WHERE IDQ = ?";
+                    PreparedStatement dbStatement3 = conn.prepareStatement(sql3);
+                    dbStatement3.setInt(1,qid);
+                    ResultSet rs2 = dbStatement3.executeQuery();
+                    while (rs2.next()){
+                        author = rs2.getString("Nama");
+                        timestamp = rs2.getString("created_at");
+                    }
                     message = 1;
                     conn.close();
                 }else{
@@ -194,10 +216,13 @@ public class commentService extends HttpServlet {
             }
             
             JSONObject objOut = new JSONObject();
+            objOut.put("author", author);
+            objOut.put("content" , comment);
+            objOut.put("timestamp", timestamp);
             objOut.put("message", message);
             out.println(objOut);
         } catch (ParseException ex) {
-            Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(comment.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

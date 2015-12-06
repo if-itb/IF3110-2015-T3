@@ -121,15 +121,24 @@
                 
                 
                 String question_comment = 
-                "<div ng-controller='commentController'><div ng-repeat='comment in comments' class='block-comment'>"
-                    +"<div class='bc-content'>"
-                        +"{{comment.content}}"
-                        +" - "
-                        +"<a id='color-blue'>"
-                            +"{{comment.author}}"
-                        +"</a>" +"- {{comment.timestamp}}"
-                    +"</div>"
-	    	+"</div></div>";
+                "<div ng-controller = 'commentController'>"
+                        + "Add Comment"
+                        + "<form >"
+                            + "<textarea ng-model='comment_content' placeholder='Your Comment' style='width:550px'></textarea>"
+                            + "<button ng-click='addComment(" + request.getParameter("token") + "," + request.getParameter("id") + "," + "comment_content);' style='margin-top:10px;'>Post Comment</button>"
+                            + "<h4>Comments</h4>"
+
+                            + "<div ng-repeat='comment in comments' class='block-comment'>"
+                                +"<div class='bc-content'>"
+                                    +"{{comment.content}}"
+                                    +" - "
+                                    +"<a id='color-blue'>"
+                                    +"{{comment.author}}"
+                                    +"</a>" +"- {{comment.timestamp}}"
+                                +"</div>"
+                            +"</div>"
+                        + "</form>"
+                + "</div>";
                 
                 String start = "<li class='collection-item avatar'><i class='material-icons circle'>folder</i>";
                 String end = "<br><br><br><br><br><br><a href='' class='secondary-content'><i class='material-icons'>grade</i></a></li>";
@@ -242,17 +251,56 @@
             console.log(q_id);
             var commentParameter = {question_id: q_id, access_token: access_token};
             console.log(JSON.stringify(commentParameter));
-               $http({
-                        url: commentUrl,
-                        data: JSON.stringify(commentParameter),
+            $http({
+                     url: commentUrl,
+                     data: JSON.stringify(commentParameter),
+                     method: 'POST',
+                     dataType: "json",
+                     crossDomain: true
+                 })
+                 .then(function (response){
+                     console.log("Success");
+                     $scope.comments = [];
+                     $scope.comments = response.data.comments;
+                     console.log(JSON.stringify($scope.comments));
+                     /*if ($scope.message == 1 || $scope.message == -5){
+
+                     } else {
+                         window.location.href = "http://localhost:8080/StackExchange_Client/error.jsp?id=" + $scope.message + "&token=" + access_token;
+                     }*/
+                 },function (err){
+                     console.log("Error : " + err);
+                 });    
+                
+                $scope.comment_content = "Initialization";
+                
+                $scope.addComment = function(access_token, qid,comment_content) {
+                    
+                    console.log("Luminto Homo");
+                    var addCommentUrl = "http://localhost:8082/StackExchange_IS/commentService";                                 
+                    var access_token = "<%= request.getParameter("token") %>";
+                    var qid = "<%= request.getParameter("id") %>";
+                    var content = $scope.comment_content;
+                    var yourComment = {access_token: access_token ,question_id: qid, comment: content};
+                    console.log("Access Token : " + access_token);
+                    console.log("Question ID : " + qid);
+                    console.log("Comment Content : " + content);
+                    console.log(JSON.stringify(yourComment));
+                    $http({
+                        url: addCommentUrl,
+                        data: JSON.stringify(yourComment),
                         method: 'POST',
                         dataType: "json",
                         crossDomain: true
                     })
                     .then(function (response){
                         console.log("Success");
-                        $scope.comments = response.data.comments;;
-                        console.log(response.data.comments[0]);
+                        $scope.comments.push(response.data);
+                        $scope.message = response.data.message;
+                        $scope.coba = response.data;
+                        console.log(JSON.stringify(response));
+                        console.log("Message " + $scope.message);
+                        console.log("Cba" + JSON.stringify($scope.comments))
                         /*if ($scope.message == 1 || $scope.message == -5){
 
                         } else {
@@ -260,10 +308,10 @@
                         }*/
                     },function (err){
                         console.log("Error : " + err);
-                    });    
+                    });
+            };
+
         
-        $http.get(commentUrl)
-            .then(function(response) {$scope.comments = response.data.comments;});
         });
 
         app.controller('voteQuestionController', function($scope,$http){
