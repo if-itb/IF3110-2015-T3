@@ -21,10 +21,18 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>    
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
-                
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>LeeMinCha©</a>");%>
+            
+            <% out.write("<a id='logo-container' href='index.jsp' class='brand-logo'>LeeMinCha©</a>");%>
             <%
-                if (request.getParameter("token").equals("null")){
+                Cookie[] cookieArray = request.getCookies();
+                String theCookie = null;
+                for (int i = 0; i < cookieArray.length; i++){
+                    if(cookieArray[i].getName().equals("access_token")){
+                        theCookie = cookieArray[i].getValue();
+                        break;
+                    }
+                }
+                if (theCookie.equals("null")){
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li><a href='login.jsp'>Login</a></li>"
                                         + "<li><a href='register.jsp'>Register</a></li>"
@@ -37,7 +45,7 @@
                 } else {
                     com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
                     com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
-                    java.lang.String accessToken = request.getParameter("token");
+                    java.lang.String accessToken = theCookie;
                     java.lang.String result = port.getUsername(accessToken);
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li>Welcome, " + result + "</li>"
@@ -73,7 +81,7 @@
                 <h5 class="header col s12 light">Cannot find what you're looking for?</h5>
             </div>
             <div class="row center">
-                <% out.write("<a href='ask.jsp?token="+ request.getParameter("token") +"' id='download-button' class='btn-large waves-effect waves-light orange'>Ask Here</a>");%>
+                <% out.write("<a href='ask.jsp' id='download-button' class='btn-large waves-effect waves-light orange'>Ask Here</a>");%>
             </div>
             <div class="row center">
                 <h5 class="header col s12 light">or</h5>
@@ -82,7 +90,7 @@
   
         <div class="row">
             <div class="orange col s8 push-s2">
-                <% out.write("<form name='searchForm' action='index.jsp?token="+request.getParameter("token") +"' method='POST'>");%>
+                <% out.write("<form name='searchForm' action='index.jsp' method='POST'>");%>
                     <div class="input-field">
                         <input name="search_key" id="search" type="search" placeholder="Search here" required>
                         <i class="material-icons">close</i>
@@ -138,7 +146,7 @@
                 +"Answer"
             +"</div>"
             +"<div class='bquestion-content'>" 
-                        +"<a id='color-black' href=question.jsp?id=" + result.get(i).getIDQ() + "&token=" + request.getParameter("token") + ">" + result.get(i).getQuestionTopic() + "</a>"
+                        +"<a id='color-black' href=question.jsp?id=" + result.get(i).getIDQ() + ">" + result.get(i).getQuestionTopic() + "</a>"
                         +"<br>"
                         + Content
                         +"<br><br>"
@@ -149,11 +157,11 @@
                             +result3
                         +"</a>"
                         +" | "
-                        +"<a id='color-orange' href=edit.jsp?id=" + result.get(i).getIDQ() +"&token=" + request.getParameter("token")
+                        +"<a id='color-orange' href=edit.jsp?id=" + result.get(i).getIDQ() 
                             + ">edit"
                         +"</a>"
             +" | "
-                        +"<a id='color-red' href=delete.jsp?id=" + result.get(i).getIDQ() +"&token=" + request.getParameter("token") +">"
+                        +"<a id='color-red' href=delete.jsp?id=" + result.get(i).getIDQ()  +">"
                             +"delete"
             +"</a>"+"</div><br>";
 

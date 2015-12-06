@@ -22,9 +22,17 @@
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
                 
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>Home</a>");%>
+            <% out.write("<a id='logo-container' href='index.jsp' class='brand-logo'>Home</a>");%>
             <%
-                if (request.getParameter("token").equals("null")){
+                Cookie[] cookieArray = request.getCookies();
+                String theCookie = null;
+                for (int i = 0; i < cookieArray.length; i++){
+                    if(cookieArray[i].getName().equals("access_token")){
+                        theCookie = cookieArray[i].getValue();
+                        break;
+                    }
+                }
+                if (theCookie.equals("null")){
                     String border = "<ul class='right hide-on-med-and-down'>"
                                         + "<li><a href='login.jsp'>Login</a></li>"
                                         + "<li><a href='register.jsp'>Register</a></li>"
@@ -37,7 +45,7 @@
                 } else {
                     com.wbd.rgs.RegisterWS_Service service = new com.wbd.rgs.RegisterWS_Service();
                     com.wbd.rgs.RegisterWS port = service.getRegisterWSPort();
-                    java.lang.String accessToken = request.getParameter("token");
+                    java.lang.String accessToken = theCookie;
                     java.lang.String result = port.getUsername(accessToken);
                     String border;
                     if (request.getParameter("id").equals("-2")){

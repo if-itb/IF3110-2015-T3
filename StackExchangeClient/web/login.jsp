@@ -55,7 +55,13 @@
             <br><br>
         </div>
     
-
+        <%
+            /*Cookie[] cookArray = request.getCookies();
+            out.println("Ada cookie sebanyak: "+ cookArray.length);
+            for (int i = 0; i < cookArray.length; i++){
+                out.println("COOKIE JSP: " + cookArray[i].getName());
+            }*/
+        %>
         <div class="row">
             <form id="loginForm" class="col s12" name="loginForm" action="" onsubmit="" method="POST">
               <div class="row">
@@ -190,7 +196,8 @@
                                 //window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
                                 
                                 setCookie("access_token", token, 2*60);
-                                window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp?token=" + token;
+                                console.log("COOKIE: "+ getCookie("access_token"));
+                                window.location.href = "http://localhost:8080/StackExchange_Client/index.jsp";
                             }
 
                         },
@@ -201,6 +208,7 @@
                 });
             });
         </script>
+        
         <%
             //String token = "INITOKENPALSU";
             //if (token != "tokengagal"){

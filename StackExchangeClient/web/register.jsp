@@ -31,7 +31,7 @@
         
         <nav class="light-blue lighten-1" role="navigation">
             <div class="nav-wrapper container">
-            <% out.write("<a id='logo-container' href='index.jsp?token="+ request.getParameter("token") +"' class='brand-logo'>Home</a>");%>
+            <% out.write("<a id='logo-container' href='index.jsp' class='brand-logo'>Home</a>");%>
             <ul class="right hide-on-med-and-down">
                 <li><a href="login.jsp">Login</a></li>
                 <li><a href="register.jsp">Register</a></li>
@@ -71,7 +71,7 @@
         
         
         <div class="row">
-            <%out.write("<form id='registerForm' class='col s12' name='registerForm' action='registerresult.jsp?token="+ request.getParameter("token") +"' method='POST'>");%>
+            <%out.write("<form id='registerForm' class='col s12' name='registerForm' action='registerresult.jsp' method='POST'>");%>
               <div class="row">
                 <div class="input-field col s12">
                   <input placeholder="Name" name="name" id="name" type="text" required>

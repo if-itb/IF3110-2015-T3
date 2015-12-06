@@ -15,10 +15,18 @@
             <%-- start web service invocation --%><hr/>
     <%
     try {
+        Cookie[] cookieArray = request.getCookies();
+                String theCookie = null;
+                for (int i = 0; i < cookieArray.length; i++){
+                    if(cookieArray[i].getName().equals("access_token")){
+                        theCookie = cookieArray[i].getValue();
+                        break;
+                    }
+                }
 	com.wbd.qst.QuestionWS_Service service = new com.wbd.qst.QuestionWS_Service();
 	com.wbd.qst.QuestionWS port = service.getQuestionWSPort();
 	 // TODO initialize WS operation arguments here
-	java.lang.String accessToken = request.getParameter("token");
+	java.lang.String accessToken = theCookie;
 	int qid = Integer.parseInt(request.getParameter("id"));
 	java.lang.String title = request.getParameter("topic");
 	java.lang.String content = request.getParameter("textarea1");

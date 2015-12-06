@@ -18,7 +18,15 @@
 	com.wbd.ans.AnswerWS_Service service = new com.wbd.ans.AnswerWS_Service();
 	com.wbd.ans.AnswerWS port = service.getAnswerWSPort();
 	 // TODO initialize WS operation arguments here
-	java.lang.String accessToken = request.getParameter("token");
+         Cookie[] cookieArray = request.getCookies();
+                String theCookie = null;
+                for (int i = 0; i < cookieArray.length; i++){
+                    if(cookieArray[i].getName().equals("access_token")){
+                        theCookie = cookieArray[i].getValue();
+                        break;
+                    }
+                }
+	java.lang.String accessToken = theCookie;
 	java.lang.String qid = request.getParameter("id");
 	java.lang.String content = request.getParameter("content");
 	// TODO process result here
