@@ -4,12 +4,16 @@
 		return $x;
 	}
 	
-	function getResposeCode($url) {
+	function getResponseCode($url) {
 		$header = get_headers($url);
 		$response = parse_http_response_header($header);
 		return $response[0]['status']['code'];
 	}
-	
+	function getResponsePhrase($url) {
+		$header = get_headers($url);
+		$response = parse_http_response_header($header);
+		return $response[0]['status']['phrase'];
+	}
 	function parse_http_response_header(array $headers){
 		$responses = array();
 		$buffer = NULL;
