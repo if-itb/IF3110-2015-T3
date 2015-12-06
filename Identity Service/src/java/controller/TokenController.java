@@ -65,7 +65,7 @@ public class TokenController extends HttpServlet {
       if (ipAddress == null) {  
         ipAddress = request.getRemoteAddr();
       }
-      TokenExecutor executor = new TokenExecutor(token, userAgent, ipAddress);
+      TokenExecutor executor = new TokenExecutor(token);
       executor.closeConnection();
       
       JSONObject resp = new JSONObject();

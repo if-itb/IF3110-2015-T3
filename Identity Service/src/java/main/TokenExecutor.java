@@ -39,19 +39,18 @@ public class TokenExecutor {
       // Connect database
       Database database = new Database();
       connection = database.connectDatabase();
-      System.out.println(email + "---" + password + "---" + userAgent + "---" + ipAddress);
-        getIdUser(email, password);
-        if (idUser != -999999) {
-          // Email dan password pengguna benar
-          String browserName = getBrowserName(userAgent);
-          token = new Token(email, password, browserName, ipAddress);
-          isValid = true;
-          LogIn();
-        } else {
-          // Kirim pesan error
-          token = new Token();
-          isValid = false;
-        }
+      getIdUser(email, password);
+      if (idUser != -999999) {
+        // Email dan password pengguna benar
+        String browserName = getBrowserName(userAgent);
+        token = new Token(email, password, browserName, ipAddress);
+        isValid = true;
+        LogIn();
+      } else {
+        // Kirim pesan error
+        token = new Token();
+        isValid = false;
+      }
       connection.close();
     } catch (SQLException ex) {
       // Kirim pesan error
@@ -63,17 +62,14 @@ public class TokenExecutor {
   }
   
   // Konstruktor untuk validasi pada saat pengguna ingin melakukan suatu operasi pada web
-  public TokenExecutor(String randomString, String userAgent, String ipAddress) {
+  public TokenExecutor(String accessToken) {
     token = new Token();
-    token.setRandomString(randomString);
-    if (token.isValid()) {
-    // Format token valid, maka periksa apakah token ada di basis data
+    token.setAccessToken(accessToken);
       try {
-        String browserName = getBrowserName(userAgent);
         // Connect database
         Database database = new Database();
         connection = database.connectDatabase();
-        checkTokenValid(browserName, ipAddress);
+        checkTokenValid();
       } catch (SQLException ex) {
         // Kirim pesan error
         token = new Token();
@@ -81,7 +77,6 @@ public class TokenExecutor {
         isValid = false;
         System.out.println(ex.getMessage());
       }
-    }
   }
   
   // Getter
@@ -125,11 +120,10 @@ public class TokenExecutor {
   
   // Memeriksa apakah sebuah token terdapat di basis data dan
   // memiliki lifetime yang masih berlaku
-  private void checkTokenValid(String browserName, String ipAddress) throws SQLException {
+  private void checkTokenValid() throws SQLException {
     try (Statement statement = connection.createStatement()) {
-      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT id_user, lifetime FROM user WHERE token = '" + realToken + "'";
+      String query = "SELECT id_user, lifetime FROM user WHERE token = '" + token.getAccessToken() + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Token ada, periksa lifetime
@@ -153,13 +147,11 @@ public class TokenExecutor {
   }
   
   // Mendapatkan nama pengguna untuk ditampilkan pada setiap halaman web dari basis data
-  public String getUserName(String userAgent, String ipAddress) {
+  public String getUserName() {
     String name = "not-valid";
     try (Statement statement = connection.createStatement()) {
-      String browserName = getBrowserName(userAgent);
-      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT name FROM user WHERE token = '" + realToken + "'";
+      String query = "SELECT name FROM user WHERE token = '" + token.getAccessToken() + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Nama user ditemukan
@@ -174,13 +166,11 @@ public class TokenExecutor {
   }
   
   // Mendapatkan nama dan email pengguna untuk ditampilkan pada form menjawab dan bertanya pada basis data
-  public ArrayList<String> getUserIdentity(String userAgent, String ipAddress) {
+  public ArrayList<String> getUserIdentity() {
     ArrayList<String> identity = new ArrayList<String>();
     try (Statement statement = connection.createStatement()) {
-      String browserName = getBrowserName(userAgent);
-      String realToken = token.getRandomString() + "#" + browserName + "#" + ipAddress;
       // Menjalankan query
-      String query = "SELECT name, email FROM user WHERE token = '" + realToken + "'";
+      String query = "SELECT name, email FROM user WHERE token = '" + token.getAccessToken() + "'";
       ResultSet result = statement.executeQuery(query);
       if (result.next()) {
         // Nama user ditemukan

@@ -57,9 +57,9 @@ public class UserIdentityController extends HttpServlet {
       if (ipAddress == null) {  
         ipAddress = request.getRemoteAddr();
       }
-      TokenExecutor executor = new TokenExecutor(token, userAgent, ipAddress);
+      TokenExecutor executor = new TokenExecutor(token);
       ArrayList<String> identity = new ArrayList<String>();
-      identity = executor.getUserIdentity(userAgent, ipAddress);
+      identity = executor.getUserIdentity();
       
       JSONObject obj = new JSONObject();
       obj.put("user_name", identity.get(0));

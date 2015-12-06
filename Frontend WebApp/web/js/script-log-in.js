@@ -26,8 +26,12 @@ $(document).ready(function(){
       dataType: "json",
       // Hasil terima response dari server
       success: function(data, textStatus, jqXHR) {
+       message = "Your email/password is not matched";
+       if (data.access_token != "not-valid") {
+         message = "You have log in.";
+       }
+       alert(message);
        window.location.href = "http://localhost:8080/Frontend_WebApp/IndexController?token=" + data.access_token;
-       alert("You have log in.");
       },
       // Tidak ada response dari server
       error: function(jqXHR, textStatus, errorThrown) {

@@ -56,11 +56,11 @@ public class UserNameController extends HttpServlet {
       if (ipAddress == null) {  
         ipAddress = request.getRemoteAddr();
       }
-      TokenExecutor executor = new TokenExecutor(token, userAgent, ipAddress);
+      TokenExecutor executor = new TokenExecutor(token);
       
       JSONObject obj = new JSONObject();
-      obj.put("user_name", executor.getUserName(userAgent, ipAddress));
-      obj.put("token", executor.getToken().getRandomString());
+      obj.put("user_name", executor.getUserName());
+      obj.put("token", executor.getToken().getAccessToken());
       out.print(obj);
       executor.closeConnection();
       out.close();

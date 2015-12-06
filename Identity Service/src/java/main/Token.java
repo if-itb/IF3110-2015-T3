@@ -22,13 +22,11 @@ import java.util.Date;
 public class Token {
   // Atribut
   private String accessToken;
-  private String randomString;
   private Timestamp lifetime;
   
   // Konstruktor default
   public Token() {
-    randomString = "not-valid";
-    accessToken = "not-valid#not-valid#not-valid";
+    accessToken = "not-validnot-validnot-valid";
     lifetime = Timestamp.valueOf("0001-01-01 01:01:01");
   }
   
@@ -40,24 +38,23 @@ public class Token {
     
     // Generate token
     String tokenSource = email + password + lifetime.toString();
-    randomString = UUID.nameUUIDFromBytes(tokenSource.getBytes()).toString() ; 
-    accessToken = randomString + "#" + browserName + "#" + ipAddress;
+    accessToken = UUID.nameUUIDFromBytes(tokenSource.getBytes()).toString() + "" + browserName + "" + ipAddress;
   }
   
   // Konstruktor dengan akses token dan lifetime yang diberikan
-  public Token(String _randomString, Timestamp _lifetime, String browserName, String ipAddress) {
-    randomString = _randomString;
-    accessToken = randomString + "#" + browserName + "#" + ipAddress;
-    lifetime = _lifetime;
-  }
+//  public Token(String _randomString, Timestamp _lifetime, String browserName, String ipAddress) {
+//    randomString = _randomString;
+//    accessToken = randomString + "#" + browserName + "#" + ipAddress;
+//    lifetime = _lifetime;
+//  }
   
   // Getter
   public String getAccessToken() {
     return accessToken;
   }
-  public String getRandomString() {
-    return randomString;
-  }
+//  public String getRandomString() {
+//    return randomString;
+//  }
   public Timestamp getLifetime() {
     return lifetime;
   }
@@ -66,9 +63,9 @@ public class Token {
   public void setAccessToken(String _accessToken) {
     accessToken = _accessToken;
   }
-  public void setRandomString(String _randomString) {
-    randomString = _randomString;
-  }
+//  public void setRandomString(String _randomString) {
+//    randomString = _randomString;
+//  }
   public void setLifetime(Timestamp _lifetime) {
     lifetime = _lifetime;
   }
@@ -76,6 +73,6 @@ public class Token {
   // Method
   // Memeriksa apakah suatu token memiliki format yang sesuai dengan token UUID
   public boolean isValid() {
-    return randomString.matches("[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}");
+    return accessToken.matches("[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}");
   }
 }

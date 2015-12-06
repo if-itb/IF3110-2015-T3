@@ -58,7 +58,8 @@ public class LogInController extends HttpServlet {
       TokenExecutor executor = new TokenExecutor(email, password, userAgent, ipAddress);
       
       JSONObject obj = new JSONObject();
-      obj.put("access_token", executor.getToken().getRandomString());
+      String tokenSend = executor.getToken().getAccessToken();
+      obj.put("access_token", tokenSend);
       out.print(obj);
       out.close();
     }
