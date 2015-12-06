@@ -3293,6 +3293,15 @@
 .up_button , .down_button:hover{
     cursor: pointer;
 }
+.comment_section{
+	padding-top : 20px;
+    padding-left: 50px;
+    padding-bottom : 20px;
+    width: 100%;
+    border-top : dashed grey;
+
+}
+
 a{
 	cursor:pointer;
 }
