@@ -119,7 +119,10 @@ public class IdentityServiceAPI extends HttpServlet {
                     result.first();
                     uid = result.getInt("uid"); //kalau useragent sama, ip sama, dan tidak expired, return cari uid nya
                 }
-                if (isExpired){ //return -1 kalau expired
+                result.beforeFirst();
+                if (!result.next()){
+                    status = 0;
+                } else if (isExpired){ //return -1 kalau expired
                     status = -1;
                 } else if (isDifferentIP) { //return -2 kalau beda ip
                     status = -2;
