@@ -37,3 +37,8 @@ StackExchange WebService/nbproject/build-impl.xml
 *.dpf
 VoteAndCommand Service/build/web/gfv3ee6.dpf
 VoteAndCommand Service/build/web/gfv3ee6.dpf
+/VoteAndCommand Service/nbproject/private/
+/VoteAndCommand Service/build/
+/VoteAndCommand Service/dist/
+VoteAndCommand Service/lib/org.json-20120521.jar
+*.jar
