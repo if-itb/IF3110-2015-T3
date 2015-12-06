@@ -73,7 +73,8 @@ public class GetComment extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             int id = Integer.parseInt(request.getParameter("id"));
             String result = getCommentByAnswerId(id);
-            response.getWriter().write(result);
+            request.setAttribute("result", result);
+            request.getRequestDispatcher("target.jsp").forward(request, response);
         }
     }
 
