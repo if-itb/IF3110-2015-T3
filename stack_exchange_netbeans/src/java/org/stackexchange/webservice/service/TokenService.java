@@ -6,6 +6,7 @@ import org.stackexchange.webservice.helper.ConnectionHelper;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +29,14 @@ public class TokenService {
     
     public boolean isCompleteTokenValid(String token, String ip, String userAgent) {
         try {
-            return Boolean.valueOf(connectionHelper.executeGET("http://localhost:7000/api/token/check?token=" + token + "&ip=" + ip + "&user_agent=" + userAgent));
+            System.out.println("dadas");
+            System.out.println("http://localhost:7000/api/token/all/check?token=" + token + "&ip=" + ip + "&user_agent=" + userAgent);
+            boolean a =  Boolean.valueOf(connectionHelper.executeGET("http://localhost:7000/api/token/all/check?token=" + token + "&ip=" + ip + "&user_agent=" + URLEncoder.encode(userAgent, "UTF-8")));
+            System.out.println(a);
+            System.out.println("=========");
+            return a;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }

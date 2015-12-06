@@ -50,34 +50,34 @@
 
      
 <div class="row">
-      <div class="col s10 offset-s1 l10">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-              <span class="card-title">${question.topic}</a></span>
-              <div class="right">
-                   <p id="question-vote" style="font-size: 35px;margin:20px 28px 0 0">${question.vote}</p>
-              </div>
-            <p>${question.content}</p>
-              <div class="right-align">
-                  <p>Asked by ${question_name} < <c:out value="${question_email}"/> > at ${question.createdAt}</p>
-              </div>
-          </div>
-          <div class="card-action">
-              <div class ="row" style="margin-bottom:0px">
-                <div class="col s6" >
-            <div class="left">
-                <a ng-click="upvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
-                <a ng-click="downvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+    <div class="col s10 offset-s1 l10">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+            <span class="card-title">${question.topic}</a></span>
+            <div class="right">
+                 <p id="question-vote" style="font-size: 35px;margin:20px 28px 0 0">${question.vote}</p>
             </div>
-                </div>
+          <p>${question.content}</p>
             <div class="right-align">
-                <c:if test="${question.userId == user_id}"><a href="http://localhost:8080/stack_exchange_netbeans/EditQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>">Edit</a></c:if>
-                <c:if test="${question.userId == user_id}"><a href="http://localhost:8080/stack_exchange_netbeans/DeleteQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>">Delete</a></c:if>
-            </div> 
-              </div>
+                <p>Asked by ${question_name} < <c:out value="${question_email}"/> > at ${question.createdAt}</p>
+            </div>
+        </div>
+        <div class="card-action">
+            <div class ="row" style="margin-bottom:0px">
+              <div class="col s6" >
+          <div class="left">
+              <a ng-click="upvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+              <a ng-click="downvoteQuestion(<c:out value="${question.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
           </div>
+              </div>
+          <div class="right-align">
+              <c:if test="${question.userId == user_id}"><a href="http://localhost:8080/stack_exchange_netbeans/EditQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>">Edit</a></c:if>
+              <c:if test="${question.userId == user_id}"><a href="http://localhost:8080/stack_exchange_netbeans/DeleteQuestionServlet?question_id=<c:out value="${question.id}"/>&token=<c:out value="${token}"/>">Delete</a></c:if>
+          </div> 
+            </div>
         </div>
       </div>
+    </div>
 </div>
             
             <div class="row">
@@ -110,44 +110,43 @@
     <c:set var="counts" value="0" scope="page" />
     <div class="answers">
         <h1 class="header center white-text text-lighten-2"><c:out value="${count}"/> Answer<c:if test="${count > 1}">s</c:if></h1>
-            <c:forEach items="${answer}" var="answers">
-<div class="row">
-      <div class="col s10 offset-s1 l10">
-        <div class="card blue-grey darken-1">
-          <div class="card-content white-text">
-              <div class="right">
-                   <p id="answer-<c:out value="${answers.id}"/>" style="font-size: 35px;margin:20px 28px 0 0">${answers.vote}</p>
-              </div>
-            <p>${answers.content}</p>
-              <div class="right-align">
-                <p style="margin:47px 0 0 0">Asked by ${answer_name[counts]} < <c:out value="${answer_email[counts]}"/> > at ${answers.createdAt}</p>
-                <c:set var="count" value="${counts + 1}" scope="page"/>
-              </div>
-          </div>
-          <div class="card-action">
-              <div class="row" style="margin-bottom:0px">
-                  <div class ="col s6">
-            <div class="left">
-                <a ng-click="upvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
-                <a ng-click="downvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
-            </div>
+        <c:forEach items="${answer}" var="answers">
+            <div class="row">
+                <div class="col s10 offset-s1 l10">
+                  <div class="card blue-grey darken-1">
+                    <div class="card-content white-text">
+                        <div class="right">
+                            <p id="answer-<c:out value="${answers.id}"/>" style="font-size: 35px;margin:20px 28px 0 0">${answers.vote}</p>
+                        </div>
+                      <p>${answers.content}</p>
+                        <div class="right-align">
+                          <p style="margin:47px 0 0 0">Asked by ${answer_name[counts]} < <c:out value="${answer_email[counts]}"/> > at ${answers.createdAt}</p>
+                          <c:set var="count" value="${counts + 1}" scope="page"/>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <div class="row" style="margin-bottom:0px">
+                            <div class ="col s6">
+                                <div class="left">
+                                    <a ng-click="upvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/up.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                                    <a ng-click="downvoteAnswer(<c:out value="${answers.id}"/>)" ><img src="assets/image/down.png" alt="Unsplashed background img 1" width="25" height="25"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   </div>
-              </div>
-          </div>
-        </div>
-      </div>
-</div>
-          
-	     </c:forEach>
+                </div>
+            </div>
+	</c:forEach>
     </div>
         
-        <h1 class="header center white-text text-lighten-2">Your Answer</h1>
+    <h1 class="header center white-text text-lighten-2">Your Answer</h1>
 
 
 
     <div class="col m6">
             <div class="row">
-                <form class="col s12" method="POST">
+                <form class="col s12" method="POST" id="form">
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="first_name" type="text" class="validate" name="content">
@@ -159,7 +158,7 @@
                         
                         <div class="col m12">
                             <p class="center-align">
-                                <button type="submit" class="btn btn-large waves-effect waves-light" type="button" name="action" style="align-items: center">Post</button>
+                                <input id="form-button" type="submit" class="btn btn-large waves-effect waves-light" type="button" name="action" style="align-items: center" value="Post">
                             </p>
                         </div>
                        

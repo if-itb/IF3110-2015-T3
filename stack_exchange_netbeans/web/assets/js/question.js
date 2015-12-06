@@ -1,3 +1,8 @@
+$("#form-button").click(function () {
+    console.log("adasd");
+    $("#form").submit();
+});
+
 var app = angular.module('question', []);
 
 var apiBaseUrl = "http://localhost:8080/stack_exchange_api";

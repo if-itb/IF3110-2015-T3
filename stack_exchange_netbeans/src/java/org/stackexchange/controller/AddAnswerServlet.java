@@ -90,9 +90,16 @@ public class AddAnswerServlet extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        insertAnswer(Long.valueOf(request.getParameter("question_id")),request.getParameter("content"),request.getParameter("token"));
-        response.sendRedirect("question?question_id=" + Long.valueOf(request.getParameter("question_id")) + "&token=" + request.getParameter("token") + "&from=question");
+        String topic = request.getParameter("Topic");
+        String content = request.getParameter("Content");
+        String token = request.getParameter("token");
+        TokenService tokenService = new TokenService();
+        if (token != null && !token.isEmpty() && tokenService.isCompleteTokenValid(token, request.getRemoteAddr(), request.getHeader("User-Agent"))) {
+            insertAnswer(Long.valueOf(request.getParameter("question_id")),request.getParameter("content"),request.getParameter("token"));
+            response.sendRedirect("question?question_id=" + Long.valueOf(request.getParameter("question_id")) + "&token=" + request.getParameter("token") + "&from=question");
+        } else {
+            response.sendRedirect("http://localhost:7000/login");
+        }
     }
     
     private String getByQuestionId(long questionId) {
