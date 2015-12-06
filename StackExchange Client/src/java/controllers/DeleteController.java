@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,26 +39,39 @@ public class DeleteController extends HttpServlet {
         User user = (User) request.getAttribute("user");
         if (user != null) {
             int qId = Integer.parseInt(request.getParameter("q_id"));
-            Question question = getQuestion(qId);
-            if (question.getUId()==user.getUId()) {
-                //Same user
-                int isSuccessful = deleteQuestion(qId);
-                if(isSuccessful==1) {
-                    request.setAttribute("message", "Question deleted sucessfully");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
-                    dispatcher.forward(request, response);
-                } else {
-                    request.setAttribute("message", "Question cannot be deleted");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
-                    dispatcher.forward(request, response);
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            Cookie[] cookies = httpRequest.getCookies();
+            String status = "No cookie";
+            // Check cookie with name auth
+            if (cookies != null) {
+                String token = null;
+                for (Cookie cookie : cookies) {
+                    status = "No token cookie";
+                    if (cookie.getName().equals("token")) {
+                        token = cookie.getValue();
+                        break;
+                    }
                 }
-            } else {
-                response.sendRedirect(request.getContextPath());
+                Question question = getQuestion(qId);
+                if (question.getUId()==user.getUId()) {
+                    //Same user
+                    int isSuccessful = deleteQuestion(token);
+                    if(isSuccessful==1) {
+                        request.setAttribute("message", "Question deleted sucessfully");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+                        dispatcher.forward(request, response);
+                    } else {
+                        request.setAttribute("message", "Question cannot be deleted");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/home");
+                        dispatcher.forward(request, response);
+                    }
+                } else {
+                    response.sendRedirect(request.getContextPath());
+                } 
             }
         } else {
             response.sendRedirect(request.getContextPath());
         }
-        
    }
 
     /**

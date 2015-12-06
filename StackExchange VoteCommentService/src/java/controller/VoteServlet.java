@@ -72,7 +72,7 @@ public class VoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-        String isQuestion = request.getParameter("q"); // question = 1 answer = 0
+        String isQuestion = request.getParameter("type"); // question = 1 answer = 0
         String id = request.getParameter("id"); // q_id or a_id
         String token = request.getParameter("token");
         String isUp = request.getParameter("up"); // up = 1 down = 0

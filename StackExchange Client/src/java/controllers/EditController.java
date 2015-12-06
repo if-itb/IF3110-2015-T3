@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,6 +52,24 @@ public class EditController extends HttpServlet {
             QuestionWS.Question question = getQuestion(qId);
             if (question!= null) {
                 request.setAttribute("question", question);
+                
+                // Set cookie
+                HttpServletRequest httpRequest = (HttpServletRequest) request;
+                Cookie[] cookies = httpRequest.getCookies();
+                String status = "No cookie";
+                // Check cookie with name auth
+                if (cookies != null) {
+                    String token = null;
+                    for (Cookie cookie : cookies) {
+                        status = "No token cookie";
+                        if (cookie.getName().equals("token")) {
+                            token = cookie.getValue();
+                            break;
+                        }
+                    }
+                    request.setAttribute("token", token);
+                }
+                
                 RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
                 rd.forward(request, response);
             } else {
@@ -77,9 +96,10 @@ public class EditController extends HttpServlet {
         if(user!=null) {
             Question question = getQuestion(q_id);
             if(user.getUId()==question.getUId()) {
+                String token = request.getParameter("token")
                 String topic = request.getParameter("topic");
                 String content = request.getParameter("content");
-                int qId = updateQuestion(q_id, topic, content);
+                int qId = updateQuestion(token, q_id, topic, content);
                 if (qId != -1 ) {
                     request.setAttribute("message","Question edited successfully");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/question?q_id"+qId);

@@ -63,10 +63,11 @@ public class AnswerController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
-        int q_id = Integer.parseInt(request.getParameter("q_id"));
-        String content = request.getParameter("content");
         if (user != null) {
-            int qId = addNewAnswer(user.getUId(), content, q_id);
+            String token = request.getParameter("token");
+            int q_id = Integer.parseInt(request.getParameter("q_id"));
+            String content = request.getParameter("content");
+            int qId = addNewAnswer(token, content, q_id);
             if (qId != -1 ) {
                 response.sendRedirect("question?q_id=" + qId);
             }

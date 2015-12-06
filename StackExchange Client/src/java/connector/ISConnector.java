@@ -89,4 +89,28 @@ public class ISConnector {
         }
         return response;
     }
+    
+    public static JSONObject vote(String type, String id, String token, String up) {
+        JSONObject response = null;
+        try {
+            String query = String.format("type=%s&id=%s&token=%s&up=%s",
+                    type, id, token, up);
+            response = processRequest("/vote", query.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+    
+    public static JSONObject comment(String type, String id, String token, String up) {
+        JSONObject response = null;
+        try {
+            String query = String.format("type=%s&id=%s&token=%s&up=%s",
+                    type, id, token, up);
+            response = processRequest("/vote", query.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 }

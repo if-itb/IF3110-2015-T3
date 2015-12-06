@@ -8,12 +8,15 @@ package controllers;
 import AnswerWS.AnswerWS_Service;
 import QuestionWS.QuestionWS_Service;
 import UserWS.User;
+import connector.ISConnector;
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -37,28 +40,28 @@ public class VoteController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getAttribute("user");
-        int id = Integer.parseInt(request.getParameter("id"));
+        
         String type = request.getParameter("type");
-        int vote = Integer.parseInt(request.getParameter("vote"));
-        String q_id;
+        String id = request.getParameter("id");
+        String up = request.getParameter("up");
+        
         if(user!=null) {
-            if(type.equals("q")) {
-                if(vote==1) {
-                    q_id = voteQuestion(id,user.getUId());
-                }
-                else { //vote==-1
-                    q_id = devoteQuestion(id,user.getUId());
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            Cookie[] cookies = httpRequest.getCookies();
+            String status = "No cookie";
+            // Check cookie with name auth
+            if (cookies != null) {
+                String token = null;
+                for (Cookie cookie : cookies) {
+                    status = "No token cookie";
+                    if (cookie.getName().equals("token")) {
+                        token = cookie.getValue();
+                        break;
+                    }
                 }
             }
-            else { //type.equals("a")
-                if(vote==1) {
-                    q_id = voteAnswer(id,user.getUId());
-                }
-                else {
-                    q_id = devoteAnswer(id,user.getUId());
-                }
-                id = Integer.parseInt(request.getParameter("q_id"));
-            }
+            //TODO:
+            JSONObject result = ISConnector.vote(type, id, type, up);
             response.sendRedirect("question?q_id="+id);
         }
         else {

@@ -11,6 +11,7 @@ import QuestionWS.QuestionWS_Service;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,11 +44,25 @@ public class QuestionDetailController extends HttpServlet {
         java.util.List<AnswerWS.Answer> answers = getAnswerByQId(qId);
         request.setAttribute("question", question);
         request.setAttribute("answers", answers);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        Cookie[] cookies = httpRequest.getCookies();
+        String status = "No cookie";
+        // Check cookie with name auth
+        if (cookies != null) {
+            String token = null;
+            for (Cookie cookie : cookies) {
+                status = "No token cookie";
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+            request.setAttribute("token", token);
+        }
         RequestDispatcher rd = request.getRequestDispatcher("question.jsp");
         rd.forward(request, response);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -59,14 +74,7 @@ public class QuestionDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        int qId = Integer.parseInt(request.getParameter("q_id"));
-        QuestionWS.Question question = getQuestion(qId);
-        java.util.List<AnswerWS.Answer> answers = getAnswerByQId(qId);
-        request.setAttribute("question", question);
-        request.setAttribute("answers", answers);
-        RequestDispatcher rd = request.getRequestDispatcher("question.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -80,14 +88,7 @@ public class QuestionDetailController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        int qId = Integer.parseInt(request.getParameter("q_id"));
-        QuestionWS.Question question = getQuestion(qId);
-        java.util.List<AnswerWS.Answer> answers = getAnswerByQId(qId);
-        request.setAttribute("question", question);
-        request.setAttribute("answers", answers);
-        RequestDispatcher rd = request.getRequestDispatcher("question.jsp");
-        rd.forward(request, response);
+        processRequest(request, response);
     }
 
     /**
