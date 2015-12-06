@@ -30,6 +30,7 @@
         <input type="hidden" name="token" value="<%=token%>" />
         <input type="hidden" name="id" value="<%=id%>" />
         <input type="hidden" name="qid" value="<%=qid%>" />
+        <input type="hidden" name="ip" value="<%= request.getRemoteHost() %>"/>
       </form>
     </div>
   </body>

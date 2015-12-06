@@ -10,7 +10,13 @@
   try {
       questionWebService.QuestionWebService_Service service = new questionWebService.QuestionWebService_Service();
       questionWebService.QuestionWebService port = service.getQuestionWebServicePort();
-      String token = request.getParameter("token");
+      String token = "";
+      Cookie[] cookies = request.getCookies();
+      for(Cookie temp : cookies){
+          if(temp.getName().equals("token")){
+              token = temp.getValue();
+          } 
+      }
       String topic = request.getParameter("topic");
       String content = request.getParameter("content");
       int id = Integer.parseInt(request.getParameter("id"));

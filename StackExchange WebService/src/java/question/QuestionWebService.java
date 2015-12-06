@@ -6,6 +6,13 @@ package question;
 import Auth.Auth;
 import answer.AnswerWebService;
 import database.Database;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -115,12 +122,15 @@ public class QuestionWebService {
     
     @WebMethod(operationName = "addQuestion")
     @WebResult(name="String")
-    public String addQuestion(String token, String name, String email, String topic, String content, int userId) {
+    public String addQuestion(String token, String name, String email, String topic, String content, 
+            int userId, String ip, String user_agent) throws ProtocolException, MalformedURLException, IOException {
         StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append(userId);
         String uid = sb.toString();
-        Auth auth = new Auth(token, uid);
+        
+        Auth auth = new Auth(token, uid, ip, user_agent);
+        
         if(auth.getResponse(url)){
             String query = "INSERT INTO question (question_id, asker_name, asker_email, question_topic, question_content, user_id) "
                     + "VALUES (NULL, '" + name + "', '" + email + "', '" + topic + "', '" + content + "', " + userId + ")";
@@ -129,17 +139,19 @@ public class QuestionWebService {
             database.changeData(query);
             database.closeDatabase();
             return "executed";
-        } else return "not executed";
+        } else 
+            return "not executed";
     }
     
     @WebMethod(operationName = "editQuestion")
     @WebResult(name="String")
-    public String editQuestion(String token, int id, String topic, String content, int userId) {
+    public String editQuestion(String token, int id, String topic, String content, 
+            int userId, String ip, String user_agent) {
         StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append(userId);
         String uid = sb.toString();
-        Auth auth = new Auth(token, uid);
+        Auth auth = new Auth(token, uid, ip, user_agent);
         if(auth.getResponse(url)){
             String query = "UPDATE question SET question_topic='" + topic + "', question_content='"
                     + content + "' WHERE question_id = " + id + " AND user_id = " + userId;
@@ -153,12 +165,12 @@ public class QuestionWebService {
     
     @WebMethod(operationName = "deleteQuestion")
     @WebResult(name="String")
-    public String deleteQuestion(String token, int id, int userId) {
+    public String deleteQuestion(String token, int id, int userId, String ip, String user_agent) {
         StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append(userId);
         String uid = sb.toString();
-        Auth auth = new Auth(token, uid);
+        Auth auth = new Auth(token, uid, ip, user_agent);
         if(auth.getResponse(url)){
             String query = "DELETE FROM question WHERE question_id = " + id + " AND user_id = " + userId;
             Database database = new Database();
@@ -171,12 +183,12 @@ public class QuestionWebService {
     
     @WebMethod(operationName = "incrVote")
     @WebResult(name="String")
-    public String incrVote(String token, int id, int userId) {
+    public String incrVote(String token, int id, int userId, String ip, String user_agent) {
         StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append(userId);
         String uid = sb.toString();
-        Auth auth = new Auth(token, uid);
+        Auth auth = new Auth(token, uid, ip, user_agent);
         if(auth.getResponse(url)){
             String sql = "SELECT * FROM question_vote WHERE question_id = " + id + " AND user_id = " + userId;
             String result;
@@ -203,12 +215,12 @@ public class QuestionWebService {
     
     @WebMethod(operationName = "decrVote")
     @WebResult(name="String")
-    public String decrVote(String token, int id, int userId) {
+    public String decrVote(String token, int id, int userId, String ip, String user_agent) {
         StringBuilder sb = new StringBuilder();
         sb.append("");
         sb.append(userId);
         String uid = sb.toString();
-        Auth auth = new Auth(token, uid);
+        Auth auth = new Auth(token, uid, ip, user_agent);
         if(auth.getResponse(url)){
             String sql = "SELECT * FROM question_vote WHERE question_id = " + id + " AND user_id = " + userId;
             String result;
