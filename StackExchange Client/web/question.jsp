@@ -43,8 +43,30 @@
                         </a></c:if>
                         <br></span>
                     
-                </span>
-                <br><br><br>
+        </span>
+		<!-- Show comments -->
+		<span class="question-info" ng-repeat = "rows in comment.rows">
+			{{ rows.content }}
+			<br>
+			<span class="author">{{ rows.username }}</span> at {{ rows.dateCreated }}
+		</span>
+		
+		<!-- Add comment -->
+		<a href="#" ng-click="showBox = ! showBox">Add Comment</a>
+		<div class="comment-box" ng-show="showBox">
+			<form>
+			<input type="hidden" name="q_id" value="<c:out value='${question.getQId()}'/>">
+            <input type="hidden" name="token" value="<c:out value='${token}'/>">
+            <textarea id="content" name="content" placeholder="Content" ></textarea><br>
+            <div class="div-right-button">
+                <input type="submit" class="right-button" value="Post">
+            </div>
+			</form>
+		
+		</div>
+		
+		
+        <br><br><br>
 		<h2><c:out value="${question.getAnswer()}"/> Answer(s)</h2><hr>
 		<br><br>
                 <c:if test="${question.getAnswer()==0}">
@@ -95,6 +117,7 @@
             
 	</div>
 
+<script src="assets/js/angular.min.js"></script>
 <script src="assets/js/confirmation.js"></script>
 <script src="assets/js/validation.js"></script>
 <script src="assets/js/script.js"></script>

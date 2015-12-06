@@ -1,0 +1,28 @@
+<html>
+   <head>
+      <title>Angular JS Includes</title>
+      <script src ="assets/js/angular.min.js"></script> 
+   </head>
+   <body>
+      
+      <div ng-app = "mainApp" ng-controller="commentController">
+         <div ng-include = "question.jsp"></div>
+      </div>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('commentController', function($scope) {
+            $scope.comment = {
+               rows:[
+                  {content:'Isi komen 1',username:'Vanya',dateCreated='Sun 12/06/15'},
+                  {content:'Isi komen 2',username:'Tifani',dateCreated='Sun 12/06/15'},
+                  {content:'Isi komen 3',username:'Jessica',dateCreated='Sun 12/06/15'}
+               ]
+               }
+            };
+         });
+      </script>
+      
+   </body>
+</html>
