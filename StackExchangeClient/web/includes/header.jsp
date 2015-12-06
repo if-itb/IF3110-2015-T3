@@ -27,7 +27,7 @@
                 <ul class="nav navbar-nav">
                   <c:choose>
                     <c:when test="${name == null}">
-                        <li><a href="/StackExchangeClient/login.jsp">Login</a></li>
+                        <li><a href="/StackExchangeClient/loginform">Login</a></li>
                         <li><a href="/StackExchangeClient/register.jsp">Register</a></li>
                     </c:when>
                     <c:otherwise>

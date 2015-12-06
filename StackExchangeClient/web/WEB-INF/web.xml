@@ -60,6 +60,14 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>Login.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>askform</servlet-name>
+        <servlet-class>Container.askform</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>loginform</servlet-name>
+        <servlet-class>Container.loginform</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>askform</servlet-name>
+        <url-pattern>/askform</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>loginform</servlet-name>
+        <url-pattern>/loginform</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

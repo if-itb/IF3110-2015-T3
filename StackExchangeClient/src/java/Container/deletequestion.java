@@ -59,6 +59,12 @@ public class deletequestion extends HttpServlet {
             question.Question question = getQuestionById(questionid);
             // check if the current logged user is the one that creates the question
             if (getUserByToken(token).getUid() == question.getQuestionUid()) {
+                PrintWriter out = response.getWriter();  
+                response.setContentType("text/html");  
+                out.println("<script type=\"text/javascript\">");  
+                out.println("alert('Email already exist please input other email ');");
+                out.println("location='index.jsp';");
+                out.println("</script>");
                 int ins = deleteQuestion(token, questionid);
             }
             response.sendRedirect("home");
