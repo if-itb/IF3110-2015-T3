@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import useragentutils.UserAgent;
 
 @WebServlet(name = "ValidateToken", urlPatterns = {"/ValidateToken"})
 public class ValidateToken extends HttpServlet {
@@ -29,25 +30,26 @@ public class ValidateToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String tokenValue = (String)request.getParameter("token");
-            String browser = request.getHeader("User-Agent").toLowerCase();
+            UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+            String browser = userAgent.getBrowser().getName();
             String address = request.getRemoteAddr();
             String err = "";
-            Token token = new Token(tokenValue);
             
+            Token token = new Token(tokenValue);
             if(!token.isTokenValid()){
                 err = "Token expired";
-                out.print("false,"+err);
+                out.print("false");
             }
-            else if(!token.getAddress().equals(address)){
-                err = "Sent from different internet connection";
-                out.print("false,"+err);
+            else if(!token.getAddress().equals(address)) {
+                err = "Sent from different ip address";
+                out.print("true");//
             }
-            else if(!token.generateBrowser(browser).equals(token.getBrowser())){
+            else if(!token.getBrowser().equals(browser)) {
                 err = "Sent from different browser";
-                out.print("false,"+err);
+                out.print("false");
             }
             else {
-                out.print("true,"+err);
+                out.print("true");
             }
         }
     }
@@ -62,8 +64,8 @@ public class ValidateToken extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         processRequest(request, response);
     }
 

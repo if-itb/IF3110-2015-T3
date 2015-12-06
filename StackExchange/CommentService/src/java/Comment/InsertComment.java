@@ -32,10 +32,10 @@ public class InsertComment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (PrintWriter out = response.getWriter()) {
             CommentService cs = new CommentService();
-            //String token = (String)request.getParameter("token");
+            String token = (String)request.getParameter("token");
             int qid = Integer.parseInt(request.getParameter("qid"));
             String content = (String)request.getParameter("content");
-            cs.insertComment(qid, content);
+            cs.insertComment(qid, content, token);
         }
     }
 
@@ -51,6 +51,7 @@ public class InsertComment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
         processRequest(request, response);
     }
 

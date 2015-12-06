@@ -18,8 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -79,18 +77,20 @@ public class CommentService {
           }
     }
     
-    public void insertComment(Integer qid, String content){
-        try {
-            String sql = "INSERT INTO comment(questionId, userId, content) VALUES(?, ?, ?)";
-            PreparedStatement dbStatement = conn.prepareStatement(sql);
-            //int userId = getUserIDFromToken(token);
-            dbStatement.setInt(1, qid);
-            dbStatement.setInt(2, 4);
-            dbStatement.setString(3, content);
+    public void insertComment(Integer qid, String content, String token){
+        if (checkToken(token)) {
+            try {
+                String sql = "INSERT INTO comment(questionId, userId, content) VALUES(?, ?, ?)";
+                PreparedStatement dbStatement = conn.prepareStatement(sql);
+                int userId = getUserIDFromToken(token);
+                dbStatement.setInt(1, qid);
+                dbStatement.setInt(2, userId);
+                dbStatement.setString(3, content);
 
-            dbStatement.executeUpdate();
-        }
-        catch(SQLException ex) {
+                dbStatement.executeUpdate();
+            }
+            catch(SQLException ex) {
+            }
         }
     }
     

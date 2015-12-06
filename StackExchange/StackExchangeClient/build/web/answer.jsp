@@ -83,10 +83,10 @@
                 $scope.avote = [];
                 $scope.comments = [];
                 $scope.voteUpQ = function() {
-                    $http.get('http://localhost:8081/CommentService/votequestion?qid=' + $scope.qid + '&type=1&token=asd').then($scope.getVote);
+                    $http.get('http://localhost:8081/CommentService/votequestion?qid=' + $scope.qid + '&type=1&token=' + $scope.token).then($scope.getVote);
                 };
                 $scope.voteDownQ = function() {
-                    $http.get('http://localhost:8081/CommentService/votequestion?qid=' + $scope.qid + '&type=-1&token=asd').then($scope.getVote);
+                    $http.get('http://localhost:8081/CommentService/votequestion?qid=' + $scope.qid + '&type=-1&token=' + $scope.token).then($scope.getVote);
                 };
                 $scope.getVote = function() {
                     $http.get('http://localhost:8081/CommentService/GetVoteServlet?qid=' + $scope.qid)
@@ -94,13 +94,14 @@
                 };
                 $scope.addComment = function() {
                     $http.get('http://localhost:8081/CommentService/InsertComment?qid=' + $scope.qid
-                            + '&content=' + $scope.content).then($scope.getComment);
+                            + '&content=' + $scope.content
+                            + '&token=' + $scope.content).then($scope.getComment);
                 };
                 $scope.voteUpA = function(aid) {
-                    $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=1&token=asd').then($scope.getAnswerVote(aid));
+                    $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=1&token=' + $scope.token).then($scope.getAnswerVote(aid));
                 };
                 $scope.voteDownA = function(aid) {
-                    $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=-1&token=asd').then($scope.getAnswerVote(aid));
+                    $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=-1&token=' + $scope.token).then($scope.getAnswerVote(aid));
                 };
                 $scope.getAnswerVote = function(aid) {
                     $http.get('http://localhost:8081/CommentService/GetAnswerVote?aid=' + aid)

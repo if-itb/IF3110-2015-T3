@@ -28,10 +28,10 @@ public class Token {
             statement =  dbc.getConn().prepareStatement(query);
             ResultSet rs = statement.executeQuery();
            
-            if(rs.next()){
+            while(rs.next()){
                 lifetime = rs.getString("lifetime");
                 address = rs.getString("address");
-                browser = generateBrowser(rs.getString("browser"));
+                browser = rs.getString("browser");
             }
             rs.close();
             statement.close();
@@ -60,42 +60,6 @@ public class Token {
 	}
         return valid;
         
-    }
-    
-    public String generateBrowser(String ac_token){
-        String browser = "";
-        if (ac_token.contains("msie"))
-        {
-            String substring=ac_token.substring(ac_token.indexOf("msie")).split(";")[0];
-            browser=substring.split(" ")[0].replace("msie", "IE")+"-"+substring.split(" ")[1];
-        } else if (ac_token.contains("safari") && ac_token.contains("version"))
-        {
-            browser=(ac_token.substring(ac_token.indexOf("Safari")).split(" ")[0]).split("/")[0]+"-"+(ac_token.substring(ac_token.indexOf("Version")).split(" ")[0]).split("/")[1];
-        } else if ( ac_token.contains("opr") || ac_token.contains("opera"))
-        {
-            if(ac_token.contains("opera"))
-                browser=(ac_token.substring(ac_token.indexOf("Opera")).split(" ")[0]).split("/")[0]+"-"+(ac_token.substring(ac_token.indexOf("Version")).split(" ")[0]).split("/")[1];
-            else if(ac_token.contains("opr"))
-                browser=((ac_token.substring(ac_token.indexOf("OPR")).split(" ")[0]).replace("/", "-")).replace("OPR", "Opera");
-        } else if (ac_token.contains("chrome"))
-        {
-            browser=(ac_token.substring(ac_token.indexOf("Chrome")).split(" ")[0]).replace("/", "-");
-        } else if ((ac_token.indexOf("mozilla/7.0") > -1) || (ac_token.indexOf("netscape6") != -1)  || (ac_token.indexOf("mozilla/4.7") != -1) || (ac_token.indexOf("mozilla/4.78") != -1) || (ac_token.indexOf("mozilla/4.08") != -1) || (ac_token.indexOf("mozilla/3") != -1) )
-        {
-            //browser=(userAgent.substring(userAgent.indexOf("MSIE")).split(" ")[0]).replace("/", "-");
-            browser = "Netscape-?";
-
-        } else if (ac_token.contains("firefox"))
-        {
-            browser=(ac_token.substring(ac_token.indexOf("Firefox")).split(" ")[0]).replace("/", "-");
-        } else if(ac_token.contains("rv"))
-        {
-            browser="IE";
-        } else
-        {
-            browser = "UnKnown, More-Info: "+ac_token;
-        }
-        return browser;
     }
     public String getLifetime() {
         return lifetime;

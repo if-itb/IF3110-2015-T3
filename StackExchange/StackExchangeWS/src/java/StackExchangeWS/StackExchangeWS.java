@@ -746,10 +746,7 @@ public class StackExchangeWS {
               response.append(line);
             }
             rd.close();
-            if (response.toString().equals("true"))
-                return true;
-            else
-                return false;
+            return(response.toString().equals("true"));
         }
         catch (MalformedURLException ex) {
             Logger.getLogger(StackExchangeWS.class.getName()).log(Level.SEVERE, null, ex);

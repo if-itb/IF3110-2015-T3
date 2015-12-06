@@ -20,6 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import useragentutils.UserAgent;
 
 @WebServlet(name="LoginServlet", urlPatterns={"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -38,7 +39,8 @@ public class LoginServlet extends HttpServlet {
         UserService user = new UserService();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String browser = request.getHeader("User-Agent").toLowerCase();
+        UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
+        String browser = userAgent.getBrowser().getName();
         String address = request.getRemoteAddr(); 
         PrintWriter out = response.getWriter();
         out.println(email);
