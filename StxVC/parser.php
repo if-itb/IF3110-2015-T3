@@ -1,12 +1,7 @@
 <?php
 	function parseTokenEmail($xmlDoc) {
-		$x = $xmlDoc->documentElement;
-		foreach ($x->childNodes AS $item) {
-			$nodeElmt = $item->nodeName;
-			if($nodeElmt == "email") {
-				return $item ->nodeValue;
-			}
-		}
+		$x = $xmlDoc->email;
+		return $x;
 	}
 	
 	function getResposeCode($url) {
