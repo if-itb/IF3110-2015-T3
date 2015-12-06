@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.plaf.nimbus.State;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.io.*;
+import java.net.*;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -78,6 +76,8 @@ public class IdentityServiceAPI extends HttpServlet {
         out.flush();
     }
 
+
+
     private void IdentityServiceCheck(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         serve((request, out) -> {
             try {
@@ -98,7 +98,6 @@ public class IdentityServiceAPI extends HttpServlet {
 
     private void IdentityServiceLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         serve((request, out) -> {
-            StringBuffer postBody = new StringBuffer();
 
             try {
                 ObjectMapper mapper = new ObjectMapper();
