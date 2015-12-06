@@ -16,10 +16,10 @@ public class WebServiceImpl implements WebServiceInterface{
     final String USER="root";
     final String PASS="";
 
-    public int checkToken(String token) throws Exception{
+    public int checkToken(String token, String userAgent, String ipAddress) throws Exception{
         int status = 1;
         HttpConnection http = new HttpConnection();
-        JSONObject obj = new JSONObject(http.sendGet("http://localhost:8083/v1/check?token="+token));
+        JSONObject obj = new JSONObject(http.sendGet("http://localhost:8083/v1/check?token="+ token+"&userAgent="+userAgent+"&ipAddress="+ipAddress));
         return Integer.parseInt((String)obj.get("uid"));
     }
 
@@ -87,7 +87,7 @@ public class WebServiceImpl implements WebServiceInterface{
     }
 
     @Override
-    public int postQuestion(String token, String title, String content) throws Exception{
+    public int postQuestion(String token, String title, String content, String uagent, String ip) throws Exception{
         int status=-4;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -106,7 +106,7 @@ public class WebServiceImpl implements WebServiceInterface{
             while (rs.next()){
                 uid=rs.getInt("uid");
             }*/
-            uid = checkToken(token);
+            uid = checkToken(token,uagent,ip);
             if (uid>0) {
                 String query = "INSERT INTO question (vote, topic, content, date, uid) VALUES (0,?,?,CURRENT_TIMESTAMP,?)";
                 stmt = conn.prepareStatement(query);
@@ -132,7 +132,7 @@ public class WebServiceImpl implements WebServiceInterface{
     }
 
     @Override
-    public int postAnswer(int qid, String token, String content) throws Exception{
+    public int postAnswer(int qid, String token, String content, String uagent, String ip) throws Exception{
         int status=-4;
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -151,7 +151,7 @@ public class WebServiceImpl implements WebServiceInterface{
             while (rs.next()){
                 uid=rs.getInt("uid");
             }*/
-            uid = checkToken(token);
+            uid = checkToken(token,uagent,ip);
             if (uid>0) {
                 String query = "INSERT INTO answer (vote, content, date, uid, qid) VALUES (0,?,CURRENT_TIMESTAMP,?,?)";
                 stmt = conn.prepareStatement(query);
@@ -177,7 +177,7 @@ public class WebServiceImpl implements WebServiceInterface{
 
 
     @Override
-    public int deleteQuestion(int qid, String token) throws Exception{
+    public int deleteQuestion(int qid, String token, String uagent, String ip) throws Exception{
         int status=-4;
         Connection conn = null;
         Statement stmt = null;
@@ -206,7 +206,7 @@ public class WebServiceImpl implements WebServiceInterface{
 
             Timestamp time = new Timestamp(Calendar.getInstance().getTime().getTime()); //Waktu sekarang
             */
-            uid = checkToken(token);
+            uid = checkToken(token,uagent,ip);
             if (uid>0) {
                 String query = "DELETE FROM question WHERE id= "+qid;
                 stmt = conn.createStatement();
@@ -363,7 +363,7 @@ public class WebServiceImpl implements WebServiceInterface{
     }
 
     @Override
-    public int vote(int type, int id, int direction, String token) throws Exception{
+    public int vote(int type, int id, int direction, String token, String uagent, String ip) throws Exception{
 
             Connection conn = null;
             Statement stmt = null;
@@ -448,7 +448,7 @@ public class WebServiceImpl implements WebServiceInterface{
     }
 
     @Override
-    public int updateQuestion(int qid, String token, String title, String content) throws Exception{
+    public int updateQuestion(int qid, String token, String title, String content, String uagent, String ip) throws Exception{
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -483,7 +483,7 @@ public class WebServiceImpl implements WebServiceInterface{
             Timestamp time = new Timestamp(Calendar.getInstance().getTime().getTime()); //Waktu sekarang
             */
             String query;
-            uid = checkToken(token);
+            uid = checkToken(token,uagent,ip);
 
             if (uid>0) { //berhasil, update deh!
                 query = "UPDATE question SET topic=?,content=?,date=CURRENT_TIMESTAMP,uid=? WHERE id =?";
