@@ -37,13 +37,13 @@ public class Register extends HttpServlet {
     boolean done = uport.emailDone(email);
     if(done) {
       String url = "/StackExchangeclient/view/done.jsp";
-      response.sendRedirect(url);
+      response.sendRedirect(url); 
     } else {
       uport.createUser(name, email, pass);
       int uid = uport.getUIDByEmail(email);
       request.setAttribute("email", email );
       request.setAttribute("pass", pass );
-      request.getRequestDispatcher("/StackExchangeclient/LoginAuth").forward(request, response);
+      request.getRequestDispatcher("LoginAuth").forward(request, response);
      }
   }
 

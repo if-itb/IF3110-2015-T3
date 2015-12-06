@@ -51,76 +51,89 @@ public class LoginAuth extends HttpServlet {
       Client client = javax.ws.rs.client.ClientBuilder.newClient();
       WebTarget resource = client.target("http://localhost:8082/IS/webresources").path("wbd.identity.user");
       String strIS = resource.request(APPLICATION_JSON).get(String.class); 
-      JsonParser parser = Json.createParser(new StringReader(strIS));
-      JsonParser.Event event = parser.next(); 
-      event = parser.next();
-      String s,username = "";
-      int uid =0;
+      JsonParser parser ;
+      JsonParser.Event event;
       Boolean found = false;
-      while((event = parser.next())!=event.END_ARRAY){
-        if(event==event.END_OBJECT||event==event.START_OBJECT){
-            s = "wrong";
-        }
-        else{
-           s = parser.getString();
-        }
-        if("email".equals(s)){
-          event = parser.next();
-          s = parser.getString();
-          if(s.equals(email)){
-            Boolean b = true;
-            while(b){
-              event = parser.next();
-              s = parser.getString();
-              if("pass".equals(s)){
-                b=false;
-              }
-              else if("id".equals(s)){
-                event = parser.next();
-                uid = parser.getInt();
-              }
-              else if("name".equals(s)){
-                event = parser.next();
-                username = parser.getString();
-              }
-            }
+      if("[]".equals(strIS)){
+        
+      }
+      else{
+        parser = Json.createParser(new StringReader(strIS));
+        event = parser.next(); 
+        event = parser.next();
+        String s,username = "";
+        int uid =0;
+        while((event = parser.next())!=event.END_ARRAY){
+          if(event==event.END_OBJECT||event==event.START_OBJECT){
+              s = "wrong";
+          }
+          else{
+             s = parser.getString();
+          }
+          if("email".equals(s)){
             event = parser.next();
             s = parser.getString();
-            if(s.equals(password)){
-              JsonObject model1 = Json.createObjectBuilder()
-                .add("expires", 0)
-                .add("uid", Json.createObjectBuilder()
-                  .add("email", email)
-                  .add("id", uid)
-                  .add("name", username)
-                  .add("pass", password))
-                .add("val","assasdasdad")
-              .build();
-              String json = model1.toString();
-              out.println(json);
-              WebTarget resource2 = client.target("http://localhost:8082/IS/webresources").path("wbd.identity.token");
-              String token = resource2.request(MediaType.APPLICATION_JSON).post(entity(model1, MediaType.APPLICATION_JSON), String.class);
-              if(token.equals("fail")){
-                found = false;
+            if(s.equals(email)){
+              Boolean b = true;
+              while(b){
+                event = parser.next();
+                s = parser.getString();
+                if("pass".equals(s)){
+                  b=false;
+                }
+                else if("id".equals(s)){
+                  event = parser.next();
+                  uid = parser.getInt();
+                }
+                else if("name".equals(s)){
+                  event = parser.next();
+                  username = parser.getString();
+                }
+              }
+              event = parser.next();
+              s = parser.getString();
+              String browserType = request.getHeader("User-Agent");
+              String ipAddress  = request.getHeader("X-FORWARDED-FOR");
+              if(ipAddress == null)
+              {
+                ipAddress = request.getRemoteAddr();
+              }
+              String valToken = "#"+browserType + "#"+ ipAddress;
+              if(s.equals(password)){
+                JsonObject model1 = Json.createObjectBuilder()
+                  .add("expires", 0)
+                  .add("uid", Json.createObjectBuilder()
+                    .add("email", email)
+                    .add("id", uid)
+                    .add("name", username)
+                    .add("pass", password))
+                  .add("val",valToken)
+                .build();
+                WebTarget resource2 = client.target("http://localhost:8082/IS/webresources").path("wbd.identity.token");
+                String token = resource2.request(MediaType.APPLICATION_JSON).post(entity(model1, MediaType.APPLICATION_JSON), String.class);
+                out.println(valToken);out.println(token);
+                if(token.equals("fail")){
+                  found = false;
+                }
+                else{
+                  found = true;
+                  Cookie cookie = new Cookie("auth", token);
+                  cookie.setMaxAge(3600);
+                  cookie.setPath("/");
+                  response.addCookie(cookie);
+                  String url = "/StackExchangeclient";
+                  response.sendRedirect(url);
+                }
+                break;
               }
               else{
-                out.println("berhasil");
-                found = true;
-                Cookie cookie = new Cookie("auth", token);
-                cookie.setMaxAge(3600);
-                cookie.setPath("/");
-                response.addCookie(cookie);
-                String url = "/StackExchangeclient";
-                response.sendRedirect(url);
+                break;
               }
-              break;
-            }
-            else{
-              break;
-            }
-          }        
+            }        
+          }
         }
       }
+      
       if(!found){
        out.println("login fail"); 
        response.sendRedirect("/StackExchangeclient/view/mismatch.jsp");

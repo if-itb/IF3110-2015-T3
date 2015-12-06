@@ -23,28 +23,33 @@ public class TokenChecker {
     resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{token}));
     String strIS = resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(String.class);
 //    System.out.println(strIS);
-    JsonParser parser = Json.createParser(new StringReader(strIS));
-      JsonParser.Event event = parser.next(); 
-      
-      String s="";
-    while(!s.equals("id")){
-      event = parser.next();
-      if(event==event.END_OBJECT||event==event.START_OBJECT){
-            s = "wrong";
-      }
-      else{
-         s = parser.getString();
-      }
-    }
-    event = parser.next();
-    s = parser.getString();
-    int i = Integer.parseInt(s);
-    if(i==uid){
-      return true;
-    }
-    else{
+    if ("[]".equals(strIS)){
       return false;
     }
+    else{
+      JsonParser parser = Json.createParser(new StringReader(strIS));
+      JsonParser.Event event = parser.next(); 
+      String s="";
+      while(!s.equals("id")){
+        event = parser.next();
+        if(event==event.END_OBJECT||event==event.START_OBJECT){
+              s = "wrong";
+        }
+        else{
+           s = parser.getString();
+        }
+      }
+      event = parser.next();
+      s = parser.getString();
+      int i = Integer.parseInt(s);
+      if(i==uid){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    
     
   }
 //  public static void main(String args[]){

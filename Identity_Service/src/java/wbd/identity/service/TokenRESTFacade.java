@@ -52,18 +52,14 @@ public class TokenRESTFacade {
   @POST
   @Consumes({MediaType.APPLICATION_JSON})
   public String create(Token entity) {
-    String ss="asdsas";
-//        try {
-          SecureRandom random = new SecureRandom();
-          ss = new BigInteger(130, random).toString(32);
-//        } catch (NoSuchAlgorithmException ex) {
-//          ex.printStackTrace();
-//        }
-        
+        String ss="asdsas";
+        SecureRandom random = new SecureRandom();
+        ss = new BigInteger(130, random).toString(32);  
+//        ss = ss + entity.getVal();
         entity.setVal(ss);
+        System.out.println(entity.getVal());
         long time = System.currentTimeMillis() / 1000;
         entity.setExpires((int) time+5400);
-        
     try {
       getJpaController().create(entity);
       return entity.getVal();
