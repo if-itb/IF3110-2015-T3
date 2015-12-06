@@ -25,4 +25,12 @@ public class Comment {
         this.idUser = idUser;
         this.content = content;
     }
+
+    public int getId() { return this.id; }
+
+    public int getIdQuestion() { return this.idQuestion; }
+
+    public int getIdUser() { return this.idUser; }
+
+    public String getContent() { return this.content; }
 }

@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Comment;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  *
@@ -53,10 +55,17 @@ public class CommentServlet extends HttpServlet {
             System.err.println(e.getMessage());
             return;
         }
-
-        JSONObject result = new JSONObject();
-        result.put("comments", getComments(idQuestion));
-
+        
+        JSONArray result = new JSONArray();
+        for (Comment comment: getComments(idQuestion)) {
+            JSONObject object = new JSONObject();
+            object.put("id", comment.getId());
+            object.put("id_question", comment.getIdQuestion());
+            object.put("id_user", comment.getIdUser());
+            object.put("content", comment.getContent());
+            result.add(object);
+        }
+        
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             out.print(result.toString());
