@@ -167,12 +167,32 @@ public class DbQuestionManager {
         
         public static void deleteQuestion(int questionId) throws SQLException{
             conn = ConnectionManager.getInstance().getConnection();
-            String sql = "DELETE FROM question WHERE questionId = ? AND delete_rule='CASCADE'";
+            
+            String sql = "DELETE FROM comment WHERE questionId = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            
             pstmt.setInt(1, questionId);
-            
             pstmt.executeUpdate();
+            
+            sql = "DELETE FROM votes_question WHERE questionId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, questionId);
+            pstmt.executeUpdate();
+            
+            sql = "DELETE votes_answer FROM votes_answer, question WHERE questionId = ? AND questionId = answerId";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, questionId);
+            pstmt.executeUpdate();
+            
+            sql = "DELETE FROM answer WHERE questionId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, questionId);
+            pstmt.executeUpdate();
+            
+            sql = "DELETE FROM question WHERE questionId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, questionId);
+            pstmt.executeUpdate();
+            
             ConnectionManager.getInstance().close();
         }
 }

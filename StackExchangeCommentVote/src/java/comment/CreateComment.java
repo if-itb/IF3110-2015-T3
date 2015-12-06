@@ -19,7 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
-import stackexchange.ISConnector.IdentityServiceConnector;
+import CommentVoteISConnector.IdentityServiceConnector;
+import java.net.URLDecoder;
 
 /**
  *
@@ -43,24 +44,21 @@ public class CreateComment extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        conn = ConnectionManager.getInstance().getConnection();
-        
         response.setContentType("application/json");
         JSONObject obj = new JSONObject();
 
         String token = request.getParameter("token");
+        token = URLDecoder.decode(token, "UTF-8");
+        System.out.println("CreateCommentToken: " + token);
         int questionId = Integer.parseInt(request.getParameter("questionId"));
         String comment = request.getParameter("comment");
         
-        System.out.println(token);
-        System.out.println(questionId);
-        System.out.println(comment);
-        
-        // int userId = IdentityServiceConnector.getUID(token);
-        int userId = 1;
+        int userId = IdentityServiceConnector.getUID(token);
+        // int userId = 1;
         
         if(userId >= 0){
             try {
+                conn = ConnectionManager.getInstance().getConnection();
                 String sql = "INSERT INTO comment(questionId, commenterId, content) VALUES(?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 
@@ -69,19 +67,20 @@ public class CreateComment extends HttpServlet {
                 pstmt.setString(3, comment);
                 pstmt.executeUpdate();
                 
-                conn.close();
+                System.out.println("Masuk sini");
+                ConnectionManager.getInstance().close();
+                
             } catch (SQLException ex) {
                 Logger.getLogger(CreateComment.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            obj.put("status", "success");
-            
+            obj.put("status", "success");          
         }
         else{
             obj.put("status", "unauthorized");
         }
         out.print(obj);
-            
+        
     }
 
     /**

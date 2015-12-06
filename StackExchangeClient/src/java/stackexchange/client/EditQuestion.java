@@ -7,6 +7,7 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -48,11 +49,12 @@ public class EditQuestion extends HttpServlet {
         
         
         String token = request.getParameter("token");
+        System.out.println("Edit Token:" + token);
         int userId = IdentityServiceConnector.getUID(token);
         
         if(userId == question.getAskerId()){
             request.setAttribute("question", question);
-            request.setAttribute("token", token);
+            request.setAttribute("token", URLEncoder.encode(token, "UTF-8"));
             request.getRequestDispatcher("view/edit.jsp").forward(request, response);
         }
         else{

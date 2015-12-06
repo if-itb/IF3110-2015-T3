@@ -7,6 +7,8 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -53,6 +55,8 @@ public class AddAnswer extends HttpServlet {
     
         //Get userId using token
         String token = request.getParameter("token");
+        token = URLDecoder.decode(token, "UTF-8");
+        System.out.println("AddAnswer token = " + token);
         int userId = IdentityServiceConnector.getUID(token);
         
         if(userId>=0){
@@ -65,7 +69,7 @@ public class AddAnswer extends HttpServlet {
                 Logger.getLogger(AskQuestion.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            response.sendRedirect("ViewQuestion?id=" + questionId + "&token=" + token);
+            response.sendRedirect("ViewQuestion?id=" + questionId + "&token=" + URLEncoder.encode(token, "UTF-8"));
         }
         else
             response.sendRedirect("");

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package stackexchange.ISConnector;
+package CommentVoteISConnector;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import javax.jws.WebParam;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,12 +21,12 @@ public class IdentityServiceConnector {
         String JSON = "";
         String message = "";
         int uid = -1;
+
         
         try {
-            JSON = String.valueOf(ConnectionHelper.executeGET("http://localhost:8080/StackExchangeIS/Validation?token=" + token));
+            JSON = String.valueOf(ConnectionHelper.executeGET("http://localhost:8080/StackExchangeIS/Validation?token=" + URLEncoder.encode(token, "UTF-8")));
             obj = new JSONObject(JSON);             
-            uid = obj.getInt("userId");
-            
+            uid = obj.getInt("userId");            
             
         } catch (JSONException e) {
             e.printStackTrace();

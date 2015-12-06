@@ -44,14 +44,13 @@ public class GetComments extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        conn = ConnectionManager.getInstance().getConnection();
-        
         response.setContentType("application/json");
         JSONObject obj = new JSONObject();
 
         int questionId = Integer.parseInt(request.getParameter("questionId"));
         
         try {
+            conn = ConnectionManager.getInstance().getConnection();
             String sql = "SELECT * FROM comment, user WHERE questionId = ? AND commenterId = userId;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             

@@ -7,6 +7,7 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -40,6 +41,7 @@ public class Delete extends HttpServlet {
         
         int questionId = Integer.parseInt(request.getParameter("id"));
         String token = request.getParameter("token");
+        System.out.println("Delete Token: " + token);
         int userId = IdentityServiceConnector.getUID(token);
         
         Question question = new Question();
@@ -56,7 +58,7 @@ public class Delete extends HttpServlet {
                 Logger.getLogger(Delete.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            request.setAttribute("token", token);
+            request.setAttribute("token", URLEncoder.encode(token, "UTF-8"));
             request.getRequestDispatcher("Home?token=" + token).forward(request, response);
         }
         else{

@@ -7,6 +7,7 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -67,7 +68,7 @@ public class AskQuestion extends HttpServlet {
                 Logger.getLogger(AskQuestion.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            response.sendRedirect("Home?token=" + token);
+            response.sendRedirect("Home?token=" + URLEncoder.encode(token, "UTF-8"));
         }
         else
             response.sendRedirect("Home");

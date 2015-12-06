@@ -7,6 +7,7 @@ package stackexchange.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -49,7 +50,7 @@ public class DownVoteQuestion extends HttpServlet {
             } catch (SQLException_Exception ex) {
                 Logger.getLogger(UpVoteQuestion.class.getName()).log(Level.SEVERE, null, ex);
             }
-           response.sendRedirect("ViewQuestion?id=" + questionId + "&token=" + token);
+           response.sendRedirect("ViewQuestion?id=" + questionId + "&token=" + URLEncoder.encode(token, "UTF-8"));
         }
         else
             response.sendRedirect("");
