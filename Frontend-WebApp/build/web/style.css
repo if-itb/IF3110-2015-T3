@@ -159,6 +159,15 @@ td.vote{
 	width: 100px;;
 }
 
+.comment{
+        border-top: solid;
+        border-color: lightgray;
+}
+
+.commentauthor{
+        color: blue;
+}
+
 /*Contextual Style*/
 
 .delete {
