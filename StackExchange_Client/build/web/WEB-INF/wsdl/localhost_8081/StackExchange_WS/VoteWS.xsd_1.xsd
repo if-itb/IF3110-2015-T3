@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://vote.model/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://vote.model/">
+
+<xs:element name="getAnswerVotes" type="tns:getAnswerVotes"/>
+
+<xs:element name="getAnswerVotesResponse" type="tns:getAnswerVotesResponse"/>
+
+<xs:element name="getQuestionVotes" type="tns:getQuestionVotes"/>
+
+<xs:element name="getQuestionVotesResponse" type="tns:getQuestionVotesResponse"/>
+
+<xs:element name="hasVotedAnswer" type="tns:hasVotedAnswer"/>
+
+<xs:element name="hasVotedAnswerResponse" type="tns:hasVotedAnswerResponse"/>
+
+<xs:element name="hasVotedQuestion" type="tns:hasVotedQuestion"/>
+
+<xs:element name="hasVotedQuestionResponse" type="tns:hasVotedQuestionResponse"/>
+
+<xs:element name="voteAnswer" type="tns:voteAnswer"/>
+
+<xs:element name="voteAnswerResponse" type="tns:voteAnswerResponse"/>
+
+<xs:element name="voteQuestion" type="tns:voteQuestion"/>
+
+<xs:element name="voteQuestionResponse" type="tns:voteQuestionResponse"/>
+
+<xs:complexType name="voteQuestion">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="question_id" type="xs:int"/>
+<xs:element name="vote" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteQuestionResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedAnswer">
+<xs:sequence>
+<xs:element name="answer_id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionVotes">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionVotesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteAnswer">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="answer_id" type="xs:int"/>
+<xs:element name="vote" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="voteAnswerResponse">
+<xs:sequence>
+<xs:element name="Integer" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerVotes">
+<xs:sequence>
+<xs:element name="answer_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAnswerVotesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedQuestion">
+<xs:sequence>
+<xs:element name="question_id" type="xs:int"/>
+<xs:element name="user_id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hasVotedQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

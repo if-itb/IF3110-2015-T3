@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="AnswerWS">
+      <implementation-class>model.answer.AnswerWS</implementation-class>
+    </service>
+    <service name="UserWS">
+      <implementation-class>model.user.UserWS</implementation-class>
+    </service>
+    <service name="QuestionWS">
+      <implementation-class>model.question.QuestionWS</implementation-class>
+    </service>
+    <service name="VoteWS">
+      <implementation-class>model.vote.VoteWS</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>

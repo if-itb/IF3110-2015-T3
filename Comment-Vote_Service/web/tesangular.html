@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+<body>
+<div data-ng-app="commentApp">
+<div  data-ng-controller="commentListController" >
+  <p>Looping with ng-repeat:</p>
+  <ul data-ng-repeat="comment in comments">
+    <li>
+    	{{comment.content}}<br>
+    	{{comment.name}}<br>
+    	{{comment.create_time}}<br>
+    </li>
+  </ul>
+ <form class="inputform" ng-submit="submitComment()" id="savecomment">
+                    <!--<input type="hidden" name="question_id" value="<%= question.getQuestionId() %>" ng-model="newcomment.question_id">-->
+                    <textarea placeholder="Content" rows="2"  ng-model="newcontent"></textarea>
+                    <div class="button-bottom">
+                        <input type="submit" value="Submit" />
+                    </div>
+                </form>
+
+</div>
+</div>
+<script src="commentController.js"></script>
+
+</body>
+</html>
