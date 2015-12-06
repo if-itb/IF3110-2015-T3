@@ -9,8 +9,8 @@ var router = express.Router();
 router.route('/question/:id/upvote').post(function(req, res) {
     var auth = {
         token: req.query.token,
-        user_agent: req['user-agent'],
-        ip_address: req.ip
+        user_agent: req.headers['user-agent'],
+        ip_address: req.body.ip_address
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
@@ -28,8 +28,8 @@ router.route('/question/:id/upvote').post(function(req, res) {
 router.route('/question/:id/downvote').post(function(req, res) {
     var auth = {
         token: req.query.token,
-        user_agent: req['user-agent'],
-        ip_address: req.ip
+        user_agent: req.headers['user-agent'],
+        ip_address: req.body.ip_address
     }
     var u = user.get(auth, function(usr) {
         if (usr.status === Const.STATUS_OK) {
