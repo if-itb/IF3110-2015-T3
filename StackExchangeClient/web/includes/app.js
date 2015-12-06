@@ -8,7 +8,7 @@ var urlParam = function(name, w) {
 var app = angular.module("stackExchange", []);
 
 /**** COMMENTS CONTROLLER ****/
-app.controller('commentsController', ['$scope', '$http', '$cookies'
+app.controller('commentsController', ['$scope', '$http', '$cookies',
 	function($scope, $http) {
 		$scope.comments = [];
 		$scope.errormsg = "";
@@ -50,6 +50,6 @@ app.controller('commentsController', ['$scope', '$http', '$cookies'
 );
 
 /**** VOTE CONTROLLER ****/
-app.controller('voteQuestionController', ['$scope', '$http' function(){
+app.controller('voteQuestionController', ['$scope', '$http', function(){
 	
 }])

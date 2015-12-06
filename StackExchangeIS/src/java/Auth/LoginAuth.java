@@ -66,8 +66,8 @@ public class LoginAuth extends HttpServlet {
                 // generate token by randomizing big integer
                 Random random = new SecureRandom();
                 String token = new BigInteger(80, random).toString(32);
+                
                 token = token + "#" + ipAddress + "#" + useragent;
-                                
                 int uid = res.getInt("uid");
                 Timestamp tst = new Timestamp(new Date().getTime());
                 tst.setTime(tst.getTime() + ((5 * 60) * 1000));
