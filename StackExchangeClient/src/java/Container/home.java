@@ -5,6 +5,7 @@
  */
 package Container;
 
+import ClientValidate.ClientValidate;
 import answer.AnswersWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,72 +48,45 @@ public class home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            boolean found = false; 
-            int i = 0; 
-            Cookie[] cookies = null;
-            cookies = request.getCookies();
-            String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-            // ** Ambil IP Address Client
-            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
             
-            if (cookies != null) {
-            while (!found && i < cookies.length){
-                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                String[] parts = tokendicookie.split("#");
-                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                        User user = getUserByToken(cookies[i].getValue());
-                        request.setAttribute("name", user.getName());
-                        found = true; 
-                         
-                    }
-                    i++;
-                    
-                }
-            }
-            
+        Cookie[] cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+            ipAddress = request.getRemoteAddr();
+                
+        // validate the token
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
+        if (token != null) {
+            User user = getUserByToken(token);
+            request.setAttribute("name", user.getName());
+        }
        
-       HashMap<Integer, Integer> hmap = new HashMap<Integer, Integer>();
-       HashMap<Integer, Integer> answermap = new HashMap<Integer, Integer>();
-       HashMap<Integer, String> askmap = new HashMap<Integer, String>();
+        HashMap<Integer, Integer> hmap = new HashMap<>();
+        HashMap<Integer, Integer> answermap = new HashMap<>();
+        HashMap<Integer, String> askmap = new HashMap<>();
 
-       int j = 0;
-       String keyword = request.getParameter("keyword");
-       if (keyword == null){
-            java.util.List<question.Question> result = getAllQuestions(); 
-            request.setAttribute("result", result); 
+        String keyword = request.getParameter("keyword");
+        java.util.List<question.Question> result;
+        if (keyword == null){
+            result = getAllQuestions(); 
+        } else {
+            result = searchQuestions(keyword); 
+        }
+        
+        request.setAttribute("result", result); 
             
-            for (j = 0;j<result.size();j++){
-                hmap.put(result.get(j).getQuestionId(), getquestionvote(result.get(j).getQuestionId()));
-                answermap.put(result.get(j).getQuestionId(), getAnswersByQid(result.get(j).getQuestionId()).size());
-                askmap.put(result.get(j).getQuestionId(), getUser(result.get(j).getQuestionUid()).getName());
-
-            }
-            request.setAttribute("hmap", hmap); 
-            request.setAttribute("answermap", answermap); 
-            request.setAttribute("askmap", askmap); 
+        for (int j = 0;j<result.size();j++){
+            hmap.put(result.get(j).getQuestionId(), getquestionvote(result.get(j).getQuestionId()));
+            answermap.put(result.get(j).getQuestionId(), getAnswersByQid(result.get(j).getQuestionId()).size());
+            askmap.put(result.get(j).getQuestionId(), getUser(result.get(j).getQuestionUid()).getName());
+        }
+        request.setAttribute("hmap", hmap); 
+        request.setAttribute("answermap", answermap); 
+        request.setAttribute("askmap", askmap); 
             
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp"); 
-            dispatcher.forward(request, response); 
-       }
-       else {
-           java.util.List<question.Question> result = searchQuestions(keyword); 
-           request.setAttribute("result", result); 
-           
-           for (j = 0;j<result.size();j++){
-                hmap.put(result.get(j).getQuestionId(), getquestionvote(result.get(j).getQuestionId()));
-                answermap.put(result.get(j).getQuestionId(), getAnswersByQid(result.get(j).getQuestionId()).size());
-                askmap.put(result.get(j).getQuestionId(), getUser(result.get(j).getQuestionUid()).getName());
-           }
-            request.setAttribute("hmap", hmap); 
-            request.setAttribute("answermap", answermap); 
-            request.setAttribute("askmap", askmap); 
-
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp"); 
-           dispatcher.forward(request, response); 
-       }
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp"); 
+        dispatcher.forward(request, response); 
     }
 
  

@@ -88,11 +88,10 @@ public class Login extends HttpServlet {
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
-            
-            strToken = strToken + "#" + useragent + "#" + ipAddress;
-            Cookie tokenCookie;
 
             if (strToken != null) {
+                strToken = strToken + "#" + useragent + "#" + ipAddress;
+                Cookie tokenCookie;
                 tokenCookie = new Cookie("token_cookie", strToken);
                 tokenCookie.setPath(request.getContextPath());
                 tokenCookie.setMaxAge(5 * 60);

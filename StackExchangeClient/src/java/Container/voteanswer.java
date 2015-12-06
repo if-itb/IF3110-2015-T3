@@ -36,26 +36,28 @@ public class voteanswer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int qid = Integer.parseInt(request.getParameter("qid"));
-        int aid = Integer.parseInt(request.getParameter("aid"));
-        boolean found = false;
-        int i=0;
-        int ins;
-        Cookie[] cookies = null;
-        cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-        // ** Ambil IP Address Client
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-        if (ipAddress == null) {  
-            ipAddress = request.getRemoteAddr();  
-        }
+        
+        Cookie[] cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+           ipAddress = request.getRemoteAddr();  
+        
         String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-        if (token != null) {
+        
+        if (token == null) {
+            request.setAttribute("error", "You have to log in first!");
+            response.sendRedirect("login.jsp");
+        } else {
+            // do the vote
+            int qid = Integer.parseInt(request.getParameter("qid"));
+            int aid = Integer.parseInt(request.getParameter("aid"));
             int value = Integer.parseInt(request.getParameter("jlhvote"));
-            ins = voteanswers(token, aid ,value);
+            int ins = voteanswers(token, aid, value);
+            response.sendRedirect("viewpost?qid="+qid);
         }
-        response.sendRedirect("viewpost?qid="+qid);
-        }
+        
+    }
 
     private int voteanswers(java.lang.String token, int aid, int value) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.

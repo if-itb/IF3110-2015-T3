@@ -5,6 +5,7 @@
  */
 package Container;
 
+import ClientValidate.ClientValidate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -48,29 +49,17 @@ public class viewpost extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        
-        boolean found = false;
-        int j=0;
         Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-            // ** Ambil IP Address Client
-            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
-            
-            if (cookies != null) {
-                while (!found && j < cookies.length){
-                    String tokendicookie = cookies[j].getName(); //Ambil token yang ada di cookie milik client
-                    String[] parts = tokendicookie.split("#");
-                    if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-                        String token = cookies[j].getValue();
-                        User user = getUserByToken(token);
-                        request.setAttribute("name", user.getName());
-                        found = true;
-                    }
-                j++;
-                }
-            }
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+           ipAddress = request.getRemoteAddr();  
+        
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
+        if (token != null) {
+            User user = getUserByToken(token);
+            request.setAttribute("name", user.getName());
+        }
         
        String paramqid = request.getParameter("qid");
        request.setAttribute("qid", Integer.parseInt(paramqid));       
@@ -82,15 +71,16 @@ public class viewpost extends HttpServlet {
        request.setAttribute("result", result); 
        request.setAttribute("asker", getUser(result.getQuestionUid()).getName()); 
 
-       HashMap<Integer, String> hmap = new HashMap<Integer, String>();
-       HashMap<Integer, Integer> ansvotemap = new HashMap<Integer, Integer>();
-       int i = 0;
-       for (i = 0;i<answers.size();i++){
+       HashMap<Integer, String> hmap = new HashMap<>();
+       HashMap<Integer, Integer> ansvotemap = new HashMap<>();
+
+       for (int i = 0;i<answers.size();i++){
            hmap.put(answers.get(i).getAnswerId(), getUser(answers.get(i).getAnswerUid()).getName());
            ansvotemap.put(answers.get(i).getAnswerId(), getanswervote(answers.get(i).getAnswerId()));
        }
+       
        request.setAttribute("hmap", hmap);
-              request.setAttribute("ansvotemap", ansvotemap);
+       request.setAttribute("ansvotemap", ansvotemap);
 
        User username = getUser(result.getQuestionUid());
        request.setAttribute("username", username); 

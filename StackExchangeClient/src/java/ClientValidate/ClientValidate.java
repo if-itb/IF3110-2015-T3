@@ -15,23 +15,25 @@ public class ClientValidate {
         boolean found = false;
         int i = 0;
         String[] parts;
-        String token = "", tokendicookie = "";
-        String namacookie = "";
+        String token = "";
+        
         if (cookies != null) {
-            while (!found && i < cookies.length){
-                namacookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-                tokendicookie = cookies[i].getValue();
-                parts = tokendicookie.split("#");
-                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(uagent) && parts[2].equals(ip)) {
-                    token = parts[0];
-                    found = true;
+            while (!found && i < cookies.length) {
+                //Ambil token yang ada di cookie milik client
+                if (cookies[i].getName().equals("token_cookie")) {
+                    parts = cookies[i].getValue().split("#");
+                    if (parts[1].equals(uagent) && parts[2].equals(ip)) {
+                        token = parts[0];
+                        found = true;
+                    }
                 }
                 i++;
             }
+            
+            if (found)
+                return token;
         }
-        else return null;
-        if (found){
-            return token;
-        }else return null;
+        
+        return null;
     }
 }

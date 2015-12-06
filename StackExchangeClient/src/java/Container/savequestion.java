@@ -36,24 +36,28 @@ public class savequestion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            boolean found = false; 
-            int i = 0; 
-            Cookie[] cookies = null;
-            cookies = request.getCookies();
-            String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-            // ** Ambil IP Address Client
-            String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
-            String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-            if (token != null) {
-                int qid = Integer.parseInt(request.getParameter("qid"));
-                String newTopic = request.getParameter("topic");
-                String newContent = request.getParameter("content");
-                updateQuestion(token, qid, newTopic, newContent);
-            }
-            response.sendRedirect("home");
+
+        Cookie[] cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");  // ** Ambil IP Address Client
+        if (ipAddress == null)
+            ipAddress = request.getRemoteAddr();  
+        
+        // validate the token
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        if (token == null) {
+            request.setAttribute("error", "You have to log in first!");
+            response.sendRedirect("login.jsp");
+        } else {
+            int qid = Integer.parseInt(request.getParameter("qid"));
+            String newTopic = request.getParameter("topic");
+            String newContent = request.getParameter("content");
+            // update the question
+            updateQuestion(token, qid, newTopic, newContent);
+            response.sendRedirect("viewpost?qid="+qid);
+        }
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

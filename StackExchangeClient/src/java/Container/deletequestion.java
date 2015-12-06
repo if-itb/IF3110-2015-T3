@@ -43,28 +43,26 @@ public class deletequestion extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        int questionid = Integer.parseInt(request.getParameter("qid"));
-        
-        question.Question tanya = getQuestionById(questionid);
-        boolean found = false;
-        int i=0;
-        Cookie[] cookies;
-        cookies = request.getCookies();
-        
-        int ins;
+        Cookie cookies[] = request.getCookies();
         String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
         // ** Ambil IP Address Client
         String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
+        if (ipAddress == null)
+            ipAddress = request.getRemoteAddr();  
+        
         String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-        if (token != null) {
-            if (getUserByToken(token).getUid() == tanya.getQuestionUid() ){
-                ins = deleteQuestion(token, questionid);
+        if (token == null) {
+            response.sendRedirect("login.jsp");
+        } else {
+            int questionid = Integer.parseInt(request.getParameter("qid"));
+            question.Question question = getQuestionById(questionid);
+            // check if the current logged user is the one that creates the question
+            if (getUserByToken(token).getUid() == question.getQuestionUid()) {
+                int ins = deleteQuestion(token, questionid);
             }
+            response.sendRedirect("home");
         }
-        response.sendRedirect("home");
+        
 
     }
 

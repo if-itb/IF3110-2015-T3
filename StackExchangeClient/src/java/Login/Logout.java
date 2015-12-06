@@ -5,6 +5,7 @@
  */
 package Login;
 
+import ClientValidate.ClientValidate;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -36,21 +37,15 @@ public class Logout extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String token =""; 
-        boolean found = false; 
-        int i = 0; 
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            while (!found && i < cookies.length) {
-                if (cookies[i].getName().equals("token_cookie")) {
-                    token = cookies[i].getValue();
-                    found = true; 
-                } else
-                    i++;
-            }
-        }
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+           ipAddress = request.getRemoteAddr();  
         
-        if (found) {
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        
+        if (token == null) {
             int res = logoutUser(token);
             if (res > 0) {
                 Cookie cookie = new Cookie("token_cookie", null);
@@ -59,7 +54,8 @@ public class Logout extends HttpServlet {
             }
         }
         
-        response.sendRedirect(request.getContextPath());
+        // redirect user to home after logout
+        response.sendRedirect("home");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

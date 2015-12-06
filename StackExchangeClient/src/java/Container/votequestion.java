@@ -6,7 +6,6 @@
 package Container;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.http.Cookie;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,25 +35,25 @@ public class votequestion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int qid = Integer.parseInt(request.getParameter("qid"));
-        boolean found = false;
-        int i=0;
-        int ins;
-        Cookie[] cookies = null;
-        cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-        // ** Ambil IP Address Client
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-        if (ipAddress == null) {  
-            ipAddress = request.getRemoteAddr();  
-        }
+        Cookie[] cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+           ipAddress = request.getRemoteAddr();  
+        
         String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-        if (token != null) {
+        
+        if (token == null) {
+            request.setAttribute("error", "You have to log in first!");
+            response.sendRedirect("login.jsp");
+        } else {
+            int qid = Integer.parseInt(request.getParameter("qid"));
             int value = Integer.parseInt(request.getParameter("jlhvote"));
-            ins = votequestion(token, qid ,value);
+            int ins = votequestion(token, qid, value);
+            response.sendRedirect("viewpost?qid="+qid);
         }
-        response.sendRedirect("viewpost?qid="+qid);
-        }
+        
+    }
     
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -46,30 +46,18 @@ public class editquestion extends HttpServlet {
             throws ServletException, IOException {
         
         int qid = Integer.parseInt(request.getParameter("qid"));
-        boolean found = false; 
-        int i = 0; 
-        Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
-        // ** Ambil IP Address Client
-        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
-            if (ipAddress == null) {  
-                ipAddress = request.getRemoteAddr();  
-            }
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-//        if (cookies != null) {
-//            while (!found && i < cookies.length){
-//                String tokendicookie = cookies[i].getName(); //Ambil token yang ada di cookie milik client
-//                
-//                String[] parts = tokendicookie.split("#");
-//                if (tokendicookie.equals("token_cookie") && parts[1] == useragent && parts[2] == ipAddress) {
-//                    token = cookies[i].getValue();
-//                    found = true; 
-//                }
-//                i++;
-//            }
-//        }
         
-        if (token != null) {
+        Cookie[] cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
+        if (ipAddress == null)
+            ipAddress = request.getRemoteAddr();  
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        
+        if (token == null) {
+            request.setAttribute("error", "You have to log in first!");
+            response.sendRedirect("login.jsp");
+        } else {
             // get user and compare it with the token ID
             User user = getUserByToken(token);
             Question question = getQuestionById(qid);
@@ -85,10 +73,6 @@ public class editquestion extends HttpServlet {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + request.getRequestURL().toString()); 
                 dispatcher.forward(request, response);
             }
-        } else {
-            request.setAttribute("error", "You have to log in first!");
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/" + request.getRequestURL().toString()); 
-            dispatcher.forward(request, response);
         }
     }
 

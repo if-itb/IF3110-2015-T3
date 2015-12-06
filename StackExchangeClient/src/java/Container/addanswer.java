@@ -5,6 +5,7 @@
  */
 package Container;
 
+import ClientValidate.ClientValidate;
 import answer.AnswersWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,23 +37,21 @@ public class addanswer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int qid = Integer.parseInt(request.getParameter("qid"));
-        boolean found = false;
-        int i=0;
-        int ins;
-        Cookie[] cookies = null;
-        cookies = request.getCookies();
-        if (cookies != null) {
-            while (!found && i < cookies.length){
-                if (cookies[i].getName().equals("token_cookie")) {
-                    String token = cookies[i].getValue();
-                    String content = request.getParameter("content");
-                    ins = insertAnswer(token, qid ,content);
-                    found = true;
-                }
-                i++;
-            }
+        String content = request.getParameter("content");
+        
+        // validate the tokens
+        String useragent = request.getHeader("User-Agent"); // Ambil user agent dari client
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");  
+        if (ipAddress == null)
+            ipAddress = request.getRemoteAddr();  
+        
+        String token = ClientValidate.tokenExtract(ipAddress, useragent, request.getCookies());
+        if (token == null)
+            response.sendRedirect("login.jsp");
+        else {
+            int ret = insertAnswer(token, qid, content);
+            response.sendRedirect("viewpost?qid="+qid);
         }
-        response.sendRedirect("viewpost?qid="+qid);
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

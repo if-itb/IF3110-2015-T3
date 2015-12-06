@@ -33,7 +33,7 @@ public class MD5 {
 
         digester.update(str.getBytes());
         byte[] hash = digester.digest();
-        StringBuffer hexString = new StringBuffer();
+        StringBuilder hexString = new StringBuilder();
         for (int i = 0; i < hash.length; i++) {
             if ((0xff & hash[i]) < 0x10) {
                 hexString.append("0" + Integer.toHexString((0xFF & hash[i])));
