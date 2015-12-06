@@ -9,6 +9,7 @@ import connection.DB;
 import java.sql.Connection;
 import org.json.*;
 import java.io.*;
+import java.net.InetAddress;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -59,39 +60,50 @@ public class auth extends HttpServlet {
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {
             token = request.getParameter("auth");
-            sql = "SELECT * FROM token WHERE token_id=?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql))
-            {
-                stmt.setString(1, token);
-                result = stmt.executeQuery();
-                if (result.next())
+            String[] tokeninfo = token.split("#");
+            String userAgent = request.getHeader("User-Agent");
+            if (!userAgent.equals(tokeninfo[1])) {
+                jo.put("status",-2);
+            } else {
+                String ip = request.getRemoteAddr();
+                if (ip.equalsIgnoreCase("0:0:0:0:0:0:0:1"))
                 {
-                    date = new Date();
-                    date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try{
-                        token_expired = date_format.parse(result.getString("token_expired"));
-                        if (date.after(token_expired))
+                    InetAddress inetAddress = InetAddress.getLocalHost();
+                    String ipAddress = inetAddress.getHostAddress();
+                    ip = ipAddress;
+                }
+                if (!ip.equals(tokeninfo[2])) {
+                    jo.put("status",-1);
+                } else {
+                    sql = "SELECT * FROM token WHERE token_id=?";
+                    try (PreparedStatement stmt = conn.prepareStatement(sql))
+                    {
+                        stmt.setString(1, token);
+                        result = stmt.executeQuery();
+                        if (result.next())
                         {
-                            jo.put("status",-1);
-                            jo.put("id",result.getInt("user_id"));
-                            /*sql = "DELETE FROM token where token_id =?";
-                            try (PreparedStatement delstmt = conn.prepareStatement(sql))
-                            {
-                                delstmt.setString(1, token);
-                                delstmt.executeUpdate();
-                            }*/
+                            int uid = result.getInt("user_id");
+                            jo.put("id",uid);
+                            date = new Date();
+                            date_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            try{
+                                token_expired = date_format.parse(result.getString("token_expired"));
+                                if (date.after(token_expired))
+                                {
+                                    jo.put("status",0);
+                                }
+                                else
+                                {
+                                    jo.put("status", 1);
+                                }
+                            } catch (ParseException ex) {
+                                Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
-                        else 
-                        {
-                            jo.put("status", 1);
-                            jo.put("id", result.getInt("user_id"));
-                        }
-                    } catch (ParseException ex) {
+                    } catch (SQLException ex) {
                         Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(auth.class.getName()).log(Level.SEVERE, null, ex);
             }
             out.println(jo.toString());
         }
