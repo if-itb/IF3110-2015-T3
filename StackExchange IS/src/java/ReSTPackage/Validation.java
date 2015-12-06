@@ -86,9 +86,9 @@ public class Validation extends HttpServlet {
                     
                     // Cek Expired Token
                     if (nowTime.after(expiredTime)) {
-                        obj.put("time", "expired");
+                        obj.put("message", "expired");
                     } else {
-                        obj.put("time", "valid");
+                        obj.put("message", "valid");
                     }
               
 
@@ -110,7 +110,7 @@ public class Validation extends HttpServlet {
                     
                     out.print(obj);
                 } else {
-                    obj.put("token", "invalid");
+                    obj.put("message", "invalid");
                     out.print(obj);
                 }
           

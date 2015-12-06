@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2015 at 11:41 AM
+-- Generation Time: Dec 06, 2015 at 05:43 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `answer` (
   `id_user` int(10) NOT NULL,
   `content` text NOT NULL,
   `timepost` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `answer`
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `question` (
   `topic` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `timepost` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `question`
@@ -111,6 +111,13 @@ CREATE TABLE IF NOT EXISTS `user_token` (
   `time_expire` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `user_token`
+--
+
+INSERT INTO `user_token` (`id_user`, `token`, `time_expire`) VALUES
+(2, '334#Mozilla%2F5.0+%28Windows+NT+10.0%3B+rv%3A42.0%29+Gecko%2F20100101+Firefox%2F42.0#0:0:0:0:0:0:0:1', '2015-12-06 04:44:01');
+
 -- --------------------------------------------------------
 
 --
@@ -122,6 +129,13 @@ CREATE TABLE IF NOT EXISTS `vote_answer` (
   `id_answer` int(10) NOT NULL,
   `type` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vote_answer`
+--
+
+INSERT INTO `vote_answer` (`id_user`, `id_answer`, `type`) VALUES
+(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -167,7 +181,7 @@ ALTER TABLE `user`
 -- Indexes for table `user_token`
 --
 ALTER TABLE `user_token`
- ADD KEY `user_token_ibfk_1` (`id_user`);
+ ADD UNIQUE KEY `token` (`token`), ADD UNIQUE KEY `id_user` (`id_user`), ADD KEY `user_token_ibfk_1` (`id_user`);
 
 --
 -- Indexes for table `vote_answer`
@@ -189,7 +203,7 @@ ALTER TABLE `vote_question`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `comment`
 --
@@ -199,7 +213,7 @@ MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `user`
 --

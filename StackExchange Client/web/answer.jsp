@@ -10,11 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Answer a Question!</title>
-		<link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-	<center>
-    <%! 
+    
+    <center>
+<%! 
                Cookie[] cookies = null;
                String token = null;
             %>
@@ -98,19 +98,21 @@
                 out.println("<hr width='80%'>");
             }
         }
-		  } catch (Exception ex) {
+        
+    } catch (Exception ex) {
 	// TODO handle custom exceptions here
     }
     %>
     <%-- end web service invocation --%>
-	 <h4>Your Answer</h4>
+        
+        <h4>Your Answer</h4>
         <form name='question' action='answer' method='POST'>            
-            <textarea class="inputform" name='acontent' placeholder="Answer" rows="5"></textarea><br><br>
+            <textarea name='acontent' placeholder="Answer" style="resize:none;width:500px;"></textarea><br><br>
             <input type='hidden' name='idq' value="<%out.println(request.getParameter("id"));%>">
-            <input class="button" type="submit" value="Submit">
-			</form>        
+            <input type="submit" value="Submit">
+        </form>        
         
         
     </center>
-	</body>
+    </body>
 </html>

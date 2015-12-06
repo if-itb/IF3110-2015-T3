@@ -10,18 +10,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Ask a Question!</title>
-		<link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
+        <center><a href='index.jsp'> <h1>Simple Stack Exchange</h1> </a>
             <form name='question' action='ask' method='POST'>
-                <input class="inputform" type='text' name='topic' placeholder='Question Topic'><br><br>
-                <textarea class="inputform" name='qcontent' placeholder="Question" rows="4"></textarea><br><br>
-                <input class="button" type="submit" value="Submit">
-				  </form>
+                <input type='text' name='topic' placeholder='Question Topic' size='80'><br><br>
+                <textarea name='qcontent' placeholder="Question" style="resize:none;width:500px;"></textarea><br><br>
+                <input type="submit" value="Submit">
+            </form>
             
             
-        
-        
+        </center>
     </body>
 </html>
