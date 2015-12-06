@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Comment and Vote Services</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Comment and Vote Services</div>
+        <hr>
+        /comment<br><br>
+        POST: add Comment<br>
+        Parameter: uid, qid, content, token
+        <br><br>
+        GET: get Comment<br>
+        Parameter: qid
+        <hr>
+        /vote/answer<br><br>
+        POST: vote Answer<br>
+        Parameter: uid, aid, value, token
+        <br><br>
+        GET: get vote of an Answer<br>
+        Parameter: aid
+        <hr>
+        /vote/question<br><br>
+        POST: vote Question<br>
+        Parameter: uid, qid, value, token
+        <br><br>
+        GET: get vote of a Question<br>
+        Parameter: qid
+        
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <definitions 
+ xmlns="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="QuestionWS" targetNamespace="http://QuestionModel/" xmlns:tns="http://QuestionModel/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:fi="http://java.sun.com/xml/ns/wsit/2006/09/policy/fastinfoset/service" xmlns:tcp="http://java.sun.com/xml/ns/wsit/2006/09/policy/soaptcp/service" 
+ >
+    <message name="deleteQuestion"/>
+    <message name="deleteQuestionResponse"/>
+    <message name="insertQuestion"/>
+    <message name="insertQuestionResponse"/>
+    <message name="updateQuestion"/>
+    <message name="updateQuestionResponse"/>
+    <message name="getQuesstionById"/>
+    <message name="getQuesstionByIdResponse"/>
+    <message name="getAllQuestion"/>
+    <message name="getAllQuestionResponse"/>
+    <portType name="QuestionWS">
+        <operation name="deleteQuestion">
+            <input message="tns:deleteQuestion"/>
+            <output message="tns:deleteQuestionResponse"/>
+        </operation>
+        <operation name="insertQuestion">
+            <input message="tns:insertQuestion"/>
+            <output message="tns:insertQuestionResponse"/>
+        </operation>
+        <operation name="updateQuestion">
+            <input message="tns:updateQuestion"/>
+            <output message="tns:updateQuestionResponse"/>
+        </operation>
+        <operation name="getQuesstionById">
+            <input message="tns:getQuesstionById"/>
+            <output message="tns:getQuesstionByIdResponse"/>
+        </operation>
+        <operation name="getAllQuestion">
+            <input message="tns:getAllQuestion"/>
+            <output message="tns:getAllQuestionResponse"/>
+        </operation>
+    </portType>
+    <binding name="QuestionWSPortBinding" type="tns:QuestionWS">
+        <wsp:PolicyReference URI="#QuestionWSPortBindingPolicy"/>
+        <operation name="deleteQuestion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="insertQuestion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="updateQuestion">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getQuesstionById">
+            <input/>
+            <output/>
+        </operation>
+        <operation name="getAllQuestion">
+            <input/>
+            <output/>
+        </operation>
+    </binding>
+    <service name="QuestionWS">
+        <port name="QuestionWSPort" binding="tns:QuestionWSPortBinding"/>
+    </service>
+    <wsp:Policy wsu:Id="QuestionWSPortBindingPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All/>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</definitions>
