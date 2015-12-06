@@ -152,11 +152,42 @@ app.controller('voteCtrl',function($scope,$interval,$http){
         }, function errorCallback(response) {
             alert("error getting comments");
         });
-        
-        
-        
+      
    };
    
+   $scope.postnew = function(up){
+       var at;
+               at = window.getAccessToken();
+       if (at===""){
+           alert("sign in first");
+       }else{
+            _params = 
+                {
+                    'qid': $scope.qid,
+                    'access_token': at,
+                    'up': up
+                };
+            if ($scope.aid>=0)
+                _params['aid']=$scope.aid;
+
+            $http({
+                method: 'POST',
+                url: "../CommentandVoteService/Vote",
+                params: _params}
+            ).then(function successCallback(response){
+                updateVote();
+            // ... and use it as needed by your app.
+            }, function errorCallback(response) {
+                var help = "";
+                if (response.status==401)
+                    help = "retry signing in";
+                else if (response.status==409)
+                    help = "you already voted";
+                alert("error posting comment:\n"+response.status + " " +
+                    response.statusText+"\n"+response.data + help);
+            });
+       }
+   }   
    var promise = $interval(function(){
         updateVote();
         $interval.cancel(promise);

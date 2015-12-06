@@ -42,11 +42,11 @@
 			<tr>
 				<td class="vote" ng-controller='voteCtrl'>
                                     {{qid=<%=id%>;""}}
-					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=true">
+					<a ng-click='postnew(true)'>
 						<img src="image/Up.png" width="30" hight="30">
 					</a>
 					<h3>{{votenum}}</h3>
-					<a href="voteQuestion.jsp?id=<%=q.getQid()%>&up=false">
+					<a ng-click='postnew(false)'>
 						<img src="image/down.png"  width="30" hight="30">
 					</a>
 							
