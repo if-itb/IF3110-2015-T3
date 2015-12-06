@@ -58,10 +58,7 @@
                 <c:set var="uid" value="${question.getKey().getUid()}"/>
                 <c:set var="qid" value="${question.getKey().getQid()}"/>
                 <% if (Util.isLogin(request)) { %>
-                    <div class="btn-group-vertical" role="group" aria-label="...">
-                        <form action="QuestionVote" method="POST">
-                        <input name="qid" type="hidden" value="${question.getKey().getQid()}" />
-                        <input name="value" type="hidden" value="1" />
+                    <div class="btn-group-vertical" role="group" aria-label="..." ng-controller="VoteQuestionController">
                         <button type="submit" class="btn btn-success
                                 <% 
                                 int qid = (Integer)pageContext.getAttribute("qid");
@@ -70,25 +67,20 @@
                                 out.print("disabled");
                                 }
                                 %>
-                                ">
+                                " ng-click="updateVote(${question.getKey().getQid()}, 1, '<%=Util.getTokenCookie(request)%>')">
                             <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                         </button>
-                        </form>
                         
                         <div class="text-center well-lg">${question.getKey().getCountvotes()}</div>
-                        <form action="QuestionVote" method="POST">
-                        <input name="qid" type="hidden" value="${question.getKey().getQid()}" />
-                        <input name="value" type="hidden" value="-1" />
                         <button type="submit" class="btn btn-danger
                                  <% 
                                 if(Util.hasVotedQuestion(qid, uid, -1)) {
                                 out.print("disabled");
                                 }
                                 %>
-                                ">
+                                " ng-click="updateVote(${question.getKey().getQid()}, -1, '<%=Util.getTokenCookie(request)%>')">
                             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                         </button>
-                        </form>
                     </div>
                 <%} else {%>
                     <div class="btn-group-vertical" role="group" aria-label="...">
@@ -173,11 +165,7 @@
                 <c:set var="aid" value="${answer.getKey().getAid()}"/>
                 <% if (Util.isLogin(request)) { %>
                 
-                    <div class="btn-group-vertical" role="group" aria-label="...">
-                        <form method="POST" action="AnswerVote">
-                        <input type="hidden" name="aid" value="${answer.getKey().getAid()}" />
-                        <input type="hidden" name="qid" value="${answer.getKey().getQid()}" />
-                        <input type="hidden" name="value" value="1" />
+                <div class="btn-group-vertical" role="group" aria-label="..." ng-controller="VoteAnswerController">
                         <button type="submit" class="btn btn-success
                                 <%
                                 int aid = (Integer)pageContext.getAttribute("aid");
@@ -186,26 +174,20 @@
                                 out.print("disabled");
                                 }
                                 %>
-                                ">
+                                " ng-click="updateVote(${answer.getKey().getAid()}, 1, '<%=Util.getTokenCookie(request)%>')">
                             <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                         </button>
-                        </form>
                         <div class="text-center well-lg">${answer.getKey().getCountvotes()}</div>
-                        <form method="POST" action="AnswerVote">
-                        <input type="hidden" name="aid" value="${answer.getKey().getAid()}" />
-                        <input type="hidden" name="qid" value="${answer.getKey().getQid()}" />
-                        <input type="hidden" name="value" value="-1" />
                         <button type="submit" class="btn btn-danger
                                  <%
                                 if(Util.hasVotedAnswer(aid, uid, -1)) {
                                 out.print("disabled");
                                 }
                                 %>
-                                ">
+                                " ng-click="updateVote(${answer.getKey().getAid()}, -1, '<%=Util.getTokenCookie(request)%>')">
                             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                         </button>
-                        </form>
-                    </div>
+                       </div>
                 <%} else {%>
                     <div class="btn-group-vertical" role="group" aria-label="...">
                         <button type="submit" class="btn btn-success disabled">

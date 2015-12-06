@@ -43,6 +43,7 @@ public class QuestionvoterFacadeREST extends AbstractFacade<Questionvoter> {
     public Integer voteQuestion(@PathParam("qid") int qid, 
             @PathParam("value") String value, 
             @PathParam("token") String token) {
+        
         ConsumerREST cRest = new ConsumerREST();
         // validate token
         Integer res = cRest.auth(token);

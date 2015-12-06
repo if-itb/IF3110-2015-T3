@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
+import tool.ConsumerCommentVoteREST;
 
 /**
  *
@@ -36,18 +37,26 @@ public class QuestionVote extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int qid = Integer.parseInt(request.getParameter("qid"));
-        int uid = tool.Util.getUid(request);
-        String token = tool.Util.getTokenCookie(request);
+//        int qid = Integer.parseInt(request.getParameter("qid"));
+//        int uid = tool.Util.getUid(request);
+//        String token = tool.Util.getTokenCookie(request);
+//        
+//       
+//        
+//         Integer res = voteQuestion(token, qid, request.getParameter("value"));
+//            
+//            // Pass token and object question to web service
+//            String url = "question?qid=" + qid;
+//            response.addHeader("statustoken", res.toString());
+//            response.sendRedirect(url);
+        ConsumerCommentVoteREST co = new ConsumerCommentVoteREST();
         
-       
         
-         Integer res = voteQuestion(token, qid, request.getParameter("value"));
-            
-            // Pass token and object question to web service
-            String url = "question?qid=" + qid;
-            response.addHeader("statustoken", res.toString());
-            response.sendRedirect(url);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println(co.voteQuestion(request.getParameter("qid"),request.getParameter("value"), request.getParameter("token")));
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -88,13 +97,6 @@ public class QuestionVote extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private Integer voteQuestion(java.lang.String token, int qid, java.lang.String value) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        question.QuestionWS port = service.getQuestionWSPort();
-        return port.voteQuestion(token, qid, value);
-    }
 
 
 }

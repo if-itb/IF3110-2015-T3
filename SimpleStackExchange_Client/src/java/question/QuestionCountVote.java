@@ -3,29 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package answer;
+package question;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceRef;
 import tool.ConsumerCommentVoteREST;
 
 /**
  *
  * @author mfikria
  */
-@WebServlet(name = "AnswerVote", urlPatterns = {"/AnswerVote"})
-public class AnswerVote extends HttpServlet {
+@WebServlet(name = "QuestionCountVote", urlPatterns = {"/QuestionCountVote"})
+public class QuestionCountVote extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/SimpleStackExchange_WebService/Answer_WS.wsdl")
-    private AnswerWS_Service service;
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,7 +36,7 @@ public class AnswerVote extends HttpServlet {
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           out.println(co.voteAnswer(request.getParameter("aid"),request.getParameter("value"), request.getParameter("token")));
+            out.println(co.getVotesQuestion(request.getParameter("qid")));
         }
     }
 
@@ -84,10 +79,4 @@ public class AnswerVote extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private Integer voteAnswer(java.lang.String token, int aid, java.lang.String value) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        answer.AnswerWS port = service.getAnswerWSPort();
-        return port.voteAnswer(token, aid, value);
-    }
 }
