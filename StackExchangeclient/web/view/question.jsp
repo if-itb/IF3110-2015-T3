@@ -94,7 +94,9 @@
           </div>
         </div>
       </div>
-
+      
+      
+      
       <br/> <h2><%=q.getSumAns()%> Answers</h2>
 
       <% for(AnswerWS.Answer a : answers) { %>
@@ -147,4 +149,7 @@
         
   </body>
   <footer> <br><br> </footer>
+  <script src="../assets/angular/angular.min.js"></script>
+  <script src="../assets/js/comment.js"></script>
+  <script src="../assets/js/vote.js"></script>
 </html>

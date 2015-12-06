@@ -1,0 +1,25 @@
+{
+  "result": [
+    {
+      "id" : 3,
+      "qid" : 3,
+      "uid" : 2,
+      "date" : "21 Oktober 2015 19.00",
+      "content" : "Aku cinta"
+    },
+    {
+      "id" : 3,
+      "qid" : 3,
+      "uid" : 3,
+      "date" : "21 Oktober 2015 19.05",
+      "content" : "Mbahmu salto"
+    },
+    {
+      "id" : 3,
+      "qid" : 3,
+      "uid" : 5,
+      "date" : "21 Oktober 2015 19.00",
+      "content" : "Masak sih?"
+    }
+  ]
+}
