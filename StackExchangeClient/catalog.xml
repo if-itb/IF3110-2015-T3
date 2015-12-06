@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:8080/StackExchangeWS/QuestionHandler?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionHandler/wsdl/localhost_8080/StackExchangeWS/QuestionHandler.wsdl"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/QuestionHandler?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionHandler/wsdl/localhost_8080/StackExchangeWS/QuestionHandler.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/AnswerHandler?wsdl" uri="src/conf/xml-resources/web-service-references/AnswerHandler/wsdl/localhost_8080/StackExchangeWS/AnswerHandler.wsdl"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/AnswerHandler?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswerHandler/wsdl/localhost_8080/StackExchangeWS/AnswerHandler.xsd_1.xsd"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/UserHandler?wsdl" uri="src/conf/xml-resources/web-service-references/UserHandler/wsdl/localhost_8080/StackExchangeWS/UserHandler.wsdl"/>
+    <system systemId="http://localhost:8080/StackExchangeWS/UserHandler?xsd=1" uri="src/conf/xml-resources/web-service-references/UserHandler/wsdl/localhost_8080/StackExchangeWS/UserHandler.xsd_1.xsd"/>
+</catalog>

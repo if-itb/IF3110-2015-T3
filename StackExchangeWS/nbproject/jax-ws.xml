@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
+  <services>
+    <service name="AnswerHandler">
+      <implementation-class>stackExchangeWS.services.AnswerHandler</implementation-class>
+    </service>
+    <service name="UserHandler">
+      <implementation-class>stackExchangeWS.services.UserHandler</implementation-class>
+    </service>
+    <service name="QuestionHandler">
+      <implementation-class>stackExchangeWS.services.QuestionHandler</implementation-class>
+    </service>
+  </services>
+  <clients/>
+</jax-ws>
