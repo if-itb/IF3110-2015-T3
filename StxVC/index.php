@@ -15,13 +15,7 @@
 			if(isset($_POST['content']) && isset($_GET['id'])) {
 			$q_id = $_GET['id'];
 			$content = $_POST['content'];
-			$email = get_Email_From_Token($token);
-			if($email != 404 && $email != 402) {
-				echo $email;
-				if($email != null) {
-					postAnswer($q_id, $email,$content);
-				}
-			}
+			postAnswer($q_id, $token,$content);
 		}
 		
 		//vote
@@ -29,15 +23,14 @@
 			$id = $_GET['id'];
 			$category = $_GET['cat'];
 			$value = $_GET['val'];
-			$email = get_Email_From_Token($token);
-			if($email != 404 && $email != 402) {
-				if($category == 'a') {
-					voteAnswer($id,$email,$value);
-				} else if ($category == 'q') {
-					voteQuestion($id,$email,$value);
-				}
+			if($category == 'a') {
+				voteAnswer($id,$token,$value);
+			} else if ($category == 'q') {
+				voteQuestion($id,$token,$value);
 			}
 		}
+	} else {
+		header("HTTP/1.1 404 tidak ada token");
 	}
 	
 ?>
