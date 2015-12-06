@@ -43,7 +43,12 @@ app.controller('questionVoteController', [ '$scope','$http','$location','$cookie
                     return str.join("&");
                   },
                 }).success(function(data){
-                    $scope.vote = data.vote;
+                    if (data.ERROR==null) {
+                        $scope.vote = data.vote;
+                    }
+                    else {
+                        alert(data.ERROR);
+                    }
                 });
             }
                 else {
