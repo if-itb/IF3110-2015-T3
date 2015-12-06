@@ -120,6 +120,10 @@ public class VoteServlet extends HttpServlet {
                         if (remoteAddr == null) remoteAddr = "";                        
                         jsonResponse = VCConnector.requestVote(auth, questionId, type, action, userAgent, remoteAddr);
                     }
+                    else {
+                        jsonResponse.put("status", -1);
+                        jsonResponse.put("detail", "You have to signin first");
+                    }
                 }
                 catch (NumberFormatException ex) {
                 }

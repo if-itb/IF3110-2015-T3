@@ -88,6 +88,10 @@ public class CommentServlet extends HttpServlet {
                         content = content.toLowerCase();                        
                         jsonResponse = VCConnector.requestComment(auth, questionId, content, userAgent, remoteAddr);
                     }
+                    else {
+                        jsonResponse.put("status", -1);
+                        jsonResponse.put("detail", "You have to signin first");
+                    }
                 }
                 catch (NumberFormatException ex) {
                 }

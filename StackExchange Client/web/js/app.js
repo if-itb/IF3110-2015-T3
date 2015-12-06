@@ -48,7 +48,8 @@ app.controller("voteController", function($scope, $http) {
                     alert("Failed to vote");
                     break;
                 case -1:
-                    alert("Login first");
+                    if (data.hasOwnProperty("detail"))
+                        alert(data.detail);
                     window.location.replace("signin");
                     break;
             }
@@ -96,8 +97,10 @@ app.controller("commentController", function($scope, $http) {
             data    : $.param({id: idQuestion, content: theContent}),
             headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         })
-        .success(function(data){            
-            switch(data["status"]){
+        .success(function(data){
+            if (!data.hasOwnProperty("status"))
+                return;
+            switch(data.status){
                 case 1 :                    
                     if (data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
                         $scope.comments = data.comments;
