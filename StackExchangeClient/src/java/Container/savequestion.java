@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceRef;
 import question.QuestionsWS_Service;
 import ClientValidate.ClientValidate;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -54,8 +55,30 @@ public class savequestion extends HttpServlet {
             String newTopic = request.getParameter("topic");
             String newContent = request.getParameter("content");
             // update the question
-            updateQuestion(token, ipAddress, useragent, qid, newTopic, newContent);
-            response.sendRedirect("viewpost?qid="+qid);
+            int upd = updateQuestion(token, ipAddress, useragent, qid, newTopic, newContent);
+            if (upd > 0){
+                response.sendRedirect("viewpost?qid="+qid);
+            }else if (upd == 0){
+                String error = "Please LOG IN AGAIN : YOUR TOKEN HAS EXPIRED :p";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (upd == -1){
+                String error = "YOUR IP ADDRESS HAS CHANGED";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (upd == -2){
+                String error = "YOUR WEB BROWSER HAS CHANGED";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (upd == -3){
+                String error = "YOUR TOKEN IS INVALID PLEASE LOGIN";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }
         }
         
         

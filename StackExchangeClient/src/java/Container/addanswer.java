@@ -9,6 +9,7 @@ import ClientValidate.ClientValidate;
 import answer.AnswersWS_Service;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.Cookie;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -47,11 +48,38 @@ public class addanswer extends HttpServlet {
             ipAddress = request.getRemoteAddr();  
         
         String token = ClientValidate.tokenExtract(request.getCookies());
-        if (token == null)
-            response.sendRedirect("login.jsp");
-        else {
+        if (token != null){
             int ret = insertAnswer(token, ipAddress, useragent, qid, content);
-            response.sendRedirect("viewpost?qid="+qid);
+            if (ret > 0){
+                response.sendRedirect("viewpost?qid="+qid);
+            }else if (ret == 0){
+                String error = "Please LOG IN AGAIN : YOUR TOKEN HAS EXPIRED :p";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (ret == -1){
+                String error = "YOUR IP ADDRESS HAS CHANGED";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (ret == -2){
+                String error = "YOUR WEB BROWSER HAS CHANGED";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }else if (ret == -3){
+                String error = "YOUR TOKEN IS INVALID PLEASE LOGIN";
+                request.setAttribute("error", error);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                dispatcher.forward(request, response); 
+            }
+        }
+        else {
+            String error = "Please LOG IN FIRST";
+            request.setAttribute("error", error);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+            dispatcher.forward(request, response); 
+            //response.sendRedirect("login.jsp");
         }
     }
     

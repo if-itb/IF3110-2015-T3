@@ -18,6 +18,7 @@ import question.QuestionsWS_Service;
 import user.User;
 import user.UserWS_Service;
 import ClientValidate.ClientValidate;
+import javax.servlet.RequestDispatcher;
 
 /**
  *
@@ -53,24 +54,39 @@ public class deletequestion extends HttpServlet {
         
         String token = ClientValidate.tokenExtract(cookies);
         if (token == null) {
-            response.sendRedirect("login.jsp");
-        } else {
             int questionid = Integer.parseInt(request.getParameter("qid"));
             question.Question question = getQuestionById(questionid);
             // check if the current logged user is the one that creates the question
             if (getUserByToken(token).getUid() == question.getQuestionUid()) {
                 int ins = deleteQuestion(token, ipAddress, useragent, questionid);
-//=======
-//                PrintWriter out = response.getWriter();  
-//                response.setContentType("text/html");  
-//                out.println("<script type=\"text/javascript\">");  
-//                out.println("alert('Email already exist please input other email ');");
-//                out.println("location='index.jsp';");
-//                out.println("</script>");
-//                int ins = deleteQuestion(token, questionid);
-//>>>>>>> e6dd9b063affab1b1e1875cf7c4826cc9f7c8bda
+                if (ins > 0){
+                    response.sendRedirect("home");
+                }else if (ins == 0){
+                    String error = "Please LOG IN AGAIN : YOUR TOKEN HAS EXPIRED :p";
+                    request.setAttribute("error", error);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                    dispatcher.forward(request, response); 
+                }else if (ins == -1){
+                    String error = "YOUR IP ADDRESS HAS CHANGED";
+                    request.setAttribute("error", error);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                    dispatcher.forward(request, response); 
+                }else if (ins == -2){
+                    String error = "YOUR WEB BROWSER HAS CHANGED";
+                    request.setAttribute("error", error);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                    dispatcher.forward(request, response); 
+                }else if (ins == -3){
+                    String error = "YOUR TOKEN IS INVALID PLEASE LOGIN";
+                    request.setAttribute("error", error);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp"); 
+                    dispatcher.forward(request, response); 
+                }
             }
-            response.sendRedirect("home");
+
+        } else {
+            response.sendRedirect("login.jsp");
+
         }
         
 
