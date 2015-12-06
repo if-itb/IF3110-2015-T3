@@ -5,7 +5,6 @@
  */
 package Vote;
 
-import Comment.CommentService;
 import Database.DatabaseConnect;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,8 +17,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.jws.WebParam;
 
 /**
@@ -50,8 +47,7 @@ public class VoteAnswerService {
           response.append(line);
         }
       }
-      //return response.toString().equals("true");
-      return true;
+      return response.toString().equals("true");
     }
     catch (MalformedURLException ex) {
         return false;
@@ -101,8 +97,7 @@ public class VoteAnswerService {
       try {
         String sql = "SELECT * FROM answervote WHERE userid=? AND answerid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        //int userId = getUserIDFromToken(token);
-        int userId = 3;
+        int userId = getUserIDFromToken(token);
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();
@@ -219,8 +214,7 @@ public class VoteAnswerService {
       try {
         String sql = "SELECT * FROM answervote WHERE userid=? AND answerid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        //int userId = getUserIDFromToken(token);
-        int userId = 3;
+        int userId = getUserIDFromToken(token);
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();

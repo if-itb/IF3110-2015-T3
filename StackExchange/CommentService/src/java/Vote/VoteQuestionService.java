@@ -47,8 +47,7 @@ public class VoteQuestionService {
           response.append(line);
         }
       }
-      //return response.toString().equals("true");
-      return true;
+      return response.toString().equals("true");
     }
     catch (MalformedURLException ex) {
         return false;
@@ -97,8 +96,7 @@ public class VoteQuestionService {
       try {
         String sql = "SELECT * FROM questionvote WHERE userid=? AND questionid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        int userId = 3;
-        //int userId = getUserIDFromToken(token);
+        int userId = getUserIDFromToken(token);
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();
@@ -215,8 +213,7 @@ public class VoteQuestionService {
       try {
         String sql = "SELECT * FROM questionvote WHERE userid=? AND questionid=?";
         PreparedStatement dbStatement = conn.prepareStatement(sql);
-        //int userId = getUserIDFromToken(token);
-        int userId = 3;
+        int userId = getUserIDFromToken(token);
         dbStatement.setInt(1, userId);
         dbStatement.setInt(2, id);
         ResultSet rs = dbStatement.executeQuery();

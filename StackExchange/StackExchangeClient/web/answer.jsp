@@ -21,7 +21,7 @@
   <%
       String token = (String)request.getParameter("token");
   %>
-  <body ng-controller="myCtrl" ng-init="qid=<% out.print(request.getParameter("qid"));%>; token=<% out.print(token);%>">
+  <body ng-controller="myCtrl" ng-init="qid=<% out.print(request.getParameter("qid"));%>; token=<% out.print("'"+token+"'");%>">
     <nav class="deep-purple darken-2" role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Stack Exchange - Answer</a>
         <ul class="right hide-on-med-and-down">
@@ -95,7 +95,7 @@
                 $scope.addComment = function() {
                     $http.get('http://localhost:8081/CommentService/InsertComment?qid=' + $scope.qid
                             + '&content=' + $scope.content
-                            + '&token=' + $scope.content).then($scope.getComment);
+                            + '&token=' + $scope.token).then($scope.getComment);
                 };
                 $scope.voteUpA = function(aid) {
                     $http.get('http://localhost:8081/CommentService/voteanswer?aid=' + aid + '&type=1&token=' + $scope.token).then($scope.getAnswerVote(aid));
