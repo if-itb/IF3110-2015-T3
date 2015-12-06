@@ -11,9 +11,10 @@
     <title>Simple Stack Exchange</title>
     <link rel="stylesheet" media="screen" href="css/style.css" >
 	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<script type="text/javascript" src="js/coppeng.js"></script>
+        <script type="text/javascript" src="js/vote.js"</script>
+        <script type="text/javascript" src="js/angular.js"</script>
 </head>
-<body>
+<body ng-app="xapp">
 <div id = "wrapper">
 	<h1 class = "center"><a href="index.jsp">Simple Stack Exchange</a></h1>
         <%!

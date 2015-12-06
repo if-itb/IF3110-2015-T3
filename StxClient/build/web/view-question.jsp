@@ -34,11 +34,11 @@
 	<div class="section">	
 		<h2><% out.print(Q.getTopic());%></h2>
 		<div class="row">
-			<div class="col vote">
-				<div class = "vote-btn">
-                                <a href= actions/vote.jsp?c=q&id=<% out.print(id); %>&email=fg@gmail.com&val=1> up </a>
-                                    <p class = "number-vote" id="voteq<% out.print(id);%>"><% out.print(Q.getVote());%></p>
-				<a href= actions/vote.jsp?c=q&id=<% out.print(id); %>&email=fg@gmail.com&val=-1> dn </a>
+                    <div class="col vote" ng-controller="xvote">
+				<div class = "vote-btn">                                   
+				<button type="button" onclick="vote(q, id, email, 1)"><i class="fa fa-chevron-up"></i></button>
+                                <p class = "number-vote" > {{vote_num}}</p>
+				<button type="button" onclick="vote(q, id, email, -1))"><i class="fa fa-chevron-down"></i></button>
 				</div>
 			</div>
 			<div class="col content">
@@ -87,9 +87,9 @@
                 %>
                     <div class = "row">
 				<div class = "col vote">
-					<a href= actions/vote.jsp?c=a&id=<%out.print(id);%>&q_id=<% out.print(Ans.getAnsId()); %>&email=fg@gmail.com&val=1> up </a>
-					<p class = "number-vote" id="voteq<% out.print(Ans.getAnsId());%>"><% out.print(Ans.getAnsVote());%></p>
-					<a href= actions/vote.jsp?c=a&id=<%out.print(id);%>&q_id=<% out.print(Ans.getAnsId()); %>&email=fg@gmail.com&val=-1> dn </a>
+                                    <button type="button" onclick="vote(a, id, email, 1)"><i class="fa fa-chevron-up"></i></button>
+                                    <p class = "number-vote" > {{vote_num}}</p>
+                                    <button type="button" onclick="vote(a, id, email, -11)"><i class="fa fa-chevron-down"></i></button>
 				</div>
 				<div class = "col content">
 					<p> <% out.print(Ans.getAnsContent());%></p>
