@@ -53,8 +53,13 @@ public class getToken extends HttpServlet {
         String uname = request.getParameter("uname");
         String pass = request.getParameter("pass");
         String password = "";
-        String userAgent = request.getParameter("user-agent");
-        String ip = request.getParameter("ip");
+        String userAgent = request.getHeader("user-agent");
+        String ip = request.getHeader("X-FORWARDED-FOR");
+        if(ip==null){
+            ip=request.getRemoteAddr();
+        }
+//        String userAgent = request.getParameter("user-agent");
+//        String ip = request.getParameter("ip");
         
         PrintWriter tw = response.getWriter();
         
