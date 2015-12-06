@@ -7,24 +7,19 @@ package question;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceRef;
 import tool.ConsumerCommentVoteREST;
 
 /**
  *
  * @author mfikria
  */
-@WebServlet(name = "QuestionVote", urlPatterns = {"/QuestionVote"})
-public class QuestionVote extends HttpServlet {
-
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8081/SimpleStackExchange_WebService/Question_WS.wsdl")
-    private QuestionWS_Service service;
+@WebServlet(name = "QuestionHasVoted", urlPatterns = {"/QuestionHasVoted"})
+public class QuestionHasVoted extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,24 +32,11 @@ public class QuestionVote extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        int qid = Integer.parseInt(request.getParameter("qid"));
-//        int uid = tool.Util.getUid(request);
-//        String token = tool.Util.getTokenCookie(request);
-//        
-//       
-//        
-//         Integer res = voteQuestion(token, qid, request.getParameter("value"));
-//            
-//            // Pass token and object question to web service
-//            String url = "question?qid=" + qid;
-//            response.addHeader("statustoken", res.toString());
-//            response.sendRedirect(url);
         ConsumerCommentVoteREST co = new ConsumerCommentVoteREST();
-       
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(co.voteQuestion(request.getParameter("qid"),request.getParameter("value"), request.getParameter("token")));
+            out.println(co.hasVotedQuestion(request.getParameter("qid"), request.getParameter("uid"), request.getParameter("status")));
         }
     }
 
@@ -96,6 +78,5 @@ public class QuestionVote extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }

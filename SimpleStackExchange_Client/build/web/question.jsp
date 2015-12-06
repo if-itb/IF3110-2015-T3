@@ -58,7 +58,7 @@
                 <c:set var="uid" value="${question.getKey().getUid()}"/>
                 <c:set var="qid" value="${question.getKey().getQid()}"/>
                 <% if (Util.isLogin(request)) { %>
-                    <div class="btn-group-vertical" role="group" aria-label="..." ng-controller="VoteQuestionController">
+                    <div class="btn-group-vertical" role="group" aria-label="..." ng-controller="VoteQuestionController" ng-init="countVote()">
                         <button type="submit" class="btn btn-success
                                 <% 
                                 int qid = (Integer)pageContext.getAttribute("qid");
@@ -71,7 +71,7 @@
                             <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                         </button>
                         
-                        <div class="text-center well-lg">${question.getKey().getCountvotes()}</div>
+                        <div class="text-center well-lg">{{ votesquestion }}</div>
                         <button type="submit" class="btn btn-danger
                                  <% 
                                 if(Util.hasVotedQuestion(qid, uid, -1)) {
