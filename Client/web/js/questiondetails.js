@@ -22,8 +22,9 @@ app.controller('MainController', function($scope, CommentFactory) {
 
     $scope.submit = function(){
         console.log(token);
-        CommentFactory.add({id:qid}, {content:$scope.content,token:token,qid:qid}).$promise.then(function(result){
-            console.log(result);
+        CommentFactory.add({id:qid}, {content:$scope.content,token:token,qid:qid}).$promise.then(function(a,b){
+            console.log(a);
+            console.log(b);
         });
         $scope.addComment = false;
     };

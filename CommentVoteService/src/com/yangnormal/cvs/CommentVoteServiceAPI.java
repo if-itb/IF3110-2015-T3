@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 
+import org.apache.commons.codec.digest.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -200,9 +201,12 @@ public class CommentVoteServiceAPI extends HttpServlet {
     protected void postComment (HttpServletRequest req, HttpServletResponse res, String qid) throws ServletException, IOException{
         serve((request, out) -> {
             String content = req.getParameter("content");
-            String token = req.getParameter("token");
 
-            String check = getRequest("http://localhost:8083/v1/check?token="+ token);
+            String token = req.getParameter("token");
+            String userAgent = DigestUtils.md5Hex(req.getHeader("User-Agent"));
+            String ip = req.getHeader("X-FORWARDED-FOR");
+            if (ip==null) ip = req.getRemoteAddr();
+            String check = getRequest("http://localhost:8083/v1/check?token="+ token+ "&userAgent="+userAgent+"&ipAddress="+ip);
 
             // Parse JSON
             ObjectMapper mapper = new ObjectMapper();
@@ -216,21 +220,29 @@ public class CommentVoteServiceAPI extends HttpServlet {
             int uid = Integer.parseInt((String)map.get("uid"));
 
             // cek apakah memegang token
-            if (uid > 0){
-                try {
-                PreparedStatement stmt = conn.prepareStatement("");
+            try {
 
-                stmt=conn.prepareStatement("INSERT INTO comments ('qid','content','uid','time_created') VALUES (" + qid + ", '" + "?" + "', " + uid + ", CURRENT_TIMESTAMP)");
+                if (uid > 0) {
+                    PreparedStatement stmt = conn.prepareStatement("");
 
-                stmt.setString(1, String.valueOf(content));
-                stmt.executeUpdate();
+                    stmt=conn.prepareStatement("INSERT INTO comments ('qid','content','uid','time_created') VALUES (" + qid + ", '" + "?" + "', " + uid + ", CURRENT_TIMESTAMP)");
 
-                } catch (Exception e) {
-                    res.setStatus(500);
-                    out.print("{\"error\":\""+e.getMessage()+"\"}");
-                    e.printStackTrace();
-                    out.flush();
+                    stmt.setString(1, String.valueOf(content));
+                    stmt.executeUpdate();
+
+                    out.print("{\"status\":1}");
+
+                } else {
+
+                    out.print("{\"status\":"+uid+"}");
+
                 }
+
+            } catch (Exception e) {
+                res.setStatus(500);
+                out.print("{\"error\":\""+e.getMessage()+"\"}");
+                e.printStackTrace();
+                out.flush();
             }
 //
 //
@@ -243,9 +255,12 @@ public class CommentVoteServiceAPI extends HttpServlet {
             String qid = req.getParameter("id");
             String type = req.getParameter("type");
             int direction = Integer.parseInt(req.getParameter("direction"));
-            String token = req.getParameter("token");
 
-            String check = getRequest("http://localhost:8083/v1/check?token="+ token);
+            String token = req.getParameter("token");
+            String userAgent = DigestUtils.md5Hex(req.getHeader("User-Agent"));
+            String ip = req.getHeader("X-FORWARDED-FOR");
+            if (ip==null) ip = req.getRemoteAddr();
+            String check = getRequest("http://localhost:8083/v1/check?token="+ token+ "&userAgent="+userAgent+"&ipAddress="+ip);
 
             // Parse JSON
             ObjectMapper mapper = new ObjectMapper();
