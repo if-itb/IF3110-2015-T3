@@ -43,11 +43,11 @@ public class VoteAnswer {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public int VoteUp(@FormParam("access_token") String access_token, @FormParam("id_answer") int id_answer) throws ParseException{
-		System.out.println("halo");
+		
 		int vote =-9999;
 		int status = 0;
 		try {
-			System.out.println("Masuk sini");
+			
 			CheckTokenValidity checker = new CheckTokenValidity(access_token);
 			TokenValidity validity = checker.check();
 			
@@ -64,12 +64,11 @@ public class VoteAnswer {
 					stmt = conn.prepareStatement(sql);
 					stmt.setInt(1,id_answer);
 					stmt.setInt(2,id_user);
-					System.out.println("Halo");
+					System.out.println(id_answer + "kura kura" + id_user);
 					ResultSet rs = stmt.executeQuery();
 					//Jika tidak pernah melakukan vote
 					if(!rs.next()){
 						try{
-							System.out.println("Buat baru");
 							String sql1 = "INSERT INTO answer_vote(id_answer,id_user,status) VALUES (?,?,0)";
 							stmt = conn.prepareStatement(sql1,Statement.RETURN_GENERATED_KEYS);
 							stmt.setInt(1,id_answer);

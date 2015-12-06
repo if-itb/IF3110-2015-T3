@@ -62,6 +62,7 @@ public class VoteQuestion {
 					stmt = conn.prepareStatement(sql);
 					stmt.setInt(1,id_question);
 					stmt.setInt(2,id_user);
+					System.out.println(id_question + "kura=kura"+ id_user);
 					ResultSet rs = stmt.executeQuery();
 					//Jika tidak pernah melakukan vote
 					if(!rs.next()){
@@ -181,6 +182,7 @@ public class VoteQuestion {
 					stmt = conn.prepareStatement(sql);
 					stmt.setInt(1,id_question);
 					stmt.setInt(2,id_user);
+					
 					ResultSet rs = stmt.executeQuery();
 					//Jika tidak pernah melakukan vote
 					if(!rs.next()){
