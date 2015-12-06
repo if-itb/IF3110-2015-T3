@@ -16,7 +16,7 @@
             method: "GET",
             params: {qid: getParameterByName("id")}
         }).success(function(data) {
-            if (!data[0].error) {
+            if (!data[0].error){
                 questionCtrl.comments = data;
             }
         });
@@ -24,8 +24,13 @@
 
     app.controller('commentController', [ '$http', function($http) {
        this.comment = {}; 
+       this.data = {};
+              
        this.addComment = function(comments) {
            var comment = this.comment;
+           comment.q_id = this.data.q_id;
+           comment.u_id = this.data.u_id;
+           comment.user = this.data.user;
            console.log(comment);
            comments.push(comment);
            this.comment = {};
