@@ -49,6 +49,7 @@ public class Validation extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             String token = request.getParameter("token");
+            System.out.println(token);
             String[] strSplit;
             
             try {

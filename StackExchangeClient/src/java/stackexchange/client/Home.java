@@ -40,6 +40,7 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         
         String token = request.getParameter("token");
+        System.out.println(token);
         int userId = IdentityServiceConnector.getUID(token);
         
         if(userId >= 0){

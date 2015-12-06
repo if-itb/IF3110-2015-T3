@@ -6,6 +6,7 @@
 package stackexchange.client;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,10 +52,9 @@ public class UserLogin extends HttpServlet {
         String password = request.getParameter("password");
         
         String token = IdentityServiceConnector.getToken(email, password);
-        
         if(!token.isEmpty()){
             // Valid login
-            response.sendRedirect("Home?token=" + token);
+            response.sendRedirect("Home?token=" + URLEncoder.encode(token, "UTF-8"));
         }
         else{
             response.sendRedirect("index.jsp");

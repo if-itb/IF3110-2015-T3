@@ -8,7 +8,7 @@
 </head>
 
 
-<body>
+<body ng-app="stackExchange">
         <div class ='container'>
                 <h1 class='center'><a href="Home?token=${token}" class = "title">Simple StackExchange</a></h1>
 
@@ -37,25 +37,21 @@
                                     </p>
                             </div>
                     </div>
-
-                    <div class = 'comment'>
-                        <div class = 'row'>
-                            <div class = 'col-8'>
-                                <p>Contoh komentar - David - Desember 6 2015</p>
+                    <div ng-controller="CommentController as commentCtrl">
+                        <div class= 'comments' ng-repeat="comment in comments">
+                            <div class = 'comment'>
+                                <div class = 'row'>
+                                    <div class = 'col-8'>
+                                        <p>{{comment.content}} - {{comment.email}}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <hr>
+                        <p><a href = "#">add a comment</a></p>
                     </div>
-                    <div class = 'comment'>
-                        <div class = 'row'>
-                            <div class = 'col-8'>
-                                <p>Test 2 komentar - David - Desember 6 2015</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <p><a href = "#">add a comment</a></p>
-
                 </div>
+                
 
                 <h2>${answers.size()} Answers</h2>
                 <c:forEach items="${answers}" var="answer">
@@ -88,5 +84,6 @@
         </div>
                         
         <script type='text/javascript' src='assets/js/angular.min.js'></script>
+        <script type='text/javascript' src='assets/js/app.js'></script>
 </body>
 </html>

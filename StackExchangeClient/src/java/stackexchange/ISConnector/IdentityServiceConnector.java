@@ -6,6 +6,7 @@
 package stackexchange.ISConnector;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import javax.jws.WebParam;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,10 +23,9 @@ public class IdentityServiceConnector {
         int uid = -1;
         
         try {
-            JSON = String.valueOf(ConnectionHelper.executeGET("http://localhost:8080/StackExchangeIS/Validation?token=" + token));
+            JSON = String.valueOf(ConnectionHelper.executeGET("http://localhost:8080/StackExchangeIS/Validation?token=" + URLEncoder.encode(token, "UTF-8")));
             obj = new JSONObject(JSON);             
-            uid = obj.getInt("userId");
-            
+            uid = obj.getInt("userId");            
             
         } catch (JSONException e) {
             e.printStackTrace();
