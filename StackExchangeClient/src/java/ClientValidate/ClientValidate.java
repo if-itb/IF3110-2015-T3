@@ -29,11 +29,11 @@ public class ClientValidate {
                 }
                 i++;
             }
-            
-            if (found)
-                return token;
-        }
+            if (found) return token;
+            else return null;
+        }else return null;
         
-        return null;
     }
 }
+    
+

@@ -48,20 +48,34 @@ public class home extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
-        Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        boolean found = false; 
+        int i = 0;     
+        Cookie[] cookies;
+        cookies = request.getCookies();
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
-        if (ipAddress == null)
-            ipAddress = request.getRemoteAddr();
-                
+        if (ipAddress == null) ipAddress = request.getRemoteAddr();
+        
         // validate the token
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
-        if (token != null) {
-            User user = getUserByToken(token);
-            request.setAttribute("name", user.getName());
-        }
-       
+        //String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
+//        if (token != null) {
+//            User user = getUserByToken(token);
+//            request.setAttribute("name", user.getName());
+//        }
+       if (cookies != null) {
+                while (!found && i < cookies.length){
+                    String[] parts = cookies[i].getValue().split("#");
+                    if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ipAddress) && parts[2].equals(useragent)) {
+                        User user = getUserByToken(parts[0]);
+                        request.setAttribute("name", user.getName());
+                        found = true; 
+                         
+                    }
+                    i++;
+                    
+                }
+            }
         HashMap<Integer, Integer> hmap = new HashMap<>();
         HashMap<Integer, Integer> answermap = new HashMap<>();
         HashMap<Integer, String> askmap = new HashMap<>();

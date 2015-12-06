@@ -83,14 +83,15 @@ public class Login extends HttpServlet {
 
                 // get the attributes and add the cookie
             String strToken = (String) object.get("token_str");
-            String useragent = request.getHeader("User-Agent");
+            String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+            useragent = useragent.replace(',', '$');
             String ipAddress = request.getHeader("X-FORWARDED-FOR");  
             if (ipAddress == null) {  
                 ipAddress = request.getRemoteAddr();  
             }
 
             if (strToken != null) {
-                strToken = strToken + "#" + useragent + "#" + ipAddress;
+                strToken = strToken + "#" + ipAddress + "#" + useragent;
                 Cookie tokenCookie;
                 tokenCookie = new Cookie("token_cookie", strToken);
                 tokenCookie.setPath(request.getContextPath());

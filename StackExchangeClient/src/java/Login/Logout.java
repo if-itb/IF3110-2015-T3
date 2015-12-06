@@ -36,16 +36,38 @@ public class Logout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String token =""; 
+        boolean found = false; 
+        int i = 0; 
         Cookie[] cookies = request.getCookies();
-        String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
+        String useragent = request.getHeader("User-Agent").replace(';', '%');// Ambil user agent dari client
+        useragent = useragent.replace(',', '$');
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  
+//        
+//        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+//        
+//        if (token == null) {
+//            int res = logoutUser(token);
+//            if (res > 0) {
+//                Cookie cookie = new Cookie("token_cookie", null);
+//                cookie.setMaxAge(0);
+//                response.addCookie(cookie);
+//            }
+//        }
+        if (cookies != null) {
+            while (!found && i < cookies.length) {
+                String[] parts = cookies[i].getValue().split("#");
+                if (cookies[i].getName().equals("token_cookie") && parts[1].equals(ipAddress) && parts[2].equals(useragent)) {
+                    token = parts[0];
+                    found = true; 
+                } else
+                    i++;
+            }
+        }
         
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
-        
-        if (token == null) {
+        if (found) {
             int res = logoutUser(token);
             if (res > 0) {
                 Cookie cookie = new Cookie("token_cookie", null);
@@ -53,7 +75,6 @@ public class Logout extends HttpServlet {
                 response.addCookie(cookie);
             }
         }
-        
         // redirect user to home after logout
         response.sendRedirect("home");
     }

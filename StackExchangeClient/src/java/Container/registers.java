@@ -39,7 +39,7 @@ public class registers extends HttpServlet {
         String email = request.getParameter("email");
         String password = MD5.crypt(request.getParameter("password")); 
         
-        addUser(name, email, password);
+        //addUser(name, email, password);
         if (addUser(name, email, password)==0) {
             PrintWriter out = response.getWriter();  
             response.setContentType("text/html");  

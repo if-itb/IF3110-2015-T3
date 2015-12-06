@@ -38,7 +38,7 @@ public class askquestion extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Cookie cookies[] = request.getCookies();
+        Cookie[] cookies = request.getCookies();
         String useragent = request.getHeader("User-Agent");         // Ambil user agent dari client
         String ipAddress = request.getHeader("X-FORWARDED-FOR");    // ** Ambil IP Address Client
         if (ipAddress == null) 
