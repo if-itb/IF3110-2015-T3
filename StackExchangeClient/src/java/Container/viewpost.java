@@ -56,7 +56,7 @@ public class viewpost extends HttpServlet {
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  
         
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
+        String token = ClientValidate.tokenExtract(cookies);    
         if (token != null) {
             User user = getUserByToken(token);
             request.setAttribute("name", user.getName());

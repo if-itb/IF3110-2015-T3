@@ -4,23 +4,17 @@
 <xsd:import namespace="http://Answer/" schemaLocation="http://localhost:8081/StackExchangeWS/AnswersWS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="insertAnswer">
-<part name="parameters" element="tns:insertAnswer"/>
-</message>
-<message name="insertAnswerResponse">
-<part name="parameters" element="tns:insertAnswerResponse"/>
-</message>
 <message name="getAnswersByQid">
 <part name="parameters" element="tns:getAnswersByQid"/>
 </message>
 <message name="getAnswersByQidResponse">
 <part name="parameters" element="tns:getAnswersByQidResponse"/>
 </message>
-<message name="getanswervote">
-<part name="parameters" element="tns:getanswervote"/>
+<message name="insertAnswer">
+<part name="parameters" element="tns:insertAnswer"/>
 </message>
-<message name="getanswervoteResponse">
-<part name="parameters" element="tns:getanswervoteResponse"/>
+<message name="insertAnswerResponse">
+<part name="parameters" element="tns:insertAnswerResponse"/>
 </message>
 <message name="voteanswers">
 <part name="parameters" element="tns:voteanswers"/>
@@ -28,35 +22,32 @@
 <message name="voteanswersResponse">
 <part name="parameters" element="tns:voteanswersResponse"/>
 </message>
+<message name="getanswervote">
+<part name="parameters" element="tns:getanswervote"/>
+</message>
+<message name="getanswervoteResponse">
+<part name="parameters" element="tns:getanswervoteResponse"/>
+</message>
 <portType name="AnswersWS">
-<operation name="insertAnswer">
-<input wsam:Action="http://Answer/AnswersWS/insertAnswerRequest" message="tns:insertAnswer"/>
-<output wsam:Action="http://Answer/AnswersWS/insertAnswerResponse" message="tns:insertAnswerResponse"/>
-</operation>
 <operation name="getAnswersByQid">
 <input wsam:Action="http://Answer/AnswersWS/getAnswersByQidRequest" message="tns:getAnswersByQid"/>
 <output wsam:Action="http://Answer/AnswersWS/getAnswersByQidResponse" message="tns:getAnswersByQidResponse"/>
 </operation>
-<operation name="getanswervote">
-<input wsam:Action="http://Answer/AnswersWS/getanswervoteRequest" message="tns:getanswervote"/>
-<output wsam:Action="http://Answer/AnswersWS/getanswervoteResponse" message="tns:getanswervoteResponse"/>
+<operation name="insertAnswer">
+<input wsam:Action="http://Answer/AnswersWS/insertAnswerRequest" message="tns:insertAnswer"/>
+<output wsam:Action="http://Answer/AnswersWS/insertAnswerResponse" message="tns:insertAnswerResponse"/>
 </operation>
 <operation name="voteanswers">
 <input wsam:Action="http://Answer/AnswersWS/voteanswersRequest" message="tns:voteanswers"/>
 <output wsam:Action="http://Answer/AnswersWS/voteanswersResponse" message="tns:voteanswersResponse"/>
 </operation>
+<operation name="getanswervote">
+<input wsam:Action="http://Answer/AnswersWS/getanswervoteRequest" message="tns:getanswervote"/>
+<output wsam:Action="http://Answer/AnswersWS/getanswervoteResponse" message="tns:getanswervoteResponse"/>
+</operation>
 </portType>
 <binding name="AnswersWSPortBinding" type="tns:AnswersWS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="insertAnswer">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="getAnswersByQid">
 <soap:operation soapAction=""/>
 <input>
@@ -66,7 +57,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getanswervote">
+<operation name="insertAnswer">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -76,6 +67,15 @@
 </output>
 </operation>
 <operation name="voteanswers">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="getanswervote">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

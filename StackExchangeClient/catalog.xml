@@ -6,10 +6,10 @@
     <system systemId="http://localhost:38575/StackExchangeWS/QuestionsWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_38575/StackExchangeWS/QuestionsWS.xsd_1.xsd"/>
     <system systemId="http://localhost:38575/StackExchangeWS/AnswersWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_38575/StackExchangeWS/AnswersWS.wsdl"/>
     <system systemId="http://localhost:38575/StackExchangeWS/AnswersWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_38575/StackExchangeWS/AnswersWS.xsd_1.xsd"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.wsdl"/>
+    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/StackExchangeWS/QuestionsWS?wsdl" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8081/StackExchangeWS/QuestionsWS.wsdl"/>
     <system systemId="http://localhost:8081/StackExchangeWS/QuestionsWS?xsd=1" uri="src/conf/xml-resources/web-service-references/QuestionsWS/wsdl/localhost_8081/StackExchangeWS/QuestionsWS.xsd_1.xsd"/>
     <system systemId="http://localhost:8081/StackExchangeWS/UserWS?wsdl" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.wsdl"/>
     <system systemId="http://localhost:8081/StackExchangeWS/UserWS?xsd=1" uri="src/conf/xml-resources/web-service-references/UserWS/wsdl/localhost_8081/StackExchangeWS/UserWS.xsd_1.xsd"/>
-    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?wsdl" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.wsdl"/>
-    <system systemId="http://localhost:8081/StackExchangeWS/AnswersWS?xsd=1" uri="src/conf/xml-resources/web-service-references/AnswersWS/wsdl/localhost_8081/StackExchangeWS/AnswersWS.xsd_1.xsd"/>
 </catalog>

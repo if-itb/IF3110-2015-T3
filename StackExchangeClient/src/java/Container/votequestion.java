@@ -96,11 +96,14 @@ public class votequestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int votequestion(java.lang.String token, int qid, int value) {
+    private int votequestion(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, int qid, int value) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         question.QuestionsWS port = service.getQuestionsWSPort();
-        return port.votequestion(token, qid, value);
+        return port.votequestion(token, ipAddress, useragent, qid, value);
     }
+
+
+
 
 }

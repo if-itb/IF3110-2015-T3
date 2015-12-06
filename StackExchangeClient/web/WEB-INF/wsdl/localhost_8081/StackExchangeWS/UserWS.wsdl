@@ -10,11 +10,11 @@
 <message name="addUserResponse">
 <part name="parameters" element="tns:addUserResponse"/>
 </message>
-<message name="getUser">
-<part name="parameters" element="tns:getUser"/>
+<message name="logoutUser">
+<part name="parameters" element="tns:logoutUser"/>
 </message>
-<message name="getUserResponse">
-<part name="parameters" element="tns:getUserResponse"/>
+<message name="logoutUserResponse">
+<part name="parameters" element="tns:logoutUserResponse"/>
 </message>
 <message name="getUserByToken">
 <part name="parameters" element="tns:getUserByToken"/>
@@ -22,28 +22,28 @@
 <message name="getUserByTokenResponse">
 <part name="parameters" element="tns:getUserByTokenResponse"/>
 </message>
-<message name="logoutUser">
-<part name="parameters" element="tns:logoutUser"/>
+<message name="getUser">
+<part name="parameters" element="tns:getUser"/>
 </message>
-<message name="logoutUserResponse">
-<part name="parameters" element="tns:logoutUserResponse"/>
+<message name="getUserResponse">
+<part name="parameters" element="tns:getUserResponse"/>
 </message>
 <portType name="UserWS">
 <operation name="addUser">
 <input wsam:Action="http://User/UserWS/addUserRequest" message="tns:addUser"/>
 <output wsam:Action="http://User/UserWS/addUserResponse" message="tns:addUserResponse"/>
 </operation>
-<operation name="getUser">
-<input wsam:Action="http://User/UserWS/getUserRequest" message="tns:getUser"/>
-<output wsam:Action="http://User/UserWS/getUserResponse" message="tns:getUserResponse"/>
+<operation name="logoutUser">
+<input wsam:Action="http://User/UserWS/logoutUserRequest" message="tns:logoutUser"/>
+<output wsam:Action="http://User/UserWS/logoutUserResponse" message="tns:logoutUserResponse"/>
 </operation>
 <operation name="getUserByToken">
 <input wsam:Action="http://User/UserWS/getUserByTokenRequest" message="tns:getUserByToken"/>
 <output wsam:Action="http://User/UserWS/getUserByTokenResponse" message="tns:getUserByTokenResponse"/>
 </operation>
-<operation name="logoutUser">
-<input wsam:Action="http://User/UserWS/logoutUserRequest" message="tns:logoutUser"/>
-<output wsam:Action="http://User/UserWS/logoutUserResponse" message="tns:logoutUserResponse"/>
+<operation name="getUser">
+<input wsam:Action="http://User/UserWS/getUserRequest" message="tns:getUser"/>
+<output wsam:Action="http://User/UserWS/getUserResponse" message="tns:getUserResponse"/>
 </operation>
 </portType>
 <binding name="UserWSPortBinding" type="tns:UserWS">
@@ -57,7 +57,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="getUser">
+<operation name="logoutUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -75,7 +75,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="logoutUser">
+<operation name="getUser">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -46,10 +46,10 @@ public class Logout extends HttpServlet {
         if (ipAddress == null)
            ipAddress = request.getRemoteAddr();  
 //        
-        token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);
+        token = ClientValidate.tokenExtract(cookies);
         
         if (token != null) {
-            int res = logoutUser(token);
+            int res = logoutUser(token, ipAddress, useragent);
             if (res > 0) {
                 Cookie cookie = new Cookie("token_cookie", null);
                 cookie.setMaxAge(0);
@@ -99,11 +99,12 @@ public class Logout extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int logoutUser(java.lang.String token) {
+    private int logoutUser(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         user.UserWS port = service.getUserWSPort();
-        return port.logoutUser(token);
+        return port.logoutUser(token, ipAddress, useragent);
     }
+
 
 }

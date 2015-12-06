@@ -54,7 +54,7 @@ public class savequestion extends HttpServlet {
             String newTopic = request.getParameter("topic");
             String newContent = request.getParameter("content");
             // update the question
-            updateQuestion(token, ipAddres, useragent, qid, newTopic, newContent);
+            updateQuestion(token, ipAddress, useragent, qid, newTopic, newContent);
             response.sendRedirect("viewpost?qid="+qid);
         }
         
@@ -100,11 +100,12 @@ public class savequestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int updateQuestion(java.lang.String token, int qid, java.lang.String newTopic, java.lang.String newContent) {
+    private int updateQuestion(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, int qid, java.lang.String newTopic, java.lang.String newContent) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         question.QuestionsWS port = service.getQuestionsWSPort();
-        return port.updateQuestion(token, qid, newTopic, newContent);
+        return port.updateQuestion(token, ipAddress, useragent, qid, newTopic, newContent);
     }
+
 
 }

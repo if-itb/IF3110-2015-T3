@@ -37,6 +37,8 @@
 <xs:complexType name="createQuestion">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="ipAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="useragent" type="xs:string" minOccurs="0"/>
 <xs:element name="topic" type="xs:string" minOccurs="0"/>
 <xs:element name="content" type="xs:string" minOccurs="0"/>
 </xs:sequence>
@@ -70,22 +72,11 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="deleteQuestion">
-<xs:sequence>
-<xs:element name="token" type="xs:string" minOccurs="0"/>
-<xs:element name="qid" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="deleteQuestionResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="votequestion">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="ipAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="useragent" type="xs:string" minOccurs="0"/>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="value" type="xs:int"/>
 </xs:sequence>
@@ -106,6 +97,21 @@
 <xs:complexType name="searchQuestionsResponse">
 <xs:sequence>
 <xs:element name="questions" type="tns:question" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestion">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="ipAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="useragent" type="xs:string" minOccurs="0"/>
+<xs:element name="qid" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -134,6 +140,8 @@
 <xs:complexType name="updateQuestion">
 <xs:sequence>
 <xs:element name="token" type="xs:string" minOccurs="0"/>
+<xs:element name="ipAddress" type="xs:string" minOccurs="0"/>
+<xs:element name="useragent" type="xs:string" minOccurs="0"/>
 <xs:element name="qid" type="xs:int"/>
 <xs:element name="newTopic" type="xs:string" minOccurs="0"/>
 <xs:element name="newContent" type="xs:string" minOccurs="0"/>

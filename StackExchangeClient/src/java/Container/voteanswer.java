@@ -60,13 +60,6 @@ public class voteanswer extends HttpServlet {
         
     }
 
-    private int voteanswers(java.lang.String token, int aid, int value) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        answer.AnswersWS port = service.getAnswersWSPort();
-        return port.voteanswers(token, aid, value);
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -111,6 +104,13 @@ public class voteanswer extends HttpServlet {
         // If the calling of port operations may lead to race condition some synchronization is required.
         answer.AnswersWS port = service.getAnswersWSPort();
         return port.getanswervote(aid);
+    }
+
+    private int voteanswers(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, int aid, int value) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        answer.AnswersWS port = service.getAnswersWSPort();
+        return port.voteanswers(token, ipAddress, useragent, aid, value);
     }
 
     

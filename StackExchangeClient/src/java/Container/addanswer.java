@@ -94,11 +94,12 @@ public class addanswer extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int insertAnswer(java.lang.String token, int qId, java.lang.String content) {
+    private int insertAnswer(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, int qId, java.lang.String content) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         answer.AnswersWS port = service.getAnswersWSPort();
-        return port.insertAnswer(token, qId, content);
+        return port.insertAnswer(token, ipAddress, useragent, qId, content);
     }
+
     
 }

@@ -42,7 +42,7 @@ public class loginform extends HttpServlet {
         if (ipAddress == null) ipAddress = request.getRemoteAddr();
         
         // validate the token
-        String token = ClientValidate.tokenExtract(ipAddress, useragent, cookies);    
+        String token = ClientValidate.tokenExtract(cookies);    
         if (token != null) {
             response.sendRedirect("home");
         }

@@ -99,11 +99,14 @@ public class askquestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int createQuestion(java.lang.String token, java.lang.String topic, java.lang.String content) {
+    private int createQuestion(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, java.lang.String topic, java.lang.String content) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         question.QuestionsWS port = service.getQuestionsWSPort();
-        return port.createQuestion(token, topic, content);
+        return port.createQuestion(token, ipAddress, useragent, topic, content);
     }
 
+    
+
+    
 }

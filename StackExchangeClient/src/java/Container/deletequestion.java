@@ -115,12 +115,7 @@ public class deletequestion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int deleteQuestion(java.lang.String token, int qid) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        question.QuestionsWS port = service.getQuestionsWSPort();
-        return port.deleteQuestion(token, qid);
-    }
+
 
     private User getUserByToken(java.lang.String token) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
@@ -134,6 +129,13 @@ public class deletequestion extends HttpServlet {
         // If the calling of port operations may lead to race condition some synchronization is required.
         question.QuestionsWS port = service.getQuestionsWSPort();
         return port.getQuestionById(qid);
+    }
+
+    private int deleteQuestion(java.lang.String token, java.lang.String ipAddress, java.lang.String useragent, int qid) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        question.QuestionsWS port = service.getQuestionsWSPort();
+        return port.deleteQuestion(token, ipAddress, useragent, qid);
     }
 
 }

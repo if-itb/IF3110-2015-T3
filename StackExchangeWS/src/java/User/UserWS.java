@@ -75,7 +75,7 @@ public class UserWS {
     public int logoutUser(@WebParam(name = "token") String token,
                            @WebParam(name = "ipAddress") String ip,
                            @WebParam(name = "useragent") String uagent) {
-        int res = ValidationToken.AUTH_ERROR;       // initialize result with error first (assumption)
+        int res = ValidationToken.AUTH_INVALID;       // initialize result with error first (assumption)
         long user_id = ValidationToken.validateToken(token, ip, uagent); // validate token and get the user id
         
         // token is valid if user_id value is positive
