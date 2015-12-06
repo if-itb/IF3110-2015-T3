@@ -56,6 +56,20 @@ public interface UserWS {
 
     /**
      * 
+     * @param id
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(name = "createToken", targetNamespace = "")
+    @RequestWrapper(localName = "createToken", targetNamespace = "http://jaxws/", className = "UserWS.CreateToken")
+    @ResponseWrapper(localName = "createTokenResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateTokenResponse")
+    public String createToken(
+        @WebParam(name = "id", targetNamespace = "")
+        int id);
+
+    /**
+     * 
      * @param pass
      * @param name
      * @param email
@@ -73,20 +87,6 @@ public interface UserWS {
 
     /**
      * 
-     * @param email
-     * @return
-     *     returns int
-     */
-    @WebMethod
-    @WebResult(name = "getUIDByEmail", targetNamespace = "")
-    @RequestWrapper(localName = "getUIDByEmail", targetNamespace = "http://jaxws/", className = "UserWS.GetUIDByEmail")
-    @ResponseWrapper(localName = "getUIDByEmailResponse", targetNamespace = "http://jaxws/", className = "UserWS.GetUIDByEmailResponse")
-    public int getUIDByEmail(
-        @WebParam(name = "email", targetNamespace = "")
-        String email);
-
-    /**
-     * 
      * @param token
      * @return
      *     returns int
@@ -101,6 +101,20 @@ public interface UserWS {
 
     /**
      * 
+     * @param email
+     * @return
+     *     returns int
+     */
+    @WebMethod
+    @WebResult(name = "getUIDByEmail", targetNamespace = "")
+    @RequestWrapper(localName = "getUIDByEmail", targetNamespace = "http://jaxws/", className = "UserWS.GetUIDByEmail")
+    @ResponseWrapper(localName = "getUIDByEmailResponse", targetNamespace = "http://jaxws/", className = "UserWS.GetUIDByEmailResponse")
+    public int getUIDByEmail(
+        @WebParam(name = "email", targetNamespace = "")
+        String email);
+
+    /**
+     * 
      * @param id
      * @return
      *     returns boolean
@@ -112,19 +126,5 @@ public interface UserWS {
     public boolean emailDone(
         @WebParam(name = "id", targetNamespace = "")
         String id);
-
-    /**
-     * 
-     * @param id
-     * @return
-     *     returns java.lang.String
-     */
-    @WebMethod
-    @WebResult(name = "createToken", targetNamespace = "")
-    @RequestWrapper(localName = "createToken", targetNamespace = "http://jaxws/", className = "UserWS.CreateToken")
-    @ResponseWrapper(localName = "createTokenResponse", targetNamespace = "http://jaxws/", className = "UserWS.CreateTokenResponse")
-    public String createToken(
-        @WebParam(name = "id", targetNamespace = "")
-        int id);
 
 }
