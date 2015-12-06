@@ -47,4 +47,20 @@ public class Tools {
         }
   }
   
+  public void redirectToQuestion(HttpServletRequest request, HttpServletResponse response, int ret) throws IOException {
+      switch (ret) {
+          case 1:
+            response.sendRedirect(request.getContextPath() + "/question?id" + Integer.parseInt(request.getParameter("qid")));
+            break;
+          case 0:
+            response.sendRedirect(request.getContextPath() + "/login?alert=0");            
+            break;
+          case -1:    
+            response.sendRedirect(request.getContextPath() + "/login?alert=-1");        
+            break;
+          default:
+            response.sendRedirect(request.getContextPath() + "/login?alert=" + Integer.toString(ret));
+        }
+  }
+  
 }
