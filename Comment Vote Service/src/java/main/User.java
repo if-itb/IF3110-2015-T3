@@ -64,7 +64,7 @@ public class User {
   }
   
   // Method
-  public User getUserFromIS(String token, String ipAddress, String userAgent, String urlString) {
+  public User getUserFromIS(String token, String userAgent, String urlString) {
     User user = new User();
     
     try {
@@ -76,7 +76,6 @@ public class User {
         JSONObject request = new JSONObject();
         try {
           request.put("token", token);
-          request.put("ipAddress", ipAddress);
           request.put("userAgent", userAgent);
         } catch (JSONException ex) {
           Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
