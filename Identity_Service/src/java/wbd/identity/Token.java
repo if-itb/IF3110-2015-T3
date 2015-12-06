@@ -67,6 +67,11 @@ public class Token implements Serializable {
     this.val = val;
   }
 
+  public void appendVal(String val) {
+    String s = val+this.val;
+    this.val =s;
+  }
+
   public int getExpires() {
     return expires;
   }
