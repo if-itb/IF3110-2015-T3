@@ -6,6 +6,7 @@ package Login;
  * and open the template in the editor.
  */
 
+import Token.Token;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +35,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ClassNotFoundException,ServletException {
         response.setContentType("text/html");
+        UserService user = new UserService();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String browser = request.getHeader("User-Agent").toLowerCase();
@@ -40,14 +43,14 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(email);
         out.println(password);
-        UserService user = new UserService();  
+        
         try {
             if((user.emailExist(email)) && (user.passwordValid(email, password))){
                 String token = user.getTokenFromUserID(user.getUserIDFromEmail(email));
                 out.println(token);
                 if (token == null){
                     UUID tokenGenerator = UUID.randomUUID();
-                    token = tokenGenerator.toString()+"#"+browser+"#"+address;
+                    token = tokenGenerator.toString();
                     java.util.Date dt = new java.util.Date();
                     java.text.SimpleDateFormat sdf = 
                                      new java.text.SimpleDateFormat("yyyyMMddHHmmss");
@@ -56,13 +59,14 @@ public class LoginServlet extends HttpServlet {
                     cal.setTime(dt);
                     cal.add(Calendar.MINUTE, 2);
                     String lifetime = sdf.format(cal.getTime());
-                    String query = "INSERT INTO token (value,user_id,lifetime) "
-                            + "VALUES ('"+token+"','"+user.getUserIDFromEmail(email)+"','"+lifetime+"')";
+                    String query = "INSERT INTO token (value,user_id,lifetime,browser,address) "
+                            + "VALUES ('"+token+"','"+user.getUserIDFromEmail(email)+"','"+lifetime+
+                            "','"+browser+"','"+address+"')";
                     user.executeQuery(query);
                 }
                 else{
                     UUID tokenGenerator = UUID.randomUUID();
-                    token = tokenGenerator.toString()+"#"+browser+"#"+address;
+                    token = tokenGenerator.toString();
                     java.util.Date dt = new java.util.Date();
                     java.text.SimpleDateFormat sdf = 
                                      new java.text.SimpleDateFormat("yyyyMMddHHmmss");
@@ -71,9 +75,12 @@ public class LoginServlet extends HttpServlet {
                     cal.setTime(dt);
                     cal.add(Calendar.MINUTE, 2);
                     String lifetime = sdf.format(cal.getTime());
-                    String query = "UPDATE token SET value='"+token+"', lifetime='"+lifetime+"' WHERE user_id="+user.getUserIDFromEmail(email);
+                    String query = "INSERT INTO token (value,user_id,lifetime,browser,address) "
+                            + "VALUES ('"+token+"','"+user.getUserIDFromEmail(email)+"','"+lifetime+
+                            "','"+browser+"','"+address+"')";
                     user.executeQuery(query);
                 }
+                
                 response.sendRedirect("http://localhost:8080/StackExchangeClient/login.jsp?valid=1&token="+token);
             }
             else

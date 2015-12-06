@@ -22,8 +22,6 @@ public class Token {
     public Token(String ac_token){
         access_token = ac_token;
         String query = "SELECT * FROM token WHERE value='"+ ac_token +"'";
-        setAddress(ac_token);
-        browser = generateBrowser(ac_token);
         PreparedStatement statement;
         DatabaseConnect dbc = new DatabaseConnect();
         try{
@@ -31,7 +29,9 @@ public class Token {
             ResultSet rs = statement.executeQuery();
            
             if(rs.next()){
-                lifetime = rs.getString("lifetime"); 
+                lifetime = rs.getString("lifetime");
+                address = rs.getString("address");
+                browser = generateBrowser(rs.getString("browser"));
             }
             rs.close();
             statement.close();
@@ -62,44 +62,38 @@ public class Token {
         
     }
     
-    public void setAddress(String ac_token){
-        String[] splitted = ac_token.split("#");
-        address =  splitted[2];
-    }
-    
     public String generateBrowser(String ac_token){
-        String[] splitted = ac_token.split("#");
         String browser = "";
-        if (splitted[1].contains("msie"))
+        if (ac_token.contains("msie"))
         {
-            String substring=splitted[1].substring(splitted[1].indexOf("msie")).split(";")[0];
+            String substring=ac_token.substring(ac_token.indexOf("msie")).split(";")[0];
             browser=substring.split(" ")[0].replace("msie", "IE")+"-"+substring.split(" ")[1];
-        } else if (splitted[1].contains("safari") && splitted[1].contains("version"))
+        } else if (ac_token.contains("safari") && ac_token.contains("version"))
         {
-            browser=(splitted[1].substring(splitted[1].indexOf("Safari")).split(" ")[0]).split("/")[0]+"-"+(splitted[1].substring(splitted[1].indexOf("Version")).split(" ")[0]).split("/")[1];
-        } else if ( splitted[1].contains("opr") || splitted[1].contains("opera"))
+            browser=(ac_token.substring(ac_token.indexOf("Safari")).split(" ")[0]).split("/")[0]+"-"+(ac_token.substring(ac_token.indexOf("Version")).split(" ")[0]).split("/")[1];
+        } else if ( ac_token.contains("opr") || ac_token.contains("opera"))
         {
-            if(splitted[1].contains("opera"))
-                browser=(splitted[1].substring(splitted[1].indexOf("Opera")).split(" ")[0]).split("/")[0]+"-"+(splitted[1].substring(splitted[1].indexOf("Version")).split(" ")[0]).split("/")[1];
-            else if(splitted[1].contains("opr"))
-                browser=((splitted[1].substring(splitted[1].indexOf("OPR")).split(" ")[0]).replace("/", "-")).replace("OPR", "Opera");
-        } else if (splitted[1].contains("chrome"))
+            if(ac_token.contains("opera"))
+                browser=(ac_token.substring(ac_token.indexOf("Opera")).split(" ")[0]).split("/")[0]+"-"+(ac_token.substring(ac_token.indexOf("Version")).split(" ")[0]).split("/")[1];
+            else if(ac_token.contains("opr"))
+                browser=((ac_token.substring(ac_token.indexOf("OPR")).split(" ")[0]).replace("/", "-")).replace("OPR", "Opera");
+        } else if (ac_token.contains("chrome"))
         {
-            browser=(splitted[1].substring(splitted[1].indexOf("Chrome")).split(" ")[0]).replace("/", "-");
-        } else if ((splitted[1].indexOf("mozilla/7.0") > -1) || (splitted[1].indexOf("netscape6") != -1)  || (splitted[1].indexOf("mozilla/4.7") != -1) || (splitted[1].indexOf("mozilla/4.78") != -1) || (splitted[1].indexOf("mozilla/4.08") != -1) || (splitted[1].indexOf("mozilla/3") != -1) )
+            browser=(ac_token.substring(ac_token.indexOf("Chrome")).split(" ")[0]).replace("/", "-");
+        } else if ((ac_token.indexOf("mozilla/7.0") > -1) || (ac_token.indexOf("netscape6") != -1)  || (ac_token.indexOf("mozilla/4.7") != -1) || (ac_token.indexOf("mozilla/4.78") != -1) || (ac_token.indexOf("mozilla/4.08") != -1) || (ac_token.indexOf("mozilla/3") != -1) )
         {
             //browser=(userAgent.substring(userAgent.indexOf("MSIE")).split(" ")[0]).replace("/", "-");
             browser = "Netscape-?";
 
-        } else if (splitted[1].contains("firefox"))
+        } else if (ac_token.contains("firefox"))
         {
-            browser=(splitted[1].substring(splitted[1].indexOf("Firefox")).split(" ")[0]).replace("/", "-");
-        } else if(splitted[1].contains("rv"))
+            browser=(ac_token.substring(ac_token.indexOf("Firefox")).split(" ")[0]).replace("/", "-");
+        } else if(ac_token.contains("rv"))
         {
             browser="IE";
         } else
         {
-            browser = "UnKnown, More-Info: "+splitted[1];
+            browser = "UnKnown, More-Info: "+ac_token;
         }
         return browser;
     }
