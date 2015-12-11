@@ -44,7 +44,6 @@ public class VoteQuestionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            int userid = Integer.parseInt(request.getParameter("userid"));
             int qid = Integer.parseInt(request.getParameter("qid"));
             int stat = Integer.parseInt(request.getParameter("stat"));
             String token = request.getParameter("token");
@@ -61,6 +60,7 @@ public class VoteQuestionServlet extends HttpServlet {
             System.out.println(message);
             if(message.equals("valid")) {
                 try {         
+                    int userid = (int) jobj.get("userid");
                     Class.forName("com.mysql.jdbc.Driver");
                     java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/dadakanDB","root","");
                     String sql = "SELECT id FROM voteQuestion WHERE id_user =" + userid + " && id_question = " + qid;
@@ -97,20 +97,11 @@ public class VoteQuestionServlet extends HttpServlet {
                         sql = "UPDATE questions SET vote='"+vote+"' WHERE id="+qid;
                         java.sql.Statement stmt = conn.createStatement();
                         stmt.executeUpdate(sql);
+                        jobj = new JSONObject();
+                        jobj.put("valid",true);
+                        jobj.put("avote",vote);
                     }
                 } catch(ClassNotFoundException | SQLException e) {}   
-            }
-            else if(message.equals("false-agent")) {
-                request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/ErrorPage/FalseAgentPage.jsp").forward(request, response);
-            }
-            else if(message.equals("false-ipaddr")) {
-                request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/ErrorPage/FalseIpAddrPage.jsp").forward(request, response);
-            }
-            else if(message.equals("expired")) {
-                request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/ErrorPage/ExpiredPage.jsp").forward(request, response);
-            }
-            else if(message.equals("invalid")) {
-                request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/ErrorPage/InvalidPage.jsp").forward(request, response);
             }
         } catch (ParseException ex) {
             Logger.getLogger(VoteQuestionServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -38,8 +38,9 @@ public class CheckToken extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String token = request.getParameter("token");
         String[] datadb = null,data = token.split("#");
-        Long produced = 0l;
+        Long produced = 0l; int userid = 0;
         String tokenFlag = "invalid"; //initiate tokenFlag with invalid
+        JSONObject jobj = new JSONObject();
         try (PrintWriter out = response.getWriter()) {
             //create connection
             Class.forName("com.mysql.jdbc.Driver");
@@ -49,11 +50,12 @@ public class CheckToken extends HttpServlet {
             ResultSet rs = dbs.executeQuery();
             //search same token in database
             while(rs.next() && tokenFlag.equals("invalid")) {
-                //assumption : delete token in token table when logout
+                //assumption : token with same username has been deleted in token table when logout
                 String tokendb = rs.getString("token");
                 datadb = tokendb.split("#");
                 if(data[0].equals(datadb[0])) {
                     produced = rs.getLong("produced");
+                    userid = rs.getInt("userid");
                     tokenFlag = "valid";
                 }
             }
@@ -67,8 +69,9 @@ public class CheckToken extends HttpServlet {
                     tokenFlag = "false-ipaddr"; 
                 else if(time>produced)
                     tokenFlag = "expired";
+                else //it means data is valid
+                    jobj.put("userid",userid);
             }
-            JSONObject jobj = new JSONObject();
             jobj.put("message", tokenFlag);
             out.println(jobj.toString());
         }

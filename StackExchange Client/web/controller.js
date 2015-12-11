@@ -1,43 +1,73 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 var app = angular.module('controller', []);
 
-app.controller("commentController", function($scope, $http) {
-    $scope.comments = [];
+app.controller('CommentController', function($scope,$http){
+        $scope.comment = {};
+        $scope.comments = [];
+        
+        $scope.getcomment = function(){
+            $http({
+                url: "http://localhost:8083/Vote_Comment/CommentServlet",
+                method: "GET",
+                params: {qid: $scope.comment.qid}
+            }).success(function(data) {
+                if (!data[0].error) {
+                    $scope.comments = data;
+                }
+            });
+        };
+        
+        $scope.addcommentasync = function(comments){
+           console.log($scope.comment);
+           comments.push($scope.comment);
+           var res = $http({
+                method : 'POST',
+                url : 'http://localhost:8083/Vote_Comment/CommentServlet',
+                data : $.param({
+                    'qid' : $scope.comment.qid,
+                    'comment' : $scope.comment.comment  
+                })
+           });
+           $scope.comment = {};
+        };
+    });
     
-    $scope.init = function(idQuestion){
-        $http({
-            method  : "GET",
-            url     : "ListComment",
-            params  : {qid: idQuestion},
-            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .success(function(data){
-            $scope.comments = data;
-        });
+app.controller('voteCtrl', function($scope, $http, $location, $cookies) {
+    //get question id through parameter
+    var temp = $location.absUrl().split("?");
+    temp = temp[1].split("=");
+    $scope.id=temp[1];
+    
+    $http.get("http://localhost:8083/Vote_Comment/InitVote?type=q&id="+$scope.id)
+    .then(function(response) {$scope.qvote = response.data.qvote;});
+    
+    $http.get("http://localhost:8083/Vote_Comment/InitVote?type=a&id="+$scope.id)
+    .then(function(response) {$scope.avotes = response.data.avotes;});
+    
+    $scope.qvoteup = function() {
+        $scope.url = "stat=1";
+        $scope.url += "qid="+qid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {$scope.qvote = response.data.qvote;});
     };
     
-    $scope.addComment = function(idQuestion) {
-        var theContent = $scope.content;
-        $scope.content = "";        
-        $http({
-            method  : "POST",
-            url     : "AddComment",
-            data    : $.param({qid: idQuestion, content: theContent}),
-            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
-        .success(function(data){            
-            switch(data["status"]){
-                case 1 :                    
-                    if (data.hasOwnProperty("comments")){ // ketika ada comment di dalam data
-                        $scope.comments = data.comments;
-                    }
-                    break;
-            }
-        });        
+    $scope.qvotedown = function() {
+        $scope.url = "stat=-1";
+        $scope.url += "qid="+qid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {$scope.qvote = response.data.qvote;});
+    };
+    
+    $scope.avoteup = function(av) {
+        $scope.url = "stat=1";
+        $scope.url += "aid="+aid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {av = response.data.avote;});
+    };
+    
+    $scope.avotedown = function(av) {
+        $scope.url = "stat=-1";
+        $scope.url += "aid="+aid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {av = response.data.avote;});
     };
 });

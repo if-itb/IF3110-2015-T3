@@ -42,7 +42,6 @@ public class VoteAnswerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ParseException {
         response.setContentType("text/html;charset=UTF-8");
-        int userid = Integer.parseInt(request.getParameter("userid"));
         int aid = Integer.parseInt(request.getParameter("aid"));
         int stat = Integer.parseInt(request.getParameter("stat"));
         String token = request.getParameter("token");
@@ -56,11 +55,10 @@ public class VoteAnswerServlet extends HttpServlet {
         Object obj = parser.parse(result);
         JSONObject jobj = (JSONObject) obj;
         String message = (String) jobj.get("message");
-        System.out.println(message);
-        int unicFlag=0;
+        int unicFlag=0; 
         if(message.equals("valid")) {
             try {         
-                System.out.println("success vote!!");
+                int userid = (int) jobj.get("userid");
                 Class.forName("com.mysql.jdbc.Driver");
                 java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/dadakanDB","root","");
                 String sql = "SELECT id FROM voteAnswer WHERE id_user =" + userid + " && id_answer = " + aid;
@@ -97,23 +95,14 @@ public class VoteAnswerServlet extends HttpServlet {
                     sql = "UPDATE answers SET vote='"+vote+"' WHERE id="+aid;
                     java.sql.Statement stmt = conn.createStatement();
                     stmt.executeUpdate(sql);
+                    jobj = new JSONObject();
+                    jobj.put("avote",vote);
                 }
             } catch(Exception e) {}   
         }
-        else if(message.equals("false-agent")) {
-            request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/FalseAgentPage.jsp").forward(request, response);
-        }
-        else if(message.equals("false-ipaddr")) {
-            request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/FalseIpAddrPage.jsp").forward(request, response);
-        }
-        else if(message.equals("expired")) {
-            request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/ExpiredPage.jsp").forward(request, response);
-        }
-        else if(message.equals("invalid")) {
-            request.getRequestDispatcher("http://localhost:8080/StackExchange_Client/InvalidPage.jsp").forward(request, response);
-        }     
         try (PrintWriter out = response.getWriter()) {
-
+            out.print(jobj);
+            out.flush();
         }
     }
 

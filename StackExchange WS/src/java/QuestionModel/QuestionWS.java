@@ -203,7 +203,6 @@ public class QuestionWS {
         int ret = 1;
         if(message.equals("valid")) {
             try {         
-                System.out.println("success edit!!");
                 Class.forName("com.mysql.jdbc.Driver");
                 java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/dadakanDB","root","");
                 String sql = "DELETE FROM questions WHERE id="+qid;

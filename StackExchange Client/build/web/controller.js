@@ -1,14 +1,6 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+var app = angular.module('controller', []);
 
-var app = angular.module('controller', [ ]);
-
-app.controller('CommentController',[
-    $scope,$http,
-    function($scope,$http){
+app.controller('CommentController', function($scope,$http){
         $scope.comment = {};
         $scope.comments = [];
         
@@ -37,5 +29,45 @@ app.controller('CommentController',[
            });
            $scope.comment = {};
         };
-    }
-]);
+    });
+    
+app.controller('voteCtrl', function($scope, $http, $location, $cookies) {
+    //get question id through parameter
+    var temp = $location.absUrl().split("?");
+    temp = temp[1].split("=");
+    $scope.id=temp[1];
+    
+    $http.get("http://localhost:8083/Vote_Comment/InitVote?type=q&id="+$scope.id)
+    .then(function(response) {$scope.qvote = response.data.qvote;});
+    
+    $http.get("http://localhost:8083/Vote_Comment/InitVote?type=a&id="+$scope.id)
+    .then(function(response) {$scope.avotes = response.data.avotes;});
+    
+    $scope.qvoteup = function() {
+        $scope.url = "stat=1";
+        $scope.url += "qid="+qid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {$scope.qvote = response.data.qvote;});
+    };
+    
+    $scope.qvotedown = function() {
+        $scope.url = "stat=-1";
+        $scope.url += "qid="+qid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {$scope.qvote = response.data.qvote;});
+    };
+    
+    $scope.avoteup = function(av) {
+        $scope.url = "stat=1";
+        $scope.url += "aid="+aid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {av = response.data.avote;});
+    };
+    
+    $scope.avotedown = function(av) {
+        $scope.url = "stat=-1";
+        $scope.url += "aid="+aid;
+        $scope.url += "&token="+$cookies.get('token');
+        $http.get($scope.url).then(function(response) {av = response.data.avote;});
+    };
+});

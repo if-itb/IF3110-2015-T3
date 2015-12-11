@@ -61,7 +61,7 @@ public class NewToken extends HttpServlet {
             token = username + "#"+ agent+ "#"+ ip_addr;
             //create lifetime
             Calendar calobj = Calendar.getInstance();
-            long time = calobj.getTimeInMillis()/1000+1200;
+            long time = calobj.getTimeInMillis()/1000+12000;
             //add token to table tokens in database
             sql = "INSERT INTO tokens(userid,token,produced) VALUES ('"+userid+"','"+token+"','"+time+"')";
             Statement stmt = conn.createStatement();

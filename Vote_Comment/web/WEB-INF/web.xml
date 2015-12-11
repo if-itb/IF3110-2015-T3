@@ -4,9 +4,33 @@
         <servlet-name>CommentServlet</servlet-name>
         <servlet-class>CommentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VoteAnswerServlet</servlet-name>
+        <servlet-class>VoteAnswerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VoteQuestionServlet</servlet-name>
+        <servlet-class>VoteQuestionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InitVote</servlet-name>
+        <servlet-class>InitVote</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CommentServlet</servlet-name>
         <url-pattern>/CommentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteAnswerServlet</servlet-name>
+        <url-pattern>/VoteAnswerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VoteQuestionServlet</servlet-name>
+        <url-pattern>/VoteQuestionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InitVote</servlet-name>
+        <url-pattern>/InitVote</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

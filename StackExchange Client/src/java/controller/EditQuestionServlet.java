@@ -58,8 +58,6 @@ public class EditQuestionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //get userid from cookies using web service
-        questionmodel.QuestionWS port = service.getQuestionWSPort();
-        usermodel.UserWS port2 = service_1.getUserWSPort();
             String token = "";
             Cookie[] cookies = request.getCookies();
             if(cookies==null) {      
@@ -74,12 +72,13 @@ public class EditQuestionServlet extends HttpServlet {
                     }   
                 }
             }
-            int userid = port2.getIDUserbyToken(token);
+            int userid = getIDUserbyToken(token);
+            int qid = Integer.parseInt(request.getParameter("qid"));
             int useridhome = Integer.parseInt(request.getParameter("id"));
             if(userid==useridhome) {
-                int qid = Integer.parseInt(request.getParameter("qid"));
-                Question q = port.getQuestionByID(qid);
+                Question q = getQuestionByID(qid);
                 request.setAttribute("question", q);
+                System.out.println();
                 request.getRequestDispatcher("EditQuestion.jsp").forward(request, response);
             } else{
                 response.sendRedirect(request.getContextPath() + "/ShowQuestionServlet");
@@ -109,5 +108,19 @@ public class EditQuestionServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private Question getQuestionByID(int id) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        questionmodel.QuestionWS port = service.getQuestionWSPort();
+        return port.getQuestionByID(id);
+    }
+
+    private int getIDUserbyToken(java.lang.String token) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        usermodel.UserWS port = service_1.getUserWSPort();
+        return port.getIDUserbyToken(token);
+    }
 
 }

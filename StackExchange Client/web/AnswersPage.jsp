@@ -9,10 +9,10 @@
 <html ng-app="controller">
     <head>
         <title>StackExchange</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="style.css"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
     </head>
     <body>
         <h1>Simple StackExchange</h1>
@@ -25,17 +25,17 @@
                 </div>
             </h2>
             <div class="answer_question">
-                <div class="vote">
+                <div class="vote" ng-controller="voteCtrl">
                     <div class="number">
-                        <span><a href="VoteServlet?userid=${userid}&qid=${question.id}&type=q&stat=up">&#x25B2</a></span>
+                        <span><a href="" ng-click="qvoteup()">&#x25B2</a></span>
                     </div>
                     <br>
                     <div class="number">
-                        <span>${question.votes}</span>
+                        <span> {{qvote}} </span>
                     </div>
                     <br>
                     <div class="number">
-                        <span><a href="VoteServlet?userid=${userid}&qid=${question.id}&type=q&stat=down">&#x25BC</a></span>
+                        <span><a href="" ng-click="qvotedown()">&#x25BC</a></span>
                     </div>		
 		</div>
                 <div class="answer_topic">
@@ -46,16 +46,15 @@
                     asked by <span>${asker}</span>|<!-- <a href="Edit.php?id=".$row["Q_id"]."\" class=\"color_yellow\">edit<a> | <a href=\"Delete.php?id=".$row["Q_id"]."\" class=\"delete\">delete<a> -->
 		</div>
                 <div>
-                    <div ng-controller="commentController" ng-init="init(${question.id})">
-                        <ul>
-                            <li ng-repeat="comment in comments">{{comment.content }} - {{ comment.user }}</li>
-                            <!--<p>{{ comment.comment }} - {{ comment.user }}</p>-->
-                        </ul>
-                        <form name="commentForm" ng-submit="addComment(${question.id})">
-                            <!--<input ng-model="comment.qid" ng-init="data.q_id={question.id}" type="hidden">-->
-                            <!--<input ng-model="comment.user" ng-init="data.user={userid}" type="hidden"> <!--ng-init="commentCtrl.comment.user= user.getName() %>"-->
-                            <input ng-model="content" type="text" placeholder="Your comment">
-                            <input type="submit" value="Add comment" >
+                    <div ng-controller="CommentController">
+                        <div ng-repeat="comment in comments">
+                            <p>{{ comment.comment }} - {{ comment.user }}</p>
+                        </div>
+                        <form name="commentForm" ng-submit="addcommentasync(comments)">
+                            <input ng-model="comment.qid" ng-init="comment.q_id=${question.id}" type="hidden">
+                            <input ng-model="comment.user"  type="hidden"> <!--ng-init="commentCtrl.comment.user= user.getName() %>"-->
+                            <input ng-model="comment.comment" type="text" placeholder="Your comment">
+                            <input type="submit" value="Add comment">
                         </form>
                     </div>
                 </div>
@@ -68,31 +67,29 @@
 		<hr>
             </div>
 	</h2>
-        <c:forEach items="${answers}" var="answers">
-            <div class="answers">
-		<div class="vote">
+            <div class="answers" ng-controller="voteCtrl" ng-repeat="av in avotes">
+                <div class="vote"  >
                     <div class="number">
-                        <span><a href="VoteServlet?userid=${userid}&aid=${answers.id}&type=a&stat=up">&#x25B2</a></span>
+                        <span><a href="" ng-click="avoteup(av.aid)">&#x25B2</a></span>
                     </div>
                     <br>
                     <div class="number">
-			<span>${answers.vote}</span>
+			<span>{{av.vote}}</span>
                     </div>
                     <br>
                     <div class="number">
-                        <span><a href="VoteServlet?userid=${userid}&aid=${answers.id}&type=a&stat=down">&#x25BC</a></span>
+                        <span><a href="" ng-click="avotedown(av.aid)">&#x25BC</a></span>
                     </div>	
 		</div>
 		<div class="answer_topic">
-                    <c:out value="${answers.content}"/>
+                    {{av.topic}}
 		</div>
 				
 		<div class="asked_email">
-                    answered by ${answerers[answers.id]}
+                    answered by {{av.email}}
                 </div>			
             </div>
             <hr class="Margin">
-        </c:forEach>
         <h3 class="align"> Your Answer </h3>
             <form class="align" name="answer" method="post" action="AnswersPage.jsp">
 		<div class="kotakform">
