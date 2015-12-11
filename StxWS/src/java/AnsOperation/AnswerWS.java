@@ -58,12 +58,12 @@ public class AnswerWS {
     }
         
     @WebMethod(operationName = "postAns")
-    public int postAns(@WebParam(name = "qid") int qid, @WebParam(name = "token") String token, @WebParam(name = "content") String content) {
+    public int postAns(@WebParam(name = "qid") int qid, @WebParam(name = "token") String token, @WebParam(name = "user-agent") String ua, @WebParam(name = "ip") String ip,@WebParam(name = "content") String content) {
         int res = -1;
         Connection conn = null;
         PreparedStatement ps = null;
         InformationToken it = new InformationToken();
-        String email = it.getEmail(token);
+        String email = it.getEmail(token,ua,ip);
         if(it.getStatus() != 200) {
             return -1*it.getStatus();
         }
@@ -95,13 +95,13 @@ public class AnswerWS {
     }
     //return value -1 = gagal, 0 = sudah divote, 1 = berhasil
     @WebMethod(operationName = "voteAns")
-    public int voteAns(@WebParam(name = "id") int id, @WebParam(name= "token") String token, @WebParam(name = "value") int val) {
+    public int voteAns(@WebParam(name = "id") int id, @WebParam(name= "token") String token, @WebParam(name = "user-agent") String ua, @WebParam(name = "ip") String ip,@WebParam(name = "value") int val) {
         Connection conn = null;
         PreparedStatement ps = null;
         int executeUpdate = -1;
         String connectionPassword = "";
         InformationToken it = new InformationToken();
-        String mail = it.getEmail(token);
+        String mail = it.getEmail(token,ua,ip);
         if(it.getStatus() != 200) {
             return -1*it.getStatus();
         }        

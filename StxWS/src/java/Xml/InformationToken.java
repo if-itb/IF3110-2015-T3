@@ -16,10 +16,10 @@ public class InformationToken {
     public InformationToken() {
         status = 0;
     }
-    public String getEmail(String token) {
+    public String getEmail(String token, String ua, String ip) {
         String email = "";
         try {
-            XmlResponse xr = new XmlResponse("http://localhost:8082/StxIS1/Handler?token="+token);
+            XmlResponse xr = new XmlResponse("http://localhost:8082/StxIS/Handler?token="+token+"&user-agent="+ua+"&ip="+ip);
             status = xr.sendGET();
             
             System.out.println(xr);

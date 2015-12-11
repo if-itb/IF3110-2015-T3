@@ -2,7 +2,7 @@
 <html>
 	<?php 
 		session_start();
-		$_SESSION['token'] = '6b874c66bb08d0f3f3e7ed37c9dc8b5f17739af0';
+		$_SESSION['token'] = 'lsohfpmv438lq13k2qlm63gufe$Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.0$0:0:0:0:0:0:0:1$';
 	?>
 	<h5>Test Post Answr</h5>
 	<form action = "index.php?id=5" method = 'POST'>

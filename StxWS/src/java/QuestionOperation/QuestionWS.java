@@ -144,11 +144,11 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "post")
-    public int post(@WebParam(name = "token") String token, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
+    public int post(@WebParam(name = "token") String token,@WebParam(name = "user-agent") String ua, @WebParam(name = "ip") String ip, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
         Connection conn = null;
         PreparedStatement ps = null;
         InformationToken it = new InformationToken();
-        String email = it.getEmail(token);
+        String email = it.getEmail(token,ua,ip);
         if(it.getStatus() != 200) {
             return -1*it.getStatus();
         } else {
@@ -183,13 +183,13 @@ public class QuestionWS {
     }
     
     @WebMethod(operationName = "update")
-    public int update(@WebParam(name = "id") int id, @WebParam(name = "token") String token, @WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
+    public int update(@WebParam(name = "id") int id, @WebParam(name = "token") String token, @WebParam(name = "user-agent") String ua, @WebParam(name = "ip") String ip,@WebParam(name = "topic") String topic, @WebParam(name = "content") String content) {
         
         Connection conn = null;
         PreparedStatement ps = null;
         int res = -1;
         InformationToken it = new InformationToken();
-        String email = it.getEmail(token);
+        String email = it.getEmail(token,ua,ip);
         if(it.getStatus() != 200) {
             return -1*it.getStatus();
         } else {
@@ -223,12 +223,12 @@ public class QuestionWS {
         }
     }
     @WebMethod(operationName = "vote")
-    public int vote(@WebParam(name = "id") int id, @WebParam(name = "token") String token, @WebParam(name = "value") int val) {
+    public int vote(@WebParam(name = "id") int id, @WebParam(name = "token") String token,@WebParam(name = "user-agent") String ua, @WebParam(name = "ip") String ip, @WebParam(name = "value") int val) {
         Connection conn = null;
         PreparedStatement ps = null;
         int executeUpdate = -2;
         InformationToken it = new InformationToken();
-        String mail = it.getEmail(token);
+        String mail = it.getEmail(token,ua,ip);
         if(it.getStatus() != 200) {
             return -1*it.getStatus();
         }
