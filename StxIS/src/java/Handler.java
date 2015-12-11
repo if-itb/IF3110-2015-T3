@@ -58,8 +58,8 @@ public class Handler extends HttpServlet {
             throws ServletException, IOException {
 
         String tokenStr = request.getParameter("token");
-        String userAgent = clearAgent(request.getHeader("user-agent"));
-        String userIP = request.getRemoteAddr();
+        String userAgent = clearAgent(request.getParameter("user-agent"));
+        String userIP = request.getParameter("ip");
 
         TokenExtractor TokExt= new TokenExtractor();
 
