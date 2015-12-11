@@ -112,11 +112,12 @@
 	}
 
 	function get_Email_From_Token($token, $uag, $ip) {
-		$_SERVER['HTTP_USER_AGENT'];
-		header("user-agent:hahahahah");
-		$url = 'http://localhost:8082/StxIS/Handler?token='.urlencode($token).'&user-agent='.$uag.'&ip='.$ip;
-
+		//$_SERVER['HTTP_USER_AGENT'];
+		//header("user-agent:hahahahah");
+		$url = 'http://localhost:8080/StxIS/Handler?user-agent='.urlencode($uag).'&ip='.$ip.'&token='.$token;
+		
 		$respon_code = getResponseCode($url);
+
 		if($respon_code == 200) { //OK
 			$xml_obj = simplexml_load_file($url);
 			$email = parseTokenEmail($xml_obj);

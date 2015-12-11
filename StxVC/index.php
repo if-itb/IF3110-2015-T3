@@ -9,8 +9,11 @@
 		id = id answer/question
 		val = nilai vote (1 atau -1)
 	*/
-	$uag = $_GET['user-agent'];
-	$ip = $_GET['ip'];
+	$uag =$_SERVER['HTTP_USER_AGENT'];
+	$ip = $_SERVER['REMOTE_ADDR'];
+	if($ip="::1"){
+		$ip="0:0:0:0:0:0:0:1";
+	}
 	if(isset($_SESSION['token'])) {
 			//post answer
 			$token = $_SESSION['token'];
