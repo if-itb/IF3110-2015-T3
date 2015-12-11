@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown. --><xs:schema xmlns:tns="http://jaxws/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://jaxws/">
+
+<xs:element name="createToken" type="tns:createToken"/>
+
+<xs:element name="createTokenResponse" type="tns:createTokenResponse"/>
+
+<xs:element name="createUser" type="tns:createUser"/>
+
+<xs:element name="createUserResponse" type="tns:createUserResponse"/>
+
+<xs:element name="emailDone" type="tns:emailDone"/>
+
+<xs:element name="emailDoneResponse" type="tns:emailDoneResponse"/>
+
+<xs:element name="getName" type="tns:getName"/>
+
+<xs:element name="getNameResponse" type="tns:getNameResponse"/>
+
+<xs:element name="getUID" type="tns:getUID"/>
+
+<xs:element name="getUIDByEmail" type="tns:getUIDByEmail"/>
+
+<xs:element name="getUIDByEmailResponse" type="tns:getUIDByEmailResponse"/>
+
+<xs:element name="getUIDResponse" type="tns:getUIDResponse"/>
+
+<xs:element name="match" type="tns:match"/>
+
+<xs:element name="matchResponse" type="tns:matchResponse"/>
+
+<xs:complexType name="getUIDByEmail">
+<xs:sequence>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUIDByEmailResponse">
+<xs:sequence>
+<xs:element name="getUIDByEmail" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUID">
+<xs:sequence>
+<xs:element name="token" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getUIDResponse">
+<xs:sequence>
+<xs:element name="getUID" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getName">
+<xs:sequence>
+<xs:element name="id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getNameResponse">
+<xs:sequence>
+<xs:element name="gettingName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="emailDone">
+<xs:sequence>
+<xs:element name="id" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="emailDoneResponse">
+<xs:sequence>
+<xs:element name="emailDone" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="match">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="matchResponse">
+<xs:sequence>
+<xs:element name="match" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createUser">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+<xs:element name="email" type="xs:string" minOccurs="0"/>
+<xs:element name="pass" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createUserResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="createToken">
+<xs:sequence>
+<xs:element name="id" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createTokenResponse">
+<xs:sequence>
+<xs:element name="createToken" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
