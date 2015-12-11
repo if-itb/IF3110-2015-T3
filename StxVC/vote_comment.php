@@ -43,10 +43,18 @@
 				//insert to uservote
 				$sql = "INSERT INTO uservote VALUES('".$email."','q','".$id."')";
 				$conn->query($sql);
+				/**
 				header("Content-type: text/xml; charset=utf-8");
 				$response = '<?xml version="1.0" encoding="utf-8"?>';
 				$response .= '<root><vote>'.$newVote.'</vote></root>';
 				echo $response;
+				*/
+				
+				//Response json
+				$data = array( 'vote' => $newVote);
+				header('Content-type: application/json');
+				echo json_encode($data);
+				
 				$conn->close();
 			} else {
 				$sql = "SELECT vote from question where id = '".$id."'";
@@ -55,10 +63,18 @@
 				if ($row = $result->fetch_assoc()) {
 					$current_vote = $row["vote"];
 				}
+				/*
 				header("Content-type: text/xml; charset=utf-8");
 				$response = '<?xml version="1.0" encoding="utf-8"?>';
 				$response .= '<root><vote>'.$current_vote.'</vote></root>';
+				
 				echo $response;
+				*/
+				//Response json
+				$data = array( 'vote' => $current_vote);
+				header('Content-type: application/json');
+				echo json_encode($data);
+
 				$conn->close();
 			}
 
@@ -88,10 +104,16 @@
 				//insert to uservote
 				$sql = "INSERT INTO uservote VALUES('".$email."','a','".$id."')";
 				$conn->query($sql);
+				/*
 				header("Content-type: text/xml; charset=utf-8");
 				$response = '<?xml version="1.0" encoding="utf-8"?>';
 				$response .= '<root><vote>'.$newVote.'</vote></root>';
 				echo $response;
+				*/
+				//Response json
+				$data = array( 'vote' => $newVote);
+				header('Content-type: application/json');
+				echo json_encode($data);
 				$conn->close();
 			} else {
 				$sql = "SELECT vote from answer where id = '".$id."'";
@@ -100,10 +122,18 @@
 				if ($row = $result->fetch_assoc()) {
 					$current_vote = $row["vote"];
 				}
+				/*
 				header("Content-type: text/xml; charset=utf-8");
 				$response = '<?xml version="1.0" encoding="utf-8"?>';
 				$response .= '<root><vote>'.$current_vote.'</vote></root>';
+				
 				echo $response;
+				*/
+				//Response json
+				$data = array( 'vote' => $current_vote);
+				header('Content-type: application/json');
+				echo json_encode($data);
+
 				$conn->close();
 			}
 		} else {
