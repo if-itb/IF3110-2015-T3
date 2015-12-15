@@ -49,6 +49,11 @@ public class Validation extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             String token = request.getParameter("token");
+            String ip = request.getParameter("ip");
+            String userAgent = request.getParameter("userAgent");
+            
+            System.out.println("UserAgent= " + userAgent);
+            
             String[] strSplit;
             
             try {
@@ -79,13 +84,14 @@ public class Validation extends HttpServlet {
                     
                     // Additional check for token
                     strSplit = token.split("#");
-                    
-                    if (strSplit[1].equals(request.getRemoteAddr()) && strSplit[2].equals(request.getHeader("user-agent")) && currentDate.after(expDate)) {
-                        obj.put("result", "expired");
-                    }
-                    else {
+                    if ((strSplit[1].equals(ip) && strSplit[2].equals(userAgent) && !currentDate.after(expDate))) {
                         obj.put("result", "valid");
                         obj.put("userId", userId);
+                        System.out.println("Sukses");
+                    }
+                    else {
+                        obj.put("result", "expired");
+                        System.out.println("Gagal");
                     }
                     
                     out.print(obj);

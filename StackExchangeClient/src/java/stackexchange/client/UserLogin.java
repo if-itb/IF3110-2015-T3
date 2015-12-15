@@ -50,8 +50,10 @@ public class UserLogin extends HttpServlet {
         
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
         
-        String token = IdentityServiceConnector.getToken(email, password);
+        String token = IdentityServiceConnector.getToken(email, password, ip, userAgent);
         if(!token.isEmpty()){
             // Valid login
             response.sendRedirect("Home?token=" + URLEncoder.encode(token, "UTF-8"));

@@ -44,6 +44,8 @@ public class CreateComment extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        System.out.println("Mau masuk comment");
+        
         response.setContentType("application/json");
         JSONObject obj = new JSONObject();
 
@@ -52,8 +54,10 @@ public class CreateComment extends HttpServlet {
         System.out.println("CreateCommentToken: " + token);
         int questionId = Integer.parseInt(request.getParameter("questionId"));
         String comment = request.getParameter("comment");
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
         
-        int userId = IdentityServiceConnector.getUID(token);
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         // int userId = 1;
         
         if(userId >= 0){

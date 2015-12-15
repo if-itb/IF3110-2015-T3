@@ -41,8 +41,16 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
         
         String token = request.getParameter("token");
+        System.out.println("Home token= " + token);
         System.out.println(token);
-        int userId = IdentityServiceConnector.getUID(token);
+        
+        int userId = -1;
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        
+        if(token != null){
+            userId = IdentityServiceConnector.getUID(token, ip, userAgent);
+        }
         
         if(userId >= 0){
             List<Question> questions = null;

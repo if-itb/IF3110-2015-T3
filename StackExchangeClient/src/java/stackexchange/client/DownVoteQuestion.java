@@ -42,7 +42,9 @@ public class DownVoteQuestion extends HttpServlet {
         
         // Get User ID from token
         String token = request.getParameter("token");
-        int userId = IdentityServiceConnector.getUID(token);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         
         if(userId>=0){
             try {

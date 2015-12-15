@@ -50,7 +50,9 @@ public class EditQuestion extends HttpServlet {
         
         String token = request.getParameter("token");
         System.out.println("Edit Token:" + token);
-        int userId = IdentityServiceConnector.getUID(token);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         
         if(userId == question.getAskerId()){
             request.setAttribute("question", question);

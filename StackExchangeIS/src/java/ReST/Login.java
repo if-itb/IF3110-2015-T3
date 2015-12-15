@@ -52,6 +52,8 @@ public class Login extends HttpServlet {
 
           String email = request.getParameter("email");
           String password = request.getParameter("password");
+          String ip = request.getParameter("ip");
+          String userAgent = request.getParameter("userAgent");
 
           try {      
             Statement stmt = conn.createStatement();
@@ -67,7 +69,7 @@ public class Login extends HttpServlet {
               Random rand = new Random();
               int randomNum = rand.nextInt((1000 - 1) + 1) + 1;
 
-              String token = email + Integer.toString(randomNum) + "#" + request.getRemoteAddr() + "#" + request.getHeader("user-agent");
+              String token = email + Integer.toString(randomNum) + "#" + ip + "#" + userAgent;
 
               Calendar date = Calendar.getInstance();
               long t = date.getTimeInMillis();

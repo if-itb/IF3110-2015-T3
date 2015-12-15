@@ -57,7 +57,9 @@ public class AddAnswer extends HttpServlet {
         String token = request.getParameter("token");
         token = URLDecoder.decode(token, "UTF-8");
         System.out.println("AddAnswer token = " + token);
-        int userId = IdentityServiceConnector.getUID(token);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         
         if(userId>=0){
             int questionId = Integer.parseInt(request.getParameter("questionId"));

@@ -54,7 +54,9 @@ public class AskQuestion extends HttpServlet {
         
         //Get userId using token
         String token = request.getParameter("token");
-        int userId = IdentityServiceConnector.getUID(token);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         
         System.out.println(userId);
         

@@ -42,7 +42,9 @@ public class Delete extends HttpServlet {
         int questionId = Integer.parseInt(request.getParameter("id"));
         String token = request.getParameter("token");
         System.out.println("Delete Token: " + token);
-        int userId = IdentityServiceConnector.getUID(token);
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("user-agent");
+        int userId = IdentityServiceConnector.getUID(token, ip, userAgent);
         
         Question question = new Question();
         try {

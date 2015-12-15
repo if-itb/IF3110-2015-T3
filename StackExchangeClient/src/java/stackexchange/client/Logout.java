@@ -36,6 +36,7 @@ public class Logout extends HttpServlet {
             throws ServletException, IOException {
         
         String token = request.getParameter("token");
+        System.out.println("Logout Token" + token);
         try {
             logout(token);
         } catch (SQLException_Exception ex) {
