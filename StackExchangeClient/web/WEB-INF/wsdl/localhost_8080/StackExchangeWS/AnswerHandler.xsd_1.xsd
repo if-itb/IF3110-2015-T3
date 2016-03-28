@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.2-b608 (trunk-7979; 2015-01-21T12:50:19+0000) JAXWS-RI/2.2.11-b150120.1832 JAXWS-API/2.2.12 JAXB-RI/2.2.12-b141219.1637 JAXB-API/2.2.13-b141020.1521 svn-revision#unknown. --><xs:schema xmlns:tns="http://services.stackExchangeWS/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services.stackExchangeWS/">
+
+<xs:element name="SQLException" type="tns:SQLException"/>
+
+<xs:element name="answerQuestion" type="tns:answerQuestion"/>
+
+<xs:element name="answerQuestionResponse" type="tns:answerQuestionResponse"/>
+
+<xs:element name="getAllAnswers" type="tns:getAllAnswers"/>
+
+<xs:element name="getAllAnswersResponse" type="tns:getAllAnswersResponse"/>
+
+<xs:element name="getQuestionId" type="tns:getQuestionId"/>
+
+<xs:element name="getQuestionIdResponse" type="tns:getQuestionIdResponse"/>
+
+<xs:element name="votesDownAnswer" type="tns:votesDownAnswer"/>
+
+<xs:element name="votesDownAnswerResponse" type="tns:votesDownAnswerResponse"/>
+
+<xs:element name="votesUpAnswer" type="tns:votesUpAnswer"/>
+
+<xs:element name="votesUpAnswerResponse" type="tns:votesUpAnswerResponse"/>
+
+<xs:complexType name="getAllAnswers">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getAllAnswersResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:answer" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="answererEmail" type="xs:string" minOccurs="0"/>
+<xs:element name="answererId" type="xs:int"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="time" type="xs:string" minOccurs="0"/>
+<xs:element name="votes" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="SQLException">
+<xs:sequence>
+<xs:element name="SQLState" type="xs:string" minOccurs="0"/>
+<xs:element name="errorCode" type="xs:int"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+<xs:element name="nextException" type="tns:sqlException" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sqlException">
+<xs:complexContent>
+<xs:extension base="tns:exception">
+<xs:sequence>
+<xs:element name="nextException" type="tns:sqlException" minOccurs="0"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="exception">
+<xs:complexContent>
+<xs:extension base="tns:throwable">
+<xs:sequence/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="throwable">
+<xs:sequence>
+<xs:element name="stackTrace" type="tns:stackTraceElement" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="stackTraceElement" final="extension restriction">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="votesUpAnswer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="answererId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="votesUpAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionId">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getQuestionIdResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answerQuestion">
+<xs:sequence>
+<xs:element name="questionId" type="xs:int"/>
+<xs:element name="answererId" type="xs:int"/>
+<xs:element name="content" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="answerQuestionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="votesDownAnswer">
+<xs:sequence>
+<xs:element name="answerId" type="xs:int"/>
+<xs:element name="answererId" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="votesDownAnswerResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
